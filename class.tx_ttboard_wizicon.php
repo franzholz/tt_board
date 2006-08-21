@@ -25,6 +25,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
+ * $Id$
+ * 
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  */
 
@@ -34,29 +36,29 @@ class tx_ttboard_wizicon {
 
 		$LL = $this->includeLocalLang();
 
-		$wizardItems["plugins_ttboard_2"] = array(
-			"icon"=>t3lib_extMgm::extRelPath("tt_board")."message_board.gif",
-			"title"=>$LANG->getLLL("plugins_2_title",$LL),
-			"description"=>$LANG->getLLL("plugins_2_description",$LL),
-			"params"=>"&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=4&defVals[tt_content][select_key]=".rawurlencode("FORUM, POSTFORM")
+		$wizardItems['plugins_ttboard_tree'] = array(
+			'icon'=>PATH_BE_ttboard_rel.'forum.gif',
+			'title'=>$LANG->getLLL('plugins_tree_title',$LL),
+			'description'=>$LANG->getLLL('plugins_tree_description',$LL),
+			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=2'
 		);
-		$wizardItems["plugins_ttboard_3"] = array(
-			"icon"=>t3lib_extMgm::extRelPath("tt_board")."forum.gif",
-			"title"=>$LANG->getLLL("plugins_3_title",$LL),
-			"description"=>$LANG->getLLL("plugins_3_description",$LL),
-			"params"=>"&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=2&defVals[tt_content][select_key]=".rawurlencode("FORUM, POSTFORM")
+		$wizardItems['plugins_ttboard_list'] = array(
+			'icon'=>PATH_BE_ttboard_rel.'message_board.gif',
+			'title'=>$LANG->getLLL('plugins_list_title',$LL),
+			'description'=>$LANG->getLLL('plugins_list_description',$LL),
+			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=4&defVals[tt_content][select_key]='.rawurlencode('FORUM, POSTFORM')
 		);
 
 		return $wizardItems;
 	}
 	function includeLocalLang()	{
-		include(t3lib_extMgm::extPath("tt_board")."locallang.php");
+		include(PATH_BE_ttboard.'locallang.php');
 		return $LOCAL_LANG;
 	}
 }
 
-if (defined("TYPO3_MODE") && $TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/tt_board/class.tx_ttboard_wizicon.php"])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/tt_board/class.tx_ttboard_wizicon.php"]);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/class.tx_ttboard_wizicon.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/class.tx_ttboard_wizicon.php']);
 }
 
 ?>
