@@ -42,9 +42,10 @@
 require_once(PATH_tslib.'class.tslib_pibase.php');
 
 class tx_ttboard_pibase extends tslib_pibase {
+	var $extKey = TT_BOARD_EXTkey;	// The extension key.
 	var $cObj;		// The backReference to the mother cObj object set at call time
 
-	var $enableFields ='';		// The enablefields of the tt_board table.
+	var $enableFields = '';		// The enablefields of the tt_board table.
 	var $dontParseContent=0;
 	var $treeIcons=array(
 		'joinBottom'=>'\\-',
@@ -70,47 +71,64 @@ class tx_ttboard_pibase extends tslib_pibase {
 	var $allowCaching='';
 	var $conf=array();
 	var $config=array();
+	var $pid_list;			// list of page ids
+
 	var $tt_board_uid='';
 	var $pid='';
 	var $orig_templateCode='';
 	var $typolink_conf=array();
 	var $local_cObj='';
 
+	var $errorMessage;
 
 	/**
-	 * init function.
-	 */
-	function init($conf, &$codes)	{
+	 * does the initialization stuff
+	 *
+	 * @param		string		  content string
+	 * @param		string		  configuration array
+	 * @param		string		  modified configuration array
+	 * @return	  void
+ 	 */
+	function init (&$content,&$conf,&$config) {
+		global $TSFE;
+
 		// *************************************
 		// *** getting configuration values:
 		// *************************************
-		
-		$this->conf = $conf;
+
 		$this->tt_board_uid = intval(t3lib_div::_GP('tt_board_uid'));
-
 		$this->alternativeLayouts = intval($this->conf['alternatingLayouts'])>0 ? intval($this->conf['alternatingLayouts']) : 2;
+	
+			// pid_list is the pid/list of pids from where to fetch the guest items.
+		$tmp = trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.']));
+		
+		$pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] :trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.'])));
+		$this->pid_list = ($pid_list ? $pid_list : $TSFE->id);
 
-			// pid_list is the pid/list of pids from where to fetch the board items.
-		$this->config['pid_list'] = trim($this->cObj->stdWrap($this->conf['pid_list'],$this->conf['pid_list.']));
-		$this->config['pid_list'] = $this->config['pid_list'] ? implode(t3lib_div::intExplode(',',$this->config['pid_list']),',') : $GLOBALS['TSFE']->id;
-		list($pid) = explode(',',$this->config['pid_list']);
-		$this->pid = $pid;
+			// template is read.
+		$this->orig_templateCode = $this->cObj->fileResource($conf['templateFile']);
 
-			// 'CODE' decides what is rendered:
-		$this->config['code'] = $this->cObj->stdWrap($this->conf['code'],$this->conf['code.']);
-		$this->allowCaching = $this->conf['allowCaching']?1:0;
-
-			// If the current record should be displayed.
-		$this->config['displayCurrentRecord'] = $this->conf['displayCurrentRecord'];
-		if ($this->config['displayCurrentRecord'])	{
-			$this->config['code']='FORUM';
-			$this->tt_board_uid=$this->cObj->data['uid'];
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms'] && t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
+		 		// FE BE library for flexform functions
+			require_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_flexform.php');
+				// check the flexform
+			$this->pi_initPIflexForm();
+			$config['code'] = tx_fhlibrary_flexform::getSetupOrFFvalue(
+				$this, 
+				$conf['code'], 
+				$conf['code.'],
+				$this->conf['defaultCode'], 
+				$this->cObj->data['pi_flexform'], 
+				'display_mode',
+				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms']
+			);
+		}else {
+				// 'CODE' decides what is rendered:
+			$config['code'] = $this->cObj->stdWrap($conf['code'],$conf['code.']);
+			$config['code'] = $config['code'] ? $config['code'] : $this->conf['defaultCode'];
 		}
 
-	//	debug($this->config['code']);
-			// template is read.
-		$this->orig_templateCode = $this->cObj->fileResource($this->conf['templateFile']);
-
+		$this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
 
 			// globally substituted markers, fonts and colors.
 		$splitMark = md5(microtime());
@@ -122,6 +140,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$globalMarkerArray['###GC2###'] = $this->cObj->stdWrap($conf['color2'],$conf['color2.']);
 		$globalMarkerArray['###GC3###'] = $this->cObj->stdWrap($conf['color3'],$conf['color3.']);
 		$globalMarkerArray['###GC4###'] = $this->cObj->stdWrap($conf['color4'],$conf['color4.']);
+
+		$globalMarkerArray['###PATH###'] = PATH_FE_ttboard_rel;
 
 			// Substitute Global Marker Array
 		$this->orig_templateCode= $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);
@@ -139,11 +159,72 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 		$this->enableFields = $this->cObj->enableFields('tt_board');
 		$this->dontParseContent = $this->conf['dontParseContent'];
-
 		$this->local_cObj =t3lib_div::makeInstance('tslib_cObj');		// Local cObj.
 
-		$codes=t3lib_div::trimExplode(',', $this->config['code']?$this->config['code']:$this->conf['defaultCode'],1);
-		if (!count($codes))	$codes=array('');
+
+			// If the current record should be displayed.
+		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'];
+		if ($config['displayCurrentRecord'])	{
+			$config['code']='FORUM';
+			$this->tt_board_uid=$this->cObj->data['uid'];
+		}
+
+
+		// *************************************
+		// *** doing the things...:
+		// *************************************
+		// tt_guest parts:
+//		$this->recordCount = $this->getRecordCount($this->pid_list);
+//		$globalMarkerArray['###PREVNEXT###'] = $this->getPrevNext();
+
+		// all extensions:
+
+			// Substitute Global Marker Array
+		$this->orig_templateCode= $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);		
+	}
+
+
+	function processCode($theCode, &$content)	{
+		global $TSFE;
+		
+		switch($theCode)	{
+			case 'LIST_CATEGORIES':
+			case 'LIST_FORUMS':
+				$content.= $this->forum_list($theCode);
+			break;
+			case 'POSTFORM':
+			case 'POSTFORM_REPLY':
+			case 'POSTFORM_THREAD':
+				$content.= $this->forum_postform($theCode);
+			break;
+			case 'FORUM':
+			case 'THREAD_TREE':
+				$content.= $this->forum_forum($theCode);
+			break;
+			default:
+				$contentTmp = 'error';
+			break;
+		}		// Switch
+
+		if ($contentTmp == 'error') {
+			$fileName = 'EXT:'.TT_BOARD_EXTkey.'/template/board_help.tmpl';
+			$helpTemplate = $this->cObj->fileResource($fileName);
+			if (t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
+				$content .= tx_fhlibrary_view::displayHelpPage($this, $helpTemplate, $this->extKey, $this->errorMessage, $theCode);
+			} else {
+				$langKey = strtoupper($GLOBALS['TSFE']->config['config']['language']);
+
+					// Get language version
+				$helpTemplate_lang='';
+				if ($langKey)	{$helpTemplate_lang = $this->cObj->getSubpart($helpTemplate,'###TEMPLATE_'.$langKey.'###');}
+				$helpTemplate = $helpTemplate_lang ? $helpTemplate_lang : $this->cObj->getSubpart($helpTemplate,'###TEMPLATE_DEFAULT###');
+
+					// Markers and substitution:
+				$markerArray['###CODE###'] = $theCode;
+				$markerArray['###PATH###'] = PATH_FE_ttboard_rel;
+				$content.=$this->cObj->substituteMarkerArray($helpTemplate,$markerArray);
+			}
+		} 		
 	}
 
 	/**
@@ -172,7 +253,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$subpartContent='';
 
 					// Getting categories
-				$categories = $this->getPagesInPage($this->config['pid_list']);
+				$categories = $this->getPagesInPage($this->pid_list);
 				reset($categories);
 				$c_cat=0;
 				while(list(,$catData)=each($categories))	{
@@ -345,7 +426,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$notify[md5(trim(strtolower($modEmail_s)))] = trim($modEmail_s);
 			}
 		}
-//debug($notify);
 		if ($theCode=='POSTFORM' || ($theCode=='POSTFORM_REPLY' && $parent) || ($theCode=='POSTFORM_THREAD' && !$parent))	{
 			$lConf['dataArray.']['9999.'] = array(
 				'type' => '*data[tt_board][NEW][parent]=hidden',
@@ -403,8 +483,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 				} else {
 					$recentPosts = $wholeThread;
 				}
-				$nextThread = $this->getThreadRoot($this->config['pid_list'],$rootParent);
-				$prevThread = $this->getThreadRoot($this->config['pid_list'],$rootParent,'prev');
+				$nextThread = $this->getThreadRoot($this->pid_list,$rootParent);
+				$prevThread = $this->getThreadRoot($this->pid_list,$rootParent,'prev');
 
 				$subpartContent='';
 
@@ -514,11 +594,14 @@ class tx_ttboard_pibase extends tslib_pibase {
 			}
 		} else {
 			$continue = true;
-			if ($theCode=='THREAD_TREE')	{
-				if (!$this->tt_board_uid)	{$continue = false;}
-				$lConf=	$this->conf['thread_tree.'];
+			if ($theCode == 'THREAD_TREE')	{
+				if (!$this->tt_board_uid)	{
+					$continue = false;
+				}
+				
+				$lConf = $this->conf['thread_tree.'];
 			} else {
-				$lConf=	$this->conf['list_threads.'];
+				$lConf = $this->conf['list_threads.'];
 			}
 			if($continue){
 				$templateCode = $this->local_cObj->getSubpart($this->orig_templateCode, '###TEMPLATE_FORUM###');
@@ -536,7 +619,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 						$rootParent = $this->getRootParent($this->tt_board_uid);
 						$recentPosts = $this->getSingleThread($rootParent['uid'],1);
 					} else {
-						$recentPosts = $this->getThreads($this->config['pid_list'],$this->conf['tree'], $lConf['thread_limit']?$lConf['thread_limit']:'50', t3lib_div::_GP('tt_board_sword'));
+						$recentPosts = $this->getThreads($this->pid_list,$this->conf['tree'], $lConf['thread_limit']?$lConf['thread_limit']:'50', t3lib_div::_GP('tt_board_sword'));
 					}
 					reset($recentPosts);
 					$c_post=0;
@@ -874,8 +957,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php']);
 }
 
 ?>

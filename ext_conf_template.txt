@@ -1,0 +1,2 @@
+  # cat=basic/enable; type=boolean; label=Use Flexforms: Enable the use of Flexforms in the backend. Extension fh_library version 0.0.8+ must be installed. Default is 1. Disabled if version of TYPO3 is older than 3.7.
+useFlexforms = 1

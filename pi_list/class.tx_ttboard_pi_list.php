@@ -41,41 +41,24 @@
 require_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
 
 class tx_ttboard_pi_list extends tx_ttboard_pibase {
+	var $prefixId = 'tx_ttboard_pi_list';	// Same as class name
+	var $scriptRelPath = 'pi_list/class.tx_ttboard_pi_list.php';	// Path to this script relative to the extension dir.
 
 	/**
 	 * Main board function. Call this from TypoScript
 	 */
 	function main($content,$conf)	{
-		$codes=array();
-		parent::init ($conf, $codes);
-		while(list(,$theCode)=each($codes))	{
+		$this->conf = $conf;
+
+		parent::init ($content, $conf, $this->config);
+		$codes=t3lib_div::trimExplode(',', $this->config['code'],1);
+		if (!count($codes))	$codes=array('');
+
+		while(!$this->errorMessage && list(,$theCode)=each($codes))	{
 			$theCode = (string)strtoupper(trim($theCode));
 			switch($theCode)	{
-				case 'LIST_CATEGORIES':
-				case 'LIST_FORUMS':
-					$content.= $this->forum_list($theCode);
-				break;
-				case 'POSTFORM':
-				case 'POSTFORM_REPLY':
-				case 'POSTFORM_THREAD':
-					$content.= $this->forum_postform($theCode);
-				break;
-				case 'FORUM':
-				case 'THREAD_TREE':
-					$content.= $this->forum_forum($theCode);
-				break;
 				default:
-					$langKey = strtoupper($GLOBALS['TSFE']->config['config']['language']);
-					$helpTemplate = $this->cObj->fileResource('EXT:tt_board/template/board_help.tmpl');
-
-						// Get language version
-					$helpTemplate_lang='';
-					if ($langKey)	{$helpTemplate_lang = $this->cObj->getSubpart($helpTemplate,'###TEMPLATE_'.$langKey.'###');}
-					$helpTemplate = $helpTemplate_lang ? $helpTemplate_lang : $this->cObj->getSubpart($helpTemplate,'###TEMPLATE_DEFAULT###');
-
-						// Markers and substitution:
-					$markerArray['###CODE###'] = $theCode;
-					$content.=$this->cObj->substituteMarkerArray($helpTemplate,$markerArray);
+					parent::processCode($theCode, $content);
 				break;
 			}		// Switch
 		}

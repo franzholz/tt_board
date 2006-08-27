@@ -2,14 +2,23 @@
 
 $LOCAL_LANG = Array (
 	'default' => Array (
+		'pi_list' => 'Board, List',
+		'pi_tree' => 'Board, Tree',
 		'tt_board' => 'Board',
 		'tt_board.subject' => 'Subject:',
 		'tt_board.message' => 'Message:',
 		'tt_board.parent' => 'Parent:',
 		'tt_board.notify_me' => 'Notify by email:',
 		'tt_board.crdate' => 'Date/Time:',
-		'pi_list' => 'Board, List',
-		'pi_tree' => 'Board, Tree',
+		'tt_content.pi_flexform.display_mode' => 'Display mode',
+		'tt_content.pi_flexform.display_mode.1' => 'General: Help',
+		'tt_content.pi_flexform.display_mode.2' => 'Category, Forum: List',
+		'tt_content.pi_flexform.display_mode.3' => 'Forum: List',
+		'tt_content.pi_flexform.display_mode.4' => 'Forum: Single',
+		'tt_content.pi_flexform.display_mode.5' => 'Entry Form: General',
+		'tt_content.pi_flexform.display_mode.6' => 'Entry Form: Reply',
+		'tt_content.pi_flexform.display_mode.7' => 'Entry Form: New Thread',
+		'tt_content.pi_flexform.display_mode.8' => 'Forum: Tree',
 	),
 	'dk' => Array (
 		'tt_board' => 'Forum',
@@ -22,14 +31,14 @@ $LOCAL_LANG = Array (
 		'pi_tree' => 'Forum, Træ',
 	),
 	'de' => Array (
+		'pi_list' => 'Forum, Liste',
+		'pi_tree' => 'Forum, Baum',
 		'tt_board' => 'Forum',
 		'tt_board.subject' => 'Titel:',
 		'tt_board.message' => 'Mitteilung:',
 		'tt_board.parent' => 'Vorherige:',
 		'tt_board.notify_me' => 'Benachrichtigung über Email:',
 		'tt_board.crdate' => 'Datum/Zeit:',
-		'pi_list' => 'Forum, Liste',
-		'pi_tree' => 'Forum, Baum',
 	),
 	'no' => Array (
 		'tt_board' => 'Forum',

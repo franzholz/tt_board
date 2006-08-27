@@ -1,5 +1,8 @@
+2006-08-27 Franz Holzinger <franz@fholzinger.com>
+	* Use the flexforms now. Reenter every plugin and choose the appropriate flexform texts to the former code fields.
+
 2006-08-21 Franz Holzinger <franz@fholzinger.com>
-	* plugin for triew view
+	* plugin for tree view
 	* static template for CSS styled content
 
 2006-02-13 Kasper Skårhøj <kasperYYYY@typo3.com>
