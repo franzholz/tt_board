@@ -18,6 +18,9 @@ FEData.tt_board {
     newThread.subjectPrefix = New thread at
 
     debug=0
+    emailCheck = {$plugin.tt_board.emailCheck}
+    spamWords = {$plugin.tt_board.spamWords}
+
   }
   default {
     hidden = 0
@@ -33,6 +36,7 @@ FEData.tt_board {
   }
   autoInsertPID = 1
   doublePostCheck = doublePostCheck
+
 }
 
 
@@ -86,6 +90,8 @@ temp.tt_board.shared {
 
   moderatorEmail_newThread = {$plugin.tt_board.moderatorEmail}
   moderatorEmail = {$plugin.tt_board.moderatorEmail}
+
+  PIDforum = {$plugin.tt_board.PIDforum}
 }
 
 

@@ -3,6 +3,16 @@ plugin.tt_board {
   moderatorEmail  = 
 
   numberOfRecentPosts = 0
+
+    # cat=plugin.board; type=int+; label= Page Id of forum: Only set this if the BACKLINK does not work.
+  PIDforum =
+
+    # cat=plugin.board/email; type=boolean; label= Email check: If you want to verify the validity of an entered email address
+  emailCheck = 0
+
+    # cat=plugin.board/spam; type=text; label= Spam words: Comma separated list of spam words. No message contaning one of these words will be stored.
+  spamWords = cialis, viagra
+
 }
 
 

@@ -1,3 +1,8 @@
+2006-11-11 Franz Holzinger <franz@fholzinger.com>
+	* protection against spam words
+	* check of email address if it is available
+	* correct error with BACKLINK
+
 2006-09-03 Franz Holzinger <franz@fholzinger.com>
 	* Use the flexforms now. Reenter every plugin and choose the appropriate flexform texts to the former code fields.
 

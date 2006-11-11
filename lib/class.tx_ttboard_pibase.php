@@ -104,6 +104,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 		
 		$pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] :trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.'])));
 		$this->pid_list = ($pid_list ? $pid_list : $TSFE->id);
+		// page where to go usually
+		$this->pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $TSFE->id);		
 
 			// template is read.
 		$this->orig_templateCode = $this->cObj->fileResource($conf['templateFile']);
@@ -210,6 +212,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$fileName = 'EXT:'.TT_BOARD_EXTkey.'/template/board_help.tmpl';
 			$helpTemplate = $this->cObj->fileResource($fileName);
 			if (t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
+			 		// FE BE library for flexform functions
+				require_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_view.php');
 				$content .= tx_fhlibrary_view::displayHelpPage($this, $helpTemplate, $this->extKey, $this->errorMessage, $theCode);
 			} else {
 				$langKey = strtoupper($GLOBALS['TSFE']->config['config']['language']);
@@ -489,8 +493,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$subpartContent='';
 
 					// Clear
-				$markerArray=array();
-				$wrappedSubpartContentArray=array();
+				$markerArray = array();
+				$wrappedSubpartContentArray = array();
 
 
 					// Getting the specific parts of the template
@@ -710,7 +714,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Get a record tree of forum items
 	 */
 	function getRecordTree($theRows,$parent,$pid,$treeIcons='') {
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'pid='.intval($pid).' AND parent='.intval($parent).$this->enableFields, '', $this->orderBy());
+		$where = 'pid='.intval($pid).' AND parent='.intval($parent).$this->enableFields;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy());
 		$c = 0;
 		$rc = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
 
@@ -772,7 +777,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns number of replies.
 	 */
 	function getNumReplies($pid,$uid)	{
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', 'pid IN ('.$pid.') AND parent='.intval($uid).$this->enableFields);
+		$where = 'pid IN ('.$pid.') AND parent='.intval($uid).$this->enableFields;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
 		return $row[0];
 	}
@@ -781,7 +787,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns last post.
 	 */
 	function getLastPost($pid)	{
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'pid IN ('.$pid.')'.$this->enableFields, '', $this->orderBy('DESC'), '1');
+		$where = 'pid IN ('.$pid.')'.$this->enableFields;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), '1');
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		return $row;
 	}
@@ -790,7 +797,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns last post in thread.
 	 */
 	function getLastPostInThread($pid,$uid)	{
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'pid IN ('.$pid.') AND parent='.$uid.$this->enableFields, '', $this->orderBy('DESC'), '1');
+		$where = 'pid IN ('.$pid.') AND parent='.$uid.$this->enableFields;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), '1');
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		return $row;
 	}
@@ -801,7 +809,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns an array with records
 	 */
 	function getMostRecentPosts($pid,$number)	{
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'pid IN ('.$pid.')'.$this->enableFields, '', $this->orderBy('DESC'), $number);
+		$where = 'pid IN ('.$pid.')'.$this->enableFields;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), $number);
 		$out = array();
 		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 			$out[] = $row;
@@ -816,7 +825,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$out=array();
 		if ($searchWord)	{
 			$where = $this->cObj->searchWhere($searchWord, $this->searchFieldList, 'tt_board');
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'pid IN ('.$pid.') '.$where.$this->enableFields, '', $this->orderBy('DESC'), intval($limit));
+			$where = 'pid IN ('.$pid.') '.$where.$this->enableFields;
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
 			$set = array();
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 				$rootRow = $this->getRootParent($row['uid']);
@@ -829,7 +839,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 				}
 			}
 		} else {
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'pid IN ('.$pid.') AND parent=0'.$this->enableFields, '', $this->orderBy('DESC'), intval($limit));
+			$where = 'pid IN ('.$pid.') AND parent=0'.$this->enableFields;
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 				$out[] = $row;
 				if ($decend)	{
@@ -882,7 +893,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	function getThreadRoot($pid,$rootParent,$type='next')	{
 		$datePart = ' AND crdate'.($type!='next'?'>':'<').intval($rootParent['crdate']);
 
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'pid IN ('.$pid.') AND parent=0'.$datePart.$this->enableFields, '', $this->orderBy($type!='next'?'':'DESC'));
+		$where = 'pid IN ('.$pid.') AND parent=0'.$datePart.$this->enableFields;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy($type!='next'?'':'DESC'));
 		return $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 	}
 
@@ -944,7 +956,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns ORDER BY field
 	 */
 	function orderBy($desc='')	{
-		return 'crdate '.$desc;
+		$rc = 'crdate '.$desc;
+		return $rc;
 	}
 
 	/**
