@@ -37,109 +37,171 @@
 
 
 if (is_object($this))	{
-	if (is_array($this->newData['tt_board']['NEW']))	{
-			// Plain insert of record:
-		$this->execNEWinsert('tt_board', $this->newData['tt_board']['NEW']);
-		$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
-		$this->clear_cacheCmd(intval($this->newData['tt_board']['NEW']['pid']));
+	$conf = $this->getConf('tt_board');
 
-		$conf = $this->getConf('tt_board');
-			// Clear specific cache:
-		if ($conf['clearCacheForPids'])	{
-			$ccPids=t3lib_div::intExplode(',',$conf['clearCacheForPids']);
-			reset($ccPids);
-			while(list(,$pid)=each($ccPids))	{
-				if ($pid > 0)	{$this->clear_cacheCmd($pid);}
+	$email = $this->newData['tt_board']['NEW']['email'];
+	if (!$conf['emailCheck'] || checkEmail($email)) {
+
+		if (is_array($this->newData['tt_board']['NEW']))	{
+
+			$spamArray = t3lib_div::trimExplode(',',$conf['spamWords']);
+			$bSpamFound = false;
+			$message = strtolower($this->newData['tt_board']['NEW']['message']);
+			foreach ($spamArray as $k => $word)	{
+				$wordL = strtolower($word);
+				if ($wordL && strpos($message, $wordL) !== false)	{
+					$bSpamFound = true;
+					break;
+				}
 			}
-		}
-
-			// Send post to Mailing list ...
-		if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email'])	{
-/*
-	TypoScript for this section (was used for the TYPO3 mailing list.
-
-    sendToMailingList=1
-    sendToMailingList {
-      email = typo3@netfielders.de
-      reply = submitmail@typo3.com
-      namePrefix = Typo3Forum/
-      altSubject = Post from www.typo3.com
-    }
-*/
-			$mConf = $conf['sendToMailingList.'];
-			$maillist_data = $this->newData['tt_board']['NEW'];
-			$maillist_recip = $mConf['email'];
-
-			$maillist_header='From: '.$mConf['namePrefix'].$maillist_data['author'].' <'.$mConf['reply'].'>'.chr(10);
-			$maillist_header.='Reply-To: '.$mConf['reply'];
-
-
-				//  Subject
-			if ($maillist_data['parent'])	{	// RE:
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($maillist_data['parent']));
-				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-				$maillist_subject = 'Re: '.$row['subject'].' [#'.$maillist_data['parent'].']';
-			} else {	// New:
-				$maillist_subject =  (trim($maillist_data['subject']) ? trim($maillist_data['subject']) : $mConf['altSubject']).' [#'.$newId.']';
-			}
-
-				// Message
-			$maillist_msg = $maillist_data['subject'].chr(10).chr(10).$maillist_data['message'].'
---
-'.$maillist_data['author'];
-				// Send
-
-			if ($conf['debug'])	{
-				debug($maillist_recip,1);
-				debug($maillist_subject,1);
-				echo nl2br($maillist_msg.chr(10));
-				debug($maillist_header,1);
+			if ($bSpamFound)	{
+		  		$content = 'The spam word "'.$word.'" has been detected.';
+		  		$GLOBALS['TSFE']->printError($content);				
 			} else {
-				mail ($maillist_recip, $maillist_subject, $maillist_msg, $maillist_header);
+
+					// Plain insert of record:
+				$this->execNEWinsert('tt_board', $this->newData['tt_board']['NEW']);
+				$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
+				$this->clear_cacheCmd(intval($this->newData['tt_board']['NEW']['pid']));
+		
+				$conf = $this->getConf('tt_board');
+					// Clear specific cache:
+				if ($conf['clearCacheForPids'])	{
+					$ccPids=t3lib_div::intExplode(',',$conf['clearCacheForPids']);
+					reset($ccPids);
+					while(list(,$pid)=each($ccPids))	{
+						if ($pid > 0)	{$this->clear_cacheCmd($pid);}
+					}
+				}
+		
+					// Send post to Mailing list ...
+				if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email'])	{
+		/*
+			TypoScript for this section (was used for the TYPO3 mailing list.
+		
+		    sendToMailingList=1
+		    sendToMailingList {
+		      email = typo3@netfielders.de
+		      reply = submitmail@typo3.com
+		      namePrefix = Typo3Forum/
+		      altSubject = Post from www.typo3.com
+		    }
+		*/
+					$mConf = $conf['sendToMailingList.'];
+					$maillist_data = $this->newData['tt_board']['NEW'];
+					$maillist_recip = $mConf['email'];
+		
+					$maillist_header='From: '.$mConf['namePrefix'].$maillist_data['author'].' <'.$mConf['reply'].'>'.chr(10);
+					$maillist_header.='Reply-To: '.$mConf['reply'];
+		
+		
+						//  Subject
+					if ($maillist_data['parent'])	{	// RE:
+						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($maillist_data['parent']));
+						$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+						$maillist_subject = 'Re: '.$row['subject'].' [#'.$maillist_data['parent'].']';
+					} else {	// New:
+						$maillist_subject =  (trim($maillist_data['subject']) ? trim($maillist_data['subject']) : $mConf['altSubject']).' [#'.$newId.']';
+					}
+		
+						// Message
+					$maillist_msg = $maillist_data['subject'].chr(10).chr(10).$maillist_data['message'].'
+		--
+		'.$maillist_data['author'];
+						// Send
+		
+					if ($conf['debug'])	{
+						debug($maillist_recip,1);
+						debug($maillist_subject,1);
+						echo nl2br($maillist_msg.chr(10));
+						debug($maillist_header,1);
+					} else {
+						mail ($maillist_recip, $maillist_subject, $maillist_msg, $maillist_header);
+					}
+				}
+		
+		
+				// Notify me...
+				if (t3lib_div::_GP('notify_me') && $conf['notify'])	{
+					$notifyMe = t3lib_div::uniqueList(str_replace(','.$maillist_data['email'].',', ',', ','.t3lib_div::_GP('notify_me').','));
+		
+					$markersArray=array();
+					$markersArray['###AUTHOR###'] = trim($this->newData['tt_board']['NEW'][author]);
+					$markersArray['###AUTHOR_EMAIL###'] = trim($this->newData['tt_board']['NEW'][email]);
+					$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
+					$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&no_cache=1&tt_board_uid='.$newId;
+		
+					if ($maillist_data['parent'])	{		// If reply and not new thread:
+						$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
+						$markersArray['###DID_WHAT###']= $conf['newReply.']['didWhat'];
+						$markersArray['###SUBJECT_PREFIX###']=$conf['newReply.']['subjectPrefix'];
+					} else {	// If new thread:
+						$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
+						$markersArray['###DID_WHAT###']= $conf['newThread.']['didWhat'];
+						$markersArray['###SUBJECT_PREFIX###']=$conf['newThread.']['subjectPrefix'];
+					}
+					$markersArray['###SUBJECT###'] = strtoupper($this->newData['tt_board']['NEW'][subject]);
+					$markersArray['###BODY###'] = t3lib_div::fixed_lgd($this->newData['tt_board']['NEW'][message],1000);
+		
+					reset($markersArray);
+					while(list($marker,$markContent)=each($markersArray))	{
+						$msg=str_replace($marker,$markContent,$msg);
+					}
+		
+					$headers=array();
+					if ($conf['notify_from'])	{$headers[]='FROM: '.$conf['notify_from'];}
+		
+					$msgParts = split(chr(10),$msg,2);
+					if ($conf['debug'])	{
+						debug($notifyMe,1);
+						debug($headers,1);
+						debug($msgParts);
+					} else {
+						mail ($notifyMe, $msgParts[0], $msgParts[1], implode($headers,chr(10)));
+					}
+				}
 			}
 		}
+		
+
+	} else {
+  		$content = $email . ' is not a valid email address.';
+  		$GLOBALS['TSFE']->printError($content);
+	}
+
+}
 
 
-		// Notify me...
-		if (t3lib_div::_GP('notify_me') && $conf['notify'])	{
-			$notifyMe = t3lib_div::uniqueList(str_replace(','.$maillist_data['email'].',', ',', ','.t3lib_div::_GP('notify_me').','));
+// Added from Nicolas Liaudat
+function checkEmail($email)	{
 
-			$markersArray=array();
-			$markersArray['###AUTHOR###'] = trim($this->newData['tt_board']['NEW'][author]);
-			$markersArray['###AUTHOR_EMAIL###'] = trim($this->newData['tt_board']['NEW'][email]);
-			$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
-			$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&no_cache=1&tt_board_uid='.$newId;
-
-			if ($maillist_data['parent'])	{		// If reply and not new thread:
-				$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
-				$markersArray['###DID_WHAT###']= $conf['newReply.']['didWhat'];
-				$markersArray['###SUBJECT_PREFIX###']=$conf['newReply.']['subjectPrefix'];
-			} else {	// If new thread:
-				$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
-				$markersArray['###DID_WHAT###']= $conf['newThread.']['didWhat'];
-				$markersArray['###SUBJECT_PREFIX###']=$conf['newThread.']['subjectPrefix'];
-			}
-			$markersArray['###SUBJECT###'] = strtoupper($this->newData['tt_board']['NEW'][subject]);
-			$markersArray['###BODY###'] = t3lib_div::fixed_lgd($this->newData['tt_board']['NEW'][message],1000);
-
-			reset($markersArray);
-			while(list($marker,$markContent)=each($markersArray))	{
-				$msg=str_replace($marker,$markContent,$msg);
-			}
-
-			$headers=array();
-			if ($conf['notify_from'])	{$headers[]='FROM: '.$conf['notify_from'];}
-
-			$msgParts = split(chr(10),$msg,2);
-			if ($conf['debug'])	{
-				debug($notifyMe,1);
-				debug($headers,1);
-				debug($msgParts);
-			} else {
-				mail ($notifyMe, $msgParts[0], $msgParts[1], implode($headers,chr(10)));
+	if (!ereg('^[^@]{1,64}@[^@]{1,255}$', $email)) {
+		// Email invalid because wrong number of characters in one section, or wrong number of @ symbols.
+		return false;
+	}
+	
+	// gets domain name
+	list($username,$domain)=split('@',$email);
+	// checks for if MX records in the DNS
+	$mxhosts = array();
+	if(!getmxrr($domain, $mxhosts))	{
+		// no mx records, ok to check domain
+		if (@fsockopen($domain,25,$errno,$errstr,30))	{
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		// mx records found
+		foreach ($mxhosts as $host)	{
+			if (@fsockopen($host,25,$errno,$errstr,30))	{
+				return true;
 			}
 		}
+		return false;
 	}
 }
+
+
 
 ?>
