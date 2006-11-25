@@ -77,10 +77,19 @@ $TCA['tt_board'] = Array (
 				'max' => '20',
 				'eval' => 'datetime'
 			)
+		),
+		'cr_ip' => Array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.cr_ip',
+			'config' => Array (
+				'type' => 'input',
+				'size' => '15',
+				'max' => '15',
+			)
 		)
 	),
 	'types' => Array (	
-		'0' => Array('showitem' => 'hidden;;;;1-1-1, crdate, subject;;;;3-3-3, message, author, email, parent;;;;5-5-5, notify_me')
+		'0' => Array('showitem' => 'hidden;;;;1-1-1, crdate, subject;;;;3-3-3, message, author, email, parent;;;;5-5-5, notify_me, cr_ip')
 	)
 );
 ?>

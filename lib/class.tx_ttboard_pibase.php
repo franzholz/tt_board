@@ -36,6 +36,7 @@
  * $Id$
  * 
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
+ * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 
 
@@ -124,7 +125,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				'display_mode',
 				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms']
 			);
-		}else {
+		} else {
 				// 'CODE' decides what is rendered:
 			$config['code'] = $this->cObj->stdWrap($conf['code'],$conf['code.']);
 			$config['code'] = $config['code'] ? $config['code'] : $this->conf['defaultCode'];
@@ -759,7 +760,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns number of post in a forum.
 	 */
 	function getNumPosts($pid)	{
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', 'pid IN ('.$pid.')'.$this->enableFields);
+		$where = 'pid IN ('.$pid.')'.$this->enableFields;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
 		return $row[0];
 	}
@@ -768,7 +770,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns number of threads.
 	 */
 	function getNumThreads($pid)	{
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', 'pid IN ('.$pid.') AND parent=0'.$this->enableFields);
+		$where = 'pid IN ('.$pid.') AND parent=0'.$this->enableFields;
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
 		return $row[0];
 	}

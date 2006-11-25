@@ -33,13 +33,14 @@
  * $Id$
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
+ * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 
 
 if (is_object($this))	{
 	$conf = $this->getConf('tt_board');
-
 	$email = $this->newData['tt_board']['NEW']['email'];
+
 	if (!$conf['emailCheck'] || checkEmail($email)) {
 
 		if (is_array($this->newData['tt_board']['NEW']))	{
@@ -58,6 +59,7 @@ if (is_object($this))	{
 		  		$content = 'The spam word "'.$word.'" has been detected.';
 		  		$GLOBALS['TSFE']->printError($content);				
 			} else {
+				$this->newData['tt_board']['NEW']['cr_ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
 
 					// Plain insert of record:
 				$this->execNEWinsert('tt_board', $this->newData['tt_board']['NEW']);
@@ -93,7 +95,6 @@ if (is_object($this))	{
 		
 					$maillist_header='From: '.$mConf['namePrefix'].$maillist_data['author'].' <'.$mConf['reply'].'>'.chr(10);
 					$maillist_header.='Reply-To: '.$mConf['reply'];
-		
 		
 						//  Subject
 					if ($maillist_data['parent'])	{	// RE:
@@ -149,7 +150,9 @@ if (is_object($this))	{
 					}
 		
 					$headers=array();
-					if ($conf['notify_from'])	{$headers[]='FROM: '.$conf['notify_from'];}
+					if ($conf['notify_from'])	{
+						$headers[]='FROM: '.$conf['notify_from'];
+					}
 		
 					$msgParts = split(chr(10),$msg,2);
 					if ($conf['debug'])	{
