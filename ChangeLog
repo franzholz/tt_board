@@ -1,3 +1,7 @@
+2006-11-25 Franz Holzinger <franz@fholzinger.com>
+	* fix 2555: unsigned 32 bit INTEGER for double post check field 
+  	doublePostCheck int(11) unsigned DEFAULT '0' NOT NULL,
+
 2006-11-11 Franz Holzinger <franz@fholzinger.com>
 	* protection against spam words
 	* check of email address if it is available
