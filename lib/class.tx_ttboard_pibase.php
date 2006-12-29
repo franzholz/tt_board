@@ -397,6 +397,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Creates a post form for a forum
 	 */
 	function forum_postform($theCode)	{
+		global $TSFE;
+
 		$parent=0;		// This is the parent item for the form. If this ends up being is set, then the form is a reply and not a new post.
 		$nofity=array();
 			// Find parent, if any
@@ -449,6 +451,15 @@ class tx_ttboard_pibase extends tslib_pibase {
 					'type' => 'notify_me=hidden',
 					'value' => htmlspecialchars(implode($notify,','))
 				);
+			}
+			if (is_array($TSFE->fe_user->user))	{
+				foreach ($lConf['dataArray.'] as $k => $dataRow)	{
+					if (strpos($dataRow['type'],'[author]') !== FALSE)	{
+						$lConf['dataArray.'][$k]['value'] = $TSFE->fe_user->user['name'];
+					} else if (strpos($dataRow['type'],'[email]') !== FALSE)	{
+						$lConf['dataArray.'][$k]['value'] = $TSFE->fe_user->user['email'];
+					}
+				}
 			}
 			$content.=$this->local_cObj->FORM($lConf);
 		}
