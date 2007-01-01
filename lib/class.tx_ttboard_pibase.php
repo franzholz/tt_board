@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2006 Kasper Skaarhoj (kasperYYYY@typo3.com)
+*  (c) 1999-2007 Kasper Skaarhoj (kasperYYYY@typo3.com)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -479,9 +479,11 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$this->treeIcons['end'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['end'],$this->conf['iconCode.']['end.']);
 		}
 
-		if ($this->tt_board_uid && $theCode!='THREAD_TREE')	{
-			if (!$this->allowCaching)		$GLOBALS['TSFE']->set_no_cache();		// MUST set no_cache as this displays single items and not a whole page....
-			$lConf=	$this->conf['view_thread.'];
+		if ($this->tt_board_uid && $theCode=='FORUM')	{
+			if (!$this->allowCaching)	{
+				$GLOBALS['TSFE']->set_no_cache();		// MUST set no_cache as this displays single items and not a whole page....
+			}
+			$lConf = $this->conf['view_thread.'];
 			$templateCode = $this->local_cObj->getSubpart($this->orig_templateCode, '###TEMPLATE_THREAD###');
 
 			if ($templateCode)	{
@@ -608,7 +610,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 			} else {
 				debug('No template code for ');
 			}
-		} else {
+		} else { // if ($this->tt_board_uid && $theCode=='FORUM')
 			$continue = true;
 			if ($theCode == 'THREAD_TREE')	{
 				if (!$this->tt_board_uid)	{
@@ -717,10 +719,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 				} else {
 					debug('No template code for ');
 				}
-			}
+			} // if($continue){
 		}
 		return $content;
-	}
+	} // forum_forum
 
 	/**
 	 * Get a record tree of forum items
@@ -916,11 +918,13 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Format string with nl2br and htmlspecialchars()
 	 */
 	function formatStr($str)	{
+		$rc = '';
 		if (!$this->dontParseContent)	{
-			return nl2br(htmlspecialchars($str));
+			$rc = nl2br(htmlspecialchars($str));
 		} else {
-			return $str;
+			$rc = $str;
 		}
+		return $rc;
 	}
 
 	/**

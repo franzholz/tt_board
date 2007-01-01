@@ -24,25 +24,29 @@
 							<numindex index="1">LIST_FORUMS</numindex>
 					    </numindex>
 					    <numindex index="4">
+						    <numindex index="0">LLL:EXT:tt_board/locallang_tca.php:tt_content.pi_flexform.display_mode.4</numindex>
+						    <numindex index="1">FORUM</numindex>
+					    </numindex>
+					    <numindex index="5">
 							<numindex index="0">LLL:EXT:tt_board/locallang_tca.php:tt_content.pi_flexform.display_mode.5</numindex>
 							<numindex index="1">POSTFORM</numindex>
 					    </numindex>
-					    <numindex index="5">
+					    <numindex index="6">
 							<numindex index="0">LLL:EXT:tt_board/locallang_tca.php:tt_content.pi_flexform.display_mode.6</numindex>
 							<numindex index="1">POSTFORM_REPLY</numindex>
 					    </numindex>
-					    <numindex index="6">
+					    <numindex index="7">
 							<numindex index="0">LLL:EXT:tt_board/locallang_tca.php:tt_content.pi_flexform.display_mode.7</numindex>
 							<numindex index="1">POSTFORM_THREAD</numindex>
-					    </numindex>   					    			    
-					    <numindex index="7">
+					    </numindex>
+					    <numindex index="8">
 							<numindex index="0">LLL:EXT:tt_board/locallang_tca.php:tt_content.pi_flexform.display_mode.8</numindex>
 							<numindex index="1">THREAD_TREE</numindex>
 					    </numindex>
 					</items>
 					<size>5</size>
 					<minitems>1</minitems>
-					<maxitems>7</maxitems>
+					<maxitems>8</maxitems>
 				</config>
 			</TCEforms>
 	      </display_mode>

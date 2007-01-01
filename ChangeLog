@@ -1,3 +1,6 @@
+2007-01-01 Franz Holzinger <franz@fholzinger.com>
+	* fix bug with missing 'Forum: single' flexform with tree view
+
 2006-12-29 Franz Holzinger <franz@fholzinger.com>
 	* name and email are preset from logged in FE user
 

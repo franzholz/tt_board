@@ -175,7 +175,7 @@ if (is_object($this))	{
 }
 
 
-// Added from Nicolas Liaudat
+// Added by Nicolas Liaudat
 function checkEmail($email)	{
 
 	if (!ereg('^[^@]{1,64}@[^@]{1,255}$', $email)) {
