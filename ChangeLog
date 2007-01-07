@@ -1,3 +1,8 @@
+2007-01-07 Franz Holzinger <franz@fholzinger.com>
+	* make fh_library a requirement until its code will go somewhere else
+	* Consider tstamp field instead of crdate for recent date. This makes it possible to reedit a record and consider only the date of the latest change.
+	* sort the items by the time of the latest changes of the latest posts for the threads
+
 2007-01-01 Franz Holzinger <franz@fholzinger.com>
 	* fix bug with missing 'Forum: single' flexform with tree view
 

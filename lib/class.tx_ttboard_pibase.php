@@ -186,7 +186,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$this->orig_templateCode= $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);		
 	}
 
-
 	function processCode($theCode, &$content)	{
 		global $TSFE;
 		
@@ -216,18 +215,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 			 		// FE BE library for flexform functions
 				require_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_view.php');
 				$content .= tx_fhlibrary_view::displayHelpPage($this, $helpTemplate, $this->extKey, $this->errorMessage, $theCode);
-			} else {
-				$langKey = strtoupper($GLOBALS['TSFE']->config['config']['language']);
-
-					// Get language version
-				$helpTemplate_lang='';
-				if ($langKey)	{$helpTemplate_lang = $this->cObj->getSubpart($helpTemplate,'###TEMPLATE_'.$langKey.'###');}
-				$helpTemplate = $helpTemplate_lang ? $helpTemplate_lang : $this->cObj->getSubpart($helpTemplate,'###TEMPLATE_DEFAULT###');
-
-					// Markers and substitution:
-				$markerArray['###CODE###'] = $theCode;
-				$markerArray['###PATH###'] = PATH_FE_ttboard_rel;
-				$content.=$this->cObj->substituteMarkerArray($helpTemplate,$markerArray);
 			}
 		} 		
 	}
@@ -641,7 +628,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 					}
 					reset($recentPosts);
 					$c_post=0;
-					while(list(,$recentPost)=each($recentPosts))	{
+					$subpartArray=array();
+					foreach ($recentPosts as $k => $recentPost)	{
 						$GLOBALS['TT']->push('/Post/');
 						$out=$postHeader[$c_post%count($postHeader)];
 						if ($recentPost['uid']==$this->tt_board_uid && $postHeader_active[0])	{
@@ -684,9 +672,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 						$this->local_cObj->start($lastPostInfo);
 
 						$GLOBALS['TT']->push('/lastPostMarkers/');
-						$markerArray['###LAST_POST_DATE###']=$this->local_cObj->stdWrap($this->recentDate($lastPostInfo),$this->conf['date_stdWrap.']);
-						$markerArray['###LAST_POST_TIME###']=$this->local_cObj->stdWrap($this->recentDate($lastPostInfo),$this->conf['time_stdWrap.']);
-						$markerArray['###LAST_POST_AGE###']=$this->local_cObj->stdWrap($this->recentDate($lastPostInfo),$this->conf['age_stdWrap.']);
+						$recentDate = $this->recentDate($lastPostInfo);
+						$markerArray['###LAST_POST_DATE###']=$this->local_cObj->stdWrap($recentDate,$this->conf['date_stdWrap.']);
+						$markerArray['###LAST_POST_TIME###']=$this->local_cObj->stdWrap($recentDate,$this->conf['time_stdWrap.']);
+						$markerArray['###LAST_POST_AGE###']=$this->local_cObj->stdWrap($recentDate,$this->conf['age_stdWrap.']);
 						$markerArray['###LAST_POST_AUTHOR###']=$this->local_cObj->stdWrap($this->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
 
 							// Link to the last post
@@ -699,9 +688,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 						$GLOBALS['TT']->pull();
 
 							// Substitute:
-						$subpartContent.=$this->local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
+						$subpartArray[$recentDate.sprintf('%010d',$recentPost['uid'])]=$this->local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
 						$GLOBALS['TT']->pull();
 					}
+					krsort($subpartArray);
 						// Substitution:
 					$markerArray=array();
 					$subpartContentArray=array();
@@ -712,6 +702,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$temp_conf=$this->typolink_conf;
 					$temp_conf['no_cache']=1;
 					$markerArray['###FORM_URL###']=$this->local_cObj->typoLink_URL($temp_conf);
+					$subpartContent = implode('',$subpartArray);
 
 						// Substitute CONTENT-subpart
 					$subpartContentArray['###CONTENT###']=$subpartContent;
@@ -982,7 +973,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns recent date from a tt_board record
 	 */
 	function recentDate($rec)	{
-		return $rec['crdate'];
+		return $rec['tstamp'];
 	}
 }
 
