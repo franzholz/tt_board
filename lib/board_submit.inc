@@ -137,6 +137,7 @@ if (is_object($this))	{
 					$markersArray=array();
 					$markersArray['###AUTHOR###'] = trim($this->newData['tt_board']['NEW'][author]);
 					$markersArray['###AUTHOR_EMAIL###'] = trim($this->newData['tt_board']['NEW'][email]);
+					$markersArray['###CR_IP###'] = $this->newData['tt_board']['NEW']['cr_ip'];
 					$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
 					$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&no_cache=1&tt_board_uid='.$newId;
 		
