@@ -1,5 +1,6 @@
 2007-01-08 Franz Holzinger <franz@fholzinger.com>
 	* expand spam filter over all input fields
+	* marker ###CR_IP### to store the ip address
 
 2007-01-07 Franz Holzinger <franz@fholzinger.com>
 	* make fh_library a requirement until its code will go somewhere else

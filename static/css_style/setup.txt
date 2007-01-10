@@ -15,7 +15,7 @@ FEData.tt_board {
     newReply.subjectPrefix = Reply to post at
     newThread.msg = EXT:tt_board/template/board_notify.txt
     newThread.didWhat = has just created a new thread at
-    newThread.subjectPrefix = New thread at
+    newThread.subjectPrefix = New thread
 
     debug=0
     emailCheck = {$plugin.tt_board.emailCheck}
