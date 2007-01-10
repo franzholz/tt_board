@@ -11,8 +11,7 @@ plugin.tt_board {
   emailCheck = 0
 
     # cat=plugin.board/spam; type=text; label= Spam words: Comma separated list of spam words. No message contaning one of these words will be stored.
-  spamWords = cialis, viagra, 0zu.tw
-
+  spamWords = 0zu.tw, mark-blog, erotik, penis, viagra, cialis, gogofacility, pornvideo, nudity, wifelover, extra.hu
 }
 
 

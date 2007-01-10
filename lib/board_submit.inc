@@ -47,11 +47,19 @@ if (is_object($this))	{
 
 			$spamArray = t3lib_div::trimExplode(',',$conf['spamWords']);
 			$bSpamFound = false;
-			$message = strtolower($this->newData['tt_board']['NEW']['message']);
-			foreach ($spamArray as $k => $word)	{
-				$wordL = strtolower($word);
-				if ($wordL && strpos($message, $wordL) !== false)	{
-					$bSpamFound = true;
+			$internalFieldArray = array('hidden','parent','pid','doublePostCheck');
+			
+			foreach ($this->newData['tt_board']['NEW'] as $field => $value)	{
+				if (!in_array($field, $internalFieldArray))	{
+					foreach ($spamArray as $k => $word)	{
+						$wordL = strtolower($word);
+						if ($wordL && strpos($value, $wordL) !== false)	{
+							$bSpamFound = true;
+							break;
+						}
+					}
+				}
+				if ($bSpamFound)	{
 					break;
 				}
 			}
