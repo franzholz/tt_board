@@ -51,10 +51,21 @@ if (is_object($this))	{
 			
 			foreach ($this->newData['tt_board']['NEW'] as $field => $value)	{
 				if (!in_array($field, $internalFieldArray))	{
-					foreach ($spamArray as $k => $word)	{
-						if ($word && stripos($value, $word) !== false)	{
-							$bSpamFound = true;
-							break;
+					if (version_compare(phpversion(), '5.0.0', '>='))	{
+						foreach ($spamArray as $k => $word)	{
+							if ($word && stripos($value, $word) !== false)	{
+								$bSpamFound = true;
+								break;
+							}
+						}
+					} else {
+						foreach ($spamArray as $k => $word)	{
+							$lWord = strtolower($word);
+							$lValue = strtolower($value);
+							if ($lWord && strpos($lValue, $lWord) !== false)	{
+								$bSpamFound = true;
+								break;
+							}							
 						}
 					}
 				}
@@ -63,7 +74,7 @@ if (is_object($this))	{
 				}
 			}
 			if ($bSpamFound)	{
-		  		$content = 'The spam word "'.$word.'" has been detected.';
+		  		$content = 'The spam word "'.$value.'" has been detected.';
 		  		$GLOBALS['TSFE']->printError($content);				
 			} else {
 				$this->newData['tt_board']['NEW']['cr_ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');

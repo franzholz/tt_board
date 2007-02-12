@@ -1,5 +1,6 @@
 2007-02-12 Franz Holzinger <franz@fholzinger.com>
 	* consider capital letters in spam words
+	* special treatment for PHP4
 
 2007-01-08 Franz Holzinger <franz@fholzinger.com>
 	* expand spam filter over all input fields
