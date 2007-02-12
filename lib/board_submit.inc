@@ -52,8 +52,7 @@ if (is_object($this))	{
 			foreach ($this->newData['tt_board']['NEW'] as $field => $value)	{
 				if (!in_array($field, $internalFieldArray))	{
 					foreach ($spamArray as $k => $word)	{
-						$wordL = strtolower($word);
-						if ($wordL && strpos($value, $wordL) !== false)	{
+						if ($word && stripos($value, $word) !== false)	{
 							$bSpamFound = true;
 							break;
 						}
