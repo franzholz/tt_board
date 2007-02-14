@@ -691,7 +691,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 						$subpartArray[$recentDate.sprintf('%010d',$recentPost['uid'])]=$this->local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
 						$GLOBALS['TT']->pull();
 					}
-					krsort($subpartArray);
+					if (!$this->conf['tree'])	{
+						krsort($subpartArray);
+					}
+
 						// Substitution:
 					$markerArray=array();
 					$subpartContentArray=array();
@@ -700,7 +703,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 						// Set FORM_URL
 					$this->local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
 					$temp_conf=$this->typolink_conf;
-					$temp_conf['no_cache']=1;
+					$temp_conf['no_cache'] = 1;
 					$markerArray['###FORM_URL###']=$this->local_cObj->typoLink_URL($temp_conf);
 					$subpartContent = implode('',$subpartArray);
 
@@ -828,8 +831,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	/**
 	 * Returns an array with threads
 	 */
-	function getThreads($pid,$decend=0,$limit=100,$searchWord)	{
-		$out=array();
+	function getThreads($pid,$descend=0,$limit=100,$searchWord)	{
+		$outArray=array();
 		if ($searchWord)	{
 			$where = $this->cObj->searchWhere($searchWord, $this->searchFieldList, 'tt_board');
 			$where = 'pid IN ('.$pid.') '.$where.$this->enableFields;
@@ -839,9 +842,9 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$rootRow = $this->getRootParent($row['uid']);
 				if (is_array($rootRow) && !isset($set[$rootRow['uid']]))	{
 					$set[$rootRow['uid']] = 1;
-					$out[] = $rootRow;
-					if ($decend)	{
-						$out = $this->getRecordTree($out,$rootRow['uid'],$rootRow['pid']);
+					$outArray[] = $rootRow;
+					if ($descend)	{
+						$outArray = $this->getRecordTree($outArray,$rootRow['uid'],$rootRow['pid']);
 					}
 				}
 			}
@@ -849,13 +852,13 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$where = 'pid IN ('.$pid.') AND parent=0'.$this->enableFields;
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
-				$out[] = $row;
-				if ($decend)	{
-					$out = $this->getRecordTree($out,$row['uid'],$row['pid']);
+				$outArray[] = $row;
+				if ($descend)	{
+					$outArray = $this->getRecordTree($outArray,$row['uid'],$row['pid']);
 				}
 			}
 		}
-		return $out;
+		return $outArray;
 	}
 
 	/**

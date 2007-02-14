@@ -1,8 +1,8 @@
-'###HOST###' ###SUBJECT_PREFIX### : ###AUTHOR### : ###CR_IP###
+###CR_IP###: '###HOST###' ###SUBJECT_PREFIX### : ###AUTHOR###
 Hello,
 
 ###AUTHOR### (###AUTHOR_EMAIL###) ###DID_WHAT### ###HOST###.
-
+IP address: ###CR_IP###
 This thread is located at:
 
 ###URL###
