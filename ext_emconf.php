@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext: "tt_board"
 #
-# Auto generated 14-02-2007 19:30
+# Auto generated 27-02-2007 12:46
 #
 # Manual updates:
 # Only the data in the array - anything else is removed by next write.
@@ -32,8 +32,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => 'Freelancer',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
-	'version' => '1.1.6',
-	'_md5_values_when_last_written' => 'a:32:{s:9:"ChangeLog";s:4:"8c6d";s:28:"class.tx_ttboard_wizicon.php";s:4:"aff0";s:21:"ext_conf_template.txt";s:4:"dbec";s:12:"ext_icon.gif";s:4:"4881";s:15:"ext_icon__h.gif";s:4:"d4dd";s:17:"ext_localconf.php";s:4:"e4cd";s:14:"ext_tables.php";s:4:"12a8";s:14:"ext_tables.sql";s:4:"4a67";s:23:"flexform_ds_pi_list.xml";s:4:"a333";s:23:"flexform_ds_pi_tree.xml";s:4:"2dde";s:9:"forum.gif";s:4:"7c8f";s:13:"locallang.php";s:4:"255e";s:25:"locallang_csh_ttboard.php";s:4:"1a19";s:17:"locallang_tca.php";s:4:"b925";s:17:"message_board.gif";s:4:"d36b";s:7:"tca.php";s:4:"5939";s:14:"doc/manual.sxw";s:4:"d5df";s:20:"lib/board_submit.inc";s:4:"d5e0";s:31:"lib/class.tx_ttboard_pibase.php";s:4:"f634";s:28:"res/icons/fe/board_help1.gif";s:4:"1b80";s:23:"res/icons/fe/thread.gif";s:4:"9aac";s:24:"template/board_help.tmpl";s:4:"ac9b";s:25:"template/board_notify.txt";s:4:"66d2";s:29:"template/board_template1.tmpl";s:4:"f508";s:29:"template/board_template2.tmpl";s:4:"f1be";s:29:"template/board_template3.tmpl";s:4:"71c3";s:30:"static/css_style/constants.txt";s:4:"6521";s:26:"static/css_style/setup.txt";s:4:"7791";s:30:"static/old_style/constants.txt";s:4:"f41e";s:26:"static/old_style/setup.txt";s:4:"ff9f";s:36:"pi_list/class.tx_ttboard_pi_list.php";s:4:"6f07";s:36:"pi_tree/class.tx_ttboard_pi_tree.php";s:4:"86e8";}',
+	'version' => '1.1.7',
+	'_md5_values_when_last_written' => 'a:32:{s:9:"ChangeLog";s:4:"851d";s:28:"class.tx_ttboard_wizicon.php";s:4:"3e44";s:21:"ext_conf_template.txt";s:4:"dbec";s:12:"ext_icon.gif";s:4:"4881";s:15:"ext_icon__h.gif";s:4:"d4dd";s:17:"ext_localconf.php";s:4:"e4cd";s:14:"ext_tables.php";s:4:"12a8";s:14:"ext_tables.sql";s:4:"4a67";s:23:"flexform_ds_pi_list.xml";s:4:"a333";s:23:"flexform_ds_pi_tree.xml";s:4:"2dde";s:9:"forum.gif";s:4:"7c8f";s:13:"locallang.php";s:4:"255e";s:25:"locallang_csh_ttboard.php";s:4:"1a19";s:17:"locallang_tca.php";s:4:"b925";s:17:"message_board.gif";s:4:"d36b";s:7:"tca.php";s:4:"5939";s:14:"doc/manual.sxw";s:4:"ee08";s:20:"lib/board_submit.inc";s:4:"d5e0";s:31:"lib/class.tx_ttboard_pibase.php";s:4:"9013";s:28:"res/icons/fe/board_help1.gif";s:4:"1b80";s:23:"res/icons/fe/thread.gif";s:4:"9aac";s:24:"template/board_help.tmpl";s:4:"ac9b";s:25:"template/board_notify.txt";s:4:"66d2";s:29:"template/board_template1.tmpl";s:4:"f508";s:29:"template/board_template2.tmpl";s:4:"f1be";s:29:"template/board_template3.tmpl";s:4:"71c3";s:30:"static/css_style/constants.txt";s:4:"4585";s:26:"static/css_style/setup.txt";s:4:"66fb";s:30:"static/old_style/constants.txt";s:4:"0c10";s:26:"static/old_style/setup.txt";s:4:"8d9a";s:36:"pi_list/class.tx_ttboard_pi_list.php";s:4:"fc29";s:36:"pi_tree/class.tx_ttboard_pi_tree.php";s:4:"36df";}',
 	'constraints' => array(
 		'depends' => array(
 			'cms' => '',
