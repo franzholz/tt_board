@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2006 Kasper Skaarhoj (kasperYYYY@typo3.com)
+*  (c) 2007-2007 Franz Holzinger <kontakt@fholzinger.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,6 +36,7 @@
  * $Id$
  * 
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
+ * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 
 require_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
@@ -48,21 +49,75 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 	 * Main board function. Call this from TypoScript
 	 */
 	function main($content,$conf)	{
+		$bOrigInitCalled = false;
+
 		$this->conf = $conf;
 
-		parent::init ($content, $conf, $this->config);
-		$codes=t3lib_div::trimExplode(',', $this->config['code'],1);
-		if (!count($codes))	$codes=array('');
+		$codeArray = $this->getCodeArray($conf);
 
-		while(!$this->errorMessage && list(,$theCode)=each($codes))	{
+		while(!$this->errorMessage && list(,$theCode)=each($codeArray))	{
 			$theCode = (string)strtoupper(trim($theCode));
 			switch($theCode)	{
 				default:
-					parent::processCode($theCode, $content);
+					$setup = $conf['userFunc.'][$theCode];
+					if (is_array($setup))	{
+						$bOrigInitCalled = false;
+						$newConf = array_merge($conf, $setup);
+						parent::init ($content, $newConf, $this->config);
+						$content .= $this->cObj->cObjGetSingle($setup,$conf['userFunc.'][$theCode.'.']);
+					} else {
+						if (!$bOrigInitCalled)	{
+							$bOrigInitCalled = true;
+							parent::init ($content, $conf, $this->config);
+						}
+						parent::processCode($theCode, $content);
+					}
 				break;
 			}		// Switch
 		}
 		return $content;
+	}
+
+	function help()	{
+		$conten = '';
+		parent::processCode('HELP', $content);
+		return $conten;
+	}
+
+	function listCagetories()	{
+		$conten = '';
+		parent::processCode('LIST_CATEGORIES', $content);
+		return $conten;
+	}
+
+	function listForums()	{
+		$conten = '';
+		parent::processCode('LIST_FORUMS', $content);
+		return $conten;
+	}
+
+	function forum()	{
+		$conten = '';
+		parent::processCode('FORUM', $content);
+		return $conten;
+	}
+
+	function postForm()	{
+		$conten = '';
+		parent::processCode('POSTFORM', $content);
+		return $conten;
+	}
+
+	function postFormReply()	{
+		$conten = '';
+		parent::processCode('POSTFORM_REPLY', $content);
+		return $conten;
+	}
+
+	function thread()	{
+		$conten = '';
+		parent::processCode('POSTFORM_THREAD', $content);
+		return $conten;
 	}
 
 }

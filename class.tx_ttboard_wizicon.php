@@ -40,7 +40,7 @@ class tx_ttboard_wizicon {
 			'icon'=>PATH_BE_ttboard_rel.'forum.gif',
 			'title'=>$LANG->getLLL('plugins_tree_title',$LL),
 			'description'=>$LANG->getLLL('plugins_tree_description',$LL),
-			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=2'
+			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=2&defVals[tt_content][select_key]='.rawurlencode('FORUM, POSTFORM')
 		);
 		$wizardItems['plugins_ttboard_list'] = array(
 			'icon'=>PATH_BE_ttboard_rel.'message_board.gif',

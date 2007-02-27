@@ -100,6 +100,45 @@ temp.tt_board.shared {
 
 
 
+temp.userFuncList = tx_ttboard_pi_list->main
+temp.userFuncList {
+  
+  HELP = COA_INT
+  HELP {
+    10.userFunc = tx_ttboard_pi_list->help
+  }
+
+  LIST_CATEGORIES = COA_INT
+  LIST_CATEGORIES {
+    10.userFunc = tx_ttboard_pi_list->listCagetories
+  }
+
+  LIST_FORUMS = COA_INT
+  LIST_FORUMS {
+    10.userFunc = tx_ttboard_pi_list->listForums
+  }
+
+  FORUM = COA_INT
+  FORUM {
+    10.userFunc = tx_ttboard_pi_list->forum
+  }
+
+  POSTFORM = COA_INT
+  POSTFORM {
+    10.userFunc = tx_ttboard_pi_list->postForm
+  }
+
+  POSTFORM_REPLY = COA_INT
+  POSTFORM_REPLY {
+    10.userFunc = tx_ttboard_pi_list->postFormReply
+  }
+
+  POSTFORM_THREAD = COA_INT
+  POSTFORM_THREAD {
+    10.userFunc = tx_ttboard_pi_list->thread
+  }
+
+}
 
 
 
@@ -108,7 +147,7 @@ temp.tt_board.shared {
 ## This enables the tt_content.list item to display the forum, list style:
 plugin.tt_board_list < temp.tt_board.shared
 plugin.tt_board_list {
-  userFunc = tx_ttboard_pi_list->main
+  userFunc < temp.userFuncList
 
   templateFile = {$plugin.tt_board_list.file.templateFile}
 
@@ -139,13 +178,59 @@ tt_board_list.displayCurrentRecord = 1
 
 
 
+temp.userFuncTree = tx_ttboard_pi_tree->main
+temp.userFuncTree {
+  
+  HELP = COA_INT
+  HELP {
+    10.userFunc = tx_ttboard_pi_tree->help
+  }
+
+  LIST_CATEGORIES = COA
+  LIST_CATEGORIES {
+    10.userFunc = tx_ttboard_pi_tree->listCagetories
+  }
+
+  LIST_FORUMS = COA
+  LIST_FORUMS {
+    10.userFunc = tx_ttboard_pi_tree->listForums
+  }
+
+  FORUM = COA
+  FORUM {
+    10.userFunc = tx_ttboard_pi_tree->forum
+  }
+
+  POSTFORM = COA_INT
+  POSTFORM {
+    10.userFunc = tx_ttboard_pi_tree->postForm
+  }
+
+  POSTFORM_REPLY = COA_INT
+  POSTFORM_REPLY {
+    10.userFunc = tx_ttboard_pi_tree->postFormReply
+  }
+
+  POSTFORM_THREAD = COA_INT
+  POSTFORM_THREAD {
+    10.userFunc = tx_ttboard_pi_tree->thread
+  }
+
+  THREAD_TREE = COA
+  THREAD_TREE {
+    10.userFunc = tx_ttboard_pi_tree->threadTree
+  }
+}
+
+
+
 
 
 
 ## This enables the tt_content.list item to display the forum, tree style:
 plugin.tt_board_tree < temp.tt_board.shared
 plugin.tt_board_tree {
-  userFunc = tx_ttboard_pi_tree->main
+  userFunc < temp.userFuncTree
   templateFile = {$plugin.tt_board_tree.file.templateFile}
 
   # Global wraps

@@ -1,3 +1,7 @@
+2007-02-27 Franz Holzinger <franz@fholzinger.com>
+	* fix bug with cached post form where the data of another feuser has been filled in
+	* thanks to Jo Hasenau for his concept how to use USER_INT oder USER depending on the code
+
 2007-02-14 Franz Holzinger <franz@fholzinger.com>
 	* do not sort tree forum by recent posts
 

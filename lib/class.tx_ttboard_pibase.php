@@ -111,26 +111,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 			// template is read.
 		$this->orig_templateCode = $this->cObj->fileResource($conf['templateFile']);
 
-		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms'] && t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
-		 		// FE BE library for flexform functions
-			require_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_flexform.php');
-				// check the flexform
-			$this->pi_initPIflexForm();
-			$config['code'] = tx_fhlibrary_flexform::getSetupOrFFvalue(
-				$this, 
-				$conf['code'], 
-				$conf['code.'],
-				$this->conf['defaultCode'], 
-				$this->cObj->data['pi_flexform'], 
-				'display_mode',
-				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms']
-			);
-		} else {
-				// 'CODE' decides what is rendered:
-			$config['code'] = $this->cObj->stdWrap($conf['code'],$conf['code.']);
-			$config['code'] = $config['code'] ? $config['code'] : $this->conf['defaultCode'];
-		}
-
 		$this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
 
 			// globally substituted markers, fonts and colors.
@@ -183,7 +163,34 @@ class tx_ttboard_pibase extends tslib_pibase {
 		// all extensions:
 
 			// Substitute Global Marker Array
-		$this->orig_templateCode= $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);		
+		$this->orig_templateCode= $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);	
+	}
+
+	function getCodeArray(&$conf)	{
+		$config = array();
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms'] && t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
+		 		// FE BE library for flexform functions
+			require_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_flexform.php');
+				// check the flexform
+			$this->pi_initPIflexForm();
+			$config['code'] = tx_fhlibrary_flexform::getSetupOrFFvalue(
+				$this, 
+				$conf['code'], 
+				$conf['code.'],
+				$conf['defaultCode'], 
+				$this->cObj->data['pi_flexform'], 
+				'display_mode',
+				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms']
+			);
+		} else {
+				// 'CODE' decides what is rendered:
+			$config['code'] = $this->cObj->stdWrap($conf['code'],$conf['code.']);
+			$config['code'] = $config['code'] ? $config['code'] : $conf['defaultCode'];
+		}
+
+		$codeArray=t3lib_div::trimExplode(',', $config['code'],1);
+		if (!count($codeArray))	$codeArray=array('');
+		return ($codeArray);
 	}
 
 	function processCode($theCode, &$content)	{
@@ -206,7 +213,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 			default:
 				$contentTmp = 'error';
 			break;
-		}		// Switch
+		}	// Switch
 
 		if ($contentTmp == 'error') {
 			$fileName = 'EXT:'.TT_BOARD_EXTkey.'/template/board_help.tmpl';
@@ -216,7 +223,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				require_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_view.php');
 				$content .= tx_fhlibrary_view::displayHelpPage($this, $helpTemplate, $this->extKey, $this->errorMessage, $theCode);
 			}
-		} 		
+		}
 	}
 
 	/**
