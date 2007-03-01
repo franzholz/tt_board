@@ -388,74 +388,103 @@ class tx_ttboard_pibase extends tslib_pibase {
 	}
 
 	/**
+	 * Checks if posting is allowed to user
+	 */
+	function isAllowed($memberOfGroups)	{
+		global $TSFE;
+
+		$allowed = false;
+		if ($memberOfGroups)	{
+			if (is_array($TSFE->fe_user->user))	{
+				$requestGroupArray = t3lib_div::trimExplode(',', $memberOfGroups);
+				$usergroupArray = explode(',',$TSFE->fe_user->user['usergroup']);
+				$fitArray = array_intersect($requestGroupArray, $usergroupArray);
+				if (count($fitArray))	{
+					$allowed = true;
+				}
+			} else {
+				$allowed = false;
+			}
+		} else {
+			$allowed = true;
+		}
+
+		return $allowed;
+	}
+
+	/**
 	 * Creates a post form for a forum
 	 */
 	function forum_postform($theCode)	{
 		global $TSFE;
 
-		$parent=0;		// This is the parent item for the form. If this ends up being is set, then the form is a reply and not a new post.
-		$nofity=array();
-			// Find parent, if any
-		if ($this->tt_board_uid)	{
-			if ($this->conf['tree'])	{
-				$parent=$this->tt_board_uid;
-			} else {
-				$parentR = $this->getRootParent($this->tt_board_uid);
-				$parent = $parentR['uid'];
-			}
+		$content = '';
 
-			$rootParent = $this->getRootParent($parent);
-			$wholeThread = $this->getSingleThread($rootParent['uid'],1);
-			reset($wholeThread);
-			while(list(,$recordP)=each($wholeThread))	{
-				if ($recordP['notify_me'] && $recordP['email'])		{
-					$notify[md5(trim(strtolower($recordP['email'])))] = trim($recordP['email']);
+		if ($this->isAllowed($this->conf['memberOfGroups']))	{
+			$parent=0;		// This is the parent item for the form. If this ends up being is set, then the form is a reply and not a new post.
+			$nofity=array();
+				// Find parent, if any
+			if ($this->tt_board_uid)	{
+				if ($this->conf['tree'])	{
+					$parent=$this->tt_board_uid;
+				} else {
+					$parentR = $this->getRootParent($this->tt_board_uid);
+					$parent = $parentR['uid'];
 				}
-			}
-		}
-
-			// Get the render-code
-		$lConf = $this->conf['postform.'];
-		$modEmail = $this->conf['moderatorEmail'];
-		if (!$parent && isset($this->conf['postform_newThread.']))	{
-			$lConf = $this->conf['postform_newThread.'] ? $this->conf['postform_newThread.'] : $lConf;			// Special form for newThread posts...
-			$modEmail = $this->conf['moderatorEmail_newThread'] ? $this->conf['moderatorEmail_newThread'] : $modEmail;
-		}
-		if ($modEmail)	{
-			$modEmail = explode(',', $modEmail);
-			while(list(,$modEmail_s)=each($modEmail))	{
-				$notify[md5(trim(strtolower($modEmail_s)))] = trim($modEmail_s);
-			}
-		}
-		if ($theCode=='POSTFORM' || ($theCode=='POSTFORM_REPLY' && $parent) || ($theCode=='POSTFORM_THREAD' && !$parent))	{
-			$lConf['dataArray.']['9999.'] = array(
-				'type' => '*data[tt_board][NEW][parent]=hidden',
-				'value' => $parent
-			);
-			$lConf['dataArray.']['9998.'] = array(
-				'type' => '*data[tt_board][NEW][pid]=hidden',
-				'value' => $this->pid
-			);
-			$lConf['dataArray.']['9997.'] = array(
-				'type' => 'tt_board_uid=hidden',
-				'value' => $parent
-			);
-			if (count($notify))		{
-				$lConf['dataArray.']['9997.'] = array(
-					'type' => 'notify_me=hidden',
-					'value' => htmlspecialchars(implode($notify,','))
-				);
-			}
-			if (is_array($TSFE->fe_user->user))	{
-				foreach ($lConf['dataArray.'] as $k => $dataRow)	{
-					if (strpos($dataRow['type'],'[author]') !== FALSE)	{
-						$lConf['dataArray.'][$k]['value'] = $TSFE->fe_user->user['name'];
-					} else if (strpos($dataRow['type'],'[email]') !== FALSE)	{
-						$lConf['dataArray.'][$k]['value'] = $TSFE->fe_user->user['email'];
+	
+				$rootParent = $this->getRootParent($parent);
+				$wholeThread = $this->getSingleThread($rootParent['uid'],1);
+				reset($wholeThread);
+				while(list(,$recordP)=each($wholeThread))	{
+					if ($recordP['notify_me'] && $recordP['email'])		{
+						$notify[md5(trim(strtolower($recordP['email'])))] = trim($recordP['email']);
 					}
 				}
 			}
-			$content.=$this->local_cObj->FORM($lConf);
+	
+				// Get the render-code
+			$lConf = $this->conf['postform.'];
+			$modEmail = $this->conf['moderatorEmail'];
+			if (!$parent && isset($this->conf['postform_newThread.']))	{
+				$lConf = $this->conf['postform_newThread.'] ? $this->conf['postform_newThread.'] : $lConf;			// Special form for newThread posts...
+				$modEmail = $this->conf['moderatorEmail_newThread'] ? $this->conf['moderatorEmail_newThread'] : $modEmail;
+			}
+			if ($modEmail)	{
+				$modEmail = explode(',', $modEmail);
+				while(list(,$modEmail_s)=each($modEmail))	{
+					$notify[md5(trim(strtolower($modEmail_s)))] = trim($modEmail_s);
+				}
+			}
+			if ($theCode=='POSTFORM' || ($theCode=='POSTFORM_REPLY' && $parent) || ($theCode=='POSTFORM_THREAD' && !$parent))	{
+				$lConf['dataArray.']['9999.'] = array(
+					'type' => '*data[tt_board][NEW][parent]=hidden',
+					'value' => $parent
+				);
+				$lConf['dataArray.']['9998.'] = array(
+					'type' => '*data[tt_board][NEW][pid]=hidden',
+					'value' => $this->pid
+				);
+				$lConf['dataArray.']['9997.'] = array(
+					'type' => 'tt_board_uid=hidden',
+					'value' => $parent
+				);
+				if (count($notify))		{
+					$lConf['dataArray.']['9997.'] = array(
+						'type' => 'notify_me=hidden',
+						'value' => htmlspecialchars(implode($notify,','))
+					);
+				}
+				if (is_array($TSFE->fe_user->user))	{
+					foreach ($lConf['dataArray.'] as $k => $dataRow)	{
+						if (strpos($dataRow['type'],'[author]') !== FALSE)	{
+							$lConf['dataArray.'][$k]['value'] = $TSFE->fe_user->user['name'];
+						} else if (strpos($dataRow['type'],'[email]') !== FALSE)	{
+							$lConf['dataArray.'][$k]['value'] = $TSFE->fe_user->user['email'];
+						}
+					}
+				}
+				$content.=$this->local_cObj->FORM($lConf);
+			}
 		}
 		return $content;
 	}
@@ -985,6 +1014,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 	function recentDate($rec)	{
 		return $rec['tstamp'];
 	}
+
 }
 
 

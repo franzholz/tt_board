@@ -1,3 +1,6 @@
+2007-03-01 Franz Holzinger <franz@fholzinger.com>
+	* To prevent from spammers you must set the memberOfGroups constant to the FE groups to which the FE users must belong to be able to post.
+
 2007-02-27 Franz Holzinger <franz@fholzinger.com>
 	* fix bug with cached post form where the data of another feuser has been filled in
 	* thanks to Jo Hasenau for his concept how to use USER_INT oder USER depending on the code

@@ -4,6 +4,9 @@ plugin.tt_board {
 
   numberOfRecentPosts = 0
 
+    # cat=plugin.board; type=boolean; label= Member of group: Comma separated list of FE groups which a user must belong to that the post forms are shown.
+  memberOfGroups = 1
+
     # cat=plugin.board; type=int+; label= Page Id of forum: Only set this if the BACKLINK does not work.
   PIDforum =
 

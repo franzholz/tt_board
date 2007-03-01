@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2006 Kasper Skaarhoj (kasperYYYY@typo3.com)
+*  (c) 1999-2007 Kasper Skaarhoj (kasperYYYY@typo3.com)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,19 +36,22 @@
  * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 
+include_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
+
 
 if (is_object($this))	{
 	$conf = $this->getConf('tt_board');
 	$email = $this->newData['tt_board']['NEW']['email'];
+	$allowed = tx_ttboard_pibase::isAllowed($conf['memberOfGroups']);
 
-	if (!$conf['emailCheck'] || checkEmail($email)) {
+	if ($allowed && (!$conf['emailCheck'] || checkEmail($email))) {
 
 		if (is_array($this->newData['tt_board']['NEW']))	{
 
 			$spamArray = t3lib_div::trimExplode(',',$conf['spamWords']);
 			$bSpamFound = false;
 			$internalFieldArray = array('hidden','parent','pid','doublePostCheck');
-			
+
 			foreach ($this->newData['tt_board']['NEW'] as $field => $value)	{
 				if (!in_array($field, $internalFieldArray))	{
 					if (version_compare(phpversion(), '5.0.0', '>='))	{
@@ -84,7 +87,6 @@ if (is_object($this))	{
 				$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
 				$this->clear_cacheCmd(intval($this->newData['tt_board']['NEW']['pid']));
 		
-				$conf = $this->getConf('tt_board');
 					// Clear specific cache:
 				if ($conf['clearCacheForPids'])	{
 					$ccPids=t3lib_div::intExplode(',',$conf['clearCacheForPids']);
@@ -138,12 +140,11 @@ if (is_object($this))	{
 						mail ($maillist_recip, $maillist_subject, $maillist_msg, $maillist_header);
 					}
 				}
-		
-		
+
 				// Notify me...
 				if (t3lib_div::_GP('notify_me') && $conf['notify'])	{
 					$notifyMe = t3lib_div::uniqueList(str_replace(','.$maillist_data['email'].',', ',', ','.t3lib_div::_GP('notify_me').','));
-		
+
 					$markersArray=array();
 					$markersArray['###AUTHOR###'] = trim($this->newData['tt_board']['NEW'][author]);
 					$markersArray['###AUTHOR_EMAIL###'] = trim($this->newData['tt_board']['NEW'][email]);
@@ -162,17 +163,17 @@ if (is_object($this))	{
 					}
 					$markersArray['###SUBJECT###'] = strtoupper($this->newData['tt_board']['NEW'][subject]);
 					$markersArray['###BODY###'] = t3lib_div::fixed_lgd($this->newData['tt_board']['NEW'][message],1000);
-		
+
 					reset($markersArray);
 					while(list($marker,$markContent)=each($markersArray))	{
 						$msg=str_replace($marker,$markContent,$msg);
 					}
-		
+
 					$headers=array();
 					if ($conf['notify_from'])	{
 						$headers[]='FROM: '.$conf['notify_from'];
 					}
-		
+
 					$msgParts = split(chr(10),$msg,2);
 					if ($conf['debug'])	{
 						debug($notifyMe,1);
@@ -184,11 +185,14 @@ if (is_object($this))	{
 				}
 			}
 		}
-		
 
 	} else {
-  		$content = $email . ' is not a valid email address.';
-  		$GLOBALS['TSFE']->printError($content);
+		if ($allowed)	{
+			$content = $email . ' is not a valid email address.';
+		} else {
+			$content = 'You have no permission to post into this forum!';
+		}
+		$GLOBALS['TSFE']->printError($content);
 	}
 
 }
@@ -201,7 +205,7 @@ function checkEmail($email)	{
 		// Email invalid because wrong number of characters in one section, or wrong number of @ symbols.
 		return false;
 	}
-	
+
 	// gets domain name
 	list($username,$domain)=split('@',$email);
 	// checks for if MX records in the DNS

@@ -20,7 +20,7 @@ FEData.tt_board {
     debug=0
     emailCheck = {$plugin.tt_board.emailCheck}
     spamWords = {$plugin.tt_board.spamWords}
-
+    memberOfGroups = {$plugin.tt_board.memberOfGroups}
   }
   default {
     hidden = 0
@@ -47,6 +47,7 @@ temp.tt_board.shared = USER
 temp.tt_board.shared {
   pid_list.field = pages
   code.field = select_key
+  memberOfGroups = {$plugin.tt_board.memberOfGroups}
 
   date_stdWrap.strftime= %e-%m-%y
   time_stdWrap.strftime= %H:%M:%S
@@ -108,17 +109,17 @@ temp.userFuncList {
     10.userFunc = tx_ttboard_pi_list->help
   }
 
-  LIST_CATEGORIES = COA_INT
+  LIST_CATEGORIES = COA
   LIST_CATEGORIES {
     10.userFunc = tx_ttboard_pi_list->listCagetories
   }
 
-  LIST_FORUMS = COA_INT
+  LIST_FORUMS = COA
   LIST_FORUMS {
     10.userFunc = tx_ttboard_pi_list->listForums
   }
 
-  FORUM = COA_INT
+  FORUM = COA
   FORUM {
     10.userFunc = tx_ttboard_pi_list->forum
   }
