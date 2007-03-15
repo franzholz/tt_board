@@ -1,3 +1,5 @@
+## $Id$
+
 
 ## Sets up the fields, that may be submitted in order to create items. Mandatory!
 FEData.tt_board >
@@ -167,7 +169,7 @@ tt_board_list.displayCurrentRecord = 1
 
 temp.userFuncTree = tx_ttboard_pi_tree->main
 temp.userFuncTree {
-  
+
   HELP = COA_INT
   HELP {
     10.userFunc = tx_ttboard_pi_tree->help

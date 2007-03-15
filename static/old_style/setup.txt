@@ -1,3 +1,5 @@
+## $Id$
+
 
 ## Sets up the fields, that may be submitted in order to create items. Mandatory!
 FEData.tt_board >
@@ -53,7 +55,7 @@ temp.tt_board.shared {
   time_stdWrap.strftime= %H:%M:%S
   age_stdWrap.age = 1
   allowCaching = 1
-  
+
   list_categories {
     cache_timeout = 120
   }

@@ -97,6 +97,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		// *** getting configuration values:
 		// *************************************
 
+		$this->conf = $conf;
 		$this->tt_board_uid = intval(t3lib_div::_GP('tt_board_uid'));
 		$this->alternativeLayouts = intval($this->conf['alternatingLayouts'])>0 ? intval($this->conf['alternatingLayouts']) : 2;
 	
@@ -142,8 +143,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 		$this->enableFields = $this->cObj->enableFields('tt_board');
 		$this->dontParseContent = $this->conf['dontParseContent'];
-		$this->local_cObj =t3lib_div::makeInstance('tslib_cObj');		// Local cObj.
-
+		$this->local_cObj = t3lib_div::makeInstance('tslib_cObj');		// Local cObj.
 
 			// If the current record should be displayed.
 		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'];
@@ -195,7 +195,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 	function processCode($theCode, &$content)	{
 		global $TSFE;
-		
+
 		switch($theCode)	{
 			case 'LIST_CATEGORIES':
 			case 'LIST_FORUMS':
@@ -224,6 +224,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$content .= tx_fhlibrary_view::displayHelpPage($this, $helpTemplate, $this->extKey, $this->errorMessage, $theCode);
 			}
 		}
+
 	}
 
 	/**

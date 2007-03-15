@@ -54,17 +54,27 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 		$this->conf = $conf;
 
 		$codeArray = $this->getCodeArray($conf);
+		$bCreate = TRUE;
 
-		while(!$this->errorMessage && list(,$theCode)=each($codeArray))	{
+		foreach ($codeArray as $k => $theCode)	{
 			$theCode = (string)strtoupper(trim($theCode));
 			switch($theCode)	{
 				default:
-					$setup = $conf['userFunc.'][$theCode];
-					if (is_array($setup))	{
+					$setupCode = $conf['userFunc.'][$theCode];
+					if ($setupCode)	{
 						$bOrigInitCalled = false;
-						$newConf = array_merge($conf, $setup);
-						parent::init ($content, $newConf, $this->config);
-						$content .= $this->cObj->cObjGetSingle($setup,$conf['userFunc.'][$theCode.'.']);
+						$setup = $conf['userFunc.'][$theCode.'.'];
+						$newConf = array_merge($conf, $setup['10.']);
+						unset ($newConf['userFunc.']);
+						$newSetup = array();
+						if ($setupCode == 'COA')	{
+							$newSetup['10'] = 'USER';
+						} else {
+							$newSetup['10'] = 'USER_INT';
+						}
+						$newSetup['10'] = 'USER';
+						$newSetup['10.'] = $newConf;
+						$content .= $this->cObj->cObjGetSingle($setupCode, $newSetup);
 					} else {
 						if (!$bOrigInitCalled)	{
 							$bOrigInitCalled = true;
@@ -73,51 +83,55 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 						parent::processCode($theCode, $content);
 					}
 				break;
-			}		// Switch
+			}	// Switch
+
+			if ($this->errorMessage)	{
+				break;
+			}
 		}
 		return $content;
 	}
 
-	function help()	{
-		$conten = '';
+	function help($content, $conf)	{
+		parent::init ($content, $conf, $this->config);
 		parent::processCode('HELP', $content);
-		return $conten;
+		return $content;
 	}
 
-	function listCagetories()	{
-		$conten = '';
+	function listCagetories($content, $conf)	{
+		parent::init ($content, $conf, $this->config);
 		parent::processCode('LIST_CATEGORIES', $content);
-		return $conten;
+		return $content;
 	}
 
-	function listForums()	{
-		$conten = '';
+	function listForums($content, $conf)	{
+		parent::init ($content, $conf, $this->config);
 		parent::processCode('LIST_FORUMS', $content);
-		return $conten;
+		return $content;
 	}
 
-	function forum()	{
-		$conten = '';
+	function forum($content, $conf)	{
+		parent::init ($content, $conf, $this->config);
 		parent::processCode('FORUM', $content);
-		return $conten;
+		return $content;
 	}
 
-	function postForm()	{
-		$conten = '';
+	function postForm($content, $conf)	{
+		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM', $content);
-		return $conten;
+		return $content;
 	}
 
-	function postFormReply()	{
-		$conten = '';
+	function postFormReply($content, $conf)	{
+		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM_REPLY', $content);
-		return $conten;
+		return $content;
 	}
 
-	function thread()	{
-		$conten = '';
+	function thread($content, $conf)	{
+		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM_THREAD', $content);
-		return $conten;
+		return $content;
 	}
 
 }
