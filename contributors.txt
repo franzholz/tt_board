@@ -1,0 +1,4 @@
+Franz Holzinger <kontakt@fholzinger.com>: software development and bug fixes
+Bert Hiddink <hiddink@bendoo.com>: software development and bug fixes
+
+
