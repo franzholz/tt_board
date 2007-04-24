@@ -1,6 +1,7 @@
 2007-04-24 Franz Holzinger <franz@fholzinger.com>
 	* more info for mails to mailinglist
 	* warning info text when no entry field is displayed because of not logged in user
+	* send notification email to all members of a defined FE group
 
 2007-03-15 Franz Holzinger <franz@fholzinger.com>
 	* fix bug with cached post form where the data of another feuser has been filled in

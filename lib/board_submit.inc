@@ -110,7 +110,21 @@ if (is_object($this))	{
 		*/
 					$mConf = $conf['sendToMailingList.'];
 					$maillist_data = $this->newData['tt_board']['NEW'];
-					$maillist_recip = $mConf['email'];
+
+					// If there is a FE-user group defined, then send notifiers to all	FE-members of this group
+					if ($mConf['sendToFEgroup'])	{
+						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'fe_users', 'usergroup='.intval($mConf['sendToFEgroup']));
+						$c = 0;
+						while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
+							$c++;
+							$emails .= $row['email'].',';
+						}
+						$maillist_recip = substr($emails,0,-1);
+						// else, send to sendToMailingList.email
+					} else {
+						$maillist_recip = $maillist_recip = $mConf['email'];
+					}
+
 					$maillist_header='From: '.$mConf['namePrefix'].$maillist_data['author'].' <'.$mConf['reply'].'>'.chr(10);
 					$maillist_header.='Reply-To: '.$mConf['reply'];
 
