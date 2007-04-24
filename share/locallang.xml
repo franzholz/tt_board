@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>texts for the scripts</description>
+		<type>module</type>
+		<csh_table></csh_table>
+		<fileId>EXT:tt_board/share/locallang.xml</fileId>
+		<labelContext type="array">
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="members_only">Only logged in members are allowed to post on this forum.</label>
+		</languageKey>
+		<languageKey index="dk" type="array">
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="members_only">Nur eingeloggte Mitglieder können hier Beiträge schreiben</label>
+		</languageKey>
+	</data>
+</T3locallang>
