@@ -68,7 +68,7 @@ if (is_object($this))	{
 							if ($lWord && strpos($lValue, $lWord) !== false)	{
 								$bSpamFound = true;
 								break;
-							}							
+							}
 						}
 					}
 				}
@@ -78,7 +78,7 @@ if (is_object($this))	{
 			}
 			if ($bSpamFound)	{
 		  		$content = 'The spam word "'.$value.'" has been detected.';
-		  		$GLOBALS['TSFE']->printError($content);				
+		  		$GLOBALS['TSFE']->printError($content);
 			} else {
 				$this->newData['tt_board']['NEW']['cr_ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
 
@@ -86,7 +86,7 @@ if (is_object($this))	{
 				$this->execNEWinsert('tt_board', $this->newData['tt_board']['NEW']);
 				$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
 				$this->clear_cacheCmd(intval($this->newData['tt_board']['NEW']['pid']));
-		
+
 					// Clear specific cache:
 				if ($conf['clearCacheForPids'])	{
 					$ccPids=t3lib_div::intExplode(',',$conf['clearCacheForPids']);
@@ -95,12 +95,11 @@ if (is_object($this))	{
 						if ($pid > 0)	{$this->clear_cacheCmd($pid);}
 					}
 				}
-		
 					// Send post to Mailing list ...
 				if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email'])	{
 		/*
 			TypoScript for this section (was used for the TYPO3 mailing list.
-		
+
 		    sendToMailingList=1
 		    sendToMailingList {
 		      email = typo3@netfielders.de
@@ -112,10 +111,9 @@ if (is_object($this))	{
 					$mConf = $conf['sendToMailingList.'];
 					$maillist_data = $this->newData['tt_board']['NEW'];
 					$maillist_recip = $mConf['email'];
-		
 					$maillist_header='From: '.$mConf['namePrefix'].$maillist_data['author'].' <'.$mConf['reply'].'>'.chr(10);
 					$maillist_header.='Reply-To: '.$mConf['reply'];
-		
+
 						//  Subject
 					if ($maillist_data['parent'])	{	// RE:
 						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($maillist_data['parent']));
@@ -124,20 +122,22 @@ if (is_object($this))	{
 					} else {	// New:
 						$maillist_subject =  (trim($maillist_data['subject']) ? trim($maillist_data['subject']) : $mConf['altSubject']).' [#'.$newId.']';
 					}
-		
+
 						// Message
-					$maillist_msg = $maillist_data['subject'].chr(10).chr(10).$maillist_data['message'].'
-		--
-		'.$maillist_data['author'];
+					$maillist_msg = chr(10).chr(10).$conf['newReply.']['subjectPrefix'].chr(10).$maillist_data['subject'].chr(10).chr(10).$conf['newReply.']['message'].chr(10).$maillist_data['message'].chr(10).chr(10).$conf['newReply.']['author'].chr(10).$maillist_data['author'].chr(10).chr(10).chr(10);
+					$maillist_msg .= $conf['newReply.']['followThisLink'].chr(10).t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&no_cache=1&tt_board_uid='.$newId;
 						// Send
-		
+
 					if ($conf['debug'])	{
 						debug($maillist_recip,1);
 						debug($maillist_subject,1);
 						echo nl2br($maillist_msg.chr(10));
 						debug($maillist_header,1);
 					} else {
-						mail ($maillist_recip, $maillist_subject, $maillist_msg, $maillist_header);
+						$addresses = explode(",", $maillist_recip);
+						foreach ($addresses as $email) {
+							mail ($email, $maillist_subject, $maillist_msg, $maillist_header);
+						}
 					}
 				}
 
@@ -180,7 +180,11 @@ if (is_object($this))	{
 						debug($headers,1);
 						debug($msgParts);
 					} else {
-						mail ($notifyMe, $msgParts[0], $msgParts[1], implode($headers,chr(10)));
+						$addresses = explode(",", $notifyMe);
+						foreach ($addresses as $email) {
+						mail ($email, $msgParts[0], $msgParts[1],
+							implode($headers,chr(10)));
+						}
 					}
 				}
 			}

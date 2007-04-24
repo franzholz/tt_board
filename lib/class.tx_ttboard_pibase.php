@@ -35,7 +35,7 @@
  *
  * $Id$
  * 
- * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
+ * @author	Kasper Skï¿½hj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 
@@ -98,6 +98,12 @@ class tx_ttboard_pibase extends tslib_pibase {
 		// *************************************
 
 		$this->conf = $conf;
+		if (t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
+		 		// FE BE library for language functions
+			include_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_language.php');
+			tx_fhlibrary_language::pi_loadLL($this,'EXT:'.$this->extKey.'/share/locallang.xml');
+		}
+
 		$this->tt_board_uid = intval(t3lib_div::_GP('tt_board_uid'));
 		$this->alternativeLayouts = intval($this->conf['alternatingLayouts'])>0 ? intval($this->conf['alternatingLayouts']) : 2;
 	
@@ -224,7 +230,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$content .= tx_fhlibrary_view::displayHelpPage($this, $helpTemplate, $this->extKey, $this->errorMessage, $theCode);
 			}
 		}
-
 	}
 
 	/**
@@ -267,8 +272,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 							// Rendering category
 						$out=$categoryHeader[$c_cat%count($categoryHeader)];
 						$c_cat++;
-
-
 						$this->local_cObj->start($catData);
 
 							// Clear
@@ -494,6 +497,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Creates the forum display, including listing all items/a single item
 	 */
 	function forum_forum($theCode)	{
+		$recentPosts = array();
 		if ($this->conf['iconCode'])	{
 			$this->treeIcons['joinBottom'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['joinBottom'],$this->conf['iconCode.']['joinBottom.']);
 			$this->treeIcons['join'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['join'],$this->conf['iconCode.']['join.']);
@@ -515,8 +519,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$wholeThread = $this->getSingleThread($rootParent['uid'],1);
 
 				if ($lConf['single'])	{
-					reset($wholeThread);
-					while(list(,$recentP)=each($wholeThread))	{
+					foreach ($wholeThread as $recentP)	{
 						if ($recentP['uid']==$this->tt_board_uid)	{
 							$recentPosts[]=$recentP;
 							break;
@@ -527,13 +530,11 @@ class tx_ttboard_pibase extends tslib_pibase {
 				}
 				$nextThread = $this->getThreadRoot($this->pid_list,$rootParent);
 				$prevThread = $this->getThreadRoot($this->pid_list,$rootParent,'prev');
-
 				$subpartContent='';
 
 					// Clear
 				$markerArray = array();
 				$wrappedSubpartContentArray = array();
-
 
 					// Getting the specific parts of the template
 				$markerArray['###FORUM_TITLE###'] = $this->local_cObj->stdWrap($GLOBALS['TSFE']->page['title'],$lConf['forum_title_stdWrap.']);
@@ -575,11 +576,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 					// Getting subpart for items:
 				$postHeader=$this->getLayouts($templateCode,$this->alternativeLayouts,'POST');
-
 				reset($recentPosts);
 				$c_post=0;
 				$indexedTitle='';
-				while(list(,$recentPost)=each($recentPosts))	{
+				foreach ($recentPosts as $recentPost)	{
 					$out=$postHeader[$c_post%count($postHeader)];
 					$c_post++;
 					if (!$indexedTitle && trim($recentPost['subject']))	$indexedTitle=trim($recentPost['subject']);
@@ -921,28 +921,31 @@ class tx_ttboard_pibase extends tslib_pibase {
 	/**
 	 * Get root parent of a tt_board record.
 	 */
-	function getRootParent($uid,$limit=20)	{
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.$uid.$this->enableFields);
-		if($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
-			if ($limit>0)	{
+	function getRootParent($uid,$limit=99)	{
+		if ($limit > 0)	{
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.$uid.$this->enableFields);
+			if($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 				if ($row['parent'])	{
-					return $this->getRootParent($row['parent'],$limit-1);
-				} else {
-					return $row;
+					$tmpRow = $this->getRootParent($row['parent'],$limit-1);
+					if ($tmpRow)	{
+						$row = $tmpRow;
+					}
 				}
 			}
 		}
+		return $row;
 	}
 
 	/**
 	 * Returns next or prev thread in a tree
 	 */
 	function getThreadRoot($pid,$rootParent,$type='next')	{
-		$datePart = ' AND crdate'.($type!='next'?'>':'<').intval($rootParent['crdate']);
+		global $TYPO3_DB;
 
+		$datePart = ' AND crdate'.($type!='next'?'>':'<').intval($rootParent['crdate']);
 		$where = 'pid IN ('.$pid.') AND parent=0'.$datePart.$this->enableFields;
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy($type!='next'?'':'DESC'));
-		return $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy($type!='next'?'':'DESC'));
+		return $TYPO3_DB->sql_fetch_assoc($res);
 	}
 
 	/**

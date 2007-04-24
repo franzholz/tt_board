@@ -1,3 +1,7 @@
+2007-04-24 Franz Holzinger <franz@fholzinger.com>
+	* more info for mails to mailinglist
+	* warning info text when no entry field is displayed because of not logged in user
+
 2007-03-15 Franz Holzinger <franz@fholzinger.com>
 	* fix bug with cached post form where the data of another feuser has been filled in
 
@@ -46,5 +50,5 @@
 	* plugin for tree view
 	* static template for CSS styled content
 
-2006-02-13 Kasper Skårhøj <kasperYYYY@typo3.com>
+2006-02-13 Kasper Skï¿½hj <kasperYYYY@typo3.com>
 	* Initial CVS upload
