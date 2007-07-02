@@ -35,7 +35,7 @@
  *
  * $Id$
  *
- * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
+ * @author	Kasper SkÃ¥rhÃ¸j <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 

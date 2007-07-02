@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2007 Kasper Skaarhoj (kasperYYYY@typo3.com)
+*  (c) 1999-2007 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,7 +32,7 @@
  *
  * $Id$
  *
- * @author	Kasper Sk�rh�j <kasperYYYY@typo3.com>
+ * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 
@@ -41,18 +41,20 @@ include_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
 
 if (is_object($this))	{
 	$conf = $this->getConf('tt_board');
-	$email = $this->newData['tt_board']['NEW']['email'];
+	$row = $this->newData['tt_board']['NEW'];
+	if (is_array($row))	{
+		$email = $row['email'];
+	}
 	$allowed = tx_ttboard_pibase::isAllowed($conf['memberOfGroups']);
 
 	if ($allowed && (!$conf['emailCheck'] || checkEmail($email))) {
 
-		if (is_array($this->newData['tt_board']['NEW']))	{
-
+		if (is_array($row))	{
 			$spamArray = t3lib_div::trimExplode(',',$conf['spamWords']);
 			$bSpamFound = false;
 			$internalFieldArray = array('hidden','parent','pid','doublePostCheck');
 
-			foreach ($this->newData['tt_board']['NEW'] as $field => $value)	{
+			foreach ($row as $field => $value)	{
 				if (!in_array($field, $internalFieldArray))	{
 					if (version_compare(phpversion(), '5.0.0', '>='))	{
 						foreach ($spamArray as $k => $word)	{
@@ -77,15 +79,15 @@ if (is_object($this))	{
 				}
 			}
 			if ($bSpamFound)	{
-		  		$content = 'The spam word "'.$value.'" has been detected.';
-		  		$GLOBALS['TSFE']->printError($content);
+				$content = 'The spam word "'.$value.'" has been detected.';
+				$GLOBALS['TSFE']->printError($content);
 			} else {
-				$this->newData['tt_board']['NEW']['cr_ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
+				$row['cr_ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
 
 					// Plain insert of record:
-				$this->execNEWinsert('tt_board', $this->newData['tt_board']['NEW']);
+				$this->execNEWinsert('tt_board', $row);
 				$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
-				$this->clear_cacheCmd(intval($this->newData['tt_board']['NEW']['pid']));
+				$this->clear_cacheCmd(intval($row['pid']));
 
 					// Clear specific cache:
 				if ($conf['clearCacheForPids'])	{
@@ -109,7 +111,6 @@ if (is_object($this))	{
 		    }
 		*/
 					$mConf = $conf['sendToMailingList.'];
-					$maillist_data = $this->newData['tt_board']['NEW'];
 
 					// If there is a FE-user group defined, then send notifiers to all	FE-members of this group
 					if ($mConf['sendToFEgroup'])	{
@@ -125,20 +126,20 @@ if (is_object($this))	{
 						$maillist_recip = $maillist_recip = $mConf['email'];
 					}
 
-					$maillist_header='From: '.$mConf['namePrefix'].$maillist_data['author'].' <'.$mConf['reply'].'>'.chr(10);
+					$maillist_header='From: '.$mConf['namePrefix'].$row['author'].' <'.$mConf['reply'].'>'.chr(10);
 					$maillist_header.='Reply-To: '.$mConf['reply'];
 
 						//  Subject
-					if ($maillist_data['parent'])	{	// RE:
-						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($maillist_data['parent']));
+					if ($row['parent'])	{	// RE:
+						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($row['parent']));
 						$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-						$maillist_subject = 'Re: '.$row['subject'].' [#'.$maillist_data['parent'].']';
+						$maillist_subject = 'Re: '.$row['subject'].' [#'.$row['parent'].']';
 					} else {	// New:
-						$maillist_subject =  (trim($maillist_data['subject']) ? trim($maillist_data['subject']) : $mConf['altSubject']).' [#'.$newId.']';
+						$maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']).' [#'.$newId.']';
 					}
 
 						// Message
-					$maillist_msg = chr(10).chr(10).$conf['newReply.']['subjectPrefix'].chr(10).$maillist_data['subject'].chr(10).chr(10).$conf['newReply.']['message'].chr(10).$maillist_data['message'].chr(10).chr(10).$conf['newReply.']['author'].chr(10).$maillist_data['author'].chr(10).chr(10).chr(10);
+					$maillist_msg = chr(10).chr(10).$conf['newReply.']['subjectPrefix'].chr(10).$row['subject'].chr(10).chr(10).$conf['newReply.']['message'].chr(10).$row['message'].chr(10).chr(10).$conf['newReply.']['author'].chr(10).$row['author'].chr(10).chr(10).chr(10);
 					$maillist_msg .= $conf['newReply.']['followThisLink'].chr(10).t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&no_cache=1&tt_board_uid='.$newId;
 						// Send
 
@@ -157,16 +158,16 @@ if (is_object($this))	{
 
 				// Notify me...
 				if (t3lib_div::_GP('notify_me') && $conf['notify'])	{
-					$notifyMe = t3lib_div::uniqueList(str_replace(','.$maillist_data['email'].',', ',', ','.t3lib_div::_GP('notify_me').','));
+					$notifyMe = t3lib_div::uniqueList(str_replace(','.$row['email'].',', ',', ','.t3lib_div::_GP('notify_me').','));
 
 					$markersArray=array();
-					$markersArray['###AUTHOR###'] = trim($this->newData['tt_board']['NEW'][author]);
-					$markersArray['###AUTHOR_EMAIL###'] = trim($this->newData['tt_board']['NEW'][email]);
-					$markersArray['###CR_IP###'] = $this->newData['tt_board']['NEW']['cr_ip'];
+					$markersArray['###AUTHOR###'] = trim($row['author']);
+					$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
+					$markersArray['###CR_IP###'] = $row['cr_ip'];
 					$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
 					$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&no_cache=1&tt_board_uid='.$newId;
 		
-					if ($maillist_data['parent'])	{		// If reply and not new thread:
+					if ($row['parent'])	{		// If reply and not new thread:
 						$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
 						$markersArray['###DID_WHAT###']= $conf['newReply.']['didWhat'];
 						$markersArray['###SUBJECT_PREFIX###']=$conf['newReply.']['subjectPrefix'];
@@ -175,8 +176,8 @@ if (is_object($this))	{
 						$markersArray['###DID_WHAT###']= $conf['newThread.']['didWhat'];
 						$markersArray['###SUBJECT_PREFIX###']=$conf['newThread.']['subjectPrefix'];
 					}
-					$markersArray['###SUBJECT###'] = strtoupper($this->newData['tt_board']['NEW'][subject]);
-					$markersArray['###BODY###'] = t3lib_div::fixed_lgd($this->newData['tt_board']['NEW'][message],1000);
+					$markersArray['###SUBJECT###'] = strtoupper($row['subject']);
+					$markersArray['###BODY###'] = t3lib_div::fixed_lgd($row['message'],1000);
 
 					reset($markersArray);
 					while(list($marker,$markContent)=each($markersArray))	{

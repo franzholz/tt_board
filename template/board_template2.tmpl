@@ -90,10 +90,12 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 
 <!-- ###TEMPLATE_FORUM### begin -->
 <TABLE width="100%" cellspacing="0" cellpadding="0" border="0">
+
+	<TR><TD colspan="3">###GW1B### <b>###FORUM_TITLE###</b>###GW1E###</TD><TR>
 	<TR>
-		<TD height="21" bgcolor="###GC3###" width="90%">###GW3B### <b>&nbsp;TOPICS:</b>###GW3E###</TD>
-		<TD height="21" bgcolor="###GC3###">###GW3B###<b>AUTHOR:</b>###GW3E###</TD>
-		<TD height="21" bgcolor="###GC3###">###GW3B###<b>DATE:</b>###GW3E###</TD>
+		<TD height="21" bgcolor="###GC3###" width="90%">###GW3B### <b>&nbsp;###BOARD_TOPICS###:</b>###GW3E###</TD>
+		<TD height="21" bgcolor="###GC3###">###GW3B###<b>&nbsp;###BOARD_AUTHOR###:</b>###GW3E###</TD>
+		<TD height="21" bgcolor="###GC3###">###GW3B###<b>&nbsp;###BOARD_DATE###:</b>###GW3E###</TD>
 	</TR>
 	<!-- ###CONTENT###  begin -->
 		<!--###POST### begin -->
@@ -120,7 +122,7 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 	<!-- ###CONTENT###  end -->
 <form action="###FORM_URL###" method="POST">
 	<TR bgcolor="###GC1###">
-		<TD colspan=3 nowrap>###GW1B###<B>Searching: </B>###GW1E###<input type="text" name="tt_board_sword" value="###SEARCH_WORD###">	<input type="submit" id="boardSearchSubmitId" value="Search in the board">
+		<TD colspan=3 nowrap>###GW1B###<B>###BOARD_SEARCH###: </B>###GW1E###<input type="text" name="tt_board_sword" value="###SEARCH_WORD###">	<input type="submit" id="boardSearchSubmitId" value="###BUTTON_SEARCH###">
 		</TD>
 	</TR>
 </form>	
@@ -157,11 +159,11 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 			<TABLE width="100%" cellspacing="0" cellpadding="3" border="0">
 				<TR>
 					<TD width="60%" align="left" nowrap>
-						###GW2B### <b><!--###LINK_BACK_TO_FORUM###-->Forum List<!--###LINK_BACK_TO_FORUM###-->&nbsp;&nbsp;|&nbsp;&nbsp;<!--###LINK_FIRST_POST###-->Go to Top<!--###LINK_FIRST_POST###-->&nbsp;&nbsp;&nbsp;</b>###GW2E### 
+						###GW2B### <b><!--###LINK_BACK_TO_FORUM###-->###BOARD_FORUM_LIST###<!--###LINK_BACK_TO_FORUM###-->&nbsp;&nbsp;|&nbsp;&nbsp;<!--###LINK_FIRST_POST###-->###BOARD_GO_TO_TOP###<!--###LINK_FIRST_POST###-->&nbsp;&nbsp;&nbsp;</b>###GW2E### 
 					</TD>
 					<TD width="40%" align="right" nowrap>###GW2B### <b>
-						<!--###LINK_PREV_POST###-->Previous Message<!--###LINK_PREV_POST###-->&nbsp;&nbsp;|
-						&nbsp;&nbsp;<!--###LINK_NEXT_POST###-->Next Message<!--###LINK_NEXT_POST###--></b>###GW2E### 
+						<!--###LINK_PREV_POST###-->###BOARD_PREVIOUS_MESSAGE###<!--###LINK_PREV_POST###-->&nbsp;&nbsp;|
+						&nbsp;&nbsp;<!--###LINK_NEXT_POST###-->###BOARD_NEXT_MESSAGE###<!--###LINK_NEXT_POST###--></b>###GW2E### 
 					</TD>
 				</TR>
 			</TABLE>
@@ -175,7 +177,7 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 						<TABLE width="100%" cellspacing="0" cellpadding="5" border="0">
 							<TR>
 								<TD bgcolor="###GC1###" width="100%" valign="top"><TT><FONT color="#000000">
-			Author:&nbsp;###POST_AUTHOR###&nbsp;<BR>Date:&nbsp;&nbsp;&nbsp;###POST_DATE### ###POST_TIME###<BR><BR>###POST_CONTENT###</FONT></TT>
+			###BOARD_AUTHOR###:&nbsp;###POST_AUTHOR###&nbsp;<BR>###BOARD_DATE###:&nbsp;&nbsp;&nbsp;###POST_DATE### ###POST_TIME###<BR><BR>###POST_CONTENT###</FONT></TT>
 								</TD>
 							</TR>
 						</TABLE>
@@ -186,7 +188,7 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 				<TR>
 					<TD valign="TOP" width="50%">
 					</TD>
-					<TD valign="TOP" width="50%" align="RIGHT" nowrap>###GW2B### <b>&nbsp;<!--###LINK_PREV_THREAD###-->Previous Topic<!--###LINK_PREV_THREAD###-->&nbsp;&nbsp;|&nbsp;&nbsp;<!--###LINK_NEXT_THREAD###-->Next Topic<!--###LINK_NEXT_THREAD###--></b>###GW2E### </TD>
+					<TD valign="TOP" width="50%" align="RIGHT" nowrap>###GW2B### <b>&nbsp;<!--###LINK_PREV_THREAD###-->###BOARD_PREVIOUS_TOPIC###<!--###LINK_PREV_THREAD###-->&nbsp;&nbsp;|&nbsp;&nbsp;<!--###LINK_NEXT_THREAD###-->###BOARD_NEXT_TOPIC###<!--###LINK_NEXT_THREAD###--></b>###GW2E### </TD>
 				</TR>
 			</TABLE>
 		<!--###POST### end -->

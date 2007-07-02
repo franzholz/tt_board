@@ -11,11 +11,127 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="members_only">Only logged in members are allowed to post on this forum.</label>
+			<label index="subject">Subject:</label>
+			<label index="message">Message:</label>
+			<label index="author">Name:</label>
+			<label index="email">Email:</label>
+			<label index="notify_me">Notify me&lt;br&gt;by reply:</label>
+			<label index="post_reply">Post Reply</label>
+			<label index="post_new_reply">Post New Reply</label>
+			<label index="board_author">AUTHOR</label>
+			<label index="board_date">DATE</label>
+			<label index="board_forum">FORUM</label>
+			<label index="board_forum_list">Forum List</label>
+			<label index="board_go_to_top">Go to Top</label>
+			<label index="board_last_post">LAST POST</label>
+			<label index="board_next_message">Next Message</label>
+			<label index="board_next_topic">Next Topic</label>
+			<label index="board_posts">POSTS</label>
+			<label index="board_previous_message">Previous Message</label>
+			<label index="board_previous_topic">Previous Topic</label>
+			<label index="board_search">Searching</label>
+			<label index="board_threads">THREADS</label>
+			<label index="board_topics">TOPICS</label>
+			<label index="button_search">Search in the board</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
+			<label index="subject">Emne:</label>
+			<label index="message">Tekst:</label>
+			<label index="author">Navn:</label>
+			<label index="email">Email:</label>
+			<label index="notify_me">Send email&lt;br&gt;ved svar:</label>
+			<label index="post_reply">Send svar:</label>
+			<label index="post_new_reply">Opret ny tråd</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="members_only">Nur eingeloggte Mitglieder können hier Beiträge schreiben</label>
+			<label index="subject">Thema:</label>
+			<label index="message">Nachricht:</label>
+			<label index="author">Name:</label>
+			<label index="email">Email:</label>
+			<label index="notify_me">Mich bei Antwort&lt;br&gt;benachrichtigen:</label>
+			<label index="post_reply">Antwort senden</label>
+			<label index="post_new_reply">Diskussion eröffnen</label>
+			<label index="board_author">VERFASSER</label>
+			<label index="board_date">DATUM</label>
+			<label index="board_forum">FORUM</label>
+			<label index="board_forum_list">Foren Liste</label>
+			<label index="board_go_to_top">Zum Anfang</label>
+			<label index="board_last_post">LETZTER BEITRAG</label>
+			<label index="board_posts">BEITR&amp;Auml;GE</label>
+			<label index="board_next_message">N&amp;auml;chster Beitrag</label>
+			<label index="board_next_topic">N&amp;auml;chstes Thema</label>
+			<label index="board_previous_message">Fr&amp;uuml;herer Beitrag</label>
+			<label index="board_previous_topic">Fr&amp;uuml;heres Thema</label>
+			<label index="board_threads">DISKUSSIONEN</label>
+			<label index="board_topics">THEMEN</label>
+			<label index="board_search">Suchen</label>
+			<label index="button_search">Im Forum suchen</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="members_only">Seulement pour les membres</label>
+			<label index="subject">Thème:</label>
+			<label index="message">Message:</label>
+			<label index="author">Nom:</label>
+			<label index="email">E-mail:</label>
+			<label index="notify_me">Notifier&lt;br&gt;en cas de réponse(en):</label>
+			<label index="post_reply">Envoyer la réponse</label>
+			<label index="post_new_reply">Ouvrir la discution</label>
+		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="subject">Asunto:</label>
+			<label index="message">Mensaje:</label>
+			<label index="author">Nombre:</label>
+			<label index="email">Email:</label>
+			<label index="notify_me">Avisar en caso&lt;br&gt;de nuevo mensaje:</label>
+			<label index="post_reply">Enviar</label>
+			<label index="post_new_reply">Nuevo tema</label>
+		</languageKey>
+		<languageKey index="it" type="array">
+			<label index="members_only">Soltanti i membri devono scrivere.</label>
+			<label index="subject">Oggetto:</label>
+			<label index="message">Messaggio:</label>
+			<label index="author">Nome:</label>
+			<label index="email">Email:</label>
+			<label index="notify_me">Notifica in caso&lt;br&gt;di nuovi messaggi:</label>
+			<label index="post_reply">Invia</label>
+			<label index="post_new_reply">Nuova discussione</label>
+		</languageKey>
+		<languageKey index="nl" type="array">
+			<label index="subject">Thema:</label>
+			<label index="message">Mededeling:</label>
+			<label index="author">Naam:</label>
+			<label index="email">Email:</label>
+			<label index="notify_me">Kennisgeving&lt;br&gt;bij antwoord:</label>
+			<label index="post_reply">Antwoord verzenden</label>
+			<label index="post_new_reply">Discussie openen</label>
+		</languageKey>
+		<languageKey index="no" type="array">
+			<label index="subject">Emne:</label>
+			<label index="message">Melding:</label>
+			<label index="author">Navn:</label>
+			<label index="email">E-post:</label>
+			<label index="notify_me">Send e-post&lt;br&gt;ved svar:</label>
+			<label index="post_reply">Send svar</label>
+			<label index="post_new_reply">Lag ny tråd</label>
+		</languageKey>
+		<languageKey index="et" type="array">
+			<label index="subject">Teema:</label>
+			<label index="message">Teade:</label>
+			<label index="author">Nimi:</label>
+			<label index="email">Email:</label>
+			<label index="notify_me">Teata vastusest(en):</label>
+			<label index="post_reply">Saada</label>
+			<label index="post_new_reply">Ava vestlus</label>
+		</languageKey>
+		<languageKey index="cs" type="array">
+			<label index="subject">Téma:</label>
+			<label index="message">Sdìlení:</label>
+			<label index="author">Jméno:</label>
+			<label index="email">E-mail:</label>
+			<label index="notify_me">Upozornit&lt;br&gt;vna odpovìï:</label>
+			<label index="post_reply">Odeslat odpovìï</label>
+			<label index="post_new_reply">Otevøít diskusi</label>
 		</languageKey>
 	</data>
 </T3locallang>

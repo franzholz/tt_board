@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2007 Kasper Skaarhoj (kasperYYYY@typo3.com)
+*  (c) 1999-2007 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -35,12 +35,15 @@
  *
  * $Id$
  * 
- * @author	Kasper Sk�hj <kasperYYYY@typo3.com>
+ * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
+
+require_once (PATH_BE_ttboard.'marker/class.tx_ttboard_marker.php');
+
 
 class tx_ttboard_pibase extends tslib_pibase {
 	var $extKey = TT_BOARD_EXTkey;	// The extension key.
@@ -81,6 +84,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 	var $local_cObj='';
 
 	var $errorMessage;
+	var $markerObj;
 
 	/**
 	 * does the initialization stuff
@@ -97,7 +101,9 @@ class tx_ttboard_pibase extends tslib_pibase {
 		// *** getting configuration values:
 		// *************************************
 
-		$this->conf = $conf;
+		$this->conf = &$conf;
+		$this->config = &$config;
+
 		if (t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
 		 		// FE BE library for language functions
 			include_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_language.php');
@@ -113,35 +119,27 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] :trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.'])));
 		$this->pid_list = ($pid_list ? $pid_list : $TSFE->id);
 		// page where to go usually
-		$this->pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $TSFE->id);		
+		$this->pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $TSFE->id);
 
 			// template is read.
 		$this->orig_templateCode = $this->cObj->fileResource($conf['templateFile']);
 
 		$this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
+		$this->markerObj = t3lib_div::makeInstance('tx_ttboard_marker');
+		$this->markerObj->init($this, $conf, $config);
 
-			// globally substituted markers, fonts and colors.
-		$splitMark = md5(microtime());
-		$globalMarkerArray=array();
-		list($globalMarkerArray['###GW1B###'],$globalMarkerArray['###GW1E###']) = explode($splitMark,$this->cObj->stdWrap($splitMark,$conf['wrap1.']));
-		list($globalMarkerArray['###GW2B###'],$globalMarkerArray['###GW2E###']) = explode($splitMark,$this->cObj->stdWrap($splitMark,$conf['wrap2.']));
-		list($globalMarkerArray['###GW3B###'],$globalMarkerArray['###GW3E###']) = explode($splitMark,$this->cObj->stdWrap($splitMark,$conf['wrap3.']));
-		$globalMarkerArray['###GC1###'] = $this->cObj->stdWrap($conf['color1'],$conf['color1.']);
-		$globalMarkerArray['###GC2###'] = $this->cObj->stdWrap($conf['color2'],$conf['color2.']);
-		$globalMarkerArray['###GC3###'] = $this->cObj->stdWrap($conf['color3'],$conf['color3.']);
-		$globalMarkerArray['###GC4###'] = $this->cObj->stdWrap($conf['color4'],$conf['color4.']);
-
-		$globalMarkerArray['###PATH###'] = PATH_FE_ttboard_rel;
-
+		$globalMarkerArray = $this->markerObj->getGlobalMarkers();
 			// Substitute Global Marker Array
 		$this->orig_templateCode= $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);
 
 			// TypoLink.
 		$this->typolink_conf = $this->conf['typolink.'];
 		$this->typolink_conf['parameter.']['current'] = 1;
-		$this->typolink_conf['additionalParams'] = $this->cObj->stdWrap($this->typolink_conf['additionalParams'],$this->typolink_conf['additionalParams.']);
+		$this->typolink_conf['additionalParams'] = $this->cObj->stdWrap(
+			$this->typolink_conf['additionalParams'],
+			$this->typolink_conf['additionalParams.']
+		);
 		unset($this->typolink_conf['additionalParams.']);
-
 
 		// *************************************
 		// *** doing the things...:
@@ -251,17 +249,27 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$templateCode = $this->local_cObj->getSubpart($this->orig_templateCode, '###TEMPLATE_OVERVIEW###');
 
 			if ($templateCode)	{
+				
+					// Clear
+				$subpartMarkerArray = array();
+				$wrappedSubpartContentArray = array();
+
 					// Getting the specific parts of the template
-				$categoryHeader=$this->getLayouts($templateCode,$this->alternativeLayouts,'CATEGORY');
-				$forumHeader=$this->getLayouts($templateCode,$this->alternativeLayouts,'FORUM');
-				$postHeader=$this->getLayouts($templateCode,$this->alternativeLayouts,'POST');
-				$subpartContent='';
+
+				$markerArray = $this->markerObj->getColumnMarkers();
+				$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
+
+					// Getting the specific parts of the template
+				$categoryHeader = $this->getLayouts($templateCode,$this->alternativeLayouts,'CATEGORY');
+				$forumHeader = $this->getLayouts($templateCode,$this->alternativeLayouts,'FORUM');
+				$postHeader = $this->getLayouts($templateCode,$this->alternativeLayouts,'POST');
+				$subpartContent = '';
 
 					// Getting categories
 				$categories = $this->getPagesInPage($this->pid_list);
 				reset($categories);
 				$c_cat=0;
-				while(list(,$catData)=each($categories))	{
+				foreach ($categories as $k => $catData)	{
 						// Getting forums in category
 					if ($forumlist)	{
 						$forums = $categories;
@@ -292,9 +300,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 					}
 					if (count($forumHeader) && !$lConf['noForums'])	{
 							// Rendering forums
-						reset($forums);
 						$c_forum=0;
-						while(list(,$forumData)=each($forums))	{
+						foreach($forums as $k2 => $forumData)	{
 							$out=$forumHeader[$c_forum%count($forumHeader)];
 							$c_forum++;
 
@@ -303,6 +310,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 								// Clear
 							$markerArray=array();
 							$wrappedSubpartContentArray=array();
+
 
 								// Markers
 							$markerArray['###FORUM_TITLE###']=$this->local_cObj->stdWrap($this->formatStr($forumData['title']), $lConf['forum_title_stdWrap.']);
@@ -430,7 +438,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				// Find parent, if any
 			if ($this->tt_board_uid)	{
 				if ($this->conf['tree'])	{
-					$parent=$this->tt_board_uid;
+					$parent = $this->tt_board_uid;
 				} else {
 					$parentR = $this->getRootParent($this->tt_board_uid);
 					$parent = $parentR['uid'];
@@ -448,10 +456,29 @@ class tx_ttboard_pibase extends tslib_pibase {
 	
 				// Get the render-code
 			$lConf = $this->conf['postform.'];
+
+//   postform.dataArray {
+//     10.label = Subject:
+//     10.type = *data[tt_board][NEW][subject]=input,60
+//     20.label = Message:
+//     20.type =  *data[tt_board][NEW][message]=textarea,60
+//     30.label = Name:
+//     30.type = *data[tt_board][NEW][author]=input,40
+//     40.label = Email:
+//     40.type = *data[tt_board][NEW][email]=input,40
+//     50.label = Notify me<BR>by reply: 
+//     50.type = data[tt_board][NEW][notify_me]=check
+//     60.type = formtype_db=submit
+//     60.value = Post Reply
+//   }
+
+			$setupArray = array('10' => 'subject', '20' => 'message', '30' => 'author', '40' => 'email', '50' => 'notify_me', '60' => 'post_reply');
+
 			$modEmail = $this->conf['moderatorEmail'];
 			if (!$parent && isset($this->conf['postform_newThread.']))	{
 				$lConf = $this->conf['postform_newThread.'] ? $this->conf['postform_newThread.'] : $lConf;			// Special form for newThread posts...
 				$modEmail = $this->conf['moderatorEmail_newThread'] ? $this->conf['moderatorEmail_newThread'] : $modEmail;
+				$setupArray['60'] = 'post_new_reply';
 			}
 			if ($modEmail)	{
 				$modEmail = explode(',', $modEmail);
@@ -487,6 +514,25 @@ class tx_ttboard_pibase extends tslib_pibase {
 						}
 					}
 				}
+
+				foreach ($setupArray as $k => $type)	{
+					if ($k == '60')	{
+						$field = 'value';
+					} else {
+						$field = 'label';
+					}
+					if (is_array($lConf['dataArray.'][$k.'.']))	{
+						if (
+							(!$this->LLkey || $this->LLkey=='en') && !$lConf['dataArray.'][$k.'.'][$field] || 
+							($this->LLkey!='en' && 
+								!is_array($lConf['dataArray.'][$k.'.'][$field.'.']) ||  !is_array($lConf['dataArray.'][$k.'.'][$field.'.']['lang.']) || !is_array($lConf['dataArray.'][$k.'.'][$field.'.']['lang.'][$this->LLkey.'.'])
+							)
+						) {
+							$lConf['dataArray.'][$k.'.'][$field] = $this->pi_getLL($type);
+						}
+					}
+				}
+
 				$content.=$this->local_cObj->FORM($lConf);
 			}
 		}
@@ -515,6 +561,17 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$templateCode = $this->local_cObj->getSubpart($this->orig_templateCode, '###TEMPLATE_THREAD###');
 
 			if ($templateCode)	{
+
+					// Clear
+				$subpartMarkerArray = array();
+				$wrappedSubpartContentArray = array();
+
+					// Getting the specific parts of the template
+
+				$markerArray = $this->markerObj->getColumnMarkers();
+
+				$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
+
 				$rootParent = $this->getRootParent($this->tt_board_uid);
 				$wholeThread = $this->getSingleThread($rootParent['uid'],1);
 
@@ -649,12 +706,20 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$templateCode = $this->local_cObj->getSubpart($this->orig_templateCode, '###TEMPLATE_FORUM###');
 
 				if ($templateCode)	{
+						// Clear
+					$subpartMarkerArray = array();
+					$wrappedSubpartContentArray = array();
+
 						// Getting the specific parts of the template
-					$templateCode = $this->local_cObj->substituteMarker($templateCode,'###FORUM_TITLE###',$this->local_cObj->stdWrap($GLOBALS['TSFE']->page['title'],$lConf['forum_title_stdWrap.']));
+
+					$markerArray = $this->markerObj->getColumnMarkers();
+					$markerArray['###FORUM_TITLE###'] = $this->local_cObj->stdWrap($GLOBALS['TSFE']->page['title'],$lConf['forum_title_stdWrap.']);
+
+					$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
+
 					$postHeader=$this->getLayouts($templateCode,$this->alternativeLayouts,'POST');
 						// Template code used if tt_board_uid matches...
 					$postHeader_active = $this->getLayouts($templateCode,1,'POST_ACTIVE');
-
 					$subpartContent='';
 
 					if ($theCode=='THREAD_TREE')	{
@@ -747,6 +812,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 						// Substitute CONTENT-subpart
 					$subpartContentArray['###CONTENT###']=$subpartContent;
 					$content.= $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartContentArray);
+
 				} else {
 					debug('No template code for ');
 				}

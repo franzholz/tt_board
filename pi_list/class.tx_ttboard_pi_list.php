@@ -35,7 +35,7 @@
  *
  * $Id$
  * 
- * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
+ * @author	Kasper SkÃ¥rhÃ¸j <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <kontakt@fholzinger.com>
  */
 
@@ -55,7 +55,6 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 
 		$codeArray = $this->getCodeArray($conf);
 		$bCreate = TRUE;
-
 		foreach ($codeArray as $k => $theCode)	{
 			$theCode = (string)strtoupper(trim($theCode));
 			switch($theCode)	{

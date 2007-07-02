@@ -73,18 +73,24 @@ temp.tt_board.shared {
   postform < tt_content.mailform.20
   postform.data >
   postform.dataArray {
-    10.label = Subject:
+# Subject:
+    10.label = 
     10.type = *data[tt_board][NEW][subject]=input,60
-    20.label = Message:
+    20.label =
+# Message:
     20.type =  *data[tt_board][NEW][message]=textarea,60
-    30.label = Name:
+# Name:
+    30.label =
     30.type = *data[tt_board][NEW][author]=input,40
-    40.label = Email:
+# Email:
+    40.label =
     40.type = *data[tt_board][NEW][email]=input,40
-    50.label = Notify me<BR>by reply: 
+# Notify by reply:
+    50.label =
     50.type = data[tt_board][NEW][notify_me]=check
+# Post Reply button
     60.type = formtype_db=submit
-    60.value = Post Reply
+    60.value =
   }
   postform.no_cache=1
 
