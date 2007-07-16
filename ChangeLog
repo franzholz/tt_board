@@ -1,3 +1,6 @@
+2007-07-16 Franz Holzinger <franz@fholzinger.com>
+	* fix bug with wrong sent replies when mailing list is used
+
 2007-07-01 Franz Holzinger <franz@fholzinger.com>
 	* fix bug with wrong variables in submit.inc
 	* incorporate the translations for the ts_language... extensions into locallang.xml

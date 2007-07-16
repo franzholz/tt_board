@@ -49,7 +49,7 @@ if (is_object($this))	{
 
 	if ($allowed && (!$conf['emailCheck'] || checkEmail($email))) {
 
-		if (is_array($row))	{
+		if (is_array($row) && trim($row['message']))	{
 			$spamArray = t3lib_div::trimExplode(',',$conf['spamWords']);
 			$bSpamFound = false;
 			$internalFieldArray = array('hidden','parent','pid','doublePostCheck');
@@ -112,13 +112,13 @@ if (is_object($this))	{
 		*/
 					$mConf = $conf['sendToMailingList.'];
 
-					// If there is a FE-user group defined, then send notifiers to all	FE-members of this group
+					// If there is a FE-user group defined, then send notifiers to all FE-members of this group
 					if ($mConf['sendToFEgroup'])	{
 						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'fe_users', 'usergroup='.intval($mConf['sendToFEgroup']));
 						$c = 0;
-						while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
+						while($feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 							$c++;
-							$emails .= $row['email'].',';
+							$emails .= $feRow['email'].',';
 						}
 						$maillist_recip = substr($emails,0,-1);
 						// else, send to sendToMailingList.email
@@ -132,8 +132,8 @@ if (is_object($this))	{
 						//  Subject
 					if ($row['parent'])	{	// RE:
 						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($row['parent']));
-						$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-						$maillist_subject = 'Re: '.$row['subject'].' [#'.$row['parent'].']';
+						$parentRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+						$maillist_subject = 'Re: '.$parentRow['subject'].' [#'.$row['parent'].']';
 					} else {	// New:
 						$maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']).' [#'.$newId.']';
 					}
