@@ -1,3 +1,6 @@
+2007-10-17 Franz Holzinger <franz@fholzinger.com>
+	* make usage of sr_freecap in all post forms
+
 2007-07-16 Franz Holzinger <franz@fholzinger.com>
 	* fix bug with wrong sent replies when mailing list is used
 
@@ -45,7 +48,7 @@
 
 2006-11-25 Franz Holzinger <franz@fholzinger.com>
 	* fix 2555: unsigned 32 bit INTEGER for double post check field 
-  	doublePostCheck int(11) unsigned DEFAULT '0' NOT NULL,
+	doublePostCheck int(11) unsigned DEFAULT '0' NOT NULL,
 
 2006-11-11 Franz Holzinger <franz@fholzinger.com>
 	* protection against spam words
@@ -59,5 +62,5 @@
 	* plugin for tree view
 	* static template for CSS styled content
 
-2006-02-13 Kasper Sk�hj <kasperYYYY@typo3.com>
+2006-02-13 Kasper Skårhøj <kasperYYYY@typo3.com>
 	* Initial CVS upload

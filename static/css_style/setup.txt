@@ -20,6 +20,7 @@ FEData.tt_board {
     newThread.subjectPrefix = New thread
 
     debug=0
+    captcha = {$plugin.tt_board.captcha}
     emailCheck = {$plugin.tt_board.emailCheck}
     spamWords = {$plugin.tt_board.spamWords}
     memberOfGroups = {$plugin.tt_board.memberOfGroups}
@@ -50,6 +51,7 @@ temp.tt_board.shared {
   pid_list.field = pages
   code.field = select_key
   memberOfGroups = {$plugin.tt_board.memberOfGroups}
+  captcha = {$plugin.tt_board.captcha}
 
   date_stdWrap.strftime= %e-%m-%y
   time_stdWrap.strftime= %H:%M:%S

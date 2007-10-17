@@ -41,9 +41,7 @@
 
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
-
 require_once (PATH_BE_ttboard.'marker/class.tx_ttboard_marker.php');
-
 
 class tx_ttboard_pibase extends tslib_pibase {
 	var $extKey = TT_BOARD_EXTkey;	// The extension key.
@@ -85,6 +83,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 	var $errorMessage;
 	var $markerObj;
+	var $freeCap;
 
 	/**
 	 * does the initialization stuff
@@ -115,7 +114,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 	
 			// pid_list is the pid/list of pids from where to fetch the guest items.
 		$tmp = trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.']));
-		
 		$pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] :trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.'])));
 		$this->pid_list = ($pid_list ? $pid_list : $TSFE->id);
 		// page where to go usually
@@ -123,7 +121,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 			// template is read.
 		$this->orig_templateCode = $this->cObj->fileResource($conf['templateFile']);
-
 		$this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
 		$this->markerObj = t3lib_div::makeInstance('tx_ttboard_marker');
 		$this->markerObj->init($this, $conf, $config);
@@ -167,7 +164,12 @@ class tx_ttboard_pibase extends tslib_pibase {
 		// all extensions:
 
 			// Substitute Global Marker Array
-		$this->orig_templateCode= $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);	
+		$this->orig_templateCode = $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);
+
+		if ($this->conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap') ) {
+			require_once(t3lib_extMgm::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php');
+			$this->freeCap = &t3lib_div::getUserObj('&tx_srfreecap_pi2');
+		}
 	}
 
 	function getCodeArray(&$conf)	{
@@ -249,7 +251,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$templateCode = $this->local_cObj->getSubpart($this->orig_templateCode, '###TEMPLATE_OVERVIEW###');
 
 			if ($templateCode)	{
-				
 					// Clear
 				$subpartMarkerArray = array();
 				$wrappedSubpartContentArray = array();
@@ -304,13 +305,11 @@ class tx_ttboard_pibase extends tslib_pibase {
 						foreach($forums as $k2 => $forumData)	{
 							$out=$forumHeader[$c_forum%count($forumHeader)];
 							$c_forum++;
-
 							$this->local_cObj->start($forumData);
 
 								// Clear
 							$markerArray=array();
 							$wrappedSubpartContentArray=array();
-
 
 								// Markers
 							$markerArray['###FORUM_TITLE###']=$this->local_cObj->stdWrap($this->formatStr($forumData['title']), $lConf['forum_title_stdWrap.']);
@@ -321,7 +320,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 								// Link to the forum (wrap)
 							$this->local_cObj->setCurrentVal($forumData['uid']);
 							$wrappedSubpartContentArray['###LINK###']=$this->local_cObj->typolinkWrap($this->typolink_conf);
-
 
 								// LAST POST:
 							$lastPostInfo = $this->getLastPost($forumData['uid']);
@@ -443,7 +441,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$parentR = $this->getRootParent($this->tt_board_uid);
 					$parent = $parentR['uid'];
 				}
-	
+
 				$rootParent = $this->getRootParent($parent);
 				$wholeThread = $this->getSingleThread($rootParent['uid'],1);
 				reset($wholeThread);
@@ -453,7 +451,9 @@ class tx_ttboard_pibase extends tslib_pibase {
 					}
 				}
 			}
-	
+
+debug ($this->conf['postform.'], '$this->conf[\'postform.\']', __LINE__, __FILE__);
+
 				// Get the render-code
 			$lConf = $this->conf['postform.'];
 
@@ -499,6 +499,13 @@ class tx_ttboard_pibase extends tslib_pibase {
 					'type' => 'tt_board_uid=hidden',
 					'value' => $parent
 				);
+				if (is_object($this->freeCap))	{
+					$freecapMarker = $this->freeCap->makeCaptcha();
+					$lConf['dataArray.']['55.'] = array(
+						'label' => $freecapMarker['###SR_FREECAP_IMAGE###'] . '<br>' . $freecapMarker['###SR_FREECAP_NOTICE###']. '<br>' . $freecapMarker['###SR_FREECAP_CANT_READ###'],
+						'type' => '*data[tt_board][NEW][captcha]=input,60'
+					);
+				}
 				if (count($notify))		{
 					$lConf['dataArray.']['9997.'] = array(
 						'type' => 'notify_me=hidden',
@@ -569,7 +576,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 					// Getting the specific parts of the template
 
 				$markerArray = $this->markerObj->getColumnMarkers();
-
 				$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
 
 				$rootParent = $this->getRootParent($this->tt_board_uid);
@@ -697,7 +703,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 				if (!$this->tt_board_uid)	{
 					$continue = false;
 				}
-				
 				$lConf = $this->conf['thread_tree.'];
 			} else {
 				$lConf = $this->conf['list_threads.'];
@@ -711,12 +716,9 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$wrappedSubpartContentArray = array();
 
 						// Getting the specific parts of the template
-
 					$markerArray = $this->markerObj->getColumnMarkers();
 					$markerArray['###FORUM_TITLE###'] = $this->local_cObj->stdWrap($GLOBALS['TSFE']->page['title'],$lConf['forum_title_stdWrap.']);
-
 					$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
-
 					$postHeader=$this->getLayouts($templateCode,$this->alternativeLayouts,'POST');
 						// Template code used if tt_board_uid matches...
 					$postHeader_active = $this->getLayouts($templateCode,1,'POST_ACTIVE');
@@ -738,7 +740,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 							$out = $postHeader_active[0];
 						}
 						$c_post++;
-
 						$this->local_cObj->start($recentPost);
 
 							// Clear
@@ -829,7 +830,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy());
 		$c = 0;
 		$rc = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
-
 		$theRows[count($theRows)-1]['treeIcons'].= $rc ? $this->treeIcons['thread'] : $this->treeIcons['end'];
 
 		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
@@ -843,6 +843,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				// get the branch
 			$theRows = $this->getRecordTree($theRows,$row['uid'],$row['pid'],$treeIcons.($rc==$c ? $this->treeIcons['blank'] : $this->treeIcons['line']));
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $theRows;
 	}
 
@@ -873,6 +874,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$where = 'pid IN ('.$pid.')'.$this->enableFields;
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row[0];
 	}
 
@@ -883,6 +885,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$where = 'pid IN ('.$pid.') AND parent=0'.$this->enableFields;
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row[0];
 	}
 
@@ -893,6 +896,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$where = 'pid IN ('.$pid.') AND parent='.intval($uid).$this->enableFields;
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row[0];
 	}
 
@@ -903,6 +907,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$where = 'pid IN ('.$pid.')'.$this->enableFields;
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), '1');
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row;
 	}
 
@@ -913,6 +918,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$where = 'pid IN ('.$pid.') AND parent='.$uid.$this->enableFields;
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), '1');
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row;
 	}
 
@@ -928,6 +934,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 			$out[] = $row;
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $out;
 	}
 
@@ -951,6 +958,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					}
 				}
 			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		} else {
 			$where = 'pid IN ('.$pid.') AND parent=0'.$this->enableFields;
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
@@ -960,6 +968,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$outArray = $this->getRecordTree($outArray,$row['uid'],$row['pid']);
 				}
 			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 		return $outArray;
 	}
@@ -980,6 +989,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$out = $this->getRecordTree($out,$row['uid'],$row['pid']);
 				}
 			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 		return $out;
 	}
@@ -998,6 +1008,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					}
 				}
 			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 		return $row;
 	}
@@ -1011,7 +1022,9 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$datePart = ' AND crdate'.($type!='next'?'>':'<').intval($rootParent['crdate']);
 		$where = 'pid IN ('.$pid.') AND parent=0'.$datePart.$this->enableFields;
 		$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy($type!='next'?'':'DESC'));
-		return $TYPO3_DB->sql_fetch_assoc($res);
+		$rc = $TYPO3_DB->sql_fetch_assoc($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
+		return $rc;
 	}
 
 	/**
@@ -1061,10 +1074,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 */
 	function outMessage($string,$content='')	{
 		$msg= '
-		<HR>
+		<hr>
 		<h3>'.$string.'</h3>
 		'.$content.'
-		<HR>
+		<hr>
 		';
 
 		return $msg;
@@ -1084,7 +1097,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 	function recentDate($rec)	{
 		return $rec['tstamp'];
 	}
-
 }
 
 
