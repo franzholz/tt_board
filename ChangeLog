@@ -1,3 +1,6 @@
+2007-11-05 Franz Holzinger <franz@fholzinger.com>
+	* allow captcha in create forms by default
+
 2007-10-17 Franz Holzinger <franz@fholzinger.com>
 	* make usage of sr_freecap in all post forms
 

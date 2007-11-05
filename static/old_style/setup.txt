@@ -36,6 +36,7 @@ FEData.tt_board {
     email=1
     parent=1
     notify_me=1
+    captcha=1
   }
   autoInsertPID = 1
   doublePostCheck = doublePostCheck

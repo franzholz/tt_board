@@ -49,6 +49,22 @@ class tx_ttboard_marker {
 	var $config;
 	var $urlArray;
 
+	var $emoticons = 1;
+	var $emoticonsPath = 'media/emoticons/';
+	var $emoticonsTag = '<img src="{}" valign="bottom" hspace=4>';
+	var $emoticonsSubst=array(
+		'>:-<' => 'angry.gif',
+		':D' => 'grin.gif',
+		':-(' => 'sad.gif',
+		':-)' => 'smile.gif',
+		':-P' => 'tongue.gif',
+		';-P' => 'tonguewink.gif',
+		':-D' => 'veryhappy.gif',
+		';-)' => 'wink.gif'
+	);
+
+	var $dontParseContent=0;
+
 
 	/**
 	 * Initialized the marker object
@@ -60,6 +76,8 @@ class tx_ttboard_marker {
  		$this->cObj = &$pibase->cObj;
  		$this->conf = &$conf;
  		$this->config = &$config;
+
+		$this->dontParseContent = $this->conf['dontParseContent'];
 	}
 
 
@@ -79,9 +97,8 @@ class tx_ttboard_marker {
 		$markerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'],$this->conf['color2.']);
 		$markerArray['###GC3###'] = $this->cObj->stdWrap($this->conf['color3'],$this->conf['color3.']);
 		$markerArray['###GC4###'] = $this->cObj->stdWrap($this->conf['color4'],$this->conf['color4.']);
-
 		$markerArray['###PATH###'] = PATH_FE_ttboard_rel;
-	
+
 		if (is_array($this->conf['marks.']))	{
 				// Substitute Marker Array from TypoScript Setup
 			foreach ($this->conf['marks.'] as $key => $value)	{
@@ -113,8 +130,51 @@ class tx_ttboard_marker {
 			$markerArray['###BOARD_'.strtoupper($text).'###'] = $this->pibase->pi_getLL('board_'.$text);
 		}
 		$markerArray['###BUTTON_SEARCH###'] = $this->pibase->pi_getLL('button_search');
-
 		return $markerArray;
+	}
+
+
+	/**
+	 * Returns alternating layouts
+	 */
+	function getLayouts($templateCode,$alternativeLayouts,$marker)	{
+		$out=array();
+		for($a=0; $a<$alternativeLayouts; $a++)	{
+			$m = '###'.$marker.($a?'_'.$a:'').'###';
+			if(strstr($templateCode,$m))	{
+				$out[] = $GLOBALS['TSFE']->cObj->getSubpart($templateCode, $m);
+			} else {
+				break;
+			}
+		}
+		return $out;
+	}
+
+
+	/**
+	 * Format string with nl2br and htmlspecialchars()
+	 */
+	function formatStr($str)	{
+		$rc = '';
+		if (!$this->dontParseContent)	{
+			$rc = nl2br(htmlspecialchars($str));
+		} else {
+			$rc = $str;
+		}
+		return $rc;
+	}
+
+
+	/**
+	 * Emoticons substitution
+	 */
+	function substituteEmoticons($str)	{
+		if ($this->emoticons)	{
+			foreach($this->emoticonsSubst as $source => $dest)	{
+				$str = str_replace($source, str_replace('{}', $this->emoticonsPath.$dest, $this->emoticonsTag), $str);
+			}
+		}
+		return $str;
 	}
 
 }
