@@ -1,3 +1,6 @@
+2008-01-14 Franz Holzinger <franz@fholzinger.com>
+	* fix bug with SQL without fieldnames at search
+
 2007-11-05 Franz Holzinger <franz@fholzinger.com>
 	* allow captcha in create forms by default
 
