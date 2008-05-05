@@ -1,3 +1,7 @@
+2008-05-05 Franz Holzinger <franz@fholzinger.com>
+	* replace fh_library by div2007
+	* add backend hook for TYPO3 4.2 to display the CODE of a flexform
+
 2008-01-14 Franz Holzinger <franz@fholzinger.com>
 	* fix bug with SQL without fieldnames at search
 

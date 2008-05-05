@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2007 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 1999-2008 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -25,7 +25,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * boardLib.inc
+ * tx_ttboard_pibase
  *
  * Function library for a forum/board in tree or list style
  *
@@ -36,7 +36,7 @@
  * $Id$
  * 
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
- * @author	Franz Holzinger <kontakt@fholzinger.com>
+ * @author	Franz Holzinger <contact@fholzinger.com>
  */
 
 
@@ -47,8 +47,6 @@ require_once (PATH_BE_ttboard.'model/class.tx_ttboard_model.php');
 class tx_ttboard_pibase extends tslib_pibase {
 	var $extKey = TT_BOARD_EXTkey;	// The extension key.
 	var $cObj;		// The backReference to the mother cObj object set at call time
-
-	var $searchFieldList='author,email,subject,message';
 
 	var $alternativeLayouts='';
 	var $allowCaching='';
@@ -73,7 +71,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * @param		string		  configuration array
 	 * @param		string		  modified configuration array
 	 * @return	  void
- 	 */
+	 */
 	function init (&$content,&$conf,&$config) {
 		global $TSFE;
 
@@ -83,11 +81,13 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 		$this->conf = &$conf;
 		$this->config = &$config;
+		if (t3lib_extMgm::isLoaded(DIV2007_EXTkey))	{
+			include_once (PATH_BE_div2007.'class.tx_div2007_alpha.php');
+			include_once (PATH_BE_div2007.'class.tx_div2007_ff.php');
+		}
 
-		if (t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
-		 		// FE BE library for language functions
-			include_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_language.php');
-			tx_fhlibrary_language::pi_loadLL($this,'EXT:'.$this->extKey.'/share/locallang.xml');
+		if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
+			tx_div2007_alpha::loadLL_fh001($this,'EXT:'.$this->extKey.'/share/locallang.xml');
 		}
 
 		$this->tt_board_uid = intval(t3lib_div::_GP('tt_board_uid'));
@@ -154,17 +154,16 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 	function getCodeArray(&$conf)	{
 		$config = array();
-		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms'] && t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
-		 		// FE BE library for flexform functions
-			require_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_flexform.php');
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms']) {
+
 				// check the flexform
 			$this->pi_initPIflexForm();
-			$config['code'] = tx_fhlibrary_flexform::getSetupOrFFvalue(
-				$this, 
-				$conf['code'], 
+			$config['code'] = tx_div2007_alpha::getSetupOrFFvalue_fh001(
+				$this,
+				$conf['code'],
 				$conf['code.'],
-				$conf['defaultCode'], 
-				$this->cObj->data['pi_flexform'], 
+				$conf['defaultCode'],
+				$this->cObj->data['pi_flexform'],
 				'display_mode',
 				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms']
 			);
@@ -217,13 +216,20 @@ class tx_ttboard_pibase extends tslib_pibase {
 		if ($contentTmp == 'error') {
 			$fileName = 'EXT:'.TT_BOARD_EXTkey.'/template/board_help.tmpl';
 			$helpTemplate = $this->cObj->fileResource($fileName);
-			if (t3lib_extMgm::isLoaded(FH_LIBRARY_EXTkey)) {
-			 		// FE BE library for flexform functions
-				require_once(PATH_BE_fh_library.'lib/class.tx_fhlibrary_view.php');
-				$content .= tx_fhlibrary_view::displayHelpPage($this, $helpTemplate, $this->extKey, $this->errorMessage, $theCode);
+			if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
+
+				$content .= tx_div2007_alpha::displayHelpPage_fh001(
+					$this,
+					$helpTemplate,
+					TT_BOARD_EXTkey,
+					$this->errorMessage,
+					$theCode
+				);
+				unset($this->errorMessage);
 			}
 		}
 	}
+
 
 	/**
 	 * Creates a list of forums or categories depending on theCode
@@ -296,7 +302,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					if (count($forumHeader) && !$lConf['noForums'])	{
 							// Rendering forums
 						$c_forum=0;
-						foreach($forums as $k2 => $forumData)	{
+						foreach($forums as $forumData)	{
 							$out=$forumHeader[$c_forum%count($forumHeader)];
 							$c_forum++;
 							$this->local_cObj->start($forumData);

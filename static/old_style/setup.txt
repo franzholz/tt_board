@@ -70,7 +70,7 @@ temp.tt_board.shared {
   }
   list_threads {
     post_content_stdWrap.crop = 130 | ...
-    thread_limit = 20
+    thread_limit = 30
   }
 
   postform < styles.content.mailform

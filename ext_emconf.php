@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext: "tt_board"
 #
-# Auto generated 17-10-2007 17:40
+# Auto generated 14-01-2008 08:14
 #
 # Manual updates:
 # Only the data in the array - anything else is removed by next write.
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Simple threaded (tree) or list message board',
 	'category' => 'plugin',
 	'shy' => 0,
-	'dependencies' => 'cms,fh_library',
+	'dependencies' => 'cms',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
@@ -28,25 +28,23 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearCacheOnLoad' => 1,
 	'lockType' => '',
 	'author' => 'Franz Holzinger',
-	'author_email' => 'kontakt@fholzinger.com',
-	'author_company' => 'Freelancer',
+	'author_email' => 'contact@fholzinger.com',
+	'author_company' => 'jambage.com',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
-	'version' => '1.2.1',
-	'_md5_values_when_last_written' => 'a:35:{s:9:"ChangeLog";s:4:"26e2";s:28:"class.tx_ttboard_wizicon.php";s:4:"3e44";s:16:"contributors.txt";s:4:"e2e4";s:21:"ext_conf_template.txt";s:4:"dbec";s:12:"ext_icon.gif";s:4:"4881";s:15:"ext_icon__h.gif";s:4:"d4dd";s:17:"ext_localconf.php";s:4:"d734";s:14:"ext_tables.php";s:4:"12a8";s:14:"ext_tables.sql";s:4:"4a67";s:23:"flexform_ds_pi_list.xml";s:4:"a333";s:23:"flexform_ds_pi_tree.xml";s:4:"2dde";s:9:"forum.gif";s:4:"7c8f";s:13:"locallang.php";s:4:"255e";s:25:"locallang_csh_ttboard.php";s:4:"1a19";s:17:"locallang_tca.php";s:4:"b925";s:17:"message_board.gif";s:4:"d36b";s:7:"tca.php";s:4:"5939";s:14:"doc/manual.sxw";s:4:"9b83";s:20:"lib/board_submit.inc";s:4:"3d61";s:31:"lib/class.tx_ttboard_pibase.php";s:4:"7e0f";s:28:"res/icons/fe/board_help1.gif";s:4:"1b80";s:23:"res/icons/fe/thread.gif";s:4:"9aac";s:24:"template/board_help.tmpl";s:4:"ac9b";s:25:"template/board_notify.txt";s:4:"94a4";s:29:"template/board_template1.tmpl";s:4:"102b";s:29:"template/board_template2.tmpl";s:4:"6eee";s:29:"template/board_template3.tmpl";s:4:"7a11";s:30:"static/css_style/constants.txt";s:4:"4a11";s:26:"static/css_style/setup.txt";s:4:"5c1e";s:30:"static/old_style/constants.txt";s:4:"7a40";s:26:"static/old_style/setup.txt";s:4:"4efc";s:36:"pi_list/class.tx_ttboard_pi_list.php";s:4:"5323";s:36:"pi_tree/class.tx_ttboard_pi_tree.php";s:4:"240a";s:19:"share/locallang.xml";s:4:"e7a5";s:34:"marker/class.tx_ttboard_marker.php";s:4:"3e4a";}',
+	'version' => '1.2.2',
+	'_md5_values_when_last_written' => 'a:37:{s:9:"ChangeLog";s:4:"d54a";s:28:"class.tx_ttboard_wizicon.php";s:4:"3e44";s:16:"contributors.txt";s:4:"e2e4";s:21:"ext_conf_template.txt";s:4:"dbec";s:12:"ext_icon.gif";s:4:"4881";s:15:"ext_icon__h.gif";s:4:"d4dd";s:17:"ext_localconf.php";s:4:"d734";s:14:"ext_tables.php";s:4:"12a8";s:14:"ext_tables.sql";s:4:"4a67";s:23:"flexform_ds_pi_list.xml";s:4:"a333";s:23:"flexform_ds_pi_tree.xml";s:4:"2dde";s:9:"forum.gif";s:4:"7c8f";s:13:"locallang.php";s:4:"255e";s:25:"locallang_csh_ttboard.php";s:4:"1a19";s:17:"locallang_tca.php";s:4:"b925";s:17:"message_board.gif";s:4:"d36b";s:7:"tca.php";s:4:"5939";s:14:"doc/manual.sxw";s:4:"96be";s:20:"lib/board_submit.inc";s:4:"e9e6";s:31:"lib/class.tx_ttboard_pibase.php";s:4:"24db";s:28:"res/icons/fe/board_help1.gif";s:4:"1b80";s:23:"res/icons/fe/thread.gif";s:4:"9aac";s:24:"template/board_help.tmpl";s:4:"ac9b";s:25:"template/board_notify.txt";s:4:"94a4";s:29:"template/board_template1.tmpl";s:4:"102b";s:29:"template/board_template2.tmpl";s:4:"6eee";s:29:"template/board_template3.tmpl";s:4:"7a11";s:30:"static/css_style/constants.txt";s:4:"4a11";s:26:"static/css_style/setup.txt";s:4:"a8fa";s:30:"static/old_style/constants.txt";s:4:"7a40";s:26:"static/old_style/setup.txt";s:4:"fb29";s:36:"pi_list/class.tx_ttboard_pi_list.php";s:4:"5323";s:36:"pi_tree/class.tx_ttboard_pi_tree.php";s:4:"240a";s:19:"share/locallang.xml";s:4:"e7a5";s:34:"marker/class.tx_ttboard_marker.php";s:4:"aba7";s:31:"view/class.tx_ttboard_forum.php";s:4:"ae37";s:32:"model/class.tx_ttboard_model.php";s:4:"d90f";}',
 	'constraints' => array(
 		'depends' => array(
 			'cms' => '',
 			'php' => '4.0.0-0.0.0',
 			'typo3' => '3.8.0-0.0.0',
-			'fh_library' => '0.0.11-',
 		),
 		'conflicts' => array(
 		),
 		'suggests' => array(
+			'div2007' => '0.1.6-',
 		),
-	),
-	'suggests' => array(
 	),
 );
 

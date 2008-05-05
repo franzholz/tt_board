@@ -21,7 +21,7 @@
 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *  GNU General Public License for more details.
-*
+*0
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
@@ -55,7 +55,6 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 		$bOrigInitCalled = false;
 
 		$this->conf = $conf;
-
 		$codeArray = $this->getCodeArray($conf);
 		$bCreate = TRUE;
 

@@ -4,6 +4,7 @@ plugin.tt_board {
     # cat=plugin.board; type=string; label= Moderator email: This email address will get a mail every time somebody submits a message to the forum.
   moderatorEmail  = 
 
+    # cat=plugin.board//; type=integer; label= number of recenct posts: number of recent posts which will be shown in the forum lists
   numberOfRecentPosts = 0
 
     # cat=plugin.board; type=boolean; label= Member of group: Comma separated list of FE groups which a user must belong to that the post forms are shown.

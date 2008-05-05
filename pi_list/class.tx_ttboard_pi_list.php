@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2007 Franz Holzinger <kontakt@fholzinger.com>
+*  (c) 2007-2008 Franz Holzinger <kontakt@fholzinger.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -55,8 +55,10 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 
 		$codeArray = $this->getCodeArray($conf);
 		$bCreate = TRUE;
+
 		foreach ($codeArray as $k => $theCode)	{
 			$theCode = (string)strtoupper(trim($theCode));
+
 			switch($theCode)	{
 				default:
 					$setupCode = $conf['userFunc.'][$theCode];

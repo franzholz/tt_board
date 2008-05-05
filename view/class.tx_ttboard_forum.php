@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2007 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 1999-2008 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -25,7 +25,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * boardLib.inc
+ * class.tx_ttboard_forum.php
  *
  * Function library for a forum/board in tree or list style
  *
@@ -98,13 +98,10 @@ class tx_ttboard_forum {
 				$markerObj = &t3lib_div::getUserObj('&tx_ttboard_marker');
 
 					// Getting the specific parts of the template
-
 				$markerArray = $markerObj->getColumnMarkers();
 				$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
-
 				$rootParent = $modelObj->getRootParent($uid);
 				$wholeThread = $modelObj->getSingleThread($rootParent['uid'],1);
-
 				if ($lConf['single'])	{
 					foreach ($wholeThread as $recentP)	{
 						if ($recentP['uid']==$uid)	{
