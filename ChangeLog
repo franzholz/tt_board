@@ -1,3 +1,6 @@
+2008-00-09 Franz Holzinger <franz@fholzinger.com>
+	* fix bug with not included div2007 extension
+
 2008-05-05 Franz Holzinger <franz@fholzinger.com>
 	* replace fh_library by div2007
 	* add backend hook for TYPO3 4.2 to display the CODE of a flexform
