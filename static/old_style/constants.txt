@@ -20,7 +20,7 @@ plugin.tt_board {
   captcha = freecap
 
     # cat=plugin.board/spam; type=text; label= Spam words: Comma separated list of spam words. No message contaning one of these words will be stored.
-  spamWords = 0zu.tw, mark-blog, erotik, penis, viagra, cialis, gogofacility, pornvideo, nudity, wifelover, extra.hu, mega-phentermine, fkool.info, coffeehousearoma.com, fccj.edu, netfirms.com, pcdor.info, oic.orokz.info, netfirms.com, orokz.info, yaporn.net, eeporn.com
+  spamWords = 0zu.tw, mark-blog, erotik, penis, viagra, cialis, gogofacility, pornvideo, nudity, wifelover, extra.hu, mega-phentermine, fkool.info, coffeehousearoma.com, fccj.edu, netfirms.com, pcdor.info, oic.orokz.info, netfirms.com, orokz.info, yaporn.net, eeporn.com, y118.net, blue11.cn, kisswow.com.cn, ririwow.cn, winzipices.cn
 }
 
 

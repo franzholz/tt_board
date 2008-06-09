@@ -158,6 +158,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 				// check the flexform
 			$this->pi_initPIflexForm();
+			require_once(PATH_BE_div2007.'class.tx_div2007_alpha.php');
 			$config['code'] = tx_div2007_alpha::getSetupOrFFvalue_fh001(
 				$this,
 				$conf['code'],

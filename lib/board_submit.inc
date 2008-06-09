@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2007 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 1999-2008 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -41,9 +41,7 @@ include_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
 
 if (is_object($this))	{
 	$conf = $this->getConf('tt_board');
-debug ($this->newData, '$this->newData', __LINE__, __FILE__);
 	$row = $this->newData['tt_board']['NEW'];
-debug ($row, '$row +++', __LINE__, __FILE__);
 	if (is_array($row))	{
 		$email = $row['email'];
 	}
