@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2007 Franz Holzinger <kontakt@fholzinger.com>
+*  (c) 2007-2007 Franz Holzinger <contact@fholzinger.com>
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -31,14 +31,15 @@
  *
  * $Id:$
  *
- * @author	Franz Holzinger <kontakt@fholzinger.com>
- * @maintainer	Franz Holzinger <kontakt@fholzinger.com> 
+ * @author	Franz Holzinger <contact@fholzinger.com>
+ * @maintainer	Franz Holzinger <contact@fholzinger.com> 
  * @package TYPO3
  * @subpackage tt_products
  *
  *
  */
 
+require_once (PATH_BE_div2007.'class.tx_div2007_alpha.php');
 
 
 class tx_ttboard_marker {
@@ -118,17 +119,39 @@ class tx_ttboard_marker {
 		return $markerArray;	
 	} // getGlobalMarkers
 
+	function getRowMarkerArray (
+		&$row,
+		$markerKey,
+		&$markerArray,
+		$lConf
+	)	{
+		$local_cObj = &t3lib_div::getUserObj('&tx_div2007_cobj');
+		$modelObj = &t3lib_div::getUserObj('&tx_ttboard_model');
+		$local_cObj->start($row);
+
+			// Markers
+		$markerArray['###POST_THREAD_CODE###'] = $local_cObj->stdWrap($row['treeIcons'], $lConf['post_thread_code_stdWrap.']);
+		$markerArray['###POST_TITLE###'] = $local_cObj->stdWrap($this->formatStr($row['subject']), $lConf['post_title_stdWrap.']);
+		$markerArray['###POST_CONTENT###'] = $this->substituteEmoticons($local_cObj->stdWrap($this->formatStr($row['message']), $lConf['post_content_stdWrap.']));
+		$markerArray['###POST_REPLIES###'] = $local_cObj->stdWrap($modelObj->getNumReplies($row['pid'],$row['uid']), $lConf['post_replies_stdWrap.']);
+		$markerArray['###POST_AUTHOR###'] = $local_cObj->stdWrap($this->formatStr($row['author']), $lConf['post_author_stdWrap.']);
+		$markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
+		$recentDate = $modelObj->recentDate($row);
+		$markerArray['###POST_DATE###'] = $local_cObj->stdWrap($recentDate,$this->conf['date_stdWrap.']);
+		$markerArray['###POST_TIME###'] = $local_cObj->stdWrap($recentDate,$this->conf['time_stdWrap.']);
+		$markerArray['###POST_AGE###'] = $local_cObj->stdWrap($recentDate,$this->conf['age_stdWrap.']);
+	}
+
 
 	function &getColumnMarkers ()	{
 		$markerArray = array();
 
-		$boardTextArray =
-			array('author', 'date', 'forum', 'forum_list', 'go_to_top', 'threads', 'topics', 'last_post',
-				'next_message', 'next_topic', 'previous_message', 'previous_topic', 'posts', 'search'
-			);
-		foreach ($boardTextArray as $k => $text)	{
-			$markerArray['###BOARD_'.strtoupper($text).'###'] = $this->pibase->pi_getLL('board_'.$text);
+		foreach ($this->pibase->LOCAL_LANG['default'] as $k => $text)	{
+			if (strpos($k, 'board') === 0)	{
+				$markerArray['###'.strtoupper($k).'###'] = tx_div2007_alpha::getLL($this->pibase,$k);
+			}
 		}
+
 		$markerArray['###BUTTON_SEARCH###'] = $this->pibase->pi_getLL('button_search');
 		return $markerArray;
 	}
@@ -176,12 +199,11 @@ class tx_ttboard_marker {
 		}
 		return $str;
 	}
-
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_marker.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_marker.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_marker.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_marker.php']);
 }
 
 ?>

@@ -36,7 +36,7 @@
  * $Id$
  * 
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
- * @author	Franz Holzinger <kontakt@fholzinger.com>
+ * @author	Franz Holzinger <contact@fholzinger.com>
  */
 
 
@@ -45,7 +45,6 @@ require_once (PATH_BE_ttboard.'model/class.tx_ttboard_model.php');
 
 
 class tx_ttboard_forum {
-	var $local_cObj;
 	var $conf;
 	var $typolink_conf;
 	var $allowCaching;
@@ -53,8 +52,7 @@ class tx_ttboard_forum {
 	var $pid;
 	var $bHasBeenInitialised = FALSE;
 
-	function init (&$local_cObj, &$conf, $allowCaching, &$typolink_conf, $pid)	{
-		$this->local_cObj = &$local_cObj;
+	function init (&$conf, $allowCaching, &$typolink_conf, $pid)	{
 		$this->conf = &$conf;
 		$this->allowCaching = $allowCaching;
 		$this->typolink_conf = &$typolink_conf;
@@ -70,25 +68,25 @@ class tx_ttboard_forum {
 	 * Creates the forum display, including listing all items/a single item
 	 */
 	function &printView($uid, $pid_list, $theCode, &$orig_templateCode, $alternativeLayouts)	{
-
 		$modelObj = &t3lib_div::getUserObj('&tx_ttboard_model');
 		$markerObj = &t3lib_div::getUserObj('&tx_ttboard_marker');
+		$local_cObj = &t3lib_div::getUserObj('&tx_div2007_cobj');
 		$recentPosts = array();
-		if ($this->conf['iconCode'])	{
-			$modelObj->treeIcons['joinBottom'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['joinBottom'],$this->conf['iconCode.']['joinBottom.']);
-			$modelObj->treeIcons['join'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['join'],$this->conf['iconCode.']['join.']);
-			$modelObj->treeIcons['line'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['line'],$this->conf['iconCode.']['line.']);
-			$modelObj->treeIcons['blank'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['blank'],$this->conf['iconCode.']['blank.']);
-			$modelObj->treeIcons['thread'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['thread'],$this->conf['iconCode.']['thread.']);
-			$modelObj->treeIcons['end'] = $this->local_cObj->stdWrap($this->conf['iconCode.']['end'],$this->conf['iconCode.']['end.']);
-		}
 
+		if ($this->conf['iconCode'])	{
+			$modelObj->treeIcons['joinBottom'] = $local_cObj->stdWrap($this->conf['iconCode.']['joinBottom'],$this->conf['iconCode.']['joinBottom.']);
+			$modelObj->treeIcons['join'] = $local_cObj->stdWrap($this->conf['iconCode.']['join'],$this->conf['iconCode.']['join.']);
+			$modelObj->treeIcons['line'] = $local_cObj->stdWrap($this->conf['iconCode.']['line'],$this->conf['iconCode.']['line.']);
+			$modelObj->treeIcons['blank'] = $local_cObj->stdWrap($this->conf['iconCode.']['blank'],$this->conf['iconCode.']['blank.']);
+			$modelObj->treeIcons['thread'] = $local_cObj->stdWrap($this->conf['iconCode.']['thread'],$this->conf['iconCode.']['thread.']);
+			$modelObj->treeIcons['end'] = $local_cObj->stdWrap($this->conf['iconCode.']['end'],$this->conf['iconCode.']['end.']);
+		}
 		if ($uid && $theCode=='FORUM')	{
 			if (!$this->allowCaching)	{
 				$GLOBALS['TSFE']->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
 			}
 			$lConf = $this->conf['view_thread.'];
-			$templateCode = $this->local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_THREAD###');
+			$templateCode = $local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_THREAD###');
 
 			if ($templateCode)	{
 
@@ -99,7 +97,7 @@ class tx_ttboard_forum {
 
 					// Getting the specific parts of the template
 				$markerArray = $markerObj->getColumnMarkers();
-				$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
+				$templateCode = $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
 				$rootParent = $modelObj->getRootParent($uid);
 				$wholeThread = $modelObj->getSingleThread($rootParent['uid'],1);
 				if ($lConf['single'])	{
@@ -121,47 +119,48 @@ class tx_ttboard_forum {
 				$wrappedSubpartContentArray = array();
 
 					// Getting the specific parts of the template
-				$markerArray['###FORUM_TITLE###'] = $this->local_cObj->stdWrap($GLOBALS['TSFE']->page['title'],$lConf['forum_title_stdWrap.']);
+				$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($GLOBALS['TSFE']->page['title'],$lConf['forum_title_stdWrap.']);
 
 					// Link back to forum
-				$this->local_cObj->setCurrentVal($this->pid);
-				$wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] = $this->local_cObj->typolinkWrap($this->typolink_conf);
+				$local_cObj->setCurrentVal($this->pid);
+				$wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] = $local_cObj->typolinkWrap($this->typolink_conf);
 
 					// Link to next thread
-				$this->local_cObj->setCurrentVal($this->pid);
+				$local_cObj->setCurrentVal($this->pid);
 				$temp_conf=$this->typolink_conf;
 				if (is_array($nextThread))	{
 					$temp_conf['additionalParams'] .= '&tt_board_uid='.$nextThread['uid'];
 					$temp_conf['useCacheHash'] = $this->allowCaching;
 					$temp_conf['no_cache'] = !$this->allowCaching;
 				}
-				$wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] = $this->local_cObj->typolinkWrap($temp_conf);
+				$wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] = $local_cObj->typolinkWrap($temp_conf);
 
 					// Link to prev thread
-				$this->local_cObj->setCurrentVal($this->pid);
+				$local_cObj->setCurrentVal($this->pid);
 				$temp_conf = $this->typolink_conf;
 				if (is_array($prevThread))	{
 					$temp_conf['additionalParams'] .= '&tt_board_uid='.$prevThread['uid'];
 					$temp_conf['useCacheHash'] = $this->allowCaching;
 					$temp_conf['no_cache'] = !$this->allowCaching;
 				}
-				$wrappedSubpartContentArray['###LINK_PREV_THREAD###'] = $this->local_cObj->typolinkWrap($temp_conf);
+				$wrappedSubpartContentArray['###LINK_PREV_THREAD###'] = $local_cObj->typolinkWrap($temp_conf);
 
 					// Link to first !!
-				$this->local_cObj->setCurrentVal($this->pid);
+				$local_cObj->setCurrentVal($this->pid);
 				$temp_conf = $this->typolink_conf;
 				$temp_conf['additionalParams'].= '&tt_board_uid='.$rootParent['uid'];
 				$temp_conf['useCacheHash'] = $this->allowCaching;
 				$temp_conf['no_cache'] = !$this->allowCaching;
-				$wrappedSubpartContentArray['###LINK_FIRST_POST###'] = $this->local_cObj->typolinkWrap($temp_conf);
+				$wrappedSubpartContentArray['###LINK_FIRST_POST###'] = $local_cObj->typolinkWrap($temp_conf);
 
 					// Substitute:
-				$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,array(),$wrappedSubpartContentArray);
+				$templateCode = $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,array(),$wrappedSubpartContentArray);
 
 					// Getting subpart for items:
 				$postHeader = $markerObj->getLayouts($templateCode,$alternativeLayouts,'POST');
 				$c_post=0;
 				$indexedTitle='';
+
 				foreach ($recentPosts as $recentPost)	{
 					$out = $postHeader[$c_post%count($postHeader)];
 					$c_post++;
@@ -171,49 +170,44 @@ class tx_ttboard_forum {
 					$markerArray=array();
 					$wrappedSubpartContentArray=array();
 
-					$this->local_cObj->start($recentPost);
-
-						// Markers
-					$markerArray['###POST_THREAD_CODE###'] = $this->local_cObj->stdWrap($recentPost['treeIcons'], $lConf['post_thread_code_stdWrap.']);
-					$markerArray['###POST_TITLE###'] = $this->local_cObj->stdWrap($markerObj->formatStr($recentPost['subject']), $lConf['post_title_stdWrap.']);
-					$markerArray['###POST_CONTENT###'] = $markerObj->substituteEmoticons($this->local_cObj->stdWrap($markerObj->formatStr($recentPost['message']), $lConf['post_content_stdWrap.']));
-					$markerArray['###POST_REPLIES###'] = $this->local_cObj->stdWrap($modelObj->getNumReplies($recentPost['pid'],$recentPost['uid']), $lConf['post_replies_stdWrap.']);
-					$markerArray['###POST_AUTHOR###'] = $this->local_cObj->stdWrap($markerObj->formatStr($recentPost['author']), $lConf['post_author_stdWrap.']);
-					$markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
-					$markerArray['###POST_DATE###'] = $this->local_cObj->stdWrap($modelObj->recentDate($recentPost),$this->conf['date_stdWrap.']);
-					$markerArray['###POST_TIME###'] = $this->local_cObj->stdWrap($modelObj->recentDate($recentPost),$this->conf['time_stdWrap.']);
-					$markerArray['###POST_AGE###'] = $this->local_cObj->stdWrap($modelObj->recentDate($recentPost),$this->conf['age_stdWrap.']);
+					$markerObj->getRowMarkerArray (
+						$recentPost,
+						'POST',
+						$markerArray,
+						$lConf
+					);
+					$local_cObj->start($recentPost);
 
 						// Link to the post
-					$this->local_cObj->setCurrentVal($recentPost['pid']);
+					$local_cObj->setCurrentVal($this->pid);
 					$temp_conf=$this->typolink_conf;
 					$temp_conf['additionalParams'] .= '&tt_board_uid='.$recentPost['uid'];
 					$temp_conf['useCacheHash'] = $this->allowCaching;
 					$temp_conf['no_cache'] = !$this->allowCaching;
-					$wrappedSubpartContentArray['###LINK###'] = $this->local_cObj->typolinkWrap($temp_conf);
+					$wrappedSubpartContentArray['###LINK###'] = $local_cObj->typolinkWrap($temp_conf);
 
 						// Link to next thread
-					$this->local_cObj->setCurrentVal($recentPost['pid']);
+					$local_cObj->setCurrentVal($this->pid);
 					$temp_conf = $this->typolink_conf;
 					$temp_conf['additionalParams'] .= '&tt_board_uid='.($recentPost['nextUid']?$recentPost['nextUid']:$nextThread['uid']);
 					$temp_conf['useCacheHash'] = $this->allowCaching;
 					$temp_conf['no_cache'] = !$this->allowCaching;
-					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] = $this->local_cObj->typolinkWrap($temp_conf);
+					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] = $local_cObj->typolinkWrap($temp_conf);
 
 						// Link to prev thread
-					$this->local_cObj->setCurrentVal($recentPost['pid']);
+					$local_cObj->setCurrentVal($this->pid);
 					$temp_conf = $this->typolink_conf;
 					$temp_conf['additionalParams'] .= '&tt_board_uid='.($recentPost['prevUid']?$recentPost['prevUid']:$prevThread['uid']);
 					$temp_conf['useCacheHash'] = $this->allowCaching;
 					$temp_conf['no_cache'] = !$this->allowCaching;
-					$wrappedSubpartContentArray['###LINK_PREV_POST###'] = $this->local_cObj->typolinkWrap($temp_conf);
+					$wrappedSubpartContentArray['###LINK_PREV_POST###'] = $local_cObj->typolinkWrap($temp_conf);
 
 						// Substitute:
-					$subpartContent .= $this->local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
+					$subpartContent .= $local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
 				}
 				$GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
 					// Substitution:
-				$content .= $this->local_cObj->substituteSubpart($templateCode,'###CONTENT###',$subpartContent);
+				$content .= $local_cObj->substituteSubpart($templateCode,'###CONTENT###',$subpartContent);
 			} else {
 				debug('No template code for ');
 			}
@@ -228,7 +222,7 @@ class tx_ttboard_forum {
 				$lConf = $this->conf['list_threads.'];
 			}
 			if($continue) {
-				$templateCode = $this->local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_FORUM###');
+				$templateCode = $local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_FORUM###');
 
 				if ($templateCode)	{
 						// Clear
@@ -238,8 +232,8 @@ class tx_ttboard_forum {
 
 						// Getting the specific parts of the template
 					$markerArray = $markerObj->getColumnMarkers();
-					$markerArray['###FORUM_TITLE###'] = $this->local_cObj->stdWrap($GLOBALS['TSFE']->page['title'],$lConf['forum_title_stdWrap.']);
-					$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
+					$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($GLOBALS['TSFE']->page['title'],$lConf['forum_title_stdWrap.']);
+					$templateCode = $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
 					$postHeader = $markerObj->getLayouts($templateCode,$alternativeLayouts,'POST');
 						// Template code used if tt_board_uid matches...
 					$postHeader_active = $markerObj->getLayouts($templateCode,1,'POST_ACTIVE');
@@ -253,6 +247,7 @@ class tx_ttboard_forum {
 					}
 					$c_post = 0;
 					$subpartArray = array();
+
 					foreach ($recentPosts as $k => $recentPost)	{
 						$GLOBALS['TT']->push('/Post/');
 						$out = $postHeader[$c_post%count($postHeader)];
@@ -260,7 +255,7 @@ class tx_ttboard_forum {
 							$out = $postHeader_active[0];
 						}
 						$c_post++;
-						$this->local_cObj->start($recentPost);
+						$local_cObj->start($recentPost);
 
 							// Clear
 						$markerArray = array();
@@ -268,49 +263,47 @@ class tx_ttboard_forum {
 
 							// Markers
 						$GLOBALS['TT']->push('/postMarkers/');
-						$markerArray['###POST_THREAD_CODE###'] = $this->local_cObj->stdWrap($recentPost['treeIcons'], $lConf['post_thread_code_stdWrap.']);
-						$markerArray['###POST_TITLE###'] = $this->local_cObj->stdWrap($markerObj->formatStr($recentPost['subject']), $lConf['post_title_stdWrap.']);
-						$markerArray['###POST_CONTENT###'] = $markerObj->substituteEmoticons($this->local_cObj->stdWrap($markerObj->formatStr($recentPost['message']), $lConf['post_content_stdWrap.']));
-						$markerArray['###POST_REPLIES###'] = $this->local_cObj->stdWrap($modelObj->getNumReplies($recentPost['pid'],$recentPost['uid']), $lConf['post_replies_stdWrap.']);
-						$markerArray['###POST_AUTHOR###'] = $this->local_cObj->stdWrap($markerObj->formatStr($recentPost['author']), $lConf['post_author_stdWrap.']);
-						$markerArray['###POST_DATE###'] = $this->local_cObj->stdWrap($modelObj->recentDate($recentPost),$this->conf['date_stdWrap.']);
-						$markerArray['###POST_TIME###'] = $this->local_cObj->stdWrap($modelObj->recentDate($recentPost),$this->conf['time_stdWrap.']);
-						$markerArray['###POST_AGE###'] = $this->local_cObj->stdWrap($modelObj->recentDate($recentPost),$this->conf['age_stdWrap.']);
+						$markerObj->getRowMarkerArray (
+							$recentPost,
+							'POST',
+							$markerArray,
+							$lConf
+						);
 
 							// Link to the post
-						$this->local_cObj->setCurrentVal($recentPost['pid']);
+						// $local_cObj->setCurrentVal($recentPost['pid']);
+						$local_cObj->setCurrentVal($this->pid);
 						$temp_conf=$this->typolink_conf;
 						$temp_conf['additionalParams'].= '&tt_board_uid='.$recentPost['uid'];
 						$temp_conf['useCacheHash'] = $this->allowCaching;
 						$temp_conf['no_cache'] = !$this->allowCaching;
-						$wrappedSubpartContentArray['###LINK###'] = $this->local_cObj->typolinkWrap($temp_conf);
+						$wrappedSubpartContentArray['###LINK###'] = $local_cObj->typolinkWrap($temp_conf);
 						$GLOBALS['TT']->pull();
-
 							// Last post processing:
 						$GLOBALS['TT']->push('/last post info/');
 						$lastPostInfo = $modelObj->getLastPostInThread($recentPost['pid'],$recentPost['uid']);
 						$GLOBALS['TT']->pull();
 						if (!$lastPostInfo)	$lastPostInfo=$recentPost;
 
-						$this->local_cObj->start($lastPostInfo);
+						$local_cObj->start($lastPostInfo);
 						$GLOBALS['TT']->push('/lastPostMarkers/');
 						$recentDate = $modelObj->recentDate($lastPostInfo);
-						$markerArray['###LAST_POST_DATE###'] = $this->local_cObj->stdWrap($recentDate,$this->conf['date_stdWrap.']);
-						$markerArray['###LAST_POST_TIME###'] = $this->local_cObj->stdWrap($recentDate,$this->conf['time_stdWrap.']);
-						$markerArray['###LAST_POST_AGE###'] = $this->local_cObj->stdWrap($recentDate,$this->conf['age_stdWrap.']);
-						$markerArray['###LAST_POST_AUTHOR###'] = $this->local_cObj->stdWrap($markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
+						$markerArray['###LAST_POST_DATE###'] = $local_cObj->stdWrap($recentDate,$this->conf['date_stdWrap.']);
+						$markerArray['###LAST_POST_TIME###'] = $local_cObj->stdWrap($recentDate,$this->conf['time_stdWrap.']);
+						$markerArray['###LAST_POST_AGE###'] = $local_cObj->stdWrap($recentDate,$this->conf['age_stdWrap.']);
+						$markerArray['###LAST_POST_AUTHOR###'] = $local_cObj->stdWrap($markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
 
 							// Link to the last post
-						$this->local_cObj->setCurrentVal($lastPostInfo['pid']);
+						$local_cObj->setCurrentVal($this->pid);
 						$temp_conf = $this->typolink_conf;
 						$temp_conf['additionalParams'] .= '&tt_board_uid='.$lastPostInfo['uid'];
 						$temp_conf['useCacheHash'] = $this->allowCaching;
 						$temp_conf['no_cache'] = !$this->allowCaching;
-						$wrappedSubpartContentArray['###LINK_LAST_POST###'] = $this->local_cObj->typolinkWrap($temp_conf);
+						$wrappedSubpartContentArray['###LINK_LAST_POST###'] = $local_cObj->typolinkWrap($temp_conf);
 						$GLOBALS['TT']->pull();
 
 							// Substitute:
-						$subpartArray[$recentDate.sprintf('%010d',$recentPost['uid'])] = $this->local_cObj->substituteMarkerArrayCached($out, $markerArray, array(), $wrappedSubpartContentArray);
+						$subpartArray[$recentDate.sprintf('%010d',$recentPost['uid'])] = $local_cObj->substituteMarkerArrayCached($out, $markerArray, array(), $wrappedSubpartContentArray);
 						$GLOBALS['TT']->pull();
 					}
 					if (!$this->conf['tree'])	{
@@ -323,15 +316,15 @@ class tx_ttboard_forum {
 						// Fill in array
 					$markerArray['###SEARCH_WORD###'] = $GLOBALS['TSFE']->no_cache ? t3lib_div::_GP('tt_board_sword') : '';		// Setting search words in field if cache is disabled.
 						// Set FORM_URL
-					$this->local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
+					$local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
 					$temp_conf = $this->typolink_conf;
 					$temp_conf['no_cache'] = 1;
-					$markerArray['###FORM_URL###'] = $this->local_cObj->typoLink_URL($temp_conf);
+					$markerArray['###FORM_URL###'] = $local_cObj->typoLink_URL($temp_conf);
 					$subpartContent = implode('',$subpartArray);
 
 						// Substitute CONTENT-subpart
 					$subpartContentArray['###CONTENT###'] = $subpartContent;
-					$content.= $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartContentArray);
+					$content.= $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartContentArray);
 				} else {
 					debug('No template code for ');
 				}
@@ -342,9 +335,8 @@ class tx_ttboard_forum {
 }
 
 
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/view/class.tx_ttboard_forum.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/view/class.tx_ttboard_forum.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/view/class.tx_ttboard_forum.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/view/class.tx_ttboard_forum.php']);
 }
 
 ?>

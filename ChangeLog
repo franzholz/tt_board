@@ -1,4 +1,10 @@
-2008-00-09 Franz Holzinger <franz@fholzinger.com>
+2008-09-06 Franz Holzinger <franz@fholzinger.com>
+	* replace all English texts in example templates by global BOARD markers
+	* rename board_submit.inc into board_submit.php
+	* allow the pid of the stored records to be set from the starting point of the plugin
+	* a detected spam word will be displaid in the entry form
+
+2008-06-09 Franz Holzinger <franz@fholzinger.com>
 	* fix bug with not included div2007 extension
 
 2008-05-05 Franz Holzinger <franz@fholzinger.com>

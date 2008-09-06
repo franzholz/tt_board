@@ -16,7 +16,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'category' => 'plugin',
 	'shy' => 0,
 	'version' => '1.2.4',
-	'dependencies' => '',
+	'dependencies' => 'div2007',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
@@ -37,6 +37,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'cms' => '',
 			'php' => '4.0.0-0.0.0',
 			'typo3' => '3.8.0-0.0.0',
+			'div2007' => '0.1.13-',
 		),
 		'conflicts' => array(
 		),

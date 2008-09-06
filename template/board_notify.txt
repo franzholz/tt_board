@@ -1,7 +1,7 @@
-###AUTHOR### (###CR_IP###):  ###SUBJECT_PREFIX### : '###HOST###'
+###AUTHOR###:  '###SUBJECT_PREFIX###' at '###HOST###' using IP ###CR_IP###
 Hello,
 
-###AUTHOR### (###AUTHOR_EMAIL### - ###CR_IP###) ###DID_WHAT### ###HOST###.
+###AUTHOR### (###AUTHOR_EMAIL###) ###DID_WHAT### ###HOST###.
 
 This thread is located at:
 

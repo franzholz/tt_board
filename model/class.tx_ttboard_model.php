@@ -36,7 +36,7 @@
  * $Id$
  * 
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
- * @author	Franz Holzinger <kontakt@fholzinger.com>
+ * @author	Franz Holzinger <contact@fholzinger.com>
  */
 
 
@@ -119,15 +119,17 @@ class tx_ttboard_model {
 	 */
 	function getPagesInPage($pid_list)	{
 		$thePids = t3lib_div::intExplode(',', $pid_list);
-		$theMenu = array();
+		$rcArray = array();
 		foreach($thePids as $p_uid)	{
-			$theMenu = array_merge($theMenu, $GLOBALS['TSFE']->sys_page->getMenu($p_uid));
+			$rcArray = array_merge($rcArray, $GLOBALS['TSFE']->sys_page->getMenu($p_uid));
 		}
 			// Exclude pages not of doktype 'Standard' or 'Advanced'
-		foreach($theMenu as $key => $data)	{
-			if (!t3lib_div::inList($GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes'], $data['doktype']))	{unset($theMenu[$key]);} // All pages including pages 'not in menu'
+		foreach($rcArray as $key => $data)	{
+			if (!t3lib_div::inList($GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes'], $data['doktype']))	{
+				unset($rcArray[$key]);
+			} // All pages including pages 'not in menu'
 		}
-		return $theMenu;
+		return $rcArray;
 	}
 
 
@@ -337,8 +339,8 @@ class tx_ttboard_model {
 
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php']);
 }
 
 ?>

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2007 Franz Holzinger <kontakt@fholzinger.com>
+*  (c) 2007-2008 Franz Holzinger <contact@fholzinger.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,16 +36,17 @@
  * $Id$
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
- * @author	Franz Holzinger <kontakt@fholzinger.com>
+ * @author	Franz Holzinger <contact@fholzinger.com>
  */
 
-
+require_once (PATH_BE_div2007.'class.tx_div2007_cobj.php');
 require_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
 
 
 class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 	var $prefixId = 'tx_ttboard_pi_tree';	// Same as class name
 	var $scriptRelPath = 'pi_list/class.tx_ttboard_pi_tree.php';	// Path to this script relative to the extension dir.
+	var $list_type='2';
 
 
 	/**
@@ -146,8 +147,8 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/pi_tree/class.tx_ttboard_pi_tree.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/pi_tree/class.tx_ttboard_pi_tree.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_tree/class.tx_ttboard_pi_tree.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_tree/class.tx_ttboard_pi_tree.php']);
 }
 
 ?>

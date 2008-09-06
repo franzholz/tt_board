@@ -44,6 +44,7 @@ require_once(PATH_tslib.'class.tslib_pibase.php');
 require_once (PATH_BE_ttboard.'marker/class.tx_ttboard_marker.php');
 require_once (PATH_BE_ttboard.'model/class.tx_ttboard_model.php');
 
+
 class tx_ttboard_pibase extends tslib_pibase {
 	var $extKey = TT_BOARD_EXTkey;	// The extension key.
 	var $cObj;		// The backReference to the mother cObj object set at call time
@@ -58,11 +59,11 @@ class tx_ttboard_pibase extends tslib_pibase {
 	var $pid='';
 	var $orig_templateCode='';
 	var $typolink_conf=array();
-	var $local_cObj='';
 
 	var $errorMessage;
 	var $markerObj;
 	var $freeCap;
+	var $list_type;
 
 	/**
 	 * does the initialization stuff
@@ -95,11 +96,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 	
 			// pid_list is the pid/list of pids from where to fetch the guest items.
 		$tmp = trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.']));
-		$pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] :trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.'])));
+		$pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] :$tmp);
 		$this->pid_list = ($pid_list ? $pid_list : $TSFE->id);
 		// page where to go usually
-		$this->pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $TSFE->id);
-
+		$this->pid = ($conf['PIDforum'] ? $conf['PIDforum'] : ($pid ? $pid : $TSFE->id));
 			// template is read.
 		$this->orig_templateCode = $this->cObj->fileResource($conf['templateFile']);
 		$this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
@@ -124,8 +124,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 		// *************************************
 		// *** doing the things...:
 		// *************************************
-
-		$this->local_cObj = t3lib_div::makeInstance('tslib_cObj');		// Local cObj.
 
 			// If the current record should be displayed.
 		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'];
@@ -192,14 +190,17 @@ class tx_ttboard_pibase extends tslib_pibase {
 			case 'POSTFORM':
 			case 'POSTFORM_REPLY':
 			case 'POSTFORM_THREAD':
-				$content.= $this->forum_postform($theCode, $this->pid);
+				$pidArray = t3lib_div::trimExplode(',',$this->pid_list);
+				$pid = $pidArray[0];
+				$content.=$this->forum_postform($theCode, $pid);
 			break;
 			case 'FORUM':
 			case 'THREAD_TREE':
 				include_once (PATH_BE_ttboard.'view/class.tx_ttboard_forum.php');
 				$forumViewObj = &t3lib_div::getUserObj('&tx_ttboard_forum');
 				if ($forumViewObj->needsInit())	{
-					$forumViewObj->init($this->local_cObj, $this->conf, $this->allowCaching, $this->typolink_conf, $this->pid);
+					$pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $TSFE->id);
+					$forumViewObj->init($this->conf, $this->allowCaching, $this->typolink_conf, $pid);
 				}
 				$content.= $forumViewObj->printView(
 					$this->tt_board_uid,
@@ -233,10 +234,25 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 
 	/**
+	 * Returns the content record
+	 */
+	function getContentRecord($pid)	{
+		global $TYPO3_DB, $TSFE;
+
+		$where = 'pid='.intval($pid).' AND list_type IN (\'2\',\'4\') AND sys_language_uid='.intval($TSFE->config['config']['sys_language_uid']).$TSFE->sys_page->deleteClause('tt_content');
+		$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_content', $where);
+		$rc = $TYPO3_DB->sql_fetch_assoc($res);
+		$TYPO3_DB->sql_free_result($res);
+
+		return $rc;
+	} //getRecord
+
+
+	/**
 	 * Creates a list of forums or categories depending on theCode
 	 */
 	function forum_list($theCode)	{
-
+		$local_cObj = &t3lib_div::getUserObj('&tx_div2007_cobj');
 		if (!$this->tt_board_uid)	{
 			$forumlist=0;		// set to true if this is a list of forums and not categories + forums
 			if ($theCode == 'LIST_CATEGORIES')	{
@@ -249,7 +265,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$lConf['noForums'] = 0;
 			}
 			$GLOBALS['TSFE']->set_cache_timeout_default($lConf['cache_timeout'] ? intval($lConf['cache_timeout']) : 60*5);
-			$templateCode = $this->local_cObj->getSubpart($this->orig_templateCode, '###TEMPLATE_OVERVIEW###');
+			$templateCode = $local_cObj->getSubpart($this->orig_templateCode, '###TEMPLATE_OVERVIEW###');
 
 			if ($templateCode)	{
 					// Clear
@@ -259,7 +275,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					// Getting the specific parts of the template
 
 				$markerArray = $this->markerObj->getColumnMarkers();
-				$templateCode = $this->local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
+				$templateCode = $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
 
 					// Getting the specific parts of the template
 				$categoryHeader = $this->markerObj->getLayouts($templateCode,$this->alternativeLayouts,'CATEGORY');
@@ -272,6 +288,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				reset($categories);
 				$c_cat=0;
 				foreach ($categories as $k => $catData)	{
+
 						// Getting forums in category
 					if ($forumlist)	{
 						$forums = $categories;
@@ -282,54 +299,58 @@ class tx_ttboard_pibase extends tslib_pibase {
 							// Rendering category
 						$out=$categoryHeader[$c_cat%count($categoryHeader)];
 						$c_cat++;
-						$this->local_cObj->start($catData);
+						$local_cObj->start($catData);
 
 							// Clear
 						$markerArray=array();
 						$wrappedSubpartContentArray=array();
 
 							// Markers
-						$markerArray['###CATEGORY_TITLE###'] = $this->local_cObj->stdWrap($this->markerObj->formatStr($catData['title']), $lConf['title_stdWrap.']);
-						$markerArray['###CATEGORY_DESCRIPTION###'] = $this->local_cObj->stdWrap($this->markerObj->formatStr($catData['subtitle']), $lConf['subtitle_stdWrap.']);
-						$markerArray['###CATEGORY_FORUMNUMBER###'] = $this->local_cObj->stdWrap(count($forums), $lConf['count_stdWrap.']);
+						$markerArray['###CATEGORY_TITLE###'] = $local_cObj->stdWrap($this->markerObj->formatStr($catData['title']), $lConf['title_stdWrap.']);
+						$markerArray['###CATEGORY_DESCRIPTION###'] = $local_cObj->stdWrap($this->markerObj->formatStr($catData['subtitle']), $lConf['subtitle_stdWrap.']);
+						$markerArray['###CATEGORY_FORUMNUMBER###'] = $local_cObj->stdWrap(count($forums), $lConf['count_stdWrap.']);
 
 							// Link to the category (wrap)
-						$this->local_cObj->setCurrentVal($catData['uid']);
-						$wrappedSubpartContentArray['###LINK###'] = $this->local_cObj->typolinkWrap($this->typolink_conf);
+						$local_cObj->setCurrentVal($catData['uid']);
+						$wrappedSubpartContentArray['###LINK###'] = $local_cObj->typolinkWrap($this->typolink_conf);
 
 							// Substitute
-						$subpartContent .= $this->local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
+						$subpartContent .= $local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
 					}
 					if (count($forumHeader) && !$lConf['noForums'])	{
 							// Rendering forums
 						$c_forum=0;
 						foreach($forums as $forumData)	{
+							$contentRow = $this->getContentRecord($forumData['uid']);
 							$out=$forumHeader[$c_forum%count($forumHeader)];
 							$c_forum++;
-							$this->local_cObj->start($forumData);
+							$local_cObj->start($forumData);
 
 								// Clear
 							$markerArray=array();
 							$wrappedSubpartContentArray=array();
 
 								// Markers
-							$markerArray['###FORUM_TITLE###'] = $this->local_cObj->stdWrap($this->markerObj->formatStr($forumData['title']), $lConf['forum_title_stdWrap.']);
-							$markerArray['###FORUM_DESCRIPTION###'] = $this->local_cObj->stdWrap($this->markerObj->formatStr($forumData['subtitle']), $lConf['forum_description_stdWrap.']);
-							$markerArray['###FORUM_POSTS###'] = $this->local_cObj->stdWrap($this->modelObj->getNumPosts($forumData['uid']), $lConf['forum_posts_stdWrap.']);
-							$markerArray['###FORUM_THREADS###'] = $this->local_cObj->stdWrap($this->modelObj->getNumThreads($forumData['uid']), $lConf['forum_threads_stdWrap.']);
+							$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($this->markerObj->formatStr($forumData['title']), $lConf['forum_title_stdWrap.']);
+							$markerArray['###FORUM_DESCRIPTION###'] = $local_cObj->stdWrap($this->markerObj->formatStr($forumData['subtitle']), $lConf['forum_description_stdWrap.']);
+
+							$pid = (isset($contentRow) && is_array($contentRow) && $contentRow['pages'] ? $contentRow['pages'] : $forumData['uid']);
+							$markerArray['###FORUM_POSTS###'] = $local_cObj->stdWrap($this->modelObj->getNumPosts($pid), $lConf['forum_posts_stdWrap.']);
+							$markerArray['###FORUM_THREADS###'] = $local_cObj->stdWrap($this->modelObj->getNumThreads($pid), $lConf['forum_threads_stdWrap.']);
 
 								// Link to the forum (wrap)
-							$this->local_cObj->setCurrentVal($forumData['uid']);
-							$wrappedSubpartContentArray['###LINK###'] = $this->local_cObj->typolinkWrap($this->typolink_conf);
+							$local_cObj->setCurrentVal($forumData['uid']);
+							$wrappedSubpartContentArray['###LINK###'] = $local_cObj->typolinkWrap($this->typolink_conf);
 
 								// LAST POST:
-							$lastPostInfo = $this->modelObj->getLastPost($forumData['uid']);
-							$this->local_cObj->start($lastPostInfo);
+							$lastPostInfo = $this->modelObj->getLastPost($pid);
+							$local_cObj->start($lastPostInfo);
 							if ($lastPostInfo)	{
-								$markerArray['###LAST_POST_AUTHOR###'] = $this->local_cObj->stdWrap($this->markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
-								$markerArray['###LAST_POST_DATE###'] = $this->local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo),$this->conf['date_stdWrap.']);
-								$markerArray['###LAST_POST_TIME###'] = $this->local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo),$this->conf['time_stdWrap.']);
-								$markerArray['###LAST_POST_AGE###'] = $this->local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo),$this->conf['age_stdWrap.']);
+								$markerArray['###LAST_POST_AUTHOR###'] = $local_cObj->stdWrap($this->markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
+								$markerArray['###LAST_POST_DATE###'] = $local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo),$this->conf['date_stdWrap.']);
+								$markerArray['###LAST_POST_TIME###'] = $local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo),$this->conf['time_stdWrap.']);
+
+								$markerArray['###LAST_POST_AGE###'] = $local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo),$this->conf['age_stdWrap.']);
 							} else {
 								$markerArray['###LAST_POST_AUTHOR###'] = '';
 								$markerArray['###LAST_POST_DATE###'] = '';
@@ -338,15 +359,15 @@ class tx_ttboard_pibase extends tslib_pibase {
 							}
 
 								// Link to the last post
-							$this->local_cObj->setCurrentVal($lastPostInfo['pid']);
+							$local_cObj->setCurrentVal($lastPostInfo['pid']);
 							$temp_conf=$this->typolink_conf;
 							$temp_conf['additionalParams'].= '&tt_board_uid='.$lastPostInfo['uid'];
 							$temp_conf['useCacheHash'] = $this->allowCaching;
 							$temp_conf['no_cache'] = !$this->allowCaching;
-							$wrappedSubpartContentArray['###LINK_LAST_POST###'] = $this->local_cObj->typolinkWrap($temp_conf);
+							$wrappedSubpartContentArray['###LINK_LAST_POST###'] = $local_cObj->typolinkWrap($temp_conf);
 
 								// Add result
-							$subpartContent .= $this->local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
+							$subpartContent .= $local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
 
 								// Rendering the most recent posts
 							if (count($postHeader) && $lConf['numberOfRecentPosts'])	{
@@ -355,29 +376,29 @@ class tx_ttboard_pibase extends tslib_pibase {
 								foreach($recentPosts as $recentPost)	{
 									$out=$postHeader[$c_post%count($postHeader)];
 									$c_post++;
-									$this->local_cObj->start($recentPost);
+									$local_cObj->start($recentPost);
 
 										// Clear:
 									$markerArray=array();
 									$wrappedSubpartContentArray=array();
 
 										// markers:
-									$markerArray['###POST_TITLE###'] = $this->local_cObj->stdWrap($this->markerObj->formatStr($recentPost['subject']), $lConf['post_title_stdWrap.']);
-									$markerArray['###POST_CONTENT###'] = $this->substituteEmoticons($this->local_cObj->stdWrap($this->markerObj->formatStr($recentPost['message']), $lConf['post_content_stdWrap.']));
-									$markerArray['###POST_REPLIES###'] = $this->local_cObj->stdWrap($this->modelObj->getNumReplies($recentPost['pid'],$recentPost['uid']), $lConf['post_replies_stdWrap.']);
-									$markerArray['###POST_AUTHOR###'] = $this->local_cObj->stdWrap($this->markerObj->formatStr($recentPost['author']), $lConf['post_author_stdWrap.']);
-									$markerArray['###POST_DATE###'] = $this->local_cObj->stdWrap($this->modelObj->recentDate($recentPost),$this->conf['date_stdWrap.']);
-									$markerArray['###POST_TIME###'] = $this->local_cObj->stdWrap($this->modelObj->recentDate($recentPost),$this->conf['time_stdWrap.']);
-									$markerArray['###POST_AGE###'] = $this->local_cObj->stdWrap($this->modelObj->recentDate($recentPost),$this->conf['age_stdWrap.']);
+									$markerArray['###POST_TITLE###'] = $local_cObj->stdWrap($this->markerObj->formatStr($recentPost['subject']), $lConf['post_title_stdWrap.']);
+									$markerArray['###POST_CONTENT###'] = $this->substituteEmoticons($local_cObj->stdWrap($this->markerObj->formatStr($recentPost['message']), $lConf['post_content_stdWrap.']));
+									$markerArray['###POST_REPLIES###'] = $local_cObj->stdWrap($this->modelObj->getNumReplies($recentPost['pid'],$recentPost['uid']), $lConf['post_replies_stdWrap.']);
+									$markerArray['###POST_AUTHOR###'] = $local_cObj->stdWrap($this->markerObj->formatStr($recentPost['author']), $lConf['post_author_stdWrap.']);
+									$markerArray['###POST_DATE###'] = $local_cObj->stdWrap($this->modelObj->recentDate($recentPost),$this->conf['date_stdWrap.']);
+									$markerArray['###POST_TIME###'] = $local_cObj->stdWrap($this->modelObj->recentDate($recentPost),$this->conf['time_stdWrap.']);
+									$markerArray['###POST_AGE###'] = $local_cObj->stdWrap($this->modelObj->recentDate($recentPost),$this->conf['age_stdWrap.']);
 
 										// Link to the post:
-									$this->local_cObj->setCurrentVal($recentPost['pid']);
+									$local_cObj->setCurrentVal($recentPost['pid']);
 									$temp_conf=$this->typolink_conf;
 									$temp_conf['additionalParams'].= '&tt_board_uid='.$recentPost['uid'];
 									$temp_conf['useCacheHash']=$this->allowCaching;
 									$temp_conf['no_cache']=!$this->allowCaching;
-									$wrappedSubpartContentArray['###LINK###']=$this->local_cObj->typolinkWrap($temp_conf);
-									$subpartContent.=$this->local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
+									$wrappedSubpartContentArray['###LINK###']=$local_cObj->typolinkWrap($temp_conf);
+									$subpartContent.=$local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
 										// add result
 									#$subpartContent.=$out;	// 250902
 								}
@@ -389,7 +410,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					}
 				}
 					// Substitution:
-				$content.= $this->local_cObj->substituteSubpart($templateCode,'###CONTENT###',$subpartContent) ;
+				$content.= $local_cObj->substituteSubpart($templateCode,'###CONTENT###',$subpartContent) ;
 			} else {
 				$content = $this->outMessage('No template code for ###TEMPLATE_OVERVIEW###');
 			}
@@ -405,7 +426,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		global $TSFE;
 
 		$content = '';
-
+		$local_cObj = &t3lib_div::getUserObj('&tx_div2007_cobj');
 		if ($this->modelObj->isAllowed($this->conf['memberOfGroups']))	{
 			$parent=0;		// This is the parent item for the form. If this ends up being is set, then the form is a reply and not a new post.
 			$nofity=array();
@@ -460,22 +481,54 @@ class tx_ttboard_pibase extends tslib_pibase {
 				}
 			}
 			if ($theCode=='POSTFORM' || ($theCode=='POSTFORM_REPLY' && $parent) || ($theCode=='POSTFORM_THREAD' && !$parent))	{
-				$lConf['dataArray.']['9999.'] = array(
-					'type' => '*data[tt_board][NEW][parent]=hidden',
+
+				$origRow = array();
+				$bWrongCaptcha = FALSE;
+				if (
+					isset($GLOBALS['TSFE']->applicationData) && is_array($GLOBALS['TSFE']->applicationData) &&
+					isset($GLOBALS['TSFE']->applicationData['tt_board']) && is_array($GLOBALS['TSFE']->applicationData['tt_board']) &&
+					isset($GLOBALS['TSFE']->applicationData['tt_board']['error']) && is_array($GLOBALS['TSFE']->applicationData['tt_board']['error']) 
+				)	{
+					if ($GLOBALS['TSFE']->applicationData['tt_board']['error']['captcha'] == TRUE)	{
+						$origRow = $GLOBALS['TSFE']->applicationData['tt_board']['row'];
+						unset ($origRow['doublePostCheck']);
+						$bWrongCaptcha = TRUE;
+						$word = $GLOBALS['TSFE']->applicationData['tt_board']['word'];
+					}
+					if ($GLOBALS['TSFE']->applicationData['tt_board']['error']['spam'] == TRUE)	{
+						$spamWord = $GLOBALS['TSFE']->applicationData['tt_board']['word'];
+						$origRow = $GLOBALS['TSFE']->applicationData['tt_board']['row'];
+					}
+				}
+
+				if ($spamWord != '')	{
+					$out = sprintf($this->pi_getLL('spam_detected'), $spamWord);
+					$lConf['dataArray.']['1.'] = array(
+						'label' => 'ERROR !',
+						'type' => 'label',
+						'value' => $out,
+					);
+				}
+				$lConf['dataArray.']['9997.'] = array(
+					'type' => 'tt_board_uid=hidden',
 					'value' => $parent
 				);
 				$lConf['dataArray.']['9998.'] = array(
 					'type' => '*data[tt_board][NEW][pid]=hidden',
 					'value' => $pid
 				);
-				$lConf['dataArray.']['9997.'] = array(
-					'type' => 'tt_board_uid=hidden',
+				$lConf['dataArray.']['9999.'] = array(
+					'type' => '*data[tt_board][NEW][parent]=hidden',
 					'value' => $parent
 				);
 				if (is_object($this->freeCap))	{
 					$freecapMarker = $this->freeCap->makeCaptcha();
+					$textLabel = '';
+					if ($bWrongCaptcha)	{
+						$textLabel = '<b>'.sprintf($this->pi_getLL('wrong_captcha'),$word).'</b><br/>';
+					}
 					$lConf['dataArray.']['55.'] = array(
-						'label' => $freecapMarker['###SR_FREECAP_IMAGE###'] . '<br>' . $freecapMarker['###SR_FREECAP_NOTICE###']. '<br>' . $freecapMarker['###SR_FREECAP_CANT_READ###'],
+						'label' => $textLabel.$freecapMarker['###SR_FREECAP_IMAGE###'] . '<br/>' . $freecapMarker['###SR_FREECAP_NOTICE###']. '<br/>' . $freecapMarker['###SR_FREECAP_CANT_READ###'],
 						'type' => '*data[tt_board][NEW][captcha]=input,60'
 					);
 				}
@@ -495,25 +548,36 @@ class tx_ttboard_pibase extends tslib_pibase {
 					}
 				}
 
-				foreach ($setupArray as $k => $type)	{
+				foreach ($setupArray as $k => $theField)	{
 					if ($k == '60')	{
-						$field = 'value';
+						$type = 'value';
 					} else {
-						$field = 'label';
+						$type = 'label';
 					}
 					if (is_array($lConf['dataArray.'][$k.'.']))	{
 						if (
-							(!$this->LLkey || $this->LLkey=='en') && !$lConf['dataArray.'][$k.'.'][$field] || 
+							(!$this->LLkey || $this->LLkey=='en') && !$lConf['dataArray.'][$k.'.'][$type] || 
 							($this->LLkey!='en' && 
-								!is_array($lConf['dataArray.'][$k.'.'][$field.'.']) ||  !is_array($lConf['dataArray.'][$k.'.'][$field.'.']['lang.']) || !is_array($lConf['dataArray.'][$k.'.'][$field.'.']['lang.'][$this->LLkey.'.'])
+								!is_array($lConf['dataArray.'][$k.'.'][$type.'.']) ||  !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.']) || !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.'][$this->LLkey.'.'])
 							)
 						) {
-							$lConf['dataArray.'][$k.'.'][$field] = $this->pi_getLL($type);
+							$lConf['dataArray.'][$k.'.'][$type] = $this->pi_getLL($theField);
+							if (($type == 'label') && isset($origRow[$theField]))	{
+								$lConf['dataArray.'][$k.'.']['value'] = $origRow[$theField];
+							}
 						}
 					}
 				}
+				if ($this->tt_board_uid)	{
+					// $url = 'index.php?id='.$TSFE->id.'&tt_board_uid='.$this->tt_board_uid;
+					// $url = tx_div2007_alpha::getPageLink_fh001($this, $TSFE->id, '', array('tt_board'=>$this->tt_board_uid));
+					// $url = $this->pi_linkTP_keepPIvars_url(array('tt_board'=>$this->tt_board_uid),1,0,$TSFE->id);
+
+					$url = tx_div2007_alpha::getPageLink_fh001($this,$TSFE->id,'',array('tt_board_uid'=>$this->tt_board_uid),array('useCacheHash' => FALSE));
+					$lConf['type'] = $url;
+				}
 				ksort ($lConf['dataArray.']);
-				$content.=$this->local_cObj->FORM($lConf);
+				$content.=$local_cObj->FORM($lConf);
 			}
 		}
 		return $content;
@@ -521,9 +585,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 }
 
 
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php']);
 }
 
 ?>

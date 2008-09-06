@@ -4,7 +4,7 @@
 ## Sets up the fields, that may be submitted in order to create items. Mandatory!
 FEData.tt_board >
 FEData.tt_board {
-  processScript = EXT:tt_board/lib/board_submit.inc
+  processScript = EXT:tt_board/lib/board_submit.php
   processScript {
 
       # Enable notify
@@ -30,15 +30,16 @@ FEData.tt_board {
     parent = 0
   }
   allowNew {
-    subject = 1
-    message = 1
+    pid=1
+    subject=1
+    message=1
     author=1
     email=1
     parent=1
     notify_me=1
     captcha=1
   }
-  autoInsertPID = 1
+  autoInsertPID = 0
   doublePostCheck = doublePostCheck
 
 }

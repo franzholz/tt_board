@@ -113,7 +113,7 @@ LINK
 				<td bgcolor="###GC2###" valign="top">###GW1B### <b><!--###LINK###-->###FORUM_TITLE###<!--###LINK###--></b>###GW1E###<br>###GW2B### ###FORUM_DESCRIPTION### ###GW2E###</td>
 				<td bgcolor="###GC1###" align="center" valign="top" nowrap>###GW1B### ###FORUM_POSTS### ###GW1E###</td>
 				<td bgcolor="###GC2###" align="center" valign="top" nowrap>###GW1B### ###FORUM_THREADS### ###GW1E###</td>
-				<td bgcolor="###GC1###" nowrap valign="top" align="center">###GW2B### <!--###LINK_LAST_POST###-->Last Post!<!--###LINK_LAST_POST###--> ###LAST_POST_DATE### ###LAST_POST_TIME###<br>###LAST_POST_AUTHOR### - ###LAST_POST_AGE### ###GW2E###</td>
+				<td bgcolor="###GC1###" nowrap valign="top" align="center">###GW2B### <!--###LINK_LAST_POST###-->###BOARD_LAST_POST###!<!--###LINK_LAST_POST###--> ###LAST_POST_DATE### ###LAST_POST_TIME###<br>###LAST_POST_AUTHOR### - ###LAST_POST_AGE### ###GW2E###</td>
 			</tr>
 		<!-- ###FORUM### end-->
 		<!-- ###POST### begin
@@ -175,9 +175,9 @@ LINK_LAST_POST
 <table border="0" cellpadding="4" border="0" cellspacing="1" width="98%">
 	<tr bgcolor="###GC3###">
 		<td colspan="3"></td>
-		<td align="center" nowrap>###GW3B### <b>Thread Starter</b> ###GW3E###</td>
-		<td align="center">###GW3B### <b>Replies</b> ###GW3E###</td>
-		<td align="center" nowrap>###GW3B### <b>Last Post</A></b> ###GW3E###</td>
+		<td align="center" nowrap>###GW3B### <b>###BOARD_THREAD_STARTER###</b> ###GW3E###</td>
+		<td align="center">###GW3B### <b>###BOARD_REPLIES###</b> ###GW3E###</td>
+		<td align="center" nowrap>###GW3B### <b>###BOARD_LAST_POST###</A></b> ###GW3E###</td>
 	</tr>
 	<!-- ###CONTENT### begin -->
 		<!--###POST### begin -->
@@ -187,7 +187,7 @@ LINK_LAST_POST
 				<td bgcolor="###GC2###" width="100%">###GW1B### <!--###LINK###-->###POST_TITLE###<!--###LINK###--><br>###GW1E###</td>
 				<td align="center" bgcolor="###GC1###" nowrap>###GW1B### ###POST_AUTHOR### ###GW1E###</td>
 				<td align="center" bgcolor="###GC2###">###GW1B### ###POST_REPLIES### ###GW1E###</td>
-				<td bgcolor="###GC2###" nowrap>###GW2B### <!--###LINK_LAST_POST###-->Last post<!--###LINK_LAST_POST###--> ###LAST_POST_DATE### ###LAST_POST_TIME### by ###LAST_POST_AUTHOR### - age: ###LAST_POST_AGE### ###GW2E###</td>
+				<td bgcolor="###GC2###" nowrap>###GW2B### <!--###LINK_LAST_POST###-->###BOARD_LAST_POST###<!--###LINK_LAST_POST###--> ###LAST_POST_DATE### ###LAST_POST_TIME### ###BOARD_BY### ###LAST_POST_AUTHOR### - ###BOARD_AGE###: ###LAST_POST_AGE### ###GW2E###</td>
 			</tr>
 		<!--###POST### end -->
 	<!-- ###CONTENT###  end -->
@@ -256,7 +256,7 @@ LINK_NEXT_POST
 -->
 <table width="98%" border="0" cellspacing="1" cellpadding="4">
 	<tr bgcolor="###GC3###">
-		<td valign="middle" width="175" nowrap>###GW3B###<b>Author</b>###GW3E###</td>
+		<td valign="middle" width="175" nowrap>###GW3B###<b>###BOARD_AUTHOR###</b>###GW3E###</td>
 		<td valign="middle" width="100%">&nbsp;</td>
 	</tr>
 	<!-- ###CONTENT###  begin -->
