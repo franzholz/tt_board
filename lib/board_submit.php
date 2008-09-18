@@ -30,7 +30,7 @@
  * See TSref document: boardLib.inc / FEDATA section for details on how to use this script.
  * The static template 'plugin.tt_board' provides a working example of configuration.
  *
- * $Id:$
+ * $Id$
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <contact@fholzinger.com>
@@ -113,6 +113,7 @@ if (is_object($this))	{
 					$this->clear_cacheCmd(intval($row['pid']));
 					if ($row['pid'] != $TSFE->id)	{
 						$this->clear_cacheCmd($TSFE->id);
+						$GLOBALS['TSFE']->clearPageCacheContent_pidList($TSFE->id);
 					}
 
 						// Clear specific cache:
@@ -124,6 +125,7 @@ if (is_object($this))	{
 								$this->clear_cacheCmd($pid);
 							}
 						}
+						$GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
 					}
 						// Send post to Mailing list ...
 					if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email'])	{
@@ -190,7 +192,7 @@ if (is_object($this))	{
 					// Notify me...
 					if (t3lib_div::_GP('notify_me') && $conf['notify'])	{
 						$notifyMe = t3lib_div::uniqueList(str_replace(','.$row['email'].',', ',', ','.t3lib_div::_GP('notify_me').','));
-	
+
 						$markersArray=array();
 						$markersArray['###AUTHOR###'] = trim($row['author']);
 						$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
@@ -227,6 +229,7 @@ if (is_object($this))	{
 							debug($msgParts);
 						} else {
 							$addresses = explode(",", $notifyMe);
+
 							foreach ($addresses as $email) {
 								// mail ($email, $msgParts[0], $msgParts[1], implode($headers,chr(10)));
 								send_mail($email,$msgParts[0],$msgParts[1],$tmp='',$conf['notify_from'],$conf['notify_from'],'');
@@ -251,7 +254,8 @@ function send_mail($toEMail,$subject,&$message,&$html,$fromEMail,$replytoEmail,$
 	include_once (PATH_t3lib.'class.t3lib_htmlmail.php');
 
 	$cls=t3lib_div::makeInstanceClassName('t3lib_htmlmail');
-	if (class_exists($cls)) {
+
+	if (class_exists($cls) && $message) {
 		$Typo3_htmlmail = t3lib_div::makeInstance('t3lib_htmlmail');
 		$Typo3_htmlmail->start();
 		$Typo3_htmlmail->mailer = 'TYPO3 HTMLMail';
@@ -264,6 +268,8 @@ function send_mail($toEMail,$subject,&$message,&$html,$fromEMail,$replytoEmail,$
 		$Typo3_htmlmail->replyto_email = $replytoEmail;
 		$Typo3_htmlmail->replyto_name = $Typo3_htmlmail->from_name;
 		$Typo3_htmlmail->organisation = '';
+		$Typo3_htmlmail->addPlain($message);
+
 		$Typo3_htmlmail->setHeaders();
 		$Typo3_htmlmail->setContent();
 		$Typo3_htmlmail->setRecipient(explode(',', $toEMail));
@@ -300,7 +306,6 @@ function checkEmail($email)	{
 		return false;
 	}
 }
-
 
 
 ?>

@@ -1,3 +1,7 @@
+2008-09-18 Franz Holzinger <franz@fholzinger.com>
+	* add additional cache clearing function $GLOBALS['TSFE']->clearPageCacheContent_pidList($TSFE->id);
+	* fix bug with not sent notification emails
+
 2008-09-06 Franz Holzinger <franz@fholzinger.com>
 	* replace all English texts in example templates by global BOARD markers
 	* rename board_submit.inc into board_submit.php
