@@ -1,3 +1,6 @@
+2008-09-25 Franz Holzinger <franz@fholzinger.com>
+	* change all links to use the plugins uid parameter instead of tt_board_uid
+
 2008-09-18 Franz Holzinger <franz@fholzinger.com>
 	* add additional cache clearing function $GLOBALS['TSFE']->clearPageCacheContent_pidList($TSFE->id);
 	* fix bug with not sent notification emails

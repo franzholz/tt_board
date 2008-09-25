@@ -142,7 +142,6 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 		parent::processCode('THREAD_TREE', $content);
 		return $content;
 	}
-
 }
 
 

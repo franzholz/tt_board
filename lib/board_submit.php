@@ -36,7 +36,7 @@
  * @author	Franz Holzinger <contact@fholzinger.com>
  */
 
-include_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
+include_once (PATH_BE_ttboard.'model/class.tx_ttboard_model.php');
 
 
 if (is_object($this))	{
@@ -46,6 +46,7 @@ if (is_object($this))	{
 	$localCharset = $TSFE->localeCharset;
 	$conf = $this->getConf('tt_board');
 	$row = $this->newData['tt_board']['NEW'];
+	$piVars = t3lib_div::_GP('tx_ttboard_pi_list');
 
 	if (is_array($row))	{
 		$email = $row['email'];
@@ -111,6 +112,7 @@ if (is_object($this))	{
 					$this->execNEWinsert('tt_board', $row);
 					$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
 					$this->clear_cacheCmd(intval($row['pid']));
+					$GLOBALS['TSFE']->clearPageCacheContent_pidList(intval($row['pid']));
 					if ($row['pid'] != $TSFE->id)	{
 						$this->clear_cacheCmd($TSFE->id);
 						$GLOBALS['TSFE']->clearPageCacheContent_pidList($TSFE->id);
@@ -183,8 +185,7 @@ if (is_object($this))	{
 						} else {
 							$addresses = explode(",", $maillist_recip);
 							foreach ($addresses as $email) {
-								// mail ($email, $maillist_subject, $maillist_msg, $maillist_header);
-								send_mail($email,$maillist_subject,$maillist_msg,$tmp='',$mConf['reply'],$mConf['reply'],$mConf['namePrefix'].$row['author']);
+								send_mail($email,$maillist_subject,$maillist_msg,$tmp='',$mConf['reply'],'',$mConf['namePrefix'].$row['author']);
 							}
 						}
 					}
@@ -198,7 +199,7 @@ if (is_object($this))	{
 						$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
 						$markersArray['###CR_IP###'] = $row['cr_ip'];
 						$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
-						$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&no_cache=1&tt_board_uid='.$newId;
+						$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&tt_board_uid='.$newId;
 
 						if ($row['parent'])	{		// If reply and not new thread:
 							$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
@@ -229,10 +230,15 @@ if (is_object($this))	{
 							debug($msgParts);
 						} else {
 							$addresses = explode(",", $notifyMe);
-
+							$senderArray = preg_split('/(<|>)/',$conf['notify_from'],3,PREG_SPLIT_DELIM_CAPTURE);
+							if (count($senderArray)>=4)	{
+								$fromEmail = $senderArray[2];
+							} else {
+								$fromEmail = $senderArray[0];
+							}
+							$fromName = $senderArray[0];
 							foreach ($addresses as $email) {
-								// mail ($email, $msgParts[0], $msgParts[1], implode($headers,chr(10)));
-								send_mail($email,$msgParts[0],$msgParts[1],$tmp='',$conf['notify_from'],$conf['notify_from'],'');
+								send_mail($email,$msgParts[0],$msgParts[1],$tmp='',$fromEmail,'',$fromName,'');
 							}
 						}
 					}
@@ -268,6 +274,17 @@ function send_mail($toEMail,$subject,&$message,&$html,$fromEMail,$replytoEmail,$
 		$Typo3_htmlmail->replyto_email = $replytoEmail;
 		$Typo3_htmlmail->replyto_name = $Typo3_htmlmail->from_name;
 		$Typo3_htmlmail->organisation = '';
+		if ($html)  {
+			$Typo3_htmlmail->theParts['html']['content'] = $html;
+			$Typo3_htmlmail->theParts['html']['path'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
+			$Typo3_htmlmail->extractMediaLinks();
+			$Typo3_htmlmail->extractHyperLinks();
+			$Typo3_htmlmail->fetchHTMLMedia();
+			$Typo3_htmlmail->substMediaNamesInHTML(0);	// 0 = relative
+			$Typo3_htmlmail->substHREFsInHTML();
+			$Typo3_htmlmail->setHTML($Typo3_htmlmail->encodeMsg($Typo3_htmlmail->theParts['html']['content']));
+		}
+
 		$Typo3_htmlmail->addPlain($message);
 
 		$Typo3_htmlmail->setHeaders();
