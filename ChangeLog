@@ -1,3 +1,7 @@
+2009-08-26 Franz Holzinger <franz@fholzinger.com>
+	* add CSS classes to the example templates
+	* fix bug with search of small texts with 2 letters
+
 2008-09-25 Franz Holzinger <franz@fholzinger.com>
 	* change all links to use the plugins uid parameter instead of tt_board_uid
 
@@ -73,7 +77,7 @@
 	* name and email are preset from logged in FE user
 
 2006-11-25 Franz Holzinger <franz@fholzinger.com>
-	* fix 2555: unsigned 32 bit INTEGER for double post check field 
+	* fix 2555: unsigned 32 bit INTEGER for double post check field
 	doublePostCheck int(11) unsigned DEFAULT '0' NOT NULL,
 
 2006-11-11 Franz Holzinger <franz@fholzinger.com>
