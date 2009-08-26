@@ -29,10 +29,10 @@
  *
  * marker functions
  *
- * $Id:$
+ * $Id$
  *
  * @author	Franz Holzinger <contact@fholzinger.com>
- * @maintainer	Franz Holzinger <contact@fholzinger.com> 
+ * @maintainer	Franz Holzinger <contact@fholzinger.com>
  * @package TYPO3
  * @subpackage tt_products
  *
@@ -116,7 +116,7 @@ class tx_ttboard_marker {
 				}
 			}
 		}
-		return $markerArray;	
+		return $markerArray;
 	} // getGlobalMarkers
 
 	function getRowMarkerArray (

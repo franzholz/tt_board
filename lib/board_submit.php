@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2008 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 1999-2009 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -33,7 +33,7 @@
  * $Id$
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
- * @author	Franz Holzinger <contact@fholzinger.com>
+ * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
 include_once (PATH_BE_ttboard.'model/class.tx_ttboard_model.php');
@@ -46,7 +46,6 @@ if (is_object($this))	{
 	$localCharset = $TSFE->localeCharset;
 	$conf = $this->getConf('tt_board');
 	$row = $this->newData['tt_board']['NEW'];
-	$piVars = t3lib_div::_GP('tx_ttboard_pi_list');
 
 	if (is_array($row))	{
 		$email = $row['email'];
@@ -121,8 +120,7 @@ if (is_object($this))	{
 						// Clear specific cache:
 					if ($conf['clearCacheForPids'])	{
 						$ccPids=t3lib_div::intExplode(',',$conf['clearCacheForPids']);
-						reset($ccPids);
-						while(list(,$pid)=each($ccPids))	{
+						foreach($ccPids as $pid)	{
 							if ($pid > 0)	{
 								$this->clear_cacheCmd($pid);
 							}
@@ -161,7 +159,7 @@ if (is_object($this))	{
 
 						$maillist_header='From: '.$mConf['namePrefix'].$row['author'].' <'.$mConf['reply'].'>'.chr(10);
 						$maillist_header.='Reply-To: '.$mConf['reply'];
-	
+
 							//  Subject
 						if ($row['parent'])	{	// RE:
 							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($row['parent']));
@@ -211,7 +209,7 @@ if (is_object($this))	{
 							$markersArray['###SUBJECT_PREFIX###']=$conf['newThread.']['subjectPrefix'];
 						}
 						$markersArray['###SUBJECT###'] = strtoupper($row['subject']);
-						$markersArray['###BODY###'] = t3lib_div::fixed_lgd($row['message'],1000);
+						$markersArray['###BODY###'] = t3lib_div::fixed_lgd_cs($row['message'],1000);
 
 						reset($markersArray);
 						while(list($marker,$markContent)=each($markersArray))	{

@@ -1,16 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.0 Transitional//EN">
+
 
 <html>
 <head>
-	<title>Board example template</title>
+	<title>Board example template $Id$</title>
 </head>
 
 <body>
-
-
-
-
-
 
 <br>
 <br>
@@ -29,18 +24,18 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 <br>
 
 
-<!-- ###TEMPLATE_OVERVIEW### begin 
+<!-- ###TEMPLATE_OVERVIEW### begin
 	This is the template for the overview of categories and forums.
 -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 	<!-- ###CONTENT###  begin
-		This is the part of the template substituted with the list of categories and forums: 
+		This is the part of the template substituted with the list of categories and forums:
 	-->
 		<!-- ###FORUM### begin
-			Template for the display of forum information 
+			Template for the display of forum information
 		-->
 	<tr bgcolor="###GC4###">
-		<td width="60%"><!--###LINK###-->###GW3B###<B>###FORUM_TITLE###</A></B>###GW3E###<!--###LINK###-->&nbsp;&nbsp;###GW3B###&nbsp;&nbsp;Posts: <B>###FORUM_POSTS###</B>###GW3E###
+		<td width="60%"><!--###LINK###-->###GW3B###<B>###FORUM_TITLE###</B>###GW3E###<!--###LINK###-->###GW3B###<B>###FORUM_POSTS###</B>###GW3E###
 		</td>
 	</tr>
 	<tr bgcolor="###GC2###">
@@ -49,7 +44,7 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 	</tr>
 		<!-- ###FORUM### end -->
 		<!-- ###POST### begin
-			Template for the display of latest posts of a forum 
+			Template for the display of latest posts of a forum
 		-->
 	<tr bgcolor="###GC1###">
 		<td><img src="typo3/sysext/cms/tslib/media/scripts/new.gif" height="10" width="35"><!--###LINK###-->###GW1B### ###POST_TITLE### ###GW1E###<!--###LINK###--></td>
@@ -63,8 +58,7 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 	</tr>
 		<!-- ###POST_1### end -->
 	<tr>
-		<td>&nbsp;
-		</td>
+		<td>&nbsp;</td>
 	</tr>
 	<!-- ###CONTENT### end -->
 </table>
@@ -72,13 +66,7 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 
 
 
-
-
-
-
-
-
-<br><br><br><br><HR><br><br><br>
+<br><br><br><br><hr><br><br><br>
 <h3>TEMPLATE_FORUM</h3>
 <em>Template for listing of items in a single forum.</em><br>
 <br>
@@ -86,59 +74,52 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 <br>
 
 
-
-
 <!-- ###TEMPLATE_FORUM### begin -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 
-	<tr><td colspan="3">###GW1B### <b>###FORUM_TITLE###</b>###GW1E###</td><tr>
-	<tr>
-		<td height="21" bgcolor="###GC3###" width="90%">###GW3B### <b>&nbsp;###BOARD_TOPICS###:</b>###GW3E###</td>
-		<td height="21" bgcolor="###GC3###">###GW3B###<b>&nbsp;###BOARD_AUTHOR###:</b>###GW3E###</td>
-		<td height="21" bgcolor="###GC3###">###GW3B###<b>&nbsp;###BOARD_DATE###:</b>###GW3E###</td>
+	<tr class="tx-ttboard-list-row-forum">
+    <td class="tree_cell_header_forum" colspan="3">###GW1B### ###FORUM_TITLE######GW1E###</td>
+  </tr>
+	<tr class="tx-ttboard-catlistheader-forum">
+		<td class="tx-ttboard-tree-cell-header-forum" bgcolor="###GC3###" width="40%">###GW3B### ###BOARD_TOPICS###: ###GW3E###</td>
+		<td class="tx-ttboard-tree-cell-header-forum" bgcolor="###GC3###" width="30%">###GW3B### ###BOARD_AUTHOR###: ###GW3E###</td>
+		<td class="tx-ttboard-tree-cell-header-forum" bgcolor="###GC3###" width="30%">###GW3B### ###BOARD_DATE###: ###GW3E###</td>
 	</tr>
 	<!-- ###CONTENT###  begin -->
 		<!--###POST### begin -->
-			<tr>
-				<td bgcolor="###GC1###" nowrap>###POST_THREAD_CODE###<!--###LINK###-->###GW1B###<b>###POST_TITLE###</b>###GW1E###<!--###LINK###--></td>
-				<td bgcolor="###GC1###" nowrap>###GW2B### ###POST_AUTHOR### ###GW2E###</td>
-				<td bgcolor="###GC1###" nowrap>###GW2B### &nbsp;###POST_DATE### - ###POST_AGE### ###GW2E###</td>
+			<tr class="tx-ttboard-tree-rows">
+				<td bgcolor="###GC1###">
+###POST_THREAD_CODE###<!--###LINK###-->###GW1B###<b>###POST_TITLE###</b>###GW1E###<!--###LINK###--></td>
+				<td bgcolor="###GC1###">###GW2B### ###POST_AUTHOR### ###GW2E###</td>
+				<td bgcolor="###GC1###">###GW2B### ###POST_DATE### - ###POST_AGE### ###GW2E###</td>
 			</tr>
 		<!--###POST### end -->
 		<!--###POST_1### begin -->
-			<tr>
-				<td bgcolor="###GC2###" nowrap>###POST_THREAD_CODE###<!--###LINK###-->###GW1B###<b>###POST_TITLE###</b>###GW1E###<!--###LINK###--></td>
-				<td bgcolor="###GC2###" nowrap>###GW2B### ###POST_AUTHOR### ###GW2E###</td>
-				<td bgcolor="###GC2###" nowrap>###GW2B### &nbsp;###POST_DATE### - ###POST_AGE### ###GW2E###</td>
+			<tr class="tx-ttboard-tree-rows">
+				<td bgcolor="###GC2###">###POST_THREAD_CODE###<!--###LINK###-->###GW1B###<b>###POST_TITLE###</b>###GW1E###<!--###LINK###--></td>
+				<td bgcolor="###GC2###" >###GW2B### ###POST_AUTHOR### ###GW2E###</td>
+				<td bgcolor="###GC2###" >###GW2B### ###POST_DATE### - ###POST_AGE### ###GW2E###</td>
 			</tr>
 		<!--###POST_1### end -->
 		<!--###POST_ACTIVE### begin -->
-			<tr>
-				<td bgcolor="olive" nowrap>###POST_THREAD_CODE###<!--###LINK###-->###GW1B###<b>###POST_TITLE###</b>###GW1E###<!--###LINK###--></td>
-				<td bgcolor="olive" nowrap>###GW2B### ###POST_AUTHOR### ###GW2E###</td>
-				<td bgcolor="olive" nowrap>###GW2B### &nbsp;###POST_DATE### - ###POST_AGE### ###GW2E###</td>
+			<tr >
+				<td>###POST_THREAD_CODE###<!--###LINK###-->###GW1B###<b>###POST_TITLE###</b>###GW1E###<!--###LINK###--></td>
+				<td>###GW2B### ###POST_AUTHOR### ###GW2E###</td>
+				<td>###GW2B### ###POST_DATE### - ###POST_AGE### ###GW2E###</td>
 			</tr>
 		<!--###POST_ACTIVE### end -->
 	<!-- ###CONTENT###  end -->
+ <tr><td>&nbsp;</td></tr>
+
 <form action="###FORM_URL###" method="POST" name="tt-board-search">
-	<tr bgcolor="###GC1###">
-		<td colspan=3 nowrap>###GW1B###<B>###BOARD_SEARCH###: </B>###GW1E###<input type="text" name="tt_board_sword" value="###SEARCH_WORD###">	<input type="submit" id="boardSearchSubmitId" value="###BUTTON_SEARCH###">
+	<tr>
+		<td class="tx-ttboard-search-forum" colspan=3><b>###BOARD_SEARCH###: </b><input type="text" name="tt_board_sword" value="###SEARCH_WORD###">	<input type="submit" id="boardSearchSubmitId" value="###BUTTON_SEARCH###">
 		</td>
 	</tr>
-</form>	
-	
+</form>
+
 </table>
 <!-- ###TEMPLATE_FORUM### end -->
-
-
-
-
-
-
-
-
-
-
 
 
 <br><br><br><br><HR><br><br><br>
@@ -151,44 +132,60 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 
 
 <!-- ###TEMPLATE_THREAD### begin
-	Template for the listing of a the posts in a thread 
+	Template for the listing of a the posts in a thread
 -->
-###GW1B### <b>###FORUM_TITLE###</b>###GW1E### 
+
 	<!-- ###CONTENT###  begin -->
 		<!--###POST### begin -->
 			<table width="100%" cellspacing="0" cellpadding="3" border="0">
-				<tr>
-					<td width="60%" align="left" nowrap>
-						###GW2B### <b><!--###LINK_BACK_TO_FORUM###-->###BOARD_FORUM_LIST###<!--###LINK_BACK_TO_FORUM###-->&nbsp;&nbsp;|&nbsp;&nbsp;<!--###LINK_FIRST_POST###-->###BOARD_GO_TO_TOP###<!--###LINK_FIRST_POST###-->&nbsp;&nbsp;&nbsp;</b>###GW2E### 
-					</td>
-					<td width="40%" align="right" nowrap>###GW2B### <b>
-						<!--###LINK_PREV_POST###-->###BOARD_PREVIOUS_MESSAGE###<!--###LINK_PREV_POST###-->&nbsp;&nbsp;|
-						&nbsp;&nbsp;<!--###LINK_NEXT_POST###-->###BOARD_NEXT_MESSAGE###<!--###LINK_NEXT_POST###--></b>###GW2E### 
-					</td>
+      <tr class="tx-ttboard-catlistheader-forum">
+      <td>  ###GW1B### <b>###FORUM_TITLE###</b>###GW1E### </td>
 				</tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+					<td class="tx-ttboard-link-back-to-forum" width="40%" align="left" >
+						###GW2B### <b><!--###LINK_BACK_TO_FORUM###-->###BOARD_FORUM_LIST###<!--###LINK_BACK_TO_FORUM###-->&nbsp;&nbsp;|&nbsp;&nbsp;<!--###LINK_FIRST_POST###-->###BOARD_GO_TO_TOP###<!--###LINK_FIRST_POST###-->&nbsp;&nbsp;&nbsp;</b>###GW2E###
+					</td>
+					<td class="tx-ttboard-link-to-forum-message" width="40%" align="right" >###GW2B### <b>
+						<!--###LINK_PREV_POST###-->###BOARD_PREVIOUS_MESSAGE###<!--###LINK_PREV_POST###-->&nbsp;&nbsp;|
+						&nbsp;<!--###LINK_NEXT_POST###-->###BOARD_NEXT_MESSAGE###<!--###LINK_NEXT_POST###--></b>###GW2E### &nbsp;
+					</td>
+     		</tr>
+         <tr><td>&nbsp;</td></tr>
 			</table>
 			<table width="100%" cellspacing="0" cellpadding="2" border="0">
-				<tr>
-					<td bgcolor="###GC3###">###GW3B### &nbsp;###BOARD_SUBJECT###&nbsp;###POST_TITLE### ###GW3E### 
+				<tr class="tx-ttboard-catlistheader-forum-single">
+					<td class="tx-ttboard-tree-cell-header-forum-single">###POST_TITLE###
 					</td>
 				</tr>
+        <tr><td>&nbsp;</td></tr>
 				<tr>
-					<td bgcolor="###GC1###" valign="TOP">
+					<td>
 						<table width="100%" cellspacing="0" cellpadding="5" border="0">
-							<tr>
-								<td bgcolor="###GC1###" width="100%" valign="top"><tt><font color="#000000">
-			###BOARD_AUTHOR###:&nbsp;###POST_AUTHOR###&nbsp;<br>###BOARD_DATE###:&nbsp;&nbsp;&nbsp;###POST_DATE### ###POST_TIME###<br><br>###POST_CONTENT###</font></tt>
+							<tr class="tx-ttboard-tree-rows">
+								<td  width="50%" >
+			            ###BOARD_AUTHOR###: ###POST_AUTHOR###
+                </td>
+                <td width="50%"  align="right">
+                  ###BOARD_DATE###: ###POST_DATE### ###POST_TIME###
+                </td>
+               </tr>
+               <tr><td>&nbsp;</td></tr>
+               <tr class="tx-ttboard-tree-rows">
+                <td class="tx-ttboard-border-forum" colspan="2">
+                  ###POST_CONTENT###
 								</td>
 							</tr>
+              <tr><td>&nbsp;</td></tr>
 						</table>
 					</td>
 				</tr>
 			</table>
 			<table width="100%" cellspacing="0" cellpadding="3" border="0">
 				<tr>
-					<td valign="TOP" width="50%">
+					<td width="50%">
 					</td>
-					<td valign="TOP" width="50%" align="RIGHT" nowrap>###GW2B### <b>&nbsp;<!--###LINK_PREV_THREAD###-->###BOARD_PREVIOUS_TOPIC###<!--###LINK_PREV_THREAD###-->&nbsp;&nbsp;|&nbsp;&nbsp;<!--###LINK_NEXT_THREAD###-->###BOARD_NEXT_TOPIC###<!--###LINK_NEXT_THREAD###--></b>###GW2E### </td>
+					<td class="tx-ttboard-link-to-forum-message" width="50%" align="right" >###GW2B### <b><!--###LINK_PREV_THREAD###-->###BOARD_PREVIOUS_TOPIC###<!--###LINK_PREV_THREAD###-->&nbsp;&nbsp;|&nbsp;&nbsp;<!--###LINK_NEXT_THREAD###-->###BOARD_NEXT_TOPIC###<!--###LINK_NEXT_THREAD###--></b>###GW2E###&nbsp;&nbsp; </td>
 				</tr>
 			</table>
 		<!--###POST### end -->

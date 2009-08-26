@@ -78,7 +78,7 @@ temp.tt_board.shared {
   postform.data >
   postform.dataArray {
 # Subject:
-    10.label = 
+    10.label =
     10.type = *data[tt_board][NEW][subject]=input,60
     20.label =
 # Message:
@@ -116,7 +116,7 @@ temp.tt_board.shared {
 
 temp.userFuncList = tx_ttboard_pi_list->main
 temp.userFuncList {
-  
+
   HELP = COA_INT
   HELP {
     10.userFunc = tx_ttboard_pi_list->help
@@ -173,6 +173,7 @@ plugin.tt_board_list {
   color2.wrap = {$plugin.tt_board_list.color2}
   color3.wrap = {$plugin.tt_board_list.color3}
   color4.wrap = {$plugin.tt_board_list.color4}
+  _CSS_DEFAULT_STYLE < temp.tt_board.css._CSS_DEFAULT_STYLE
 }
 
 
@@ -194,7 +195,7 @@ tt_board_list.displayCurrentRecord = 1
 
 temp.userFuncTree = tx_ttboard_pi_tree->main
 temp.userFuncTree {
-  
+
   HELP = COA_INT
   HELP {
     10.userFunc = tx_ttboard_pi_tree->help
@@ -280,6 +281,7 @@ plugin.tt_board_tree {
   list_threads.thread_limit = 30
 
   thread_tree < .list_threads
+  _CSS_DEFAULT_STYLE < temp.tt_board.css._CSS_DEFAULT_STYLE
 }
 
 ## This enables the record item to display board tree items

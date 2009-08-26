@@ -1,6 +1,7 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
+t3lib_extMgm::addStaticFile(TT_BOARD_EXTkey, 'static/css/','default CSS-styles');
 t3lib_extMgm::addStaticFile(TT_BOARD_EXTkey, 'static/old_style/', 'Board Old Style');
 t3lib_extMgm::addStaticFile(TT_BOARD_EXTkey, 'static/css_style/', 'Board CSS Style');
 

@@ -36,7 +36,7 @@
  * $Id$
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
- * @author	Franz Holzinger <contact@fholzinger.com>
+ * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
 require_once (PATH_BE_div2007.'class.tx_div2007_cobj.php');

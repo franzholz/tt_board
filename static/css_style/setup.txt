@@ -58,7 +58,7 @@ temp.tt_board.shared {
   time_stdWrap.strftime= %H:%M:%S
   age_stdWrap.age = 1
   allowCaching = 1
-  
+
   list_categories {
     cache_timeout = 120
   }
@@ -77,7 +77,7 @@ temp.tt_board.shared {
   postform.data >
   postform.dataArray {
 # Subject:
-    10.label = 
+    10.label =
     10.type = *data[tt_board][NEW][subject]=input,60
     20.label =
 # Message:
@@ -102,14 +102,14 @@ temp.tt_board.shared {
 
   moderatorEmail_newThread = {$plugin.tt_board.moderatorEmail}
   moderatorEmail = {$plugin.tt_board.moderatorEmail}
-  
+
   PIDforum = {$plugin.tt_board.PIDforum}
 }
 
 
 temp.userFuncList = tx_ttboard_pi_list->main
 temp.userFuncList {
-  
+
   HELP = COA_INT
   HELP {
     10.userFunc = tx_ttboard_pi_list->help
@@ -164,6 +164,8 @@ plugin.tt_board_list {
   color2.wrap = {$plugin.tt_board_list.color2}
   color3.wrap = {$plugin.tt_board_list.color3}
   color4.wrap = {$plugin.tt_board_list.color4}
+
+  _CSS_DEFAULT_STYLE < temp.tt_board.css._CSS_DEFAULT_STYLE
 }
 
 
@@ -263,6 +265,7 @@ plugin.tt_board_tree {
   list_threads.thread_limit = 30
 
   thread_tree < .list_threads
+  _CSS_DEFAULT_STYLE < temp.tt_board.css._CSS_DEFAULT_STYLE
 }
 
 ## This enables the record item to display board tree items
