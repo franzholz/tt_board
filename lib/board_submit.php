@@ -42,7 +42,6 @@ include_once (PATH_BE_ttboard.'model/class.tx_ttboard_model.php');
 if (is_object($this))	{
 	global $TSFE;
 
-	$charset = $TSFE->renderCharset;
 	$localCharset = $TSFE->localeCharset;
 	$conf = $this->getConf('tt_board');
 	$row = $this->newData['tt_board']['NEW'];
@@ -57,8 +56,8 @@ if (is_object($this))	{
 		if (is_array($row) && trim($row['message']))	{
 			do {
 				$spamArray = t3lib_div::trimExplode(',',$conf['spamWords']);
-				$bSpamFound = false;
-				$internalFieldArray = array('hidden','parent','pid','doublePostCheck', 'captcha');
+				$bSpamFound = FALSE;
+				$internalFieldArray = array('hidden','parent','pid','reference','doublePostCheck','captcha');
 				if ($conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap'))	{
 					require_once(t3lib_extMgm::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php');
 					$freeCapObj = &t3lib_div::getUserObj('&tx_srfreecap_pi2');
@@ -74,8 +73,8 @@ if (is_object($this))	{
 					if (!in_array($field, $internalFieldArray))	{
 						if (version_compare(phpversion(), '5.0.0', '>='))	{
 							foreach ($spamArray as $k => $word)	{
-								if ($word && stripos($value, $word) !== false)	{
-									$bSpamFound = true;
+								if ($word && stripos($value, $word) !== FALSE)	{
+									$bSpamFound = TRUE;
 									break;
 								}
 							}
@@ -83,8 +82,8 @@ if (is_object($this))	{
 							foreach ($spamArray as $k => $word)	{
 								$lWord = strtolower($word);
 								$lValue = strtolower($value);
-								if ($lWord && strpos($lValue, $lWord) !== false)	{
-									$bSpamFound = true;
+								if ($lWord && strpos($lValue, $lWord) !== FALSE)	{
+									$bSpamFound = TRUE;
 									break;
 								}
 							}
@@ -93,7 +92,10 @@ if (is_object($this))	{
 					if ($bSpamFound)	{
 						break;
 					}
-					$row[$field] = $TSFE->csConvObj->conv($value,$localCharset,$charset);
+					$row[$field] = ($localCharset ? $TSFE->csConvObj->conv($value, $TSFE->renderCharset, $localCharset) : $value);
+
+// $TSFE->csConvObj->conv($value,$localCharset,$charset);
+
 					// $row[$field] = htmlentities($value,ENT_QUOTES,$charset);
 				}
 				if ($bSpamFound)	{
@@ -110,6 +112,7 @@ if (is_object($this))	{
 						// Plain insert of record:
 					$this->execNEWinsert('tt_board', $row);
 					$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
+
 					$this->clear_cacheCmd(intval($row['pid']));
 					$GLOBALS['TSFE']->clearPageCacheContent_pidList(intval($row['pid']));
 					if ($row['pid'] != $TSFE->id)	{
@@ -297,7 +300,7 @@ function checkEmail($email)	{
 
 	if (!ereg('^[^@]{1,64}@[^@]{1,255}$', $email)) {
 		// Email invalid because wrong number of characters in one section, or wrong number of @ symbols.
-		return false;
+		return FALSE;
 	}
 
 	// gets domain name
@@ -307,18 +310,18 @@ function checkEmail($email)	{
 	if(!getmxrr($domain, $mxhosts))	{
 		// no mx records, ok to check domain
 		if (@fsockopen($domain,25,$errno,$errstr,30))	{
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	} else {
 		// mx records found
 		foreach ($mxhosts as $host)	{
 			if (@fsockopen($host,25,$errno,$errstr,30))	{
-				return true;
+				return TRUE;
 			}
 		}
-		return false;
+		return FALSE;
 	}
 }
 

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2008 Franz Holzinger <contact@fholzinger.com>
+*  (c) 2007-2009 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -46,13 +46,13 @@ require_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
 class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 	var $prefixId = 'tx_ttboard_pi_tree';	// Same as class name
 	var $scriptRelPath = 'pi_list/class.tx_ttboard_pi_tree.php';	// Path to this script relative to the extension dir.
-	var $list_type='2';
+	var $list_type = '2';
 
 
 	/**
 	 * Main board function. Call this from TypoScript
 	 */
-	function main($content,$conf)	{
+	function main ($content,$conf)	{
 		$bOrigInitCalled = false;
 
 		$this->conf = $conf;
@@ -67,7 +67,7 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 					if ($setupCode)	{
 						$bOrigInitCalled = false;
 						$setup = $conf['userFunc.'][$theCode.'.'];
-						$newConf = array_merge($conf, $setup['10.']);
+						$newConf = t3lib_div::array_merge_recursive_overrule($conf, $setup['10.']);
 						unset ($newConf['userFunc.']);
 						$newSetup = array();
 						if ($setupCode == 'COA')	{
@@ -95,55 +95,62 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 		return $content;
 	}
 
-	function help($content, $conf)	{
+
+	function help ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('HELP', $content);
 		return $content;
 	}
 
-	function listCagetories($content, $conf)	{
+
+	function listCagetories ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('LIST_CATEGORIES', $content);
 		return $content;
 	}
 
-	function listForums($content, $conf)	{
+
+	function listForums ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('LIST_FORUMS', $content);
 		return $content;
 	}
 
-	function forum($content, $conf)	{
+
+	function forum ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('FORUM', $content);
 		return $content;
 	}
 
-	function postForm($content, $conf)	{
+
+	function postForm ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM', $content);
 		return $content;
 	}
 
-	function postFormReply($content, $conf)	{
+
+	function postFormReply ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM_REPLY', $content);
 		return $content;
 	}
 
-	function thread($content, $conf)	{
+
+	function thread ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM_THREAD', $content);
 		return $content;
 	}
 
-	function threadTree($content, $conf)	{
+
+	function threadTree ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('THREAD_TREE', $content);
 		return $content;
 	}
 }
-
 
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_tree/class.tx_ttboard_pi_tree.php'])	{

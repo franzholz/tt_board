@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2008 Franz Holzinger <contact@fholzinger.com>
+*  (c) 2007-2009 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,9 +34,9 @@
  * - See TS_ref.pdf
  *
  * $Id$
- * 
+ *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
- * @author	Franz Holzinger <contact@fholzinger.com>
+ * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
 require_once (PATH_BE_div2007.'class.tx_div2007_cobj.php');
@@ -47,14 +47,14 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 	var $scriptRelPath = 'pi_list/class.tx_ttboard_pi_list.php';	// Path to this script relative to the extension dir.
 	var $list_type='4';
 
+
 	/**
 	 * Main board function. Call this from TypoScript
 	 */
-	function main($content,$conf)	{
-		$bOrigInitCalled = false;
+	function main ($content,$conf)	{
+		$bOrigInitCalled = FALSE;
 
 		$this->conf = $conf;
-
 		$codeArray = $this->getCodeArray($conf);
 		$bCreate = TRUE;
 
@@ -65,10 +65,10 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 				default:
 					$setupCode = $conf['userFunc.'][$theCode];
 					if ($setupCode)	{
-						$bOrigInitCalled = false;
+						$bOrigInitCalled = FALSE;
 						$setup = $conf['userFunc.'][$theCode.'.'];
-						$newConf = array_merge($conf, $setup['10.']);
-						unset ($newConf['userFunc.']);
+						$newConf = t3lib_div::array_merge_recursive_overrule($conf, $setup['10.']);
+						unset($newConf['userFunc.']);
 						$newSetup = array();
 						if ($setupCode == 'COA')	{
 							$newSetup['10'] = 'USER';
@@ -80,8 +80,8 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 						$content .= $this->cObj->cObjGetSingle($setupCode, $newSetup);
 					} else {
 						if (!$bOrigInitCalled)	{
-							$bOrigInitCalled = true;
-							parent::init ($content, $conf, $this->config);
+							$bOrigInitCalled = TRUE;
+							parent::init($content, $conf, $this->config);
 						}
 						parent::processCode($theCode, $content);
 					}
@@ -95,43 +95,50 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 		return $content;
 	}
 
-	function help($content, $conf)	{
+
+	function help ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('HELP', $content);
 		return $content;
 	}
 
-	function listCagetories($content, $conf)	{
+
+	function listCagetories ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('LIST_CATEGORIES', $content);
 		return $content;
 	}
 
-	function listForums($content, $conf)	{
+
+	function listForums ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('LIST_FORUMS', $content);
 		return $content;
 	}
 
-	function forum($content, $conf)	{
+
+	function forum ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('FORUM', $content);
 		return $content;
 	}
 
-	function postForm($content, $conf)	{
+
+	function postForm ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM', $content);
 		return $content;
 	}
 
-	function postFormReply($content, $conf)	{
+
+	function postFormReply ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM_REPLY', $content);
 		return $content;
 	}
 
-	function thread($content, $conf)	{
+
+	function thread ($content, $conf)	{
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM_THREAD', $content);
 		return $content;

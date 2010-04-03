@@ -11,6 +11,7 @@ $LOCAL_LANG = Array (
 		'tt_board.notify_me' => 'Notify by email:',
 		'tt_board.crdate' => 'Date/Time:',
 		'tt_board.cr_ip' => 'Sender IP address',
+		'tt_board.reference' => 'Reference to record in another extension',
 		'tt_content.pi_flexform.display_mode' => 'Display mode',
 		'tt_content.pi_flexform.display_mode.1' => 'General: Help',
 		'tt_content.pi_flexform.display_mode.2' => 'Category, Forum: List',
@@ -41,6 +42,7 @@ $LOCAL_LANG = Array (
 		'tt_board.notify_me' => 'Benachrichtigung über Email:',
 		'tt_board.crdate' => 'Datum/Zeit:',
 		'tt_board.cr_ip' => 'Absender IP Adresse',
+		'tt_board.reference' => 'Verweis auf externen Datensatz',
 	),
 	'no' => Array (
 		'tt_board' => 'Forum',

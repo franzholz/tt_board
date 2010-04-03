@@ -9,7 +9,7 @@ $TCA['tt_board'] = Array (
 	'interface' => Array (
 		'showRecordFieldList' => 'subject,author,email,message'
 	),
-	'columns' => Array (	
+	'columns' => Array (
 		'subject' => Array (
 			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.subject',
 			'config' => Array (
@@ -22,7 +22,7 @@ $TCA['tt_board'] = Array (
 			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.message',
 			'config' => Array (
 				'type' => 'text',
-				'cols' => '40',	
+				'cols' => '40',
 				'rows' => '5'
 			)
 		),
@@ -69,7 +69,7 @@ $TCA['tt_board'] = Array (
 			)
 		),
 		'crdate' => Array (		// This field is by default filled with creation date. See tt_board 'ctrl' section
-			'exclude' => 1,	
+			'exclude' => 1,
 			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.crdate',
 			'config' => Array (
 				'type' => 'input',
@@ -86,10 +86,19 @@ $TCA['tt_board'] = Array (
 				'size' => '15',
 				'max' => '15',
 			)
+		),
+		'reference' => Array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.reference',
+			'config' => Array (
+				'type' => 'input',
+				'size' => '40',
+				'max' => '40',
+			)
 		)
 	),
-	'types' => Array (	
-		'0' => Array('showitem' => 'hidden;;;;1-1-1, crdate, subject;;;;3-3-3, message, author, email, parent;;;;5-5-5, notify_me, cr_ip')
+	'types' => Array (
+		'0' => Array('showitem' => 'hidden;;;;1-1-1, crdate, subject;;;;3-3-3, message, author, email, parent;;;;5-5-5, notify_me, cr_ip, reference')
 	)
 );
 ?>

@@ -119,6 +119,7 @@ class tx_ttboard_marker {
 		return $markerArray;
 	} // getGlobalMarkers
 
+
 	function getRowMarkerArray (
 		&$row,
 		$markerKey,

@@ -72,7 +72,7 @@ class tx_ttboard_forum {
 	/**
 	 * Creates the forum display, including listing all items/a single item
 	 */
-	function &printView ($uid, $pid_list, $theCode, &$orig_templateCode, $alternativeLayouts)	{
+	function &printView ($uid, $ref, $pid_list, $theCode, &$orig_templateCode, $alternativeLayouts, $linkParams)	{
 		global $TSFE;
 
 		$modelObj = &t3lib_div::getUserObj('&tx_ttboard_model');
@@ -89,7 +89,7 @@ class tx_ttboard_forum {
 			$modelObj->treeIcons['end'] = $local_cObj->stdWrap($this->conf['iconCode.']['end'],$this->conf['iconCode.']['end.']);
 		}
 
-		if ($uid && $theCode=='FORUM')	{
+		if (($uid || $ref!='') && $theCode == 'FORUM')	{
 			if (!$this->allowCaching)	{
 				$TSFE->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
 			}
@@ -106,8 +106,8 @@ class tx_ttboard_forum {
 					// Getting the specific parts of the template
 				$markerArray = $markerObj->getColumnMarkers();
 				$templateCode = $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
-				$rootParent = $modelObj->getRootParent($uid);
-				$wholeThread = $modelObj->getSingleThread($rootParent['uid'],1);
+				$rootParent = $modelObj->getRootParent($uid, $ref);
+				$wholeThread = $modelObj->getSingleThread($rootParent['uid'],$ref,1);
 				if ($lConf['single'])	{
 					foreach ($wholeThread as $recentP)	{
 						if ($recentP['uid']==$uid)	{
@@ -134,9 +134,17 @@ class tx_ttboard_forum {
 				$wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] = $local_cObj->typolinkWrap($this->typolink_conf);
 
 					// Link to next thread
+				$linkParams[$this->pibase->prefixId.'[uid]'] = $nextThread['uid'];
+				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
+
+/*
+
 				$overrulePIvars = array(
 					'uid' => $nextThread['uid']
 				);
+
+
+
 				$pageLink = htmlspecialchars(
 					$this->pibase->pi_linkTP_keepPIvars_url(
 						$overrulePIvars,
@@ -144,26 +152,32 @@ class tx_ttboard_forum {
 						0,
 						$this->pid
 					)
-				);
-				$wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] = array('<a href="'. $pageLink .'">','</a>');
+				);*/
+				$wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] = array('<a href="'. $url .'">','</a>');
 
 					// Link to prev thread
-				$overrulePIvars = array(
-					'uid' => $prevThread['uid']
-				);
-				$pageLink = htmlspecialchars(
-					$this->pibase->pi_linkTP_keepPIvars_url(
-						$overrulePIvars,
-						$this->allowCaching,
-						0,
-						$this->pid
-					)
-				);
+				$linkParams[$this->pibase->prefixId.'[uid]'] = $prevThread['uid'];
+				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-				$wrappedSubpartContentArray['###LINK_PREV_THREAD###'] = array('<a href="'. $pageLink .'">','</a>');
+// 				$overrulePIvars = array(
+// 					'uid' => $prevThread['uid']
+// 				);
+// 				$pageLink = htmlspecialchars(
+// 					$this->pibase->pi_linkTP_keepPIvars_url(
+// 						$overrulePIvars,
+// 						$this->allowCaching,
+// 						0,
+// 						$this->pid
+// 					)
+// 				);
+
+				$wrappedSubpartContentArray['###LINK_PREV_THREAD###'] = array('<a href="'. $url .'">','</a>');
 
 					// Link to first !!
-				$overrulePIvars = array(
+				$linkParams[$this->pibase->prefixId.'[uid]'] = $rootParent['uid'];
+				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
+
+/*				$overrulePIvars = array(
 					'uid' => ($rootParent['uid'])
 				);
 				$pageLink = htmlspecialchars(
@@ -173,8 +187,8 @@ class tx_ttboard_forum {
 						0,
 						$this->pid
 					)
-				);
-				$wrappedSubpartContentArray['###LINK_FIRST_POST###'] = array('<a href="'. $pageLink .'">','</a>');
+				);*/
+				$wrappedSubpartContentArray['###LINK_FIRST_POST###'] = array('<a href="'. $url .'">','</a>');
 
 					// Substitute:
 				$templateCode = $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,array(),$wrappedSubpartContentArray);
@@ -201,47 +215,55 @@ class tx_ttboard_forum {
 					);
 
 						// Link to the post
-					$overrulePIvars = array(
-						'uid' => ($recentPost['uid'])
-					);
-					$pageLink = htmlspecialchars(
-						$this->pibase->pi_linkTP_keepPIvars_url(
-							$overrulePIvars,
-							$this->allowCaching,
-							0,
-							$this->pid
-						)
-					);
-					$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. $pageLink .'">','</a>');
+					$linkParams[$this->pibase->prefixId.'[uid]'] = $recentPost['uid'];
+					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
+
+// 					$overrulePIvars = array(
+// 						'uid' => ($recentPost['uid'])
+// 					);
+// 					$pageLink = htmlspecialchars(
+// 						$this->pibase->pi_linkTP_keepPIvars_url(
+// 							$overrulePIvars,
+// 							$this->allowCaching,
+// 							0,
+// 							$this->pid
+// 						)
+// 					);
+					$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. $url .'">','</a>');
 
 						// Link to next thread
-					$overrulePIvars = array(
-						'uid' => ($recentPost['nextUid']?$recentPost['nextUid']:$nextThread['uid'])
-					);
-					$pageLink = htmlspecialchars(
-						$this->pibase->pi_linkTP_keepPIvars_url(
-							$overrulePIvars,
-							$this->allowCaching,
-							0,
-							$this->pid
-						)
-					);
-					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] = array('<a href="'. $pageLink .'">','</a>');
+					$linkParams[$this->pibase->prefixId.'[uid]'] = ($recentPost['nextUid']?$recentPost['nextUid']:$nextThread['uid']);
+					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
+
+// 					$overrulePIvars = array(
+// 						'uid' => ($recentPost['nextUid']?$recentPost['nextUid']:$nextThread['uid'])
+// 					);
+// 					$pageLink = htmlspecialchars(
+// 						$this->pibase->pi_linkTP_keepPIvars_url(
+// 							$overrulePIvars,
+// 							$this->allowCaching,
+// 							0,
+// 							$this->pid
+// 						)
+// 					);
+					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] = array('<a href="'. $url .'">','</a>');
 
 						// Link to prev thread
-					$overrulePIvars = array(
-						'uid' => ($recentPost['prevUid']?$recentPost['prevUid']:$nextThread['uid'])
-					);
-					$pageLink = htmlspecialchars(
-						$this->pibase->pi_linkTP_keepPIvars_url(
-							$overrulePIvars,
-							$this->allowCaching,
-							0,
-							$this->pid
-						)
-					);
+					$linkParams[$this->pibase->prefixId.'[uid]'] = ($recentPost['prevUid']?$recentPost['prevUid']:$nextThread['uid']);
+					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-					$wrappedSubpartContentArray['###LINK_PREV_POST###'] = array('<a href="'. $pageLink .'">','</a>');
+// 					$overrulePIvars = array(
+// 						'uid' => ($recentPost['prevUid']?$recentPost['prevUid']:$nextThread['uid'])
+// 					);
+// 					$pageLink = htmlspecialchars(
+// 						$this->pibase->pi_linkTP_keepPIvars_url(
+// 							$overrulePIvars,
+// 							$this->allowCaching,
+// 							0,
+// 							$this->pid
+// 						)
+// 					);
+					$wrappedSubpartContentArray['###LINK_PREV_POST###'] = array('<a href="'. $url .'">','</a>');
 
 						// Substitute:
 					$subpartContent .= $local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
@@ -253,10 +275,10 @@ class tx_ttboard_forum {
 				debug('No template code for ');
 			}
 		} else { // if ($this->tt_board_uid && $theCode=='FORUM')
-			$continue = true;
+			$continue = TRUE;
 			if ($theCode == 'THREAD_TREE')	{
-				if (!$uid)	{
-					$continue = false;
+				if (!$uid && $ref == '')	{
+					$continue = FALSE;
 				}
 				$lConf = $this->conf['thread_tree.'];
 			} else {
@@ -283,10 +305,10 @@ class tx_ttboard_forum {
 					$subpartContent = '';
 
 					if ($theCode == 'THREAD_TREE')	{
-						$rootParent = $modelObj->getRootParent($uid);
-						$recentPosts = $modelObj->getSingleThread($rootParent['uid'],1);
+						$rootParent = $modelObj->getRootParent($uid, $ref);
+						$recentPosts = $modelObj->getSingleThread($rootParent['uid'],$ref,1);
 					} else {
-						$recentPosts = $modelObj->getThreads($pid_list,$this->conf['tree'], $lConf['thread_limit'] ? $lConf['thread_limit']:'50', t3lib_div::_GP('tt_board_sword'));
+						$recentPosts = $modelObj->getThreads($pid_list,$ref,$this->conf['tree'], $lConf['thread_limit'] ? $lConf['thread_limit']:'50', t3lib_div::_GP('tt_board_sword'));
 					}
 					$c_post = 0;
 					$subpartArray = array();
@@ -317,20 +339,25 @@ class tx_ttboard_forum {
 						$overrulePIvars = array(
 							'uid' => ($recentPost['uid'])
 						);
-						$pageLink = htmlspecialchars(
-							$this->pibase->pi_linkTP_keepPIvars_url(
-								$overrulePIvars,
-								$this->allowCaching,
-								0,
-								$this->pid
-							)
-						);
-						$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. $pageLink .'">','</a>');
+
+						$linkParams[$this->pibase->prefixId.'[uid]'] = $recentPost['uid'];
+						$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
+
+
+// 						$pageLink = htmlspecialchars(
+// 							$this->pibase->pi_linkTP_keepPIvars_url(
+// 								$overrulePIvars,
+// 								$this->allowCaching,
+// 								0,
+// 								$this->pid
+// 							)
+// 						);
+						$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. $url .'">','</a>');
 
 						$GLOBALS['TT']->pull();
 							// Last post processing:
 						$GLOBALS['TT']->push('/last post info/');
-						$lastPostInfo = $modelObj->getLastPostInThread($recentPost['pid'],$recentPost['uid']);
+						$lastPostInfo = $modelObj->getLastPostInThread($recentPost['pid'],$recentPost['uid'],$ref);
 						$GLOBALS['TT']->pull();
 						if (!$lastPostInfo)	$lastPostInfo=$recentPost;
 
@@ -343,6 +370,10 @@ class tx_ttboard_forum {
 						$markerArray['###LAST_POST_AUTHOR###'] = $local_cObj->stdWrap($markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
 
 							// Link to the last post
+						$linkParams[$this->pibase->prefixId.'[uid]'] = $lastPostInfo['uid'];
+						$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
+
+/*
 						$overrulePIvars = array(
 							'uid' => ($lastPostInfo['uid'])
 						);
@@ -353,8 +384,8 @@ class tx_ttboard_forum {
 								0,
 								$this->pid
 							)
-						);
-						$wrappedSubpartContentArray['###LINK_LAST_POST###'] = array('<a href="'. $pageLink .'">','</a>');
+						);*/
+						$wrappedSubpartContentArray['###LINK_LAST_POST###'] = array('<a href="'. $url .'">','</a>');
 
 						$GLOBALS['TT']->pull();
 							// Substitute:
@@ -379,7 +410,7 @@ class tx_ttboard_forum {
 
 						// Substitute CONTENT-subpart
 					$subpartContentArray['###CONTENT###'] = $subpartContent;
-					$content.= $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartContentArray);
+					$content .= $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartContentArray);
 				} else {
 					debug('No template code for ');
 				}

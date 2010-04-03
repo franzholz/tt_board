@@ -1,3 +1,6 @@
+2010-04-03 Franz Holzinger <franz@fholzinger.com>
+	* add API for other extensions to comment their records
+
 2009-08-26 Franz Holzinger <franz@fholzinger.com>
 	* add CSS classes to the example templates
 	* fix bug with search of small texts with 2 letters
