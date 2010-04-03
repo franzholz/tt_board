@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009-2009 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2009-2010 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -43,7 +43,7 @@ class tx_ttboard_api {
 
 	/**
 	 * Retrieves default configuration of tt_board.
-	 * Uses plugin.tx_ratings_pi1 from page TypoScript template
+	 * Uses plugin.tt_board_list or plugin.tt_board_tree from page TypoScript template
 	 *
 	 * @param	string		type of the forum: list or tree
      *
