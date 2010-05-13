@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2009 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 1999-2010 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -43,8 +43,11 @@ if (is_object($this))	{
 	global $TSFE;
 
 	$localCharset = $TSFE->localeCharset;
-	$conf = $this->getConf('tt_board');
+
+	$conf = $this->extScriptsConf['tt_board'];
 	$row = $this->newData['tt_board']['NEW'];
+	$prefixId = $row['prefixid'];
+	unset($row['prefixid']);
 
 	if (is_array($row))	{
 		$email = $row['email'];
@@ -157,7 +160,7 @@ if (is_object($this))	{
 							$maillist_recip = substr($emails,0,-1);
 							// else, send to sendToMailingList.email
 						} else {
-							$maillist_recip = $maillist_recip = $mConf['email'];
+							$maillist_recip = $mConf['email'];
 						}
 
 						$maillist_header='From: '.$mConf['namePrefix'].$row['author'].' <'.$mConf['reply'].'>'.chr(10);
@@ -175,7 +178,7 @@ if (is_object($this))	{
 
 							// Message
 						$maillist_msg = chr(10).chr(10).$conf['newReply.']['subjectPrefix'].chr(10).$row['subject'].chr(10).chr(10).$conf['newReply.']['message'].chr(10).$row['message'].chr(10).chr(10).$conf['newReply.']['author'].chr(10).$row['author'].chr(10).chr(10).chr(10);
-						$maillist_msg .= $conf['newReply.']['followThisLink'].chr(10).t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&no_cache=1&tt_board_uid='.$newId;
+						$maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10) . t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&type=' . $GLOBALS['TSFE']->type . '&' . $prefixId . '[uid]=' . $newId;
 							// Send
 
 						if ($conf['debug'])	{
@@ -185,6 +188,7 @@ if (is_object($this))	{
 							debug($maillist_header,1);
 						} else {
 							$addresses = explode(",", $maillist_recip);
+
 							foreach ($addresses as $email) {
 								send_mail($email,$maillist_subject,$maillist_msg,$tmp='',$mConf['reply'],'',$mConf['namePrefix'].$row['author']);
 							}
@@ -200,16 +204,16 @@ if (is_object($this))	{
 						$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
 						$markersArray['###CR_IP###'] = $row['cr_ip'];
 						$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
-						$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT').'?id='.$GLOBALS['TSFE']->id.'&type='.$GLOBALS['TSFE']->type.'&tt_board_uid='.$newId;
+						$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&type=' . $GLOBALS['TSFE']->type . '&' . $prefixId . '[uid]=' . $newId;
 
 						if ($row['parent'])	{		// If reply and not new thread:
 							$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
-							$markersArray['###DID_WHAT###']= $conf['newReply.']['didWhat'];
-							$markersArray['###SUBJECT_PREFIX###']=$conf['newReply.']['subjectPrefix'];
+							$markersArray['###DID_WHAT###'] = $conf['newReply.']['didWhat'];
+							$markersArray['###SUBJECT_PREFIX###'] = $conf['newReply.']['subjectPrefix'];
 						} else {	// If new thread:
 							$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
-							$markersArray['###DID_WHAT###']= $conf['newThread.']['didWhat'];
-							$markersArray['###SUBJECT_PREFIX###']=$conf['newThread.']['subjectPrefix'];
+							$markersArray['###DID_WHAT###'] = $conf['newThread.']['didWhat'];
+							$markersArray['###SUBJECT_PREFIX###'] = $conf['newThread.']['subjectPrefix'];
 						}
 						$markersArray['###SUBJECT###'] = strtoupper($row['subject']);
 						$markersArray['###BODY###'] = t3lib_div::fixed_lgd_cs($row['message'],1000);

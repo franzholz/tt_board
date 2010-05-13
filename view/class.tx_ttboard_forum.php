@@ -137,39 +137,11 @@ class tx_ttboard_forum {
 				$linkParams[$this->pibase->prefixId.'[uid]'] = $nextThread['uid'];
 				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-/*
-
-				$overrulePIvars = array(
-					'uid' => $nextThread['uid']
-				);
-
-
-
-				$pageLink = htmlspecialchars(
-					$this->pibase->pi_linkTP_keepPIvars_url(
-						$overrulePIvars,
-						$this->allowCaching,
-						0,
-						$this->pid
-					)
-				);*/
 				$wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] = array('<a href="'. $url .'">','</a>');
 
 					// Link to prev thread
 				$linkParams[$this->pibase->prefixId.'[uid]'] = $prevThread['uid'];
 				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
-
-// 				$overrulePIvars = array(
-// 					'uid' => $prevThread['uid']
-// 				);
-// 				$pageLink = htmlspecialchars(
-// 					$this->pibase->pi_linkTP_keepPIvars_url(
-// 						$overrulePIvars,
-// 						$this->allowCaching,
-// 						0,
-// 						$this->pid
-// 					)
-// 				);
 
 				$wrappedSubpartContentArray['###LINK_PREV_THREAD###'] = array('<a href="'. $url .'">','</a>');
 
@@ -177,17 +149,6 @@ class tx_ttboard_forum {
 				$linkParams[$this->pibase->prefixId.'[uid]'] = $rootParent['uid'];
 				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-/*				$overrulePIvars = array(
-					'uid' => ($rootParent['uid'])
-				);
-				$pageLink = htmlspecialchars(
-					$this->pibase->pi_linkTP_keepPIvars_url(
-						$overrulePIvars,
-						$this->allowCaching,
-						0,
-						$this->pid
-					)
-				);*/
 				$wrappedSubpartContentArray['###LINK_FIRST_POST###'] = array('<a href="'. $url .'">','</a>');
 
 					// Substitute:
@@ -218,51 +179,18 @@ class tx_ttboard_forum {
 					$linkParams[$this->pibase->prefixId.'[uid]'] = $recentPost['uid'];
 					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-// 					$overrulePIvars = array(
-// 						'uid' => ($recentPost['uid'])
-// 					);
-// 					$pageLink = htmlspecialchars(
-// 						$this->pibase->pi_linkTP_keepPIvars_url(
-// 							$overrulePIvars,
-// 							$this->allowCaching,
-// 							0,
-// 							$this->pid
-// 						)
-// 					);
 					$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. $url .'">','</a>');
 
 						// Link to next thread
 					$linkParams[$this->pibase->prefixId.'[uid]'] = ($recentPost['nextUid']?$recentPost['nextUid']:$nextThread['uid']);
 					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-// 					$overrulePIvars = array(
-// 						'uid' => ($recentPost['nextUid']?$recentPost['nextUid']:$nextThread['uid'])
-// 					);
-// 					$pageLink = htmlspecialchars(
-// 						$this->pibase->pi_linkTP_keepPIvars_url(
-// 							$overrulePIvars,
-// 							$this->allowCaching,
-// 							0,
-// 							$this->pid
-// 						)
-// 					);
 					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] = array('<a href="'. $url .'">','</a>');
 
 						// Link to prev thread
 					$linkParams[$this->pibase->prefixId.'[uid]'] = ($recentPost['prevUid']?$recentPost['prevUid']:$nextThread['uid']);
 					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-// 					$overrulePIvars = array(
-// 						'uid' => ($recentPost['prevUid']?$recentPost['prevUid']:$nextThread['uid'])
-// 					);
-// 					$pageLink = htmlspecialchars(
-// 						$this->pibase->pi_linkTP_keepPIvars_url(
-// 							$overrulePIvars,
-// 							$this->allowCaching,
-// 							0,
-// 							$this->pid
-// 						)
-// 					);
 					$wrappedSubpartContentArray['###LINK_PREV_POST###'] = array('<a href="'. $url .'">','</a>');
 
 						// Substitute:
@@ -342,16 +270,6 @@ class tx_ttboard_forum {
 
 						$linkParams[$this->pibase->prefixId.'[uid]'] = $recentPost['uid'];
 						$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
-
-
-// 						$pageLink = htmlspecialchars(
-// 							$this->pibase->pi_linkTP_keepPIvars_url(
-// 								$overrulePIvars,
-// 								$this->allowCaching,
-// 								0,
-// 								$this->pid
-// 							)
-// 						);
 						$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. $url .'">','</a>');
 
 						$GLOBALS['TT']->pull();
@@ -373,18 +291,6 @@ class tx_ttboard_forum {
 						$linkParams[$this->pibase->prefixId.'[uid]'] = $lastPostInfo['uid'];
 						$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-/*
-						$overrulePIvars = array(
-							'uid' => ($lastPostInfo['uid'])
-						);
-						$pageLink = htmlspecialchars(
-							$this->pibase->pi_linkTP_keepPIvars_url(
-								$overrulePIvars,
-								$this->allowCaching,
-								0,
-								$this->pid
-							)
-						);*/
 						$wrappedSubpartContentArray['###LINK_LAST_POST###'] = array('<a href="'. $url .'">','</a>');
 
 						$GLOBALS['TT']->pull();

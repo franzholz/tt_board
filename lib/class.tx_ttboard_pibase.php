@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2009 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 1999-2010 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -510,10 +510,21 @@ class tx_ttboard_pibase extends tslib_pibase {
 /*				$rootParent = $this->modelObj->getRootParent($parent, $ref);
 */
 				$wholeThread = $this->modelObj->getSingleThread($parentR['uid'],$ref,1);
+				$notify = array();
 
-				foreach($wholeThread as $recordP)	{
-					if ($recordP['notify_me'] && $recordP['email'])		{
-						$notify[md5(trim(strtolower($recordP['email'])))] = trim($recordP['email']);
+				foreach($wholeThread as $recordP)	{	// the last notification checkbox will be superseed the previous settings
+
+					if ($recordP['email'])		{
+
+						$index = md5(trim(strtolower($recordP['email'])));
+
+						if ($recordP['notify_me'])	{
+							$notify[$index] = trim($recordP['email']);
+						} else if (!$recordP['notify_me']) {
+							if (isset($notify[$index]))	{
+								unset($notify[$index]);
+							}
+						}
 					}
 				}
 			}
@@ -580,6 +591,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 						'value' => $out,
 					);
 				}
+				$lConf['dataArray.']['9995.'] = array(
+					'type' => '*data[tt_board][NEW][prefixid]=hidden',
+					'value' => $this->prefixId
+				);
 				$lConf['dataArray.']['9996.'] = array(
 					'type' => '*data[tt_board][NEW][reference]=hidden',
 					'value' => $ref
@@ -613,6 +628,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 						'value' => htmlspecialchars(implode($notify,','))
 					);
 				}
+
 				if (is_array($TSFE->fe_user->user))	{
 					foreach ($lConf['dataArray.'] as $k => $dataRow)	{
 						if (strpos($dataRow['type'],'[author]') !== FALSE)	{
@@ -646,16 +662,13 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 				if ($this->tt_board_uid)	{
 					$linkParams[$this->prefixId.'[uid]'] = $this->tt_board_uid;
-
-/*					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$TSFE->id,'',array($this->prefixId.'[uid]'=>$this->tt_board_uid),array('useCacheHash' => FALSE));
-					$lConf['type'] = $url;*/
 				}
 				if (isset($linkParams) && is_array($linkParams))	{
 					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$TSFE->id,'',$linkParams,array('useCacheHash' => FALSE));
 					$lConf['type'] = $url;
 				}
 				ksort($lConf['dataArray.']);
-				$content.=$local_cObj->FORM($lConf);
+				$content .= $local_cObj->FORM($lConf);
 			}
 		}
 		return $content;

@@ -1,3 +1,6 @@
+2010-05-13 Franz Holzinger <franz@fholzinger.com>
+	* change links in email to use directly the parameter tx_ttboard_pi_list[uid] instead of the former tt_board_uid.
+
 2010-04-03 Franz Holzinger <franz@fholzinger.com>
 	* add API for other extensions to comment their records
 
