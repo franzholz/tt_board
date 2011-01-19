@@ -1,3 +1,7 @@
+2011-01-19 Franz Holzinger <franz@fholzinger.com>
+	* Fix to the parameter with uid inside of brackets in the submit form. There has been a cache problem.
+	* fix bug with PHP 5.3: replace split by explode
+
 2010-05-13 Franz Holzinger <franz@fholzinger.com>
 	* change links in email to use directly the parameter tx_ttboard_pi_list[uid] instead of the former tt_board_uid.
 

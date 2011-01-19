@@ -661,7 +661,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				}
 
 				if ($this->tt_board_uid)	{
-					$linkParams[$this->prefixId.'[uid]'] = $this->tt_board_uid;
+					$linkParams[$this->prefixId . '[uid]'] = $this->tt_board_uid;
 				}
 				if (isset($linkParams) && is_array($linkParams))	{
 					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$TSFE->id,'',$linkParams,array('useCacheHash' => FALSE));

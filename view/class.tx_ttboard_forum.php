@@ -137,19 +137,19 @@ class tx_ttboard_forum {
 				$linkParams[$this->pibase->prefixId.'[uid]'] = $nextThread['uid'];
 				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-				$wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] = array('<a href="'. $url .'">','</a>');
+				$wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] = array('<a href="'. htmlspecialchars($url) .'">','</a>');
 
 					// Link to prev thread
 				$linkParams[$this->pibase->prefixId.'[uid]'] = $prevThread['uid'];
 				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-				$wrappedSubpartContentArray['###LINK_PREV_THREAD###'] = array('<a href="'. $url .'">','</a>');
+				$wrappedSubpartContentArray['###LINK_PREV_THREAD###'] = array('<a href="'. htmlspecialchars($url) .'">','</a>');
 
 					// Link to first !!
 				$linkParams[$this->pibase->prefixId.'[uid]'] = $rootParent['uid'];
 				$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-				$wrappedSubpartContentArray['###LINK_FIRST_POST###'] = array('<a href="'. $url .'">','</a>');
+				$wrappedSubpartContentArray['###LINK_FIRST_POST###'] = array('<a href="'. htmlspecialchars($url) .'">','</a>');
 
 					// Substitute:
 				$templateCode = $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,array(),$wrappedSubpartContentArray);
@@ -179,19 +179,19 @@ class tx_ttboard_forum {
 					$linkParams[$this->pibase->prefixId.'[uid]'] = $recentPost['uid'];
 					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-					$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. $url .'">','</a>');
+					$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. htmlspecialchars($url) .'">','</a>');
 
 						// Link to next thread
 					$linkParams[$this->pibase->prefixId.'[uid]'] = ($recentPost['nextUid']?$recentPost['nextUid']:$nextThread['uid']);
 					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] = array('<a href="'. $url .'">','</a>');
+					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] = array('<a href="'. htmlspecialchars($url) .'">','</a>');
 
 						// Link to prev thread
 					$linkParams[$this->pibase->prefixId.'[uid]'] = ($recentPost['prevUid']?$recentPost['prevUid']:$nextThread['uid']);
 					$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-					$wrappedSubpartContentArray['###LINK_PREV_POST###'] = array('<a href="'. $url .'">','</a>');
+					$wrappedSubpartContentArray['###LINK_PREV_POST###'] = array('<a href="'. htmlspecialchars($url) .'">','</a>');
 
 						// Substitute:
 					$subpartContent .= $local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
@@ -270,7 +270,7 @@ class tx_ttboard_forum {
 
 						$linkParams[$this->pibase->prefixId.'[uid]'] = $recentPost['uid'];
 						$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
-						$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. $url .'">','</a>');
+						$wrappedSubpartContentArray['###LINK###'] = array('<a href="'. htmlspecialchars($url) .'">','</a>');
 
 						$GLOBALS['TT']->pull();
 							// Last post processing:
@@ -291,7 +291,7 @@ class tx_ttboard_forum {
 						$linkParams[$this->pibase->prefixId.'[uid]'] = $lastPostInfo['uid'];
 						$url = tx_div2007_alpha::getPageLink_fh002($local_cObj,$this->pid,'',$linkParams,array('useCacheHash' => $this->allowCaching));
 
-						$wrappedSubpartContentArray['###LINK_LAST_POST###'] = array('<a href="'. $url .'">','</a>');
+						$wrappedSubpartContentArray['###LINK_LAST_POST###'] = array('<a href="'. htmlspecialchars($url) .'">','</a>');
 
 						$GLOBALS['TT']->pull();
 							// Substitute:

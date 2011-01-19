@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2010 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2011 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -62,7 +62,7 @@ if (is_object($this))	{
 				$bSpamFound = FALSE;
 				$internalFieldArray = array('hidden','parent','pid','reference','doublePostCheck','captcha');
 				if ($conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap'))	{
-					require_once(t3lib_extMgm::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php');
+					require_once(t3lib_extMgm::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
 					$freeCapObj = &t3lib_div::getUserObj('&tx_srfreecap_pi2');
 					if (!$freeCapObj->checkWord($row['captcha']))	{
 						$GLOBALS['TSFE']->applicationData['tt_board']['error']['captcha'] = TRUE;
@@ -96,10 +96,6 @@ if (is_object($this))	{
 						break;
 					}
 					$row[$field] = ($localCharset ? $TSFE->csConvObj->conv($value, $TSFE->renderCharset, $localCharset) : $value);
-
-// $TSFE->csConvObj->conv($value,$localCharset,$charset);
-
-					// $row[$field] = htmlentities($value,ENT_QUOTES,$charset);
 				}
 				if ($bSpamFound)	{
 					$GLOBALS['TSFE']->applicationData['tt_board']['error']['spam'] = TRUE;
@@ -178,7 +174,9 @@ if (is_object($this))	{
 
 							// Message
 						$maillist_msg = chr(10).chr(10).$conf['newReply.']['subjectPrefix'].chr(10).$row['subject'].chr(10).chr(10).$conf['newReply.']['message'].chr(10).$row['message'].chr(10).chr(10).$conf['newReply.']['author'].chr(10).$row['author'].chr(10).chr(10).chr(10);
-						$maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10) . t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&type=' . $GLOBALS['TSFE']->type . '&' . $prefixId . '[uid]=' . $newId;
+						$maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10) .
+							t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id .
+							'&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
 							// Send
 
 						if ($conf['debug'])	{
@@ -204,7 +202,7 @@ if (is_object($this))	{
 						$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
 						$markersArray['###CR_IP###'] = $row['cr_ip'];
 						$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
-						$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&type=' . $GLOBALS['TSFE']->type . '&' . $prefixId . '[uid]=' . $newId;
+						$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
 
 						if ($row['parent'])	{		// If reply and not new thread:
 							$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
@@ -228,13 +226,13 @@ if (is_object($this))	{
 							$headers[]='FROM: '.$conf['notify_from'];
 						}
 
-						$msgParts = split(chr(10),$msg,2);
+						$msgParts = explode(chr(10), $msg, 2);
 						if ($conf['debug'])	{
 							debug($notifyMe,1);
 							debug($headers,1);
 							debug($msgParts);
 						} else {
-							$addresses = explode(",", $notifyMe);
+							$addresses = explode(',', $notifyMe);
 							$senderArray = preg_split('/(<|>)/',$conf['notify_from'],3,PREG_SPLIT_DELIM_CAPTURE);
 							if (count($senderArray)>=4)	{
 								$fromEmail = $senderArray[2];
@@ -270,7 +268,7 @@ function send_mail($toEMail,$subject,&$message,&$html,$fromEMail,$replytoEmail,$
 		$Typo3_htmlmail = t3lib_div::makeInstance('t3lib_htmlmail');
 		$Typo3_htmlmail->start();
 		$Typo3_htmlmail->mailer = 'TYPO3 HTMLMail';
-		// $Typo3_htmlmail->useBase64(); +++ TODO
+		// $Typo3_htmlmail->useBase64(); TODO
 
 		$Typo3_htmlmail->subject = $subject;
 		$Typo3_htmlmail->from_email = $fromEMail;
@@ -302,13 +300,14 @@ function send_mail($toEMail,$subject,&$message,&$html,$fromEMail,$replytoEmail,$
 // Added by Nicolas Liaudat
 function checkEmail($email)	{
 
+	$email = trim($email);
 	if (!ereg('^[^@]{1,64}@[^@]{1,255}$', $email)) {
 		// Email invalid because wrong number of characters in one section, or wrong number of @ symbols.
 		return FALSE;
 	}
 
 	// gets domain name
-	list($username,$domain)=split('@',$email);
+	list($username, $domain) = explode('@', $email);
 	// checks for if MX records in the DNS
 	$mxhosts = array();
 	if(!getmxrr($domain, $mxhosts))	{
