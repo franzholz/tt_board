@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009-2010 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2012 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -35,8 +35,8 @@
  */
 
 
-require_once (PATH_BE_ttboard.'marker/class.tx_ttboard_marker.php');
-require_once (PATH_BE_ttboard.'model/class.tx_ttboard_model.php');
+require_once (PATH_BE_ttboard . 'marker/class.tx_ttboard_marker.php');
+require_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
 
 
 class tx_ttboard_api {
@@ -52,7 +52,7 @@ class tx_ttboard_api {
 	public function getDefaultConfig ($type) {
 		global $TSFE;
 
-		if ($type == 'list' || $type == 'tree')	{
+		if ($type == 'list' || $type == 'tree') {
 			$key = 'tt_board_' . $type . '.';
 			$rc = $TSFE->tmpl->setup['plugin.'][$key];
 		} else {
@@ -63,7 +63,7 @@ class tx_ttboard_api {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/api/class.tx_ttboard_api.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/api/class.tx_ttboard_api.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/api/class.tx_ttboard_api.php']);
 }
 

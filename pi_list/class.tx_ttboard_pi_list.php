@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2009 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2012 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -42,35 +42,38 @@
 require_once (PATH_BE_div2007.'class.tx_div2007_cobj.php');
 require_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
 
+
 class tx_ttboard_pi_list extends tx_ttboard_pibase {
-	var $prefixId = 'tx_ttboard_pi_list';	// Same as class name
-	var $scriptRelPath = 'pi_list/class.tx_ttboard_pi_list.php';	// Path to this script relative to the extension dir.
-	var $list_type='4';
+	public $prefixId = 'tx_ttboard_pi_list';	// Same as class name
+	public $scriptRelPath = 'pi_list/class.tx_ttboard_pi_list.php';	// Path to this script relative to the extension dir.
+	public $list_type = '4';
 
 
 	/**
 	 * Main board function. Call this from TypoScript
 	 */
-	function main ($content,$conf)	{
+	public function main ($content,$conf) {
+debug ($conf, 'main $conf +++');
+
 		$bOrigInitCalled = FALSE;
 
 		$this->conf = $conf;
 		$codeArray = $this->getCodeArray($conf);
 		$bCreate = TRUE;
 
-		foreach ($codeArray as $k => $theCode)	{
+		foreach ($codeArray as $k => $theCode) {
 			$theCode = (string)strtoupper(trim($theCode));
 
-			switch($theCode)	{
+			switch($theCode) {
 				default:
 					$setupCode = $conf['userFunc.'][$theCode];
-					if ($setupCode)	{
+					if ($setupCode) {
 						$bOrigInitCalled = FALSE;
 						$setup = $conf['userFunc.'][$theCode.'.'];
 						$newConf = t3lib_div::array_merge_recursive_overrule($conf, $setup['10.']);
 						unset($newConf['userFunc.']);
 						$newSetup = array();
-						if ($setupCode == 'COA')	{
+						if ($setupCode == 'COA') {
 							$newSetup['10'] = 'USER';
 						} else {
 							$newSetup['10'] = 'USER_INT';
@@ -79,7 +82,7 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 						$newSetup['10.'] = $newConf;
 						$content .= $this->cObj->cObjGetSingle($setupCode, $newSetup);
 					} else {
-						if (!$bOrigInitCalled)	{
+						if (!$bOrigInitCalled) {
 							$bOrigInitCalled = TRUE;
 							parent::init($content, $conf, $this->config);
 						}
@@ -88,7 +91,7 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 				break;
 			}	// Switch
 
-			if ($this->errorMessage)	{
+			if ($this->errorMessage) {
 				break;
 			}
 		}
@@ -96,59 +99,57 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 	}
 
 
-	function help ($content, $conf)	{
+	public function help ($content, $conf) {
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('HELP', $content);
 		return $content;
 	}
 
 
-	function listCagetories ($content, $conf)	{
+	public function listCagetories ($content, $conf) {
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('LIST_CATEGORIES', $content);
 		return $content;
 	}
 
 
-	function listForums ($content, $conf)	{
+	public function listForums ($content, $conf) {
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('LIST_FORUMS', $content);
 		return $content;
 	}
 
 
-	function forum ($content, $conf)	{
+	public function forum ($content, $conf) {
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('FORUM', $content);
 		return $content;
 	}
 
 
-	function postForm ($content, $conf)	{
+	public function postForm ($content, $conf) {
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM', $content);
 		return $content;
 	}
 
 
-	function postFormReply ($content, $conf)	{
+	public function postFormReply ($content, $conf) {
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM_REPLY', $content);
 		return $content;
 	}
 
 
-	function thread ($content, $conf)	{
+	public function thread ($content, $conf) {
 		parent::init ($content, $conf, $this->config);
 		parent::processCode('POSTFORM_THREAD', $content);
 		return $content;
 	}
-
 }
 
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_list/class.tx_ttboard_pi_list.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_list/class.tx_ttboard_pi_list.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_list/class.tx_ttboard_pi_list.php']);
 }
 

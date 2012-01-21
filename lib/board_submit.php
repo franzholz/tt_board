@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2012 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,10 +36,10 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
-include_once (PATH_BE_ttboard.'model/class.tx_ttboard_model.php');
+include_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
 
 
-if (is_object($this))	{
+if (is_object($this)) {
 	global $TSFE;
 
 	$localCharset = $TSFE->localeCharset;
@@ -49,22 +49,22 @@ if (is_object($this))	{
 	$prefixId = $row['prefixid'];
 	unset($row['prefixid']);
 
-	if (is_array($row))	{
+	if (is_array($row)) {
 		$email = $row['email'];
 	}
 	$allowed = tx_ttboard_model::isAllowed($conf['memberOfGroups']);
 
 	if ($allowed && (!$conf['emailCheck'] || checkEmail($email))) {
 
-		if (is_array($row) && trim($row['message']))	{
+		if (is_array($row) && trim($row['message'])) {
 			do {
-				$spamArray = t3lib_div::trimExplode(',',$conf['spamWords']);
+				$spamArray = t3lib_div::trimExplode(',', $conf['spamWords']);
 				$bSpamFound = FALSE;
-				$internalFieldArray = array('hidden','parent','pid','reference','doublePostCheck','captcha');
-				if ($conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap'))	{
+				$internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
+				if ($conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap')) {
 					require_once(t3lib_extMgm::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
 					$freeCapObj = &t3lib_div::getUserObj('&tx_srfreecap_pi2');
-					if (!$freeCapObj->checkWord($row['captcha']))	{
+					if (!$freeCapObj->checkWord($row['captcha'])) {
 						$GLOBALS['TSFE']->applicationData['tt_board']['error']['captcha'] = TRUE;
 						$GLOBALS['TSFE']->applicationData['tt_board']['row'] = $row;
 						$GLOBALS['TSFE']->applicationData['tt_board']['word'] = $row['captcha'];
@@ -72,39 +72,28 @@ if (is_object($this))	{
 					}
 				}
 
-				foreach ($row as $field => $value)	{
-					if (!in_array($field, $internalFieldArray))	{
-						if (version_compare(phpversion(), '5.0.0', '>='))	{
-							foreach ($spamArray as $k => $word)	{
-								if ($word && stripos($value, $word) !== FALSE)	{
-									$bSpamFound = TRUE;
-									break;
-								}
-							}
-						} else {
-							foreach ($spamArray as $k => $word)	{
-								$lWord = strtolower($word);
-								$lValue = strtolower($value);
-								if ($lWord && strpos($lValue, $lWord) !== FALSE)	{
-									$bSpamFound = TRUE;
-									break;
-								}
+				foreach ($row as $field => $value) {
+					if (!in_array($field, $internalFieldArray)) {
+						foreach ($spamArray as $k => $word) {
+							if ($word && stripos($value, $word) !== FALSE) {
+								$bSpamFound = TRUE;
+								break;
 							}
 						}
 					}
-					if ($bSpamFound)	{
+					if ($bSpamFound) {
 						break;
 					}
 					$row[$field] = ($localCharset ? $TSFE->csConvObj->conv($value, $TSFE->renderCharset, $localCharset) : $value);
 				}
-				if ($bSpamFound)	{
+				if ($bSpamFound) {
 					$GLOBALS['TSFE']->applicationData['tt_board']['error']['spam'] = TRUE;
 					$GLOBALS['TSFE']->applicationData['tt_board']['row'] = $row;
 					$GLOBALS['TSFE']->applicationData['tt_board']['word'] = $word;
 					break;
 				} else {
 					$row['cr_ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
-					if (isset($row['captcha']))	{
+					if (isset($row['captcha'])) {
 						unset($row['captcha']);
 					}
 
@@ -114,23 +103,23 @@ if (is_object($this))	{
 
 					$this->clear_cacheCmd(intval($row['pid']));
 					$GLOBALS['TSFE']->clearPageCacheContent_pidList(intval($row['pid']));
-					if ($row['pid'] != $TSFE->id)	{
+					if ($row['pid'] != $TSFE->id) {
 						$this->clear_cacheCmd($TSFE->id);
 						$GLOBALS['TSFE']->clearPageCacheContent_pidList($TSFE->id);
 					}
 
 						// Clear specific cache:
-					if ($conf['clearCacheForPids'])	{
-						$ccPids=t3lib_div::intExplode(',',$conf['clearCacheForPids']);
-						foreach($ccPids as $pid)	{
-							if ($pid > 0)	{
+					if ($conf['clearCacheForPids']) {
+						$ccPids=t3lib_div::intExplode(',', $conf['clearCacheForPids']);
+						foreach($ccPids as $pid) {
+							if ($pid > 0) {
 								$this->clear_cacheCmd($pid);
 							}
 						}
 						$GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
 					}
 						// Send post to Mailing list ...
-					if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email'])	{
+					if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email']) {
 			/*
 				TypoScript for this section (was used for the TYPO3 mailing list.
 
@@ -145,35 +134,35 @@ if (is_object($this))	{
 						$mConf = $conf['sendToMailingList.'];
 
 						// If there is a FE-user group defined, then send notifiers to all FE-members of this group
-						if ($mConf['sendToFEgroup'])	{
-							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'fe_users', 'usergroup='.intval($mConf['sendToFEgroup']));
+						if ($mConf['sendToFEgroup']) {
+							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'fe_users', 'usergroup=' . intval($mConf['sendToFEgroup']));
 							$c = 0;
-							while($feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
+							while($feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 								$c++;
 								$emails .= $feRow['email'].',';
 							}
 							$GLOBALS['TYPO3_DB']->sql_free_result($res);
-							$maillist_recip = substr($emails,0,-1);
+							$maillist_recip = substr($emails, 0, -1);
 							// else, send to sendToMailingList.email
 						} else {
 							$maillist_recip = $mConf['email'];
 						}
 
-						$maillist_header='From: '.$mConf['namePrefix'].$row['author'].' <'.$mConf['reply'].'>'.chr(10);
+						$maillist_header='From: ' . $mConf['namePrefix'] . $row['author'] . ' <' . $mConf['reply'] . '>' . chr(10);
 						$maillist_header.='Reply-To: '.$mConf['reply'];
 
 							//  Subject
-						if ($row['parent'])	{	// RE:
+						if ($row['parent']) {	// RE:
 							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($row['parent']));
 							$parentRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 							$GLOBALS['TYPO3_DB']->sql_free_result($res);
-							$maillist_subject = 'Re: '.$parentRow['subject'].' [#'.$row['parent'].']';
+							$maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
 						} else {	// New:
-							$maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']).' [#'.$newId.']';
+							$maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']) . ' [#' . $newId . ']';
 						}
 
 							// Message
-						$maillist_msg = chr(10).chr(10).$conf['newReply.']['subjectPrefix'].chr(10).$row['subject'].chr(10).chr(10).$conf['newReply.']['message'].chr(10).$row['message'].chr(10).chr(10).$conf['newReply.']['author'].chr(10).$row['author'].chr(10).chr(10).chr(10);
+						$maillist_msg = chr(10) . chr(10) . $conf['newReply.']['subjectPrefix'] . chr(10) . $row['subject'] . chr(10) . chr(10) . $conf['newReply.']['message'] . chr(10) . $row['message'] . chr(10) . chr(10) . $conf['newReply.']['author'] . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
 						$maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10) .
 							t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id .
 							'&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
@@ -185,17 +174,25 @@ if (is_object($this))	{
 							echo nl2br($maillist_msg.chr(10));
 							debug($maillist_header,1);
 						} else {
-							$addresses = explode(",", $maillist_recip);
+							$addresses = explode(',', $maillist_recip);
 
 							foreach ($addresses as $email) {
-								send_mail($email,$maillist_subject,$maillist_msg,$tmp='',$mConf['reply'],'',$mConf['namePrefix'].$row['author']);
+								send_mail(
+									$email,
+									$maillist_subject,
+									$maillist_msg,
+									$tmp = '',
+									$mConf['reply'],
+									'',
+									$mConf['namePrefix'] . $row['author']
+								);
 							}
 						}
 					}
 
 					// Notify me...
-					if (t3lib_div::_GP('notify_me') && $conf['notify'])	{
-						$notifyMe = t3lib_div::uniqueList(str_replace(','.$row['email'].',', ',', ','.t3lib_div::_GP('notify_me').','));
+					if (t3lib_div::_GP('notify_me') && $conf['notify']) {
+						$notifyMe = t3lib_div::uniqueList(str_replace(',' . $row['email'] . ',', ',', ',' . t3lib_div::_GP('notify_me') . ','));
 
 						$markersArray=array();
 						$markersArray['###AUTHOR###'] = trim($row['author']);
@@ -217,31 +214,40 @@ if (is_object($this))	{
 						$markersArray['###BODY###'] = t3lib_div::fixed_lgd_cs($row['message'],1000);
 
 						reset($markersArray);
-						while(list($marker,$markContent)=each($markersArray))	{
-							$msg=str_replace($marker,$markContent,$msg);
+						while(list($marker, $markContent) = each($markersArray)) {
+							$msg = str_replace($marker,$markContent,$msg);
 						}
 
-						$headers=array();
-						if ($conf['notify_from'])	{
-							$headers[]='FROM: '.$conf['notify_from'];
+						$headers = array();
+						if ($conf['notify_from']) {
+							$headers[] = 'FROM: ' . $conf['notify_from'];
 						}
 
 						$msgParts = explode(chr(10), $msg, 2);
-						if ($conf['debug'])	{
+						if ($conf['debug']) {
 							debug($notifyMe,1);
 							debug($headers,1);
 							debug($msgParts);
 						} else {
 							$addresses = explode(',', $notifyMe);
-							$senderArray = preg_split('/(<|>)/',$conf['notify_from'],3,PREG_SPLIT_DELIM_CAPTURE);
-							if (count($senderArray)>=4)	{
+							$senderArray = preg_split('/(<|>)/', $conf['notify_from'], 3, PREG_SPLIT_DELIM_CAPTURE);
+							if (count($senderArray) >= 4) {
 								$fromEmail = $senderArray[2];
 							} else {
 								$fromEmail = $senderArray[0];
 							}
 							$fromName = $senderArray[0];
 							foreach ($addresses as $email) {
-								send_mail($email,$msgParts[0],$msgParts[1],$tmp='',$fromEmail,'',$fromName,'');
+								send_mail(
+									$email,
+									$msgParts[0],
+									$msgParts[1],
+									$tmp = '',
+									$fromEmail,
+									'',
+									$fromName,
+									''
+								);
 							}
 						}
 					}
@@ -249,17 +255,25 @@ if (is_object($this))	{
 			} while (1 == 0);	// only once
 		}
 	} else {
-		if ($allowed)	{
+		if ($allowed) {
 			$content = $email . ' is not a valid email address.';
 		} else {
-			$content = 'You have no permission to post into this forum!';
+			$content = 'You do not have the permission to post into this forum!';
 		}
 		$GLOBALS['TSFE']->printError($content);
 	}
 }
 
-function send_mail($toEMail,$subject,&$message,&$html,$fromEMail,$replytoEmail,$fromName,$attachment='') {
-
+public function send_mail(
+	$toEMail,
+	$subject,
+	$message,
+	$html,
+	$fromEMail,
+	$replytoEmail,
+	$fromName,
+	$attachment = ''
+) {
 	include_once (PATH_t3lib.'class.t3lib_htmlmail.php');
 
 	$cls=t3lib_div::makeInstanceClassName('t3lib_htmlmail');
@@ -277,7 +291,7 @@ function send_mail($toEMail,$subject,&$message,&$html,$fromEMail,$replytoEmail,$
 		$Typo3_htmlmail->replyto_email = $replytoEmail;
 		$Typo3_htmlmail->replyto_name = $Typo3_htmlmail->from_name;
 		$Typo3_htmlmail->organisation = '';
-		if ($html)  {
+		if ($html) {
 			$Typo3_htmlmail->theParts['html']['content'] = $html;
 			$Typo3_htmlmail->theParts['html']['path'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
 			$Typo3_htmlmail->extractMediaLinks();
@@ -298,7 +312,7 @@ function send_mail($toEMail,$subject,&$message,&$html,$fromEMail,$replytoEmail,$
 }
 
 // Added by Nicolas Liaudat
-function checkEmail($email)	{
+public function checkEmail($email) {
 
 	$email = trim($email);
 	if (!ereg('^[^@]{1,64}@[^@]{1,255}$', $email)) {
@@ -310,17 +324,17 @@ function checkEmail($email)	{
 	list($username, $domain) = explode('@', $email);
 	// checks for if MX records in the DNS
 	$mxhosts = array();
-	if(!getmxrr($domain, $mxhosts))	{
+	if(!getmxrr($domain, $mxhosts)) {
 		// no mx records, ok to check domain
-		if (@fsockopen($domain,25,$errno,$errstr,30))	{
+		if (@fsockopen($domain, 25, $errno, $errstr, 30)) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	} else {
 		// mx records found
-		foreach ($mxhosts as $host)	{
-			if (@fsockopen($host,25,$errno,$errstr,30))	{
+		foreach ($mxhosts as $host) {
+			if (@fsockopen($host, 25, $errno, $errstr, 30)) {
 				return TRUE;
 			}
 		}

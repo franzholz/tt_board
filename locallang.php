@@ -37,8 +37,6 @@ $LOCAL_LANG = Array (
 		'plugins_tree_title' => 'Forum de Discutions',
 		'plugins_tree_description' => 'Ajouter un forum de discution à la page (tree view).',
 	),
-	'es' => Array (
-	),
 	'nl' => Array (
 		'plugins_list_title' => 'Forum (lijst)',
 		'plugins_list_description' => 'Voeg een \'lijst\'-stijl forum toe.',
@@ -57,8 +55,6 @@ $LOCAL_LANG = Array (
 		'plugins_tree_title' => 'Forum dyskusyjne',
 		'plugins_tree_description' => 'Dodaje wielow±tkowe forum dyskusyjne (forum o charakterze \'drzewko\').',
 	),
-	'si' => Array (
-	),
 	'fi' => Array (
 		'plugins_list_title' => 'Ilmoitustaulu',
 		'plugins_list_description' => 'Lisää ilmoitustaulun (listamuotoisen) sivulle.',
@@ -71,27 +67,11 @@ $LOCAL_LANG = Array (
 		'plugins_tree_title' => 'Tartýþma forumu',
 		'plugins_tree_description' => 'Sayfaya threaded tartýþma forumu ekle (\'aðaç\'-stil forumu).',
 	),
-	'se' => Array (
-	),
 	'pt' => Array (
 		'plugins_list_title' => 'Quadro de Mensagens',
 		'plugins_list_description' => 'Adiciona um Quadro de Mensagens (forum estilo \'lista\') à página.',
 		'plugins_tree_title' => 'Forum de Discussão',
 		'plugins_tree_description' => 'Adiciona um forum de discussão (forum estilo \'árvore\') à página.',
-	),
-	'ru' => Array (
-		'plugins_list_title' => 'Ôîðóì',
-		'plugins_list_description' => 'Ïîìåùàåò íà ñòðàíèöó ôîðóì (â âèäå ñïèñêà).',
-		'plugins_tree_title' => 'Ôîðóì äëÿ äèñêóññèé',
-		'plugins_tree_description' => 'Ïîìåùàåò íà ñòðàíèöó ôîðóì (â âèäå äåðåâà).',
-	),
-	'ro' => Array (
-	),
-	'ch' => Array (
-	),
-	'sk' => Array (
-	),
-	'lt' => Array (
 	),
 );
 ?>

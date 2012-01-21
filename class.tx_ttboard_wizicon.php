@@ -26,38 +26,38 @@
 ***************************************************************/
 /**
  * $Id$
- * 
+ *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  */
 
 class tx_ttboard_wizicon {
-	function proc($wizardItems)	{
+	public function proc($wizardItems) {
 		global $LANG;
 
 		$LL = $this->includeLocalLang();
 
 		$wizardItems['plugins_ttboard_tree'] = array(
-			'icon'=>PATH_BE_ttboard_rel.'forum.gif',
-			'title'=>$LANG->getLLL('plugins_tree_title',$LL),
-			'description'=>$LANG->getLLL('plugins_tree_description',$LL),
-			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=2&defVals[tt_content][select_key]='.rawurlencode('FORUM, POSTFORM')
+			'icon' => PATH_BE_ttboard_rel . 'forum.gif',
+			'title' => $LANG->getLLL('plugins_tree_title', $LL),
+			'description' => $LANG->getLLL('plugins_tree_description', $LL),
+			'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=2&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM')
 		);
 		$wizardItems['plugins_ttboard_list'] = array(
-			'icon'=>PATH_BE_ttboard_rel.'message_board.gif',
-			'title'=>$LANG->getLLL('plugins_list_title',$LL),
-			'description'=>$LANG->getLLL('plugins_list_description',$LL),
-			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=4&defVals[tt_content][select_key]='.rawurlencode('FORUM, POSTFORM')
+			'icon' => PATH_BE_ttboard_rel . 'message_board.gif',
+			'title' => $LANG->getLLL('plugins_list_title', $LL),
+			'description'=>$LANG->getLLL('plugins_list_description', $LL),
+			'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=4&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM')
 		);
 
 		return $wizardItems;
 	}
-	function includeLocalLang()	{
-		include(PATH_BE_ttboard.'locallang.php');
+	function includeLocalLang() {
+		include(PATH_BE_ttboard . 'locallang.php');
 		return $LOCAL_LANG;
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/class.tx_ttboard_wizicon.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/class.tx_ttboard_wizicon.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_board/class.tx_ttboard_wizicon.php']);
 }
 

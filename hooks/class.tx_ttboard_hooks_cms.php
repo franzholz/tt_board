@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2008 Franz Holzinger <contact@fholzinger.com>
+*  (c) 2012 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,23 +31,23 @@
  *
  * $Id$
  *
- * @author	Franz Holzinger <contact@fholzinger.com>
- * @maintainer	Franz Holzinger <contact@fholzinger.com> 
+ * @author	Franz Holzinger <franz@ttproducts.de>
+ * @maintainer	Franz Holzinger <franz@ttproducts.de>
  * @package TYPO3
  * @subpackage tt_board
  *
  *
  */
 
-require_once(PATH_BE_div2007.'hooks/class.tx_div2007_hooks_cms.php');
+require_once(PATH_BE_div2007 . 'hooks/class.tx_div2007_hooks_cms.php');
 
 class tx_ttboard_hooks_cms extends tx_div2007_hooks_cms {
-	public $extKey=TT_BOARD_EXTkey;
+	public $extKey = TT_BOARD_EXTkey;
 
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/hooks/class.tx_ttboard_hooks_cms.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/hooks/class.tx_ttboard_hooks_cms.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/hooks/class.tx_ttboard_hooks_cms.php']);
 }
 

@@ -151,16 +151,6 @@ $LOCAL_LANG = Array (
 		'pi_list' => 'Quadro, Lista',
 		'pi_tree' => 'Quadro, Бrvore',
 	),
-	'ru' => Array (
-		'tt_board' => 'Форум',
-		'tt_board.subject' => 'Тема:',
-		'tt_board.message' => 'Сообщение:',
-		'tt_board.parent' => 'Исходное:',
-		'tt_board.notify_me' => 'Оповестить меня по адресу:',
-		'tt_board.crdate' => 'Дата/время:',
-		'pi_list' => 'Форум, список',
-		'pi_tree' => 'Форум, дерево',
-	),
 	'ro' => Array (
 	),
 	'ch' => Array (
