@@ -43,9 +43,11 @@ $TCA['tt_board'] = Array (
 		),
 		'useColumnsForDefaultValues' => 'parent',
 		'iconfile' => PATH_BE_ttboard_rel . 'ext_icon.gif',
-		'dynamicConfigFile' => PATH_BE_ttboard . 'tca.php'
+		'dynamicConfigFile' => PATH_BE_ttboard . 'tca.php',
+		'searchFields' => 'uid,author,email,subject,message,cr_ip',
 	)
 );
+
 
 
 t3lib_extMgm::allowTableOnStandardPages('tt_board');
@@ -56,5 +58,7 @@ t3lib_extMgm::addLLrefForTCAdescr('tt_board', 'EXT:' . TT_BOARD_EXTkey . '/local
 if (TYPO3_MODE == 'BE')	{
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttboard_wizicon'] = PATH_BE_ttboard . 'class.tx_ttboard_wizicon.php';
 }
+
+
 
 ?>

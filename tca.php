@@ -101,4 +101,5 @@ $TCA['tt_board'] = Array (
 		'0' => Array('showitem' => 'hidden;;;;1-1-1, crdate, subject;;;;3-3-3, message, author, email, parent;;;;5-5-5, notify_me, cr_ip, reference')
 	)
 );
+
 ?>

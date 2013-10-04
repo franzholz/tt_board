@@ -19,7 +19,7 @@ FEData.tt_board {
     newThread.didWhat = has just created a new thread at
     newThread.subjectPrefix = New thread
 
-    debug=0
+    debug = 0
     captcha = {$plugin.tt_board.captcha}
     emailCheck = {$plugin.tt_board.emailCheck}
     spamWords = {$plugin.tt_board.spamWords}
@@ -30,16 +30,16 @@ FEData.tt_board {
     parent = 0
   }
   allowNew {
-    pid=1
-    subject=1
-    message=1
-    author=1
-    email=1
-    parent=1
-    notify_me=1
-    captcha=1
-    reference=1
-    prefixid=1
+    pid = 1
+    subject = 1
+    message = 1
+    author = 1
+    email = 1
+    parent = 1
+    notify_me = 1
+    captcha = 1
+    reference = 1
+    prefixid = 1
   }
   autoInsertPID = 0
   doublePostCheck = doublePostCheck
@@ -98,7 +98,7 @@ temp.tt_board.shared {
     60.value =
   }
 
-  postform.no_cache=1
+  postform.no_cache = 1
 
   postform_newThread < .postform
   postform_newThread.dataArray.60.value = Post New Thread
@@ -261,7 +261,7 @@ plugin.tt_board_tree {
     # Allows for elements to be viewed one at a time and not parent+childs
   view_thread.single = 1
     # Allows for the forum to draw as a tree
-  tree=1
+  tree = 1
 
   list_forums.author_stdWrap.wrap = by |
   list_threads.post_content_stdWrap.crop = 200 | ...

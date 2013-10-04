@@ -1,4 +1,12 @@
-## $Id$
+##
+## @package TYPO3
+## @subpackage tt_boad
+## @version $Id$
+##
+
+## Includes tt_board as a TYPO3 extension:
+includeLibs.tt_board_list = EXT:tt_board/pi_tree/class.tx_ttboard_pi_list.php
+includeLibs.tt_board_tree = EXT:tt_board/pi_tree/class.tx_ttboard_pi_tree.php
 
 
 ## Sets up the fields, that may be submitted in order to create items. Mandatory!
@@ -19,7 +27,7 @@ FEData.tt_board {
     newThread.didWhat = has just created a new thread at
     newThread.subjectPrefix = New thread
 
-    debug=0
+    debug = 0
     captcha = {$plugin.tt_board.captcha}
     emailCheck = {$plugin.tt_board.emailCheck}
     spamWords = {$plugin.tt_board.spamWords}
@@ -30,16 +38,16 @@ FEData.tt_board {
     parent = 0
   }
   allowNew {
-    pid=1
-    subject=1
-    message=1
-    author=1
-    email=1
-    parent=1
-    notify_me=1
-    captcha=1
-    reference=1
-    prefixid=1
+    pid = 1
+    subject = 1
+    message = 1
+    author = 1
+    email = 1
+    parent = 1
+    notify_me = 1
+    captcha = 1
+    reference = 1
+    prefixid = 1
   }
   autoInsertPID = 0
   doublePostCheck = doublePostCheck
@@ -56,8 +64,8 @@ temp.tt_board.shared {
   memberOfGroups = {$plugin.tt_board.memberOfGroups}
   captcha = {$plugin.tt_board.captcha}
 
-  date_stdWrap.strftime= %e-%m-%y
-  time_stdWrap.strftime= %H:%M:%S
+  date_stdWrap.strftime = %e-%m-%y
+  time_stdWrap.strftime = %H:%M:%S
   age_stdWrap.age = 1
   allowCaching = 1
 

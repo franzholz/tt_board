@@ -40,9 +40,10 @@
  */
 
 
-require_once(PATH_tslib . 'class.tslib_pibase.php');
-require_once (PATH_BE_ttboard . 'marker/class.tx_ttboard_marker.php');
-require_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
+// require_once(PATH_tslib . 'class.tslib_pibase.php');
+// require_once (PATH_BE_div2007 . 'class.tx_div2007_alpha5.php');
+// require_once(PATH_BE_ttboard . 'marker/class.tx_ttboard_marker.php');
+// require_once(PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
 
 
 class tx_ttboard_pibase extends tslib_pibase {
@@ -83,10 +84,11 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 		$this->conf = &$conf;
 		$this->config = &$config;
-		if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
-			include_once (PATH_BE_div2007 . 'class.tx_div2007_alpha.php');
-			include_once (PATH_BE_div2007 . 'class.tx_div2007_ff.php');
-		}
+// 		if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
+// 			t3lib_div::requireOnce(PATH_BE_div2007 . 'class.tx_div2007_alpha.php');
+// 			t3lib_div::requireOnce(PATH_BE_div2007 . 'class.tx_div2007_alpha5.php');
+// 			t3lib_div::requireOnce(PATH_BE_div2007 . 'class.tx_div2007_ff.php');
+// 		}
 
 		if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
 			tx_div2007_alpha::loadLL_fh001($this,'EXT:'.$this->extKey.'/share/locallang.xml');
@@ -640,7 +642,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				}
 
 				if ($spamWord != '') {
-					$out = sprintf($this->pi_getLL('spam_detected'), $spamWord);
+					$out = sprintf(tx_div2007_alpha5::getLL_fh002($this, 'spam_detected'), $spamWord);
 					$lConf['dataArray.']['1.'] = array(
 						'label' => 'ERROR !',
 						'type' => 'label',
@@ -671,7 +673,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$freecapMarker = $this->freeCap->makeCaptcha();
 					$textLabel = '';
 					if ($bWrongCaptcha) {
-						$textLabel = '<b>' . sprintf($this->pi_getLL('wrong_captcha'), $word) . '</b><br/>';
+						$textLabel = '<b>' . sprintf(tx_div2007_alpha5::getLL_fh002($this, 'wrong_captcha'), $word) . '</b><br/>';
 					}
 					$lConf['dataArray.']['55.'] = array(
 						'label' => $textLabel.$freecapMarker['###SR_FREECAP_IMAGE###'] . '<br/>' . $freecapMarker['###SR_FREECAP_NOTICE###']. '<br/>' . $freecapMarker['###SR_FREECAP_CANT_READ###'],
@@ -708,9 +710,13 @@ class tx_ttboard_pibase extends tslib_pibase {
 								!is_array($lConf['dataArray.'][$k.'.'][$type.'.']) ||  !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.']) || !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.'][$this->LLkey.'.'])
 							)
 						) {
-							$lConf['dataArray.'][$k.'.'][$type] = $this->pi_getLL($theField);
-							if (($type == 'label') && isset($origRow[$theField])) {
-								$lConf['dataArray.'][$k.'.']['value'] = $origRow[$theField];
+							$lConf['dataArray.'][$k.'.'][$type] = tx_div2007_alpha5::getLL_fh002($this, $theField);
+
+							if (
+								($type == 'label') &&
+								isset($origRow[$theField])
+							) {
+								$lConf['dataArray.'][$k . '.']['value'] = $origRow[$theField];
 							}
 						}
 					}

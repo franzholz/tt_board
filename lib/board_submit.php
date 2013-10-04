@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2013 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,13 +36,11 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
-include_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
+// include_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
+// require_once(PATH_BE_div2007 . 'class.tx_div2007_email.php');
 
 
 if (is_object($this)) {
-	global $TSFE;
-
-	$localCharset = $TSFE->localeCharset;
 
 	$conf = $this->extScriptsConf['tt_board'];
 	$row = $this->newData['tt_board']['NEW'];
@@ -84,8 +82,9 @@ if (is_object($this)) {
 					if ($bSpamFound) {
 						break;
 					}
-					$row[$field] = ($localCharset ? $TSFE->csConvObj->conv($value, $TSFE->renderCharset, $localCharset) : $value);
+					$row[$field] = $value;
 				}
+
 				if ($bSpamFound) {
 					$GLOBALS['TSFE']->applicationData['tt_board']['error']['spam'] = TRUE;
 					$GLOBALS['TSFE']->applicationData['tt_board']['row'] = $row;
@@ -103,9 +102,9 @@ if (is_object($this)) {
 
 					$this->clear_cacheCmd(intval($row['pid']));
 					$GLOBALS['TSFE']->clearPageCacheContent_pidList(intval($row['pid']));
-					if ($row['pid'] != $TSFE->id) {
-						$this->clear_cacheCmd($TSFE->id);
-						$GLOBALS['TSFE']->clearPageCacheContent_pidList($TSFE->id);
+					if ($row['pid'] != $GLOBALS['TSFE']->id) {
+						$this->clear_cacheCmd($GLOBALS['TSFE']->id);
+						$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
 					}
 
 						// Clear specific cache:
@@ -139,7 +138,7 @@ if (is_object($this)) {
 							$c = 0;
 							while($feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 								$c++;
-								$emails .= $feRow['email'].',';
+								$emails .= $feRow['email'] . ',';
 							}
 							$GLOBALS['TYPO3_DB']->sql_free_result($res);
 							$maillist_recip = substr($emails, 0, -1);
@@ -149,7 +148,7 @@ if (is_object($this)) {
 						}
 
 						$maillist_header='From: ' . $mConf['namePrefix'] . $row['author'] . ' <' . $mConf['reply'] . '>' . chr(10);
-						$maillist_header.='Reply-To: '.$mConf['reply'];
+						$maillist_header .= 'Reply-To: ' . $mConf['reply'];
 
 							//  Subject
 						if ($row['parent']) {	// RE:
@@ -168,22 +167,21 @@ if (is_object($this)) {
 							'&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
 							// Send
 
-						if ($conf['debug'])	{
+						if ($conf['debug']) {
 							debug($maillist_recip,1);
 							debug($maillist_subject,1);
 							echo nl2br($maillist_msg.chr(10));
 							debug($maillist_header,1);
 						} else {
-							$addresses = explode(',', $maillist_recip);
+							$addresses = t3lib_div::trimExplode(',', $maillist_recip);
 
 							foreach ($addresses as $email) {
-								send_mail(
+								tx_div2007_email::sendMail(
 									$email,
 									$maillist_subject,
 									$maillist_msg,
-									$tmp = '',
-									$mConf['reply'],
 									'',
+									$mConf['reply'],
 									$mConf['namePrefix'] . $row['author']
 								);
 							}
@@ -191,9 +189,15 @@ if (is_object($this)) {
 					}
 
 					// Notify me...
-					if (t3lib_div::_GP('notify_me') && $conf['notify']) {
-						$notifyMe = t3lib_div::uniqueList(str_replace(',' . $row['email'] . ',', ',', ',' . t3lib_div::_GP('notify_me') . ','));
+					$notify = t3lib_div::_POST('notify_me');
 
+					if (
+						$notify &&
+						$conf['notify'] &&
+						trim($row['email']) &&
+						(!$conf['emailCheck'] || checkEmail($row['email']))
+					) {
+						$notifyMe = t3lib_div::uniqueList(str_replace(',' . $row['email'] . ',', ',', ',' . $notify . ','));
 						$markersArray=array();
 						$markersArray['###AUTHOR###'] = trim($row['author']);
 						$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
@@ -201,7 +205,7 @@ if (is_object($this)) {
 						$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
 						$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
 
-						if ($row['parent'])	{		// If reply and not new thread:
+						if ($row['parent']) {		// If reply and not new thread:
 							$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
 							$markersArray['###DID_WHAT###'] = $conf['newReply.']['didWhat'];
 							$markersArray['###SUBJECT_PREFIX###'] = $conf['newReply.']['subjectPrefix'];
@@ -213,9 +217,8 @@ if (is_object($this)) {
 						$markersArray['###SUBJECT###'] = strtoupper($row['subject']);
 						$markersArray['###BODY###'] = t3lib_div::fixed_lgd_cs($row['message'],1000);
 
-						reset($markersArray);
-						while(list($marker, $markContent) = each($markersArray)) {
-							$msg = str_replace($marker,$markContent,$msg);
+						foreach($markersArray as $marker => $markContent) {
+							$msg = str_replace($marker, $markContent, $msg);
 						}
 
 						$headers = array();
@@ -229,7 +232,7 @@ if (is_object($this)) {
 							debug($headers,1);
 							debug($msgParts);
 						} else {
-							$addresses = explode(',', $notifyMe);
+							$addresses = t3lib_div::trimExplode(',', $notifyMe);
 							$senderArray = preg_split('/(<|>)/', $conf['notify_from'], 3, PREG_SPLIT_DELIM_CAPTURE);
 							if (count($senderArray) >= 4) {
 								$fromEmail = $senderArray[2];
@@ -238,15 +241,13 @@ if (is_object($this)) {
 							}
 							$fromName = $senderArray[0];
 							foreach ($addresses as $email) {
-								send_mail(
+								tx_div2007_email::sendMail(
 									$email,
 									$msgParts[0],
 									$msgParts[1],
-									$tmp = '',
-									$fromEmail,
 									'',
-									$fromName,
-									''
+									$fromEmail,
+									$fromName
 								);
 							}
 						}
@@ -264,61 +265,14 @@ if (is_object($this)) {
 	}
 }
 
-public function send_mail(
-	$toEMail,
-	$subject,
-	$message,
-	$html,
-	$fromEMail,
-	$replytoEmail,
-	$fromName,
-	$attachment = ''
-) {
-	include_once (PATH_t3lib.'class.t3lib_htmlmail.php');
-
-	$cls=t3lib_div::makeInstanceClassName('t3lib_htmlmail');
-
-	if (class_exists($cls) && $message) {
-		$Typo3_htmlmail = t3lib_div::makeInstance('t3lib_htmlmail');
-		$Typo3_htmlmail->start();
-		$Typo3_htmlmail->mailer = 'TYPO3 HTMLMail';
-		// $Typo3_htmlmail->useBase64(); TODO
-
-		$Typo3_htmlmail->subject = $subject;
-		$Typo3_htmlmail->from_email = $fromEMail;
-		$Typo3_htmlmail->returnPath = $fromEMail;
-		$Typo3_htmlmail->from_name = str_replace (',' , ' ', $fromName);
-		$Typo3_htmlmail->replyto_email = $replytoEmail;
-		$Typo3_htmlmail->replyto_name = $Typo3_htmlmail->from_name;
-		$Typo3_htmlmail->organisation = '';
-		if ($html) {
-			$Typo3_htmlmail->theParts['html']['content'] = $html;
-			$Typo3_htmlmail->theParts['html']['path'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
-			$Typo3_htmlmail->extractMediaLinks();
-			$Typo3_htmlmail->extractHyperLinks();
-			$Typo3_htmlmail->fetchHTMLMedia();
-			$Typo3_htmlmail->substMediaNamesInHTML(0);	// 0 = relative
-			$Typo3_htmlmail->substHREFsInHTML();
-			$Typo3_htmlmail->setHTML($Typo3_htmlmail->encodeMsg($Typo3_htmlmail->theParts['html']['content']));
-		}
-
-		$Typo3_htmlmail->addPlain($message);
-
-		$Typo3_htmlmail->setHeaders();
-		$Typo3_htmlmail->setContent();
-		$Typo3_htmlmail->setRecipient(explode(',', $toEMail));
-		$Typo3_htmlmail->sendTheMail();
-	}
-}
-
 // Added by Nicolas Liaudat
-public function checkEmail($email) {
+function checkEmail ($email) {
 
 	$email = trim($email);
-	if (!ereg('^[^@]{1,64}@[^@]{1,255}$', $email)) {
-		// Email invalid because wrong number of characters in one section, or wrong number of @ symbols.
+	if ($email != '' && !t3lib_div::validEmail($email)) {
 		return FALSE;
 	}
+
 
 	// gets domain name
 	list($username, $domain) = explode('@', $email);
@@ -341,6 +295,5 @@ public function checkEmail($email) {
 		return FALSE;
 	}
 }
-
 
 ?>

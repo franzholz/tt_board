@@ -51,7 +51,8 @@ class tx_ttboard_wizicon {
 
 		return $wizardItems;
 	}
-	function includeLocalLang() {
+
+	public function includeLocalLang() {
 		include(PATH_BE_ttboard . 'locallang.php');
 		return $LOCAL_LANG;
 	}

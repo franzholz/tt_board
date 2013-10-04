@@ -1,7 +1,11 @@
-2012-01-21 Franz Holzinger <franz@fholzinger.com>
+2013-10-06 Franz Holzinger <franz@fholzinger.com>
+	* check email validity of a user who checked notify_me after the submit
+
+2012-03-22 Franz Holzinger <franz@fholzinger.com>
+	* add setup needed for TYPO3 4.6
 	* Modifications for PHP 5 and TYPO3 Coding Guidelines
 
-2011-01-19 Franz Holzinger <franz@fholzinger.com>
+2012-01-21 Franz Holzinger <franz@fholzinger.com>
 	* Fix to the parameter with uid inside of brackets in the submit form. There has been a cache problem.
 	* fix bug with PHP 5.3: replace split by explode
 

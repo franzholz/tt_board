@@ -39,21 +39,21 @@
  *
  */
 
-require_once (PATH_BE_div2007.'class.tx_div2007_alpha.php');
+require_once (PATH_BE_div2007 . 'class.tx_div2007_alpha5.php');
 
 
 class tx_ttboard_marker {
-	var $pibase;
-	var $cObj;
-	var $cnf;
-	var $conf;
-	var $config;
-	var $urlArray;
+	public $pibase;
+	public $cObj;
+	public $cnf;
+	public $conf;
+	public $config;
+	public $urlArray;
 
-	var $emoticons = 1;
-	var $emoticonsPath = 'media/emoticons/';
-	var $emoticonsTag = '<img src="{}" valign="bottom" hspace=4>';
-	var $emoticonsSubst=array(
+	public $emoticons = 1;
+	public $emoticonsPath = 'media/emoticons/';
+	public $emoticonsTag = '<img src="{}" valign="bottom" hspace=4>';
+	public $emoticonsSubst=array(
 		'>:-<' => 'angry.gif',
 		':D' => 'grin.gif',
 		':-(' => 'sad.gif',
@@ -64,7 +64,7 @@ class tx_ttboard_marker {
 		';-)' => 'wink.gif'
 	);
 
-	var $dontParseContent=0;
+	public $dontParseContent=0;
 
 
 	/**
@@ -72,7 +72,7 @@ class tx_ttboard_marker {
 	 *
 	 */
 
-	function init(&$pibase, &$conf, &$config) {
+	public function init (&$pibase, &$conf, &$config) {
  		$this->pibase = &$pibase;
  		$this->cObj = &$pibase->cObj;
  		$this->conf = &$conf;
@@ -85,15 +85,15 @@ class tx_ttboard_marker {
 	/**
 	 * getting the global markers
 	 */
-	function &getGlobalMarkers () {
+	public function &getGlobalMarkers () {
 		global $TYPO3_CONF_VARS;
 		$markerArray = array();
 
 			// globally substituted markers, fonts and colors.
 		$splitMark = md5(microtime());
-		list($markerArray['###GW1B###'],$markerArray['###GW1E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap1.']));
-		list($markerArray['###GW2B###'],$markerArray['###GW2E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap2.']));
-		list($markerArray['###GW3B###'],$markerArray['###GW3E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap3.']));
+		list($markerArray['###GW1B###'], $markerArray['###GW1E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap1.']));
+		list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap2.']));
+		list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap3.']));
 		$markerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'], $this->conf['color1.']);
 		$markerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'], $this->conf['color2.']);
 		$markerArray['###GC3###'] = $this->cObj->stdWrap($this->conf['color3'], $this->conf['color3.']);
@@ -120,7 +120,7 @@ class tx_ttboard_marker {
 	} // getGlobalMarkers
 
 
-	function getRowMarkerArray (
+	public function getRowMarkerArray (
 		&$row,
 		$markerKey,
 		&$markerArray,
@@ -144,16 +144,16 @@ class tx_ttboard_marker {
 	}
 
 
-	function &getColumnMarkers () {
+	public function &getColumnMarkers () {
 		$markerArray = array();
 
 		foreach ($this->pibase->LOCAL_LANG['default'] as $k => $text) {
 			if (strpos($k, 'board') === 0) {
-				$markerArray['###'.strtoupper($k).'###'] = tx_div2007_alpha::getLL($this->pibase,$k);
+				$markerArray['###' . strtoupper($k) . '###'] = tx_div2007_alpha5::getLL_fh002($this->pibase, $k);
 			}
 		}
 
-		$markerArray['###BUTTON_SEARCH###'] = $this->pibase->pi_getLL('button_search');
+		$markerArray['###BUTTON_SEARCH###'] = tx_div2007_alpha5::getLL_fh002($this->pibase, 'button_search');
 		return $markerArray;
 	}
 
@@ -161,10 +161,10 @@ class tx_ttboard_marker {
 	/**
 	 * Returns alternating layouts
 	 */
-	function getLayouts($templateCode,$alternativeLayouts,$marker) {
+	public function getLayouts ($templateCode, $alternativeLayouts, $marker) {
 		$out=array();
 		for($a=0; $a<$alternativeLayouts; $a++) {
-			$m = '###'.$marker.($a?'_'.$a:'').'###';
+			$m = '###' . $marker . ($a ? '_' . $a : '') . '###';
 			if(strstr($templateCode,$m)) {
 				$out[] = $GLOBALS['TSFE']->cObj->getSubpart($templateCode, $m);
 			} else {
@@ -178,7 +178,7 @@ class tx_ttboard_marker {
 	/**
 	 * Format string with nl2br and htmlspecialchars()
 	 */
-	function formatStr($str) {
+	public function formatStr ($str) {
 		$rc = '';
 		if (!$this->dontParseContent) {
 			$rc = nl2br(htmlspecialchars($str));
@@ -192,7 +192,7 @@ class tx_ttboard_marker {
 	/**
 	 * Emoticons substitution
 	 */
-	function substituteEmoticons($str) {
+	public function substituteEmoticons ($str) {
 		if ($this->emoticons) {
 			foreach($this->emoticonsSubst as $source => $dest) {
 				$str = str_replace($source, str_replace('{}', $this->emoticonsPath . $dest, $this->emoticonsTag), $str);

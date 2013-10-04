@@ -39,8 +39,8 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
-require_once (PATH_BE_div2007.'class.tx_div2007_cobj.php');
-require_once (PATH_BE_ttboard.'lib/class.tx_ttboard_pibase.php');
+require_once (PATH_BE_div2007 . 'class.tx_div2007_cobj.php');
+require_once (PATH_BE_ttboard . 'lib/class.tx_ttboard_pibase.php');
 
 
 class tx_ttboard_pi_list extends tx_ttboard_pibase {
@@ -52,9 +52,7 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 	/**
 	 * Main board function. Call this from TypoScript
 	 */
-	public function main ($content,$conf) {
-debug ($conf, 'main $conf +++');
-
+	public function main ($content, $conf) {
 		$bOrigInitCalled = FALSE;
 
 		$this->conf = $conf;

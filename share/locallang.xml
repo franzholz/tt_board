@@ -10,6 +10,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="plugin">Message Board Plugin</label>
 			<label index="members_only">Only logged in members are allowed to post on this forum.</label>
 			<label index="subject">Subject:</label>
 			<label index="message">Message:</label>

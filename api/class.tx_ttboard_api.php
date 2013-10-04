@@ -25,30 +25,46 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * Part of the tt_board (Message Board) extension.
+ * class.tx_ttboard_api.php
  *
- * hook functions for the TYPO3 cms
+ * API Function library for a forum/board in tree or list style
  *
  * $Id$
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
- * @maintainer	Franz Holzinger <franz@ttproducts.de>
- * @package TYPO3
- * @subpackage tt_board
- *
- *
  */
 
-require_once(PATH_BE_div2007 . 'hooks/class.tx_div2007_hooks_cms.php');
 
-class tx_ttboard_hooks_cms extends tx_div2007_hooks_cms {
-	public $extKey = TT_BOARD_EXTkey;
+require_once (PATH_BE_ttboard . 'marker/class.tx_ttboard_marker.php');
+require_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
 
+
+class tx_ttboard_api {
+
+	/**
+	 * Retrieves default configuration of tt_board.
+	 * Uses plugin.tt_board_list or plugin.tt_board_tree from page TypoScript template
+	 *
+	 * @param	string		type of the forum: list or tree
+     *
+	 * @return	array		TypoScript configuration for ratings
+	 */
+	public function getDefaultConfig ($type) {
+		global $TSFE;
+
+		if ($type == 'list' || $type == 'tree') {
+			$key = 'tt_board_' . $type . '.';
+			$rc = $TSFE->tmpl->setup['plugin.'][$key];
+		} else {
+			$rc = FALSE;
+		}
+		return $rc;
+	}
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/hooks/class.tx_ttboard_hooks_cms.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/hooks/class.tx_ttboard_hooks_cms.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/api/class.tx_ttboard_api.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/api/class.tx_ttboard_api.php']);
 }
 
 ?>

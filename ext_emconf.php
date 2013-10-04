@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Simple threaded (tree) or list message board.',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '1.3.2',
+	'version' => '1.4.0',
 	'dependencies' => 'cms,div2007',
 	'conflicts' => '',
 	'priority' => '',
@@ -35,9 +35,9 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'cms' => '',
-			'php' => '5.1.2-0.0.0',
-			'typo3' => '3.8.0-0.0.0',
-			'div2007' => '0.1.15-',
+			'php' => '5.2.21-5.4.99',
+			'typo3' => '4.5.0-4.7.99',
+			'div2007' => '1.0.2-',
 		),
 		'conflicts' => array(
 		),
