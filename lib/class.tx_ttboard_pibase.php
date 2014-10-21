@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2014 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -549,7 +549,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 		if ($this->modelObj->isAllowed($this->conf['memberOfGroups'])) {
 			$parent=0;		// This is the parent item for the form. If this ends up being is set, then the form is a reply and not a new post.
-			$nofity=array();
+			$nofity = array();
 
 				// Find parent, if any
 			if ($this->tt_board_uid || $ref != '') {
@@ -620,14 +620,21 @@ class tx_ttboard_pibase extends tslib_pibase {
 				}
 			}
 
-			if ($theCode=='POSTFORM' || ($theCode=='POSTFORM_REPLY' && $parent) || ($theCode=='POSTFORM_THREAD' && !$parent)) {
+			if (
+				$theCode == 'POSTFORM' ||
+				($theCode == 'POSTFORM_REPLY' && $parent) ||
+				($theCode == 'POSTFORM_THREAD' && !$parent)
+			) {
 
 				$origRow = array();
 				$bWrongCaptcha = FALSE;
 				if (
-					isset($GLOBALS['TSFE']->applicationData) && is_array($GLOBALS['TSFE']->applicationData) &&
-					isset($GLOBALS['TSFE']->applicationData['tt_board']) && is_array($GLOBALS['TSFE']->applicationData['tt_board']) &&
-					isset($GLOBALS['TSFE']->applicationData['tt_board']['error']) && is_array($GLOBALS['TSFE']->applicationData['tt_board']['error'])
+					isset($GLOBALS['TSFE']->applicationData) &&
+					is_array($GLOBALS['TSFE']->applicationData) &&
+					isset($GLOBALS['TSFE']->applicationData['tt_board']) &&
+					is_array($GLOBALS['TSFE']->applicationData['tt_board']) &&
+					isset($GLOBALS['TSFE']->applicationData['tt_board']['error']) &&
+					is_array($GLOBALS['TSFE']->applicationData['tt_board']['error'])
 				) {
 					if ($GLOBALS['TSFE']->applicationData['tt_board']['error']['captcha'] == TRUE) {
 						$origRow = $GLOBALS['TSFE']->applicationData['tt_board']['row'];
@@ -740,6 +747,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				$content .= $local_cObj->FORM($lConf);
 			}
 		}
+
 		return $content;
 	}
 }

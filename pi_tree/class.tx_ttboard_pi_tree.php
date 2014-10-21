@@ -54,7 +54,6 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 	 */
 	public function main ($content, $conf) {
 		$bOrigInitCalled = FALSE;
-
 		$this->conf = $conf;
 		$codeArray = $this->getCodeArray($conf);
 		$bCreate = TRUE;

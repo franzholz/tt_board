@@ -93,6 +93,7 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 				break;
 			}
 		}
+
 		return $content;
 	}
 

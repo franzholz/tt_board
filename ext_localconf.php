@@ -90,24 +90,9 @@ if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_c
 
 
 if ($typoVersion < '4006000') {
+
 	t3lib_extMgm::addPItoST43($_EXTKEY, 'pi_list/class.tx_ttboard_pi_list.php', '_pi_list', 'list_type', 1 /* cached */);
 	t3lib_extMgm::addPItoST43($_EXTKEY, 'pi_tree/class.tx_ttboard_pi_tree.php', '_pi_tree', 'list_type', 1 /* cached */);
-
-
-	// Define database backend as backend for 4.5 and below (default in 4.6)
-	if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['backend'])) {
-        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['backend'] = 't3lib_cache_backend_DbBackend';
-    }
-	// Define data and tags table for 4.5 and below (obsolete in 4.6)
-	if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['options'])) {
-        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['options'] = array();
-    }
-	if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['options']['cacheTable'])) {
-        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['options']['cacheTable'] = 'tt_board_cache';
-    }
-	if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['options']['tagsTable'])) {
-        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['options']['tagsTable'] = 'tt_board_cache_tags';
-    }
 } else {
 	// add missing setup for the tt_content "list_type = 3" which is used by tt_board
 	$addLine = trim('

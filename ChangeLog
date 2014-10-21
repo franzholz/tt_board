@@ -1,3 +1,6 @@
+2014-10-21 Franz Holzinger <franz@fholzinger.com>
+	* ready for TYPO3 6.2. It requires tslib_fetce.
+
 2013-10-06 Franz Holzinger <franz@fholzinger.com>
 	* check email validity of a user who checked notify_me after the submit
 
