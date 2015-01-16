@@ -10,24 +10,24 @@ $typoVersion =
 
 $_EXTCONF = unserialize($_EXTCONF);    // unserializing the configuration so we can use it here:
 
-if (!defined ('TT_BOARD_EXTkey')) {
-	define('TT_BOARD_EXTkey', $_EXTKEY);
+if (!defined ('TT_BOARD_EXT')) {
+	define('TT_BOARD_EXT', $_EXTKEY);
 }
 
-if (!defined ('PATH_BE_ttboard')) {
-	define('PATH_BE_ttboard', t3lib_extMgm::extPath(TT_BOARD_EXTkey));
+if (!defined ('PATH_BE_TTBOARD')) {
+	define('PATH_BE_TTBOARD', t3lib_extMgm::extPath(TT_BOARD_EXT));
 }
 
-if (!defined ('PATH_BE_ttboard_rel')) {
-	define('PATH_BE_ttboard_rel', t3lib_extMgm::extRelPath(TT_BOARD_EXTkey));
+if (!defined ('PATH_BE_TTBOARD_REL')) {
+	define('PATH_BE_TTBOARD_REL', t3lib_extMgm::extRelPath(TT_BOARD_EXT));
 }
 
-if (!defined ('PATH_FE_ttboard_rel')) {
-	define('PATH_FE_ttboard_rel', t3lib_extMgm::siteRelPath(TT_BOARD_EXTkey));
+if (!defined ('PATH_FE_TTBOARD_REL')) {
+	define('PATH_FE_TTBOARD_REL', t3lib_extMgm::siteRelPath(TT_BOARD_EXT));
 }
 
 if (!defined ('PATH_ttboard_icon_table_rel')) {
-	define('PATH_ttboard_icon_table_rel', PATH_BE_ttboard_rel.'res/icons/table/');
+	define('PATH_ttboard_icon_table_rel', PATH_BE_TTBOARD_REL.'res/icons/table/');
 }
 
 if (!defined ('TT_BOARD_DIV_DLOG')) {
@@ -36,22 +36,22 @@ if (!defined ('TT_BOARD_DIV_DLOG')) {
 
 
 if (isset($_EXTCONF) && is_array($_EXTCONF)) {
-	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXTkey] = $_EXTCONF;
+	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = $_EXTCONF;
 	if (isset($tmpArray) && is_array($tmpArray)) {
-		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXTkey] =
-			array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXTkey], $tmpArray);
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] =
+			array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT], $tmpArray);
 	}
 } else {
-	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXTkey] = array();
-	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXTkey]['useFlexforms'] = 1;
+	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = array();
+	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['useFlexforms'] = 1;
 }
 
 
-if (TYPO3_MODE == 'BE' && $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXTkey]['useFlexforms'] && defined('PATH_BE_div2007')) {
+if (TYPO3_MODE == 'BE' && $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['useFlexforms'] && defined('PATH_BE_div2007')) {
 	// replace the output of the former CODE field with the flexform
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] =
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
-		'EXT:' . TT_BOARD_EXTkey . '/hooks/class.tx_ttboard_hooks_cms.php:&tx_ttboard_hooks_cms->pmDrawItem';
+		'EXT:' . TT_BOARD_EXT . '/hooks/class.tx_ttboard_hooks_cms.php:&tx_ttboard_hooks_cms->pmDrawItem';
 }
 
 if (TYPO3_MODE == 'BE') {
@@ -103,8 +103,8 @@ tt_content.list.20.2 {
 }');
 
 	t3lib_extMgm::addTypoScript(
-		TT_BOARD_EXTkey, 'setup', '
-	# Setting ' . TT_BOARD_EXTkey . ' plugin TypoScript
+		TT_BOARD_EXT, 'setup', '
+	# Setting ' . TT_BOARD_EXT . ' plugin TypoScript
 	' . $addLine . '
 	',
 		43
@@ -119,14 +119,13 @@ tt_content.list.20.4 {
 }');
 
 	t3lib_extMgm::addTypoScript(
-		TT_BOARD_EXTkey,
+		TT_BOARD_EXT,
 		'setup', '
-	# Setting ' . TT_BOARD_EXTkey . ' plugin TypoScript
+	# Setting ' . TT_BOARD_EXT . ' plugin TypoScript
 	' . $addLine . '
 	',
 		43
 	);
 }
-
 
 ?>

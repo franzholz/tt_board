@@ -36,7 +36,7 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
-// include_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
+// include_once (PATH_BE_TTBOARD . 'model/class.tx_ttboard_model.php');
 // require_once(PATH_BE_div2007 . 'class.tx_div2007_email.php');
 
 

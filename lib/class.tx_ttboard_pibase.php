@@ -42,12 +42,12 @@
 
 // require_once(PATH_tslib . 'class.tslib_pibase.php');
 // require_once (PATH_BE_div2007 . 'class.tx_div2007_alpha5.php');
-// require_once(PATH_BE_ttboard . 'marker/class.tx_ttboard_marker.php');
-// require_once(PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
+// require_once(PATH_BE_TTBOARD . 'marker/class.tx_ttboard_marker.php');
+// require_once(PATH_BE_TTBOARD . 'model/class.tx_ttboard_model.php');
 
 
 class tx_ttboard_pibase extends tslib_pibase {
-	public $extKey = TT_BOARD_EXTkey;	// The extension key.
+	public $extKey = TT_BOARD_EXT;	// The extension key.
 	public $cObj;		// The backReference to the mother cObj object set at call time
 
 	public $alternativeLayouts='';
@@ -215,7 +215,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 			break;
 			case 'FORUM':
 			case 'THREAD_TREE':
-				include_once (PATH_BE_ttboard.'view/class.tx_ttboard_forum.php');
 				$forumViewObj = &t3lib_div::getUserObj('&tx_ttboard_forum');
 				if ($forumViewObj->needsInit()) {
 
@@ -244,14 +243,14 @@ class tx_ttboard_pibase extends tslib_pibase {
 		}	// Switch
 
 		if ($contentTmp == 'error') {
-			$fileName = 'EXT:' . TT_BOARD_EXTkey . '/template/board_help.tmpl';
+			$fileName = 'EXT:' . TT_BOARD_EXT . '/template/board_help.tmpl';
 			$helpTemplate = $this->cObj->fileResource($fileName);
 			if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
 
 				$content .= tx_div2007_alpha::displayHelpPage_fh001(
 					$this,
 					$helpTemplate,
-					TT_BOARD_EXTkey,
+					TT_BOARD_EXT,
 					$this->errorMessage,
 					$theCode
 				);

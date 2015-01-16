@@ -98,7 +98,7 @@ class tx_ttboard_marker {
 		$markerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'], $this->conf['color2.']);
 		$markerArray['###GC3###'] = $this->cObj->stdWrap($this->conf['color3'], $this->conf['color3.']);
 		$markerArray['###GC4###'] = $this->cObj->stdWrap($this->conf['color4'], $this->conf['color4.']);
-		$markerArray['###PATH###'] = PATH_FE_ttboard_rel;
+		$markerArray['###PATH###'] = PATH_FE_TTBOARD_REL;
 
 		if (is_array($this->conf['marks.'])) {
 				// Substitute Marker Array from TypoScript Setup
@@ -108,8 +108,8 @@ class tx_ttboard_marker {
 		}
 
 			// Call all addURLMarkers hooks at the end of this method
-		if (is_array ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXTkey]['addGlobalMarkers'])) {
-			foreach  ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXTkey]['addGlobalMarkers'] as $classRef) {
+		if (is_array ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
+			foreach  ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
 				$hookObj= &t3lib_div::getUserObj($classRef);
 				if (method_exists($hookObj, 'addGlobalMarkers')) {
 					$hookObj->addGlobalMarkers($markerArray);

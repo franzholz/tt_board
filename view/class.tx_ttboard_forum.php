@@ -39,9 +39,9 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
-
-require_once (PATH_BE_ttboard . 'marker/class.tx_ttboard_marker.php');
-require_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
+/*
+require_once (PATH_BE_TTBOARD . 'marker/class.tx_ttboard_marker.php');
+require_once (PATH_BE_TTBOARD . 'model/class.tx_ttboard_model.php');*/
 
 
 class tx_ttboard_forum {
@@ -64,7 +64,7 @@ class tx_ttboard_forum {
 	}
 
 
-	public function needsInit ()	{
+	public function needsInit () {
 		return !$this->bHasBeenInitialised;
 	}
 
@@ -323,7 +323,7 @@ class tx_ttboard_forum {
 
 						// Getting the specific parts of the template
 					$markerArray = $markerObj->getColumnMarkers();
-					$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($TSFE->page['title'],$lConf['forum_title_stdWrap.']);
+					$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($TSFE->page['title'], $lConf['forum_title_stdWrap.']);
 
 					$templateCode =
 						$local_cObj->substituteMarkerArrayCached(
@@ -405,7 +405,7 @@ class tx_ttboard_forum {
 							);
 						$GLOBALS['TT']->pull();
 						if (!$lastPostInfo) {
-							$lastPostInfo=$recentPost;
+							$lastPostInfo = $recentPost;
 						}
 
 						$local_cObj->start($lastPostInfo);

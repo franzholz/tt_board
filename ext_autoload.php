@@ -14,6 +14,7 @@ return array(
 	'tx_ttboard_marker'  => $extensionPath . 'marker/class.tx_ttboard_marker.php',
 	'tx_ttboard_model'   => $extensionPath . 'model/class.tx_ttboard_model.php',
 	'tx_ttboard_forum'   => $extensionPath . 'view/class.tx_ttboard_forum.php',
+	'tx_ttboard_wizicon' => $extensionPath . 'class.tx_ttboard_wizicon.php',
 );
 
 ?>

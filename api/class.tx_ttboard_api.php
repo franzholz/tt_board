@@ -35,8 +35,8 @@
  */
 
 
-require_once (PATH_BE_ttboard . 'marker/class.tx_ttboard_marker.php');
-require_once (PATH_BE_ttboard . 'model/class.tx_ttboard_model.php');
+require_once (PATH_BE_TTBOARD . 'marker/class.tx_ttboard_marker.php');
+require_once (PATH_BE_TTBOARD . 'model/class.tx_ttboard_model.php');
 
 
 class tx_ttboard_api {

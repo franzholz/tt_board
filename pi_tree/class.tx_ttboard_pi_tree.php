@@ -39,8 +39,9 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+ /*
 require_once (PATH_BE_div2007 . 'class.tx_div2007_cobj.php');
-require_once (PATH_BE_ttboard . 'lib/class.tx_ttboard_pibase.php');
+require_once (PATH_BE_TTBOARD . 'lib/class.tx_ttboard_pibase.php');*/
 
 
 class tx_ttboard_pi_tree extends tx_ttboard_pibase {

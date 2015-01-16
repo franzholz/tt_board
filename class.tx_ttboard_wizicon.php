@@ -27,34 +27,25 @@
 /**
  * $Id$
  *
- * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
+ * @author	Kasper SkÃ¥rhÃ¸j <kasperYYYY@typo3.com>
  */
 
 class tx_ttboard_wizicon {
-	public function proc($wizardItems) {
-		global $LANG;
-
-		$LL = $this->includeLocalLang();
-
+	public function proc ($wizardItems) {
 		$wizardItems['plugins_ttboard_tree'] = array(
-			'icon' => PATH_BE_ttboard_rel . 'forum.gif',
-			'title' => $LANG->getLLL('plugins_tree_title', $LL),
-			'description' => $LANG->getLLL('plugins_tree_description', $LL),
+			'icon' => PATH_BE_TTBOARD_REL . 'forum.gif',
+			'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.php:plugins_tree_title'),
+			'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.php:plugins_tree_description'),
 			'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=2&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM')
 		);
 		$wizardItems['plugins_ttboard_list'] = array(
-			'icon' => PATH_BE_ttboard_rel . 'message_board.gif',
-			'title' => $LANG->getLLL('plugins_list_title', $LL),
-			'description'=>$LANG->getLLL('plugins_list_description', $LL),
+			'icon' => PATH_BE_TTBOARD_REL . 'message_board.gif',
+			'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.php:plugins_list_title'),
+			'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.php:plugins_list_description'),
 			'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=4&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM')
 		);
 
 		return $wizardItems;
-	}
-
-	public function includeLocalLang() {
-		include(PATH_BE_ttboard . 'locallang.php');
-		return $LOCAL_LANG;
 	}
 }
 
