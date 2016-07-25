@@ -1,3 +1,6 @@
+2016-07-25 Franz Holzinger <franz@fholzinger.com>
+	* remove svn $Id$ and finishing php ?>
+
 2015-01-16 Franz Holzinger <franz@fholzinger.com>
 	* set charset to UTF-8
 

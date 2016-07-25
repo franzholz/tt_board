@@ -33,8 +33,6 @@
  * - See static_template 'plugin.tt_board_tree' and plugin.tt_board_list
  * - See TS_ref.pdf
  *
- * $Id$
- *
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
@@ -55,16 +53,15 @@ class tx_ttboard_model {
 	public $cObj;
 
 
-	public function init (&$cObj) {
-		$this->cObj = &$cObj;
+	public function init ($cObj) {
+		$this->cObj = $cObj;
 		$this->enableFields = $this->cObj->enableFields('tt_board');
 	}
 
 
 	public function getWhereRef ($ref) {
-		global $TYPO3_DB;
 
-		$rc = ' AND reference=' . $TYPO3_DB->fullQuoteStr($ref, 'tt_board');
+		$rc = ' AND reference=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($ref, 'tt_board');
 		return $rc;
 	}
 
@@ -99,17 +96,15 @@ class tx_ttboard_model {
 	 * Get a record tree of forum items
 	 */
 	public function getRecordTree (&$theRows, $parent, $pid, $ref, $treeIcons = '') {
-		global $TYPO3_DB;
-
 		$whereRef = $this->getWhereRef($ref);
 		$where = 'pid=' . intval($pid) . ' AND parent=' . intval($parent) . $whereRef . $this->enableFields;
-		$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy());
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy());
 		$c = 0;
-		$rc = $TYPO3_DB->sql_num_rows($res);
+		$rc = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
 		$prevUid = end(array_keys($theRows));
 		$theRows[$prevUid]['treeIcons'] .= ($rc ? $this->treeIcons['thread'] : $this->treeIcons['end']);
 
-		while($row = $TYPO3_DB->sql_fetch_assoc($res)) {
+		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$c++;
 			$uid = $row['uid'];
 			// check for a loop
@@ -131,7 +126,7 @@ class tx_ttboard_model {
 			);
 			$prevUid = $uid;
 		}
-		$TYPO3_DB->sql_free_result($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 	}
 
 
@@ -163,12 +158,10 @@ class tx_ttboard_model {
 	 * Returns number of post in a forum.
 	 */
 	public function getNumPosts ($pid) {
-		global $TYPO3_DB;
-
 		$where = 'pid IN ('.$pid.')'.$this->enableFields;
-		$res = $TYPO3_DB->exec_SELECTquery('count(*)', 'tt_board', $where);
-		$row = $TYPO3_DB->sql_fetch_row($res);
-		$TYPO3_DB->sql_free_result($res);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row[0];
 	}
 
@@ -177,12 +170,10 @@ class tx_ttboard_model {
 	 * Returns number of threads.
 	 */
 	public function getNumThreads ($pid) {
-		global $TYPO3_DB;
-
 		$where = 'pid IN ('.$pid.') AND parent=0'.$this->enableFields;
-		$res = $TYPO3_DB->exec_SELECTquery('count(*)', 'tt_board', $where);
-		$row = $TYPO3_DB->sql_fetch_row($res);
-		$TYPO3_DB->sql_free_result($res);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row[0];
 	}
 
@@ -191,12 +182,10 @@ class tx_ttboard_model {
 	 * Returns number of replies.
 	 */
 	public function getNumReplies ($pid, $uid) {
-		global $TYPO3_DB;
-
 		$where = 'pid IN (' . $pid . ') AND parent=' . intval($uid) . $this->enableFields;
-		$res = $TYPO3_DB->exec_SELECTquery('count(*)', 'tt_board', $where);
-		$row = $TYPO3_DB->sql_fetch_row($res);
-		$TYPO3_DB->sql_free_result($res);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row[0];
 	}
 
@@ -205,12 +194,10 @@ class tx_ttboard_model {
 	 * Returns last post.
 	 */
 	public function getLastPost ($pid) {
-		global $TYPO3_DB;
-
 		$where = 'pid IN (' . $pid . ')' . $this->enableFields;
-		$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), '1');
-		$row = $TYPO3_DB->sql_fetch_assoc($res);
-		$TYPO3_DB->sql_free_result($res);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), '1');
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row;
 	}
 
@@ -219,13 +206,11 @@ class tx_ttboard_model {
 	 * Returns last post in thread.
 	 */
 	public function getLastPostInThread ($pid, $uid, $ref) {
-		global $TYPO3_DB;
-
 		$whereRef = $this->getWhereRef($ref);
 		$where = 'pid IN (' . $pid . ') AND parent=' . $uid . $whereRef . $this->enableFields;
-		$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), '1');
-		$row = $TYPO3_DB->sql_fetch_assoc($res);
-		$TYPO3_DB->sql_free_result($res);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), '1');
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $row;
 	}
 
@@ -236,15 +221,13 @@ class tx_ttboard_model {
 	 * Returns an array with records
 	 */
 	public function getMostRecentPosts ($pid, $number) {
-		global $TYPO3_DB;
-
 		$where = 'pid IN (' . $pid . ')' . $this->enableFields;
-		$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), $number);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), $number);
 		$out = array();
-		while($row = $TYPO3_DB->sql_fetch_assoc($res)) {
+		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$out[] = $row;
 		}
-		$TYPO3_DB->sql_free_result($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $out;
 	}
 
@@ -253,17 +236,15 @@ class tx_ttboard_model {
 	 * Returns an array with threads
 	 */
 	public function getThreads ($pid, $ref, $descend = 0, $limit = 100, $searchWord) {
-		global $TYPO3_DB;
-
 		$outArray = array();
 		$whereRef = $this->getWhereRef($ref);
 
 		if ($searchWord)	{
 			$where = $this->cObj->searchWhere($searchWord, $this->searchFieldList, 'tt_board');
 			$where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->enableFields;
-			$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
 			$set = array();
-			while($row = $TYPO3_DB->sql_fetch_assoc($res)) {
+			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				$rootRow = $this->getRootParent($row['uid']);
 				if (is_array($rootRow) && !isset($set[$rootRow['uid']])) {
 					$set[$rootRow['uid']] = 1;
@@ -273,17 +254,17 @@ class tx_ttboard_model {
 					}
 				}
 			}
-			$TYPO3_DB->sql_free_result($res);
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		} else {
 			$where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->enableFields;
-			$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
-			while($row = $TYPO3_DB->sql_fetch_assoc($res)) {
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
+			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				$outArray[$row['uid']] = $row;
 				if ($descend) {
 					$this->getRecordTree($outArray, $row['uid'], $row['pid'], $ref);
 				}
 			}
-			$TYPO3_DB->sql_free_result($res);
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 		return $outArray;
 	}
@@ -293,8 +274,6 @@ class tx_ttboard_model {
 	 * Returns records in a thread
 	 */
 	public function getSingleThread ($uid, $ref, $descend = 0) {
-		global $TYPO3_DB;
-
 		$hash = md5($uid . '|' . $ref . '|' . $descend);
 		if ($this->cache_thread[$hash]) {
 			return $this->cache_thread[$hash];
@@ -304,15 +283,15 @@ class tx_ttboard_model {
 		if ($uid) {
 			$whereRef = $this->getWhereRef($ref);
 
-			$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_board', 'uid=' . $uid . $whereRef . $this->enableFields);
-			if ($row = $TYPO3_DB->sql_fetch_assoc($res)) {
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid=' . $uid . $whereRef . $this->enableFields);
+			if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 
 				$outArray[$row['uid']] = $row;
 				if ($descend) {
 					$this->getRecordTree($outArray, $row['uid'], $row['pid'], $ref);
 				}
 			}
-			$TYPO3_DB->sql_free_result($res);
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 		return $outArray;
 	}
@@ -322,8 +301,6 @@ class tx_ttboard_model {
 	 * Get root parent of a tt_board record by uid or reference.
 	 */
 	public function getRootParent ($uid, $ref = '', $limit = 99) {
-		global $TYPO3_DB;
-
 		if ($uid) {
 			$field = 'uid';
 			$value = $uid;
@@ -333,13 +310,13 @@ class tx_ttboard_model {
 		}
 		if ($limit > 0) {
 			$res =
-				$TYPO3_DB->exec_SELECTquery(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'*',
 					'tt_board',
-					$field . '=' . $TYPO3_DB->fullQuoteStr($value, 'tt_board') . $this->enableFields
+					$field . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($value, 'tt_board') . $this->enableFields
 				);
 
-			if($row = $TYPO3_DB->sql_fetch_assoc($res)) {
+			if($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				if ($row['parent']) {
 					$tmpRow = $this->getRootParent($row['parent'], '', $limit - 1);
 					if ($tmpRow) {
@@ -347,7 +324,7 @@ class tx_ttboard_model {
 					}
 				}
 			}
-			$TYPO3_DB->sql_free_result($res);
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 		return $row;
 	}
@@ -357,20 +334,18 @@ class tx_ttboard_model {
 	 * Returns next or prev thread in a tree
 	 */
 	public function getThreadRoot ($pid, $rootParent, $type = 'next') {
-		global $TYPO3_DB;
-
 		$datePart = ' AND crdate' . ($type != 'next' ? '>':'<') . intval($rootParent['crdate']);
 		$where = 'pid IN (' . $pid . ') AND parent=0' . $datePart . $this->enableFields;
 		$res =
-			$TYPO3_DB->exec_SELECTquery(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'*',
 				'tt_board',
 				$where,
 				'',
 				$this->orderBy($type != 'next' ? '' : 'DESC')
 			);
-		$rc = $TYPO3_DB->sql_fetch_assoc($res);
-		$TYPO3_DB->sql_free_result($res);
+		$rc = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		return $rc;
 	}
 
@@ -412,4 +387,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php']);
 }
 
-?>

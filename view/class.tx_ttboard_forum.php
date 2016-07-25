@@ -33,15 +33,10 @@
  * - See static_template 'plugin.tt_board_tree' and plugin.tt_board_list
  * - See TS_ref.pdf
  *
- * $Id$
- *
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
-/*
-require_once (PATH_BE_TTBOARD . 'marker/class.tx_ttboard_marker.php');
-require_once (PATH_BE_TTBOARD . 'model/class.tx_ttboard_model.php');*/
 
 
 class tx_ttboard_forum {
@@ -72,7 +67,7 @@ class tx_ttboard_forum {
 	/**
 	 * Creates the forum display, including listing all items/a single item
 	 */
-	public function &printView (
+	public function printView (
 		$uid,
 		$ref,
 		$pid_list,
@@ -81,11 +76,9 @@ class tx_ttboard_forum {
 		$alternativeLayouts,
 		$linkParams
 	) {
-		global $TSFE;
-
-		$modelObj = &t3lib_div::getUserObj('&tx_ttboard_model');
-		$markerObj = &t3lib_div::getUserObj('&tx_ttboard_marker');
-		$local_cObj = &t3lib_div::getUserObj('&tx_div2007_cobj');
+		$modelObj = t3lib_div::getUserObj('&tx_ttboard_model');
+		$markerObj = t3lib_div::getUserObj('&tx_ttboard_marker');
+		$local_cObj = t3lib_div::getUserObj('&tx_div2007_cobj');
 		$recentPosts = array();
 
 		if ($this->conf['iconCode']) {
@@ -123,7 +116,7 @@ class tx_ttboard_forum {
 
 		if (($uid || $ref!='') && $theCode == 'FORUM') {
 			if (!$this->allowCaching) {
-				$TSFE->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
+				$GLOBALS['TSFE']->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
 			}
 			$lConf = $this->conf['view_thread.'];
 			$templateCode = $local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_THREAD###');
@@ -159,7 +152,11 @@ class tx_ttboard_forum {
 				$wrappedSubpartContentArray = array();
 
 					// Getting the specific parts of the template
-				$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($TSFE->page['title'],$lConf['forum_title_stdWrap.']);
+				$markerArray['###FORUM_TITLE###'] =
+					$local_cObj->stdWrap(
+						$GLOBALS['TSFE']->page['title'],
+						$lConf['forum_title_stdWrap.']
+					);
 
 					// Link back to forum
 				$local_cObj->setCurrentVal($this->pid);
@@ -290,7 +287,7 @@ class tx_ttboard_forum {
 							$wrappedSubpartContentArray
 						);
 				}
-				$TSFE->indexedDocTitle = $indexedTitle;
+				$GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
 					// Substitution:
 				$content .=
 					$local_cObj->substituteSubpart(
@@ -319,11 +316,11 @@ class tx_ttboard_forum {
 						// Clear
 					$subpartMarkerArray = array();
 					$wrappedSubpartContentArray = array();
-					$markerObj = &t3lib_div::getUserObj('&tx_ttboard_marker');
+					$markerObj = t3lib_div::getUserObj('&tx_ttboard_marker');
 
 						// Getting the specific parts of the template
 					$markerArray = $markerObj->getColumnMarkers();
-					$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($TSFE->page['title'], $lConf['forum_title_stdWrap.']);
+					$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($GLOBALS['TSFE']->page['title'], $lConf['forum_title_stdWrap.']);
 
 					$templateCode =
 						$local_cObj->substituteMarkerArrayCached(
@@ -463,9 +460,9 @@ class tx_ttboard_forum {
 					$markerArray = array();
 					$subpartContentArray = array();
 						// Fill in array
-					$markerArray['###SEARCH_WORD###'] = $TSFE->no_cache ? t3lib_div::_GP('tt_board_sword') : '';		// Setting search words in field if cache is disabled.
+					$markerArray['###SEARCH_WORD###'] = $GLOBALS['TSFE']->no_cache ? t3lib_div::_GP('tt_board_sword') : '';		// Setting search words in field if cache is disabled.
 						// Set FORM_URL
-					$local_cObj->setCurrentVal($TSFE->id);
+					$local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
 					$temp_conf = $this->typolink_conf;
 					$temp_conf['no_cache'] = 1;
 					$markerArray['###FORM_URL###'] = $local_cObj->typoLink_URL($temp_conf);
@@ -492,4 +489,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/view/class.tx_ttboard_forum.php']);
 }
 
-?>

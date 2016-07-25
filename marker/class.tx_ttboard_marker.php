@@ -29,8 +29,6 @@
  *
  * marker functions
  *
- * $Id$
- *
  * @author	Franz Holzinger <franzt@ttproducts.de>
  * @maintainer	Franz Holzinger <franzt@ttproducts.de>
  * @package TYPO3
@@ -38,8 +36,6 @@
  *
  *
  */
-
-require_once (PATH_BE_div2007 . 'class.tx_div2007_alpha5.php');
 
 
 class tx_ttboard_marker {
@@ -110,7 +106,7 @@ class tx_ttboard_marker {
 			// Call all addURLMarkers hooks at the end of this method
 		if (is_array ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
 			foreach  ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
-				$hookObj= &t3lib_div::getUserObj($classRef);
+				$hookObj= t3lib_div::getUserObj($classRef);
 				if (method_exists($hookObj, 'addGlobalMarkers')) {
 					$hookObj->addGlobalMarkers($markerArray);
 				}
@@ -126,8 +122,8 @@ class tx_ttboard_marker {
 		&$markerArray,
 		$lConf
 	) {
-		$local_cObj = &t3lib_div::getUserObj('&tx_div2007_cobj');
-		$modelObj = &t3lib_div::getUserObj('&tx_ttboard_model');
+		$local_cObj = t3lib_div::getUserObj('&tx_div2007_cobj');
+		$modelObj = t3lib_div::getUserObj('&tx_ttboard_model');
 		$local_cObj->start($row);
 
 			// Markers
@@ -144,7 +140,7 @@ class tx_ttboard_marker {
 	}
 
 
-	public function &getColumnMarkers () {
+	public function getColumnMarkers () {
 		$markerArray = array();
 
 		foreach ($this->pibase->LOCAL_LANG['default'] as $k => $text) {
@@ -207,4 +203,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_marker.php']);
 }
 
-?>

@@ -33,33 +33,25 @@
  * - See static_template 'plugin.tt_board_tree' and plugin.tt_board_list
  * - See TS_ref.pdf
  *
- * $Id$
- *
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-
-// require_once(PATH_tslib . 'class.tslib_pibase.php');
-// require_once (PATH_BE_div2007 . 'class.tx_div2007_alpha5.php');
-// require_once(PATH_BE_TTBOARD . 'marker/class.tx_ttboard_marker.php');
-// require_once(PATH_BE_TTBOARD . 'model/class.tx_ttboard_model.php');
 
 
 class tx_ttboard_pibase extends tslib_pibase {
 	public $extKey = TT_BOARD_EXT;	// The extension key.
 	public $cObj;		// The backReference to the mother cObj object set at call time
 
-	public $alternativeLayouts='';
-	public $allowCaching='';
+	public $alternativeLayouts = '';
+	public $allowCaching = '';
 	public $conf=array();
-	public $config=array();
+	public $config = array();
 	public $pid_list;			// list of page ids
 
-	public $tt_board_uid='';
-	public $pid='';
-	public $orig_templateCode='';
-	public $typolink_conf=array();
+	public $tt_board_uid = '';
+	public $pid = '';
+	public $orig_templateCode = '';
+	public $typolink_conf = array();
 
 	public $errorMessage;
 	public $markerObj;
@@ -76,19 +68,12 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * @return	  void
 	 */
 	public function init (&$content, &$conf, &$config) {
-		global $TSFE;
-
 		// *************************************
 		// *** getting configuration values:
 		// *************************************
 
 		$this->conf = &$conf;
 		$this->config = &$config;
-// 		if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
-// 			t3lib_div::requireOnce(PATH_BE_div2007 . 'class.tx_div2007_alpha.php');
-// 			t3lib_div::requireOnce(PATH_BE_div2007 . 'class.tx_div2007_alpha5.php');
-// 			t3lib_div::requireOnce(PATH_BE_div2007 . 'class.tx_div2007_ff.php');
-// 		}
 
 		if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
 			tx_div2007_alpha::loadLL_fh001($this,'EXT:'.$this->extKey.'/share/locallang.xml');
@@ -103,15 +88,15 @@ class tx_ttboard_pibase extends tslib_pibase {
 			// pid_list is the pid/list of pids from where to fetch the guest items.
 		$tmp = trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.']));
 		$pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] :$tmp);
-		$this->pid_list = ($pid_list ? $pid_list : $TSFE->id);
+		$this->pid_list = ($pid_list ? $pid_list : $GLOBALS['TSFE']->id);
 		// page where to go usually
-		$this->pid = ($conf['PIDforum'] ? $conf['PIDforum'] : ($pid ? $pid : $TSFE->id));
+		$this->pid = ($conf['PIDforum'] ? $conf['PIDforum'] : ($pid ? $pid : $GLOBALS['TSFE']->id));
 			// template is read.
 		$this->orig_templateCode = $this->cObj->fileResource($conf['templateFile']);
 		$this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
-		$this->markerObj = &t3lib_div::getUserObj('&tx_ttboard_marker');
+		$this->markerObj = t3lib_div::getUserObj('&tx_ttboard_marker');
 		$this->markerObj->init($this, $conf, $config);
-		$this->modelObj = &t3lib_div::getUserObj('&tx_ttboard_model');
+		$this->modelObj = t3lib_div::getUserObj('&tx_ttboard_model');
 		$this->modelObj->init($this->cObj);
 
 		$globalMarkerArray = $this->markerObj->getGlobalMarkers();
@@ -161,43 +146,35 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 		if ($this->conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap') ) {
 			require_once(t3lib_extMgm::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php');
-			$this->freeCap = &t3lib_div::getUserObj('&tx_srfreecap_pi2');
+			$this->freeCap = t3lib_div::getUserObj('&tx_srfreecap_pi2');
 		}
 	}
 
 
 	public function getCodeArray ($conf) {
 		$config = array();
-		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms']) {
 
-				// check the flexform
-			$this->pi_initPIflexForm();
-			require_once(PATH_BE_div2007.'class.tx_div2007_alpha.php');
-			$config['code'] = tx_div2007_alpha::getSetupOrFFvalue_fh001(
-				$this,
-				$conf['code'],
-				$conf['code.'],
-				$conf['defaultCode'],
-				$this->cObj->data['pi_flexform'],
-				'display_mode',
-				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['useFlexforms']
-			);
-		} else {
-				// 'CODE' decides what is rendered:
-			$config['code'] = $this->cObj->stdWrap($conf['code'], $conf['code.']);
-			$config['code'] = $config['code'] ? $config['code'] : $conf['defaultCode'];
-		}
-		$codeArray=t3lib_div::trimExplode(',', $config['code'], 1);
+			// check the flexform
+		$this->pi_initPIflexForm();
+		$config['code'] = tx_div2007_alpha5::getSetupOrFFvalue_fh004(
+			$this,
+			$conf['code'],
+			$conf['code.'],
+			$conf['defaultCode'],
+			$this->cObj->data['pi_flexform'],
+			'display_mode',
+			TRUE
+		);
+
+		$codeArray = t3lib_div::trimExplode(',', $config['code'], 1);
 		if (!count($codeArray)) {
-			$codeArray=array('');
+			$codeArray = array('');
 		}
 		return ($codeArray);
 	}
 
 
 	public function processCode ($theCode, &$content) {
-		global $TSFE;
-
 		$ref = (isset($this->conf['ref']) ? $this->conf['ref'] : '');
 		$linkParams = (isset($this->conf['linkParams']) ? $this->conf['linkParams'] : '');
 
@@ -215,10 +192,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 			break;
 			case 'FORUM':
 			case 'THREAD_TREE':
-				$forumViewObj = &t3lib_div::getUserObj('&tx_ttboard_forum');
+				$forumViewObj = t3lib_div::getUserObj('&tx_ttboard_forum');
 				if ($forumViewObj->needsInit()) {
 
-					$pid = ($this->conf['PIDforum'] ? $this->conf['PIDforum'] : $TSFE->id);
+					$pid = ($this->conf['PIDforum'] ? $this->conf['PIDforum'] : $GLOBALS['TSFE']->id);
 					$forumViewObj->init(
 						$this->conf,
 						$this->allowCaching,
@@ -264,12 +241,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Returns the content record
 	 */
 	public function getContentRecord ($pid) {
-		global $TYPO3_DB, $TSFE;
-
-		$where = 'pid='.intval($pid).' AND list_type IN (\'2\',\'4\') AND sys_language_uid='.intval($TSFE->config['config']['sys_language_uid']).$TSFE->sys_page->deleteClause('tt_content');
-		$res = $TYPO3_DB->exec_SELECTquery('*', 'tt_content', $where);
-		$rc = $TYPO3_DB->sql_fetch_assoc($res);
-		$TYPO3_DB->sql_free_result($res);
+		$where = 'pid='.intval($pid).' AND list_type IN (\'2\',\'4\') AND sys_language_uid='.intval($GLOBALS['TSFE']->config['config']['sys_language_uid']).$GLOBALS['TSFE']->sys_page->deleteClause('tt_content');
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_content', $where);
+		$rc = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 
 		return $rc;
 	} //getRecord
@@ -279,10 +254,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Creates a list of forums or categories depending on theCode
 	 */
 	public function forum_list ($theCode) {
-		global $TSFE;
-
-		$local_cObj = &t3lib_div::getUserObj('&tx_div2007_cobj');
-		$local_cObj->setCurrentVal($TSFE->id);
+		$local_cObj = t3lib_div::getUserObj('&tx_div2007_cobj');
+		$local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
 
 		if (!$this->tt_board_uid) {
 			$forumlist = 0;		// set to true if this is a list of forums and not categories + forums
@@ -305,7 +278,12 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 					// Getting the specific parts of the template
 				$markerArray = $this->markerObj->getColumnMarkers();
-				$templateCode = $local_cObj->substituteMarkerArrayCached($templateCode,$markerArray,$subpartMarkerArray,$wrappedSubpartContentArray);
+				$templateCode =
+					$local_cObj->substituteMarkerArrayCached(
+						$templateCode,$markerArray,
+						$subpartMarkerArray,
+						$wrappedSubpartContentArray
+					);
 
 					// Getting the specific parts of the template
 				$categoryHeader = $this->markerObj->getLayouts($templateCode, $this->alternativeLayouts, 'CATEGORY');
@@ -541,10 +519,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * Creates a post form for a forum
 	 */
 	public function forum_postform ($theCode, $pid, $ref, $linkParams) {
-		global $TSFE;
-
 		$content = '';
-		$local_cObj = &t3lib_div::getUserObj('&tx_div2007_cobj');
+		$local_cObj = t3lib_div::getUserObj('&tx_div2007_cobj');
 
 		if ($this->modelObj->isAllowed($this->conf['memberOfGroups'])) {
 			$parent=0;		// This is the parent item for the form. If this ends up being is set, then the form is a reply and not a new post.
@@ -555,10 +531,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				if ($this->conf['tree']) {
 					$parent = $this->tt_board_uid;
 				}
-				/* else {
-					$parentR = $this->modelObj->getRootParent($this->tt_board_uid, $ref);
-					$parent = $parentR['uid'];
-				}*/
+
 				$parentR = $this->modelObj->getRootParent($this->tt_board_uid, $ref);
 				if (!$this->conf['tree']) {
 					$parent = $parentR['uid'];
@@ -693,12 +666,12 @@ class tx_ttboard_pibase extends tslib_pibase {
 					);
 				}
 
-				if (is_array($TSFE->fe_user->user)) {
+				if (is_array($GLOBALS['TSFE']->fe_user->user)) {
 					foreach ($lConf['dataArray.'] as $k => $dataRow) {
 						if (strpos($dataRow['type'], '[author]') !== FALSE) {
-							$lConf['dataArray.'][$k]['value'] = $TSFE->fe_user->user['name'];
+							$lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'];
 						} else if (strpos($dataRow['type'],'[email]') !== FALSE) {
-							$lConf['dataArray.'][$k]['value'] = $TSFE->fe_user->user['email'];
+							$lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'];
 						}
 					}
 				}
@@ -735,7 +708,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$url =
 						tx_div2007_alpha::getPageLink_fh002(
 							$local_cObj,
-							$TSFE->id,
+							$GLOBALS['TSFE']->id,
 							'',
 							$linkParams,
 							array('useCacheHash' => FALSE)
@@ -756,4 +729,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/lib/class.tx_ttboard_pibase.php']);
 }
 
-?>

@@ -29,14 +29,8 @@
  *
  * API Function library for a forum/board in tree or list style
  *
- * $Id$
- *
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-
-require_once (PATH_BE_TTBOARD . 'marker/class.tx_ttboard_marker.php');
-require_once (PATH_BE_TTBOARD . 'model/class.tx_ttboard_model.php');
 
 
 class tx_ttboard_api {
@@ -50,11 +44,10 @@ class tx_ttboard_api {
 	 * @return	array		TypoScript configuration for ratings
 	 */
 	public function getDefaultConfig ($type) {
-		global $TSFE;
 
 		if ($type == 'list' || $type == 'tree') {
 			$key = 'tt_board_' . $type . '.';
-			$rc = $TSFE->tmpl->setup['plugin.'][$key];
+			$rc = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$key];
 		} else {
 			$rc = FALSE;
 		}
@@ -67,4 +60,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/api/class.tx_ttboard_api.php']);
 }
 
-?>

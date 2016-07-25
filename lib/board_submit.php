@@ -30,14 +30,9 @@
  * See TSref document: boardLib.inc / FEDATA section for details on how to use this script.
  * The static template 'plugin.tt_board' provides a working example of configuration.
  *
- * $Id$
- *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-// include_once (PATH_BE_TTBOARD . 'model/class.tx_ttboard_model.php');
-// require_once(PATH_BE_div2007 . 'class.tx_div2007_email.php');
 
 
 if (is_object($this)) {
@@ -228,8 +223,8 @@ if (is_object($this)) {
 
 						$msgParts = explode(chr(10), $msg, 2);
 						if ($conf['debug']) {
-							debug($notifyMe,1);
-							debug($headers,1);
+							debug($notifyMe, 1);
+							debug($headers, 1);
 							debug($msgParts);
 						} else {
 							$addresses = t3lib_div::trimExplode(',', $notifyMe);
@@ -265,6 +260,7 @@ if (is_object($this)) {
 	}
 }
 
+
 // Added by Nicolas Liaudat
 function checkEmail ($email) {
 
@@ -296,4 +292,3 @@ function checkEmail ($email) {
 	}
 }
 
-?>

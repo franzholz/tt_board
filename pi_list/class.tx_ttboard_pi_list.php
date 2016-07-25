@@ -33,14 +33,9 @@
  * - See static_template 'plugin.tt_board_tree' and plugin.tt_board_list
  * - See TS_ref.pdf
  *
- * $Id$
- *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-// require_once (PATH_BE_div2007 . 'class.tx_div2007_cobj.php');
-// require_once (PATH_BE_TTBOARD . 'lib/class.tx_ttboard_pibase.php');
 
 
 class tx_ttboard_pi_list extends tx_ttboard_pibase {
@@ -68,7 +63,8 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 					if ($setupCode) {
 						$bOrigInitCalled = FALSE;
 						$setup = $conf['userFunc.'][$theCode.'.'];
-						$newConf = t3lib_div::array_merge_recursive_overrule($conf, $setup['10.']);
+						$newConf = $conf;
+						tx_div2007_core::mergeRecursiveWithOverrule($newConf, $setup['10.']);
 						unset($newConf['userFunc.']);
 						$newSetup = array();
 						if ($setupCode == 'COA') {
@@ -152,4 +148,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_list/class.tx_ttboard_pi_list.php']);
 }
 
-?>
