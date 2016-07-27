@@ -1,2 +1,0 @@
-  # cat=basic/enable; type=boolean; label=Use Flexforms: Enable the use of Flexforms in the backend. Extension div2007 version 0.1.7+ must be installed. Default is 1. Disabled if version of TYPO3 is older than 3.7.
-useFlexforms = 1
