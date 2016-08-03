@@ -4,56 +4,37 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-t3lib_extMgm::addStaticFile(TT_BOARD_EXT, 'static/css/', 'default CSS-styles');
-t3lib_extMgm::addStaticFile(TT_BOARD_EXT, 'static/old_style/', 'Board Old Style');
-t3lib_extMgm::addStaticFile(TT_BOARD_EXT, 'static/css_style/', 'Board CSS Style');
+$emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
 
-t3lib_div::loadTCA('tt_content');
-if ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXT]['useFlexforms'] == 1) {
-	$TCA['tt_content']['types']['list']['subtypes_excludelist']['4'] = 'layout,select_key';
-	$TCA['tt_content']['types']['list']['subtypes_addlist']['4']='pi_flexform';
-	$TCA['tt_content']['types']['list']['subtypes_excludelist']['2'] = 'layout,select_key';
-	$TCA['tt_content']['types']['list']['subtypes_addlist']['2'] = 'pi_flexform';
-	t3lib_extMgm::addPiFlexFormValue('4', 'FILE:EXT:' . TT_BOARD_EXT . '/flexform_ds_pi_list.xml');
-	t3lib_extMgm::addPiFlexFormValue('2', 'FILE:EXT:' . TT_BOARD_EXT . '/flexform_ds_pi_tree.xml');
+if (
+	class_exists($emClass) &&
+	method_exists($emClass, 'extPath')
+) {
+	// nothing
 } else {
-	$TCA['tt_content']['types']['list']['subtypes_excludelist']['4'] = 'layout';
-	$TCA['tt_content']['types']['list']['subtypes_excludelist']['2'] = 'layout';
+	$emClass = 't3lib_extMgm';
 }
-t3lib_extMgm::addPlugin(Array('LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.php:pi_list', '4'), 'list_type');
-t3lib_extMgm::addPlugin(Array('LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.php:pi_tree', '2'), 'list_type');
 
-$TCA['tt_board'] = Array (
-	'ctrl' => Array (
-		'label' => 'subject',
-		'default_sortby' => 'ORDER BY parent,crdate DESC',		// crdate should gradually not be used! Trying to phase it out in favour of datetime.
-		'tstamp' => 'tstamp',
-		'crdate' => 'crdate',
-		'delete' => 'deleted',
-		'copyAfterDuplFields' => 'parent',
-		'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
-		'enablecolumns' => Array (
-			'disabled' => 'hidden'
-		),
-		'title' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.php:tt_board',
-		'typeicon_column' => 'parent',
-		'typeicons' => Array (
-			'0' => 'tt_faq_board_root.gif'
-		),
-		'useColumnsForDefaultValues' => 'parent',
-		'iconfile' => PATH_BE_TTBOARD_REL . 'ext_icon.gif',
-		'dynamicConfigFile' => PATH_BE_TTBOARD . 'tca.php',
-		'searchFields' => 'uid,author,email,subject,message,cr_ip',
-	)
-);
+call_user_func($emClass . '::addStaticFile', $_EXTKEY, 'Configuration/TypoScript/DefaultCSS/', 'default CSS-styles');
+call_user_func($emClass . '::addStaticFile', $_EXTKEY, 'Configuration/TypoScript/Default/', 'Board Setup');
 
-t3lib_extMgm::allowTableOnStandardPages('tt_board');
-t3lib_extMgm::addToInsertRecords('tt_board');
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['4'] = 'layout,select_key';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['4'] = 'pi_flexform';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['2'] = 'layout,select_key';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['2'] = 'pi_flexform';
 
-t3lib_extMgm::addLLrefForTCAdescr('tt_board', 'EXT:' . TT_BOARD_EXT . '/locallang_csh_ttboard.php');
+call_user_func($emClass . '::addPiFlexFormValue', '4', 'FILE:EXT:' . $_EXTKEY . '/flexform_ds_pi_list.xml');
+call_user_func($emClass . '::addPiFlexFormValue', '2', 'FILE:EXT:' . $_EXTKEY . '/flexform_ds_pi_tree.xml');
+
+call_user_func($emClass . '::addPlugin', array('LLL:EXT:' . $_EXTKEY . '/locallang_tca.php:pi_list', '4'), 'list_type');
+call_user_func($emClass . '::addPlugin', array('LLL:EXT:' . $_EXTKEY . '/locallang_tca.php:pi_tree', '2'), 'list_type');
+
+call_user_func($emClass . '::allowTableOnStandardPages', 'tt_board');
+call_user_func($emClass . '::addToInsertRecords', 'tt_board');
+
+call_user_func($emClass . '::addLLrefForTCAdescr', 'tt_board', 'EXT:' . $_EXTKEY . '/locallang_csh_ttboard.php');
 
 if (TYPO3_MODE == 'BE') {
 	$GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['tx_ttboard_wizicon'] = PATH_BE_TTBOARD . 'class.tx_ttboard_wizicon.php';
 }
 
-?>
