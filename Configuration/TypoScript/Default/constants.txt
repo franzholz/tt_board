@@ -1,4 +1,3 @@
-## $Id$
 
 plugin.tt_board {
     # cat=plugin.board; type=string; label= Moderator email: This email address will get a mail every time somebody submits a message to the forum.

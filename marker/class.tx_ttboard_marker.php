@@ -37,6 +37,8 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 class tx_ttboard_marker {
 	public $pibase;
@@ -49,7 +51,7 @@ class tx_ttboard_marker {
 	public $emoticons = 1;
 	public $emoticonsPath = 'media/emoticons/';
 	public $emoticonsTag = '<img src="{}" valign="bottom" hspace=4>';
-	public $emoticonsSubst=array(
+	public $emoticonsSubst = array(
 		'>:-<' => 'angry.gif',
 		':D' => 'grin.gif',
 		':-(' => 'sad.gif',
@@ -68,11 +70,11 @@ class tx_ttboard_marker {
 	 *
 	 */
 
-	public function init (&$pibase, &$conf, &$config) {
- 		$this->pibase = &$pibase;
- 		$this->cObj = &$pibase->cObj;
- 		$this->conf = &$conf;
- 		$this->config = &$config;
+	public function init ($pibase, &$conf, &$config) {
+ 		$this->pibase = $pibase;
+ 		$this->cObj = $pibase->cObj;
+ 		$this->conf = $conf;
+ 		$this->config = $config;
 
 		$this->dontParseContent = $this->conf['dontParseContent'];
 	}
@@ -82,7 +84,6 @@ class tx_ttboard_marker {
 	 * getting the global markers
 	 */
 	public function &getGlobalMarkers () {
-		global $TYPO3_CONF_VARS;
 		$markerArray = array();
 
 			// globally substituted markers, fonts and colors.
@@ -99,14 +100,14 @@ class tx_ttboard_marker {
 		if (is_array($this->conf['marks.'])) {
 				// Substitute Marker Array from TypoScript Setup
 			foreach ($this->conf['marks.'] as $key => $value) {
-				$markerArray['###'.$key.'###'] = $value;
+				$markerArray['###' . $key . '###'] = $value;
 			}
 		}
 
 			// Call all addURLMarkers hooks at the end of this method
-		if (is_array ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
-			foreach  ($TYPO3_CONF_VARS['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
-				$hookObj= t3lib_div::getUserObj($classRef);
+		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
+			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
+				$hookObj= GeneralUtility::getUserObj($classRef);
 				if (method_exists($hookObj, 'addGlobalMarkers')) {
 					$hookObj->addGlobalMarkers($markerArray);
 				}
@@ -122,8 +123,8 @@ class tx_ttboard_marker {
 		&$markerArray,
 		$lConf
 	) {
-		$local_cObj = t3lib_div::getUserObj('&tx_div2007_cobj');
-		$modelObj = t3lib_div::getUserObj('&tx_ttboard_model');
+		$local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
+		$modelObj = GeneralUtility::getUserObj('&tx_ttboard_model');
 		$local_cObj->start($row);
 
 			// Markers

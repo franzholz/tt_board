@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2016 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,6 +37,8 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 class tx_ttboard_model {
 
@@ -60,9 +62,8 @@ class tx_ttboard_model {
 
 
 	public function getWhereRef ($ref) {
-
-		$rc = ' AND reference=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($ref, 'tt_board');
-		return $rc;
+		$result = ' AND reference=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($ref, 'tt_board');
+		return $result;
 	}
 
 
@@ -70,14 +71,12 @@ class tx_ttboard_model {
 	 * Checks if posting is allowed to user
 	 */
 	public function isAllowed ($memberOfGroups) {
-		global $TSFE;
-
 		$allowed = FALSE;
 		if ($memberOfGroups) {
 
-			if (is_array($TSFE->fe_user->user)) {
-				$requestGroupArray = t3lib_div::trimExplode(',', $memberOfGroups);
-				$usergroupArray = explode(',',$TSFE->fe_user->user['usergroup']);
+			if (is_array($GLOBALS['TSFE']->fe_user->user)) {
+				$requestGroupArray = GeneralUtility::trimExplode(',', $memberOfGroups);
+				$usergroupArray = explode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
 				$fitArray = array_intersect($requestGroupArray, $usergroupArray);
 				if (count($fitArray)) {
 					$allowed = TRUE;
@@ -100,9 +99,9 @@ class tx_ttboard_model {
 		$where = 'pid=' . intval($pid) . ' AND parent=' . intval($parent) . $whereRef . $this->enableFields;
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy());
 		$c = 0;
-		$rc = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+		$numberRows = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
 		$prevUid = end(array_keys($theRows));
-		$theRows[$prevUid]['treeIcons'] .= ($rc ? $this->treeIcons['thread'] : $this->treeIcons['end']);
+		$theRows[$prevUid]['treeIcons'] .= ($numberRows ? $this->treeIcons['thread'] : $this->treeIcons['end']);
 
 		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$c++;
@@ -111,7 +110,7 @@ class tx_ttboard_model {
 			if (isset($theRows[$uid])) {
 				break;
 			}
-			$row['treeIcons'] = $treeIcons . ($rc == $c ? $this->treeIcons['joinBottom'] : $this->treeIcons['join']);
+			$row['treeIcons'] = $treeIcons . ($numberRows == $c ? $this->treeIcons['joinBottom'] : $this->treeIcons['join']);
 				// prev/next item:
 			$theRows[$prevUid]['nextUid'] = $uid;
 			$row['prevUid'] = $theRows[$prevUid]['uid'];
@@ -122,7 +121,7 @@ class tx_ttboard_model {
 				$uid,
 				$row['pid'],
 				$ref,
-				$treeIcons . ($rc == $c ? $this->treeIcons['blank'] : $this->treeIcons['line'])
+				$treeIcons . ($numberRows == $c ? $this->treeIcons['blank'] : $this->treeIcons['line'])
 			);
 			$prevUid = $uid;
 		}
@@ -137,16 +136,15 @@ class tx_ttboard_model {
 	 * Excludes pages, that would normally not enter a regular menu. That means hidden, timed or deleted pages + pages with another doktype than 'standard' or 'advanced'
 	 */
 	public function getPagesInPage ($pid_list) {
-		global $TSFE;
-
-		$thePids = t3lib_div::intExplode(',', $pid_list);
+		$thePids = GeneralUtility::intExplode(',', $pid_list);
 		$rcArray = array();
 		foreach($thePids as $p_uid) {
-			$rcArray = array_merge($rcArray, $TSFE->sys_page->getMenu($p_uid));
+			$rcArray = array_merge($rcArray, $GLOBALS['TSFE']->sys_page->getMenu($p_uid));
 		}
+
 			// Exclude pages not of doktype 'Standard' or 'Advanced'
 		foreach($rcArray as $key => $data) {
-			if (!t3lib_div::inList($GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes'], $data['doktype'])) {
+			if (!GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes'], $data['doktype'])) {
 				unset($rcArray[$key]);
 			} // All pages including pages 'not in menu'
 		}
@@ -158,7 +156,7 @@ class tx_ttboard_model {
 	 * Returns number of post in a forum.
 	 */
 	public function getNumPosts ($pid) {
-		$where = 'pid IN ('.$pid.')'.$this->enableFields;
+		$where = 'pid IN (' . $pid . ')' . $this->enableFields;
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', 'tt_board', $where);
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
@@ -239,7 +237,7 @@ class tx_ttboard_model {
 		$outArray = array();
 		$whereRef = $this->getWhereRef($ref);
 
-		if ($searchWord)	{
+		if ($searchWord) {
 			$where = $this->cObj->searchWhere($searchWord, $this->searchFieldList, 'tt_board');
 			$where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->enableFields;
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', $where, '', $this->orderBy('DESC'), intval($limit));
@@ -334,7 +332,7 @@ class tx_ttboard_model {
 	 * Returns next or prev thread in a tree
 	 */
 	public function getThreadRoot ($pid, $rootParent, $type = 'next') {
-		$datePart = ' AND crdate' . ($type != 'next' ? '>':'<') . intval($rootParent['crdate']);
+		$datePart = ' AND crdate' . ($type != 'next' ? '>' : '<') . intval($rootParent['crdate']);
 		$where = 'pid IN (' . $pid . ') AND parent=0' . $datePart . $this->enableFields;
 		$res =
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -344,9 +342,9 @@ class tx_ttboard_model {
 				'',
 				$this->orderBy($type != 'next' ? '' : 'DESC')
 			);
-		$rc = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
-		return $rc;
+		return $result;
 	}
 
 
@@ -369,8 +367,8 @@ class tx_ttboard_model {
 	 * Returns ORDER BY field
 	 */
 	public function orderBy ($desc = '') {
-		$rc = 'crdate ' . $desc;
-		return $rc;
+		$result = 'crdate ' . $desc;
+		return $result;
 	}
 
 

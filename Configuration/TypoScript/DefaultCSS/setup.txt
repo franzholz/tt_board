@@ -5,7 +5,6 @@
 temp.tt_board.css {
 	_CSS_DEFAULT_STYLE (
 
-
 .tx-ttboard-catlistheader-forum {
   font-family: Tahoma,Verdana,sans-serif;
   font-size: 1em;
@@ -200,19 +199,19 @@ text-decoration: none;
   padding:0px;
   width:90px;
 }
+
 .tx-ttboard-border-forum {
   border:1px solid #BDBDBD;
   padding: 3px;
-  }
+}
 
 #mailform {
 margin-left: 2.5em;
 margin-top: 1em;
 }
 
+   # end of _CSS_DEFAULT_STYLE:
    )
 
 }
 
-### CVS id ###
-# $Id$

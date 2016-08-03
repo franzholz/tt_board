@@ -15,8 +15,8 @@ if (
 	$emClass = 't3lib_extMgm';
 }
 
-call_user_func($emClass . '::addStaticFile', $_EXTKEY, 'Configuration/TypoScript/DefaultCSS/', 'default CSS-styles');
-call_user_func($emClass . '::addStaticFile', $_EXTKEY, 'Configuration/TypoScript/Default/', 'Board Setup');
+call_user_func($emClass . '::addStaticFile', $_EXTKEY, 'Configuration/TypoScript/DefaultCSS/', 'Message Board CSS styles');
+call_user_func($emClass . '::addStaticFile', $_EXTKEY, 'Configuration/TypoScript/Default/', 'Message Board Setup');
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['4'] = 'layout,select_key';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['4'] = 'pi_flexform';

@@ -3,6 +3,17 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+$emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
+
+if (
+	class_exists($emClass) &&
+	method_exists($emClass, 'extPath')
+) {
+	// nothing
+} else {
+	$emClass = 't3lib_extMgm';
+}
+
 $_EXTCONF = unserialize($_EXTCONF);    // unserializing the configuration so we can use it here:
 
 if (!defined ('TT_BOARD_EXT')) {
@@ -10,15 +21,15 @@ if (!defined ('TT_BOARD_EXT')) {
 }
 
 if (!defined ('PATH_BE_TTBOARD')) {
-	define('PATH_BE_TTBOARD', t3lib_extMgm::extPath($_EXTKEY));
+	define('PATH_BE_TTBOARD', call_user_func($emClass . '::extPath', $_EXTKEY));
 }
 
 if (!defined ('PATH_BE_TTBOARD_REL')) {
-	define('PATH_BE_TTBOARD_REL', t3lib_extMgm::extRelPath($_EXTKEY));
+	define('PATH_BE_TTBOARD_REL', call_user_func($emClass . '::extRelPath', $_EXTKEY));
 }
 
 if (!defined ('PATH_FE_TTBOARD_REL')) {
-	define('PATH_FE_TTBOARD_REL', t3lib_extMgm::siteRelPath($_EXTKEY));
+	define('PATH_FE_TTBOARD_REL', call_user_func($emClass . '::siteRelPath', $_EXTKEY));
 }
 
 if (isset($_EXTCONF) && is_array($_EXTCONF)) {
@@ -35,11 +46,7 @@ if (TYPO3_MODE == 'BE') {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
 		'EXT:' . $_EXTKEY . '/hooks/class.tx_ttboard_hooks_cms.php:&tx_ttboard_hooks_cms->pmDrawItem';
 
-	t3lib_extMgm::addUserTSConfig('options.saveDocNew.tt_board=1');
-
-	## Extending TypoScript from static template uid=43 to set up userdefined tag:
-// 	t3lib_extMgm::addTypoScript($_EXTKEY, 'editorcfg', 'tt_content.CSS_editor.ch.tt_board_list = < plugin.tt_board_list.CSS_editor ', 43);
-// 	t3lib_extMgm::addTypoScript($_EXTKEY, 'editorcfg', 'tt_content.CSS_editor.ch.tt_board_tree = < plugin.tt_board_tree.CSS_editor ', 43);
+	call_user_func($emClass . '::addUserTSConfig', 'options.saveDocNew.tt_board=1');
 }
 
 if (is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['livesearch'])) {
@@ -53,18 +60,20 @@ if (is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['livesearch'])) {
 }
 
 
-
 // support for new Caching Framework
 
-
-// Register cache 'tt_board_cache'
-if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'])) {
-    $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'] = array();
-}
-// Define string frontend as default frontend, this must be set with TYPO3 4.5 and below
-// and overrides the default variable frontend of 4.6
-if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'])) {
-    $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'] = 't3lib_cache_frontend_StringFrontend';
+if (
+	version_compare(TYPO3_version, '7.0.0', '<')
+) {
+	// Register cache 'tt_board_cache'
+	if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'])) {
+		$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'] = array();
+	}
+	// Define string frontend as default frontend, this must be set with TYPO3 4.5 and below
+	// and overrides the default variable frontend of 4.6
+	if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'])) {
+		$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'] = 't3lib_cache_frontend_StringFrontend';
+	}
 }
 
 
@@ -76,7 +85,8 @@ tt_content.list.20.2 {
     0 = < plugin.tt_board_tree
 }');
 
-t3lib_extMgm::addTypoScript(
+call_user_func(
+	$emClass . '::addTypoScript',
 	$_EXTKEY,
 	'setup', '
 	# Setting ' . $_EXTKEY . ' plugin TypoScript
@@ -94,7 +104,8 @@ tt_content.list.20.4 {
     1 = < plugin.tt_board_tree
 }');
 
-t3lib_extMgm::addTypoScript(
+call_user_func(
+	$emClass . '::addTypoScript',
 	$_EXTKEY,
 	'setup', '
 # Setting ' . $_EXTKEY . ' plugin TypoScript

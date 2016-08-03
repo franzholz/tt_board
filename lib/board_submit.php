@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2013 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2016 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -35,6 +35,10 @@
  */
 
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
+
+
 if (is_object($this)) {
 
 	$conf = $this->extScriptsConf['tt_board'];
@@ -51,12 +55,12 @@ if (is_object($this)) {
 
 		if (is_array($row) && trim($row['message'])) {
 			do {
-				$spamArray = t3lib_div::trimExplode(',', $conf['spamWords']);
+				$spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
 				$bSpamFound = FALSE;
 				$internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
 				if ($conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap')) {
 					require_once(t3lib_extMgm::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
-					$freeCapObj = &t3lib_div::getUserObj('&tx_srfreecap_pi2');
+					$freeCapObj = GeneralUtility::getUserObj('&tx_srfreecap_pi2');
 					if (!$freeCapObj->checkWord($row['captcha'])) {
 						$GLOBALS['TSFE']->applicationData['tt_board']['error']['captcha'] = TRUE;
 						$GLOBALS['TSFE']->applicationData['tt_board']['row'] = $row;
@@ -86,7 +90,7 @@ if (is_object($this)) {
 					$GLOBALS['TSFE']->applicationData['tt_board']['word'] = $word;
 					break;
 				} else {
-					$row['cr_ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
+					$row['cr_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
 					if (isset($row['captcha'])) {
 						unset($row['captcha']);
 					}
@@ -104,7 +108,7 @@ if (is_object($this)) {
 
 						// Clear specific cache:
 					if ($conf['clearCacheForPids']) {
-						$ccPids=t3lib_div::intExplode(',', $conf['clearCacheForPids']);
+						$ccPids = GeneralUtility::intExplode(',', $conf['clearCacheForPids']);
 						foreach($ccPids as $pid) {
 							if ($pid > 0) {
 								$this->clear_cacheCmd($pid);
@@ -158,7 +162,7 @@ if (is_object($this)) {
 							// Message
 						$maillist_msg = chr(10) . chr(10) . $conf['newReply.']['subjectPrefix'] . chr(10) . $row['subject'] . chr(10) . chr(10) . $conf['newReply.']['message'] . chr(10) . $row['message'] . chr(10) . chr(10) . $conf['newReply.']['author'] . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
 						$maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10) .
-							t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id .
+							GeneralUtility::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id .
 							'&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
 							// Send
 
@@ -168,7 +172,7 @@ if (is_object($this)) {
 							echo nl2br($maillist_msg.chr(10));
 							debug($maillist_header,1);
 						} else {
-							$addresses = t3lib_div::trimExplode(',', $maillist_recip);
+							$addresses = GeneralUtility::trimExplode(',', $maillist_recip);
 
 							foreach ($addresses as $email) {
 								tx_div2007_email::sendMail(
@@ -184,7 +188,7 @@ if (is_object($this)) {
 					}
 
 					// Notify me...
-					$notify = t3lib_div::_POST('notify_me');
+					$notify = GeneralUtility::_POST('notify_me');
 
 					if (
 						$notify &&
@@ -192,25 +196,25 @@ if (is_object($this)) {
 						trim($row['email']) &&
 						(!$conf['emailCheck'] || checkEmail($row['email']))
 					) {
-						$notifyMe = t3lib_div::uniqueList(str_replace(',' . $row['email'] . ',', ',', ',' . $notify . ','));
+						$notifyMe = GeneralUtility::uniqueList(str_replace(',' . $row['email'] . ',', ',', ',' . $notify . ','));
 						$markersArray=array();
 						$markersArray['###AUTHOR###'] = trim($row['author']);
 						$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
 						$markersArray['###CR_IP###'] = $row['cr_ip'];
-						$markersArray['###HOST###'] = t3lib_div::getIndpEnv('HTTP_HOST');
-						$markersArray['###URL###'] = t3lib_div::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
+						$markersArray['###HOST###'] = GeneralUtility::getIndpEnv('HTTP_HOST');
+						$markersArray['###URL###'] = GeneralUtility::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
 
 						if ($row['parent']) {		// If reply and not new thread:
-							$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
+							$msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
 							$markersArray['###DID_WHAT###'] = $conf['newReply.']['didWhat'];
 							$markersArray['###SUBJECT_PREFIX###'] = $conf['newReply.']['subjectPrefix'];
 						} else {	// If new thread:
-							$msg = t3lib_div::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
+							$msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
 							$markersArray['###DID_WHAT###'] = $conf['newThread.']['didWhat'];
 							$markersArray['###SUBJECT_PREFIX###'] = $conf['newThread.']['subjectPrefix'];
 						}
 						$markersArray['###SUBJECT###'] = strtoupper($row['subject']);
-						$markersArray['###BODY###'] = t3lib_div::fixed_lgd_cs($row['message'],1000);
+						$markersArray['###BODY###'] = GeneralUtility::fixed_lgd_cs($row['message'],1000);
 
 						foreach($markersArray as $marker => $markContent) {
 							$msg = str_replace($marker, $markContent, $msg);
@@ -227,7 +231,7 @@ if (is_object($this)) {
 							debug($headers, 1);
 							debug($msgParts);
 						} else {
-							$addresses = t3lib_div::trimExplode(',', $notifyMe);
+							$addresses = GeneralUtility::trimExplode(',', $notifyMe);
 							$senderArray = preg_split('/(<|>)/', $conf['notify_from'], 3, PREG_SPLIT_DELIM_CAPTURE);
 							if (count($senderArray) >= 4) {
 								$fromEmail = $senderArray[2];
@@ -252,11 +256,14 @@ if (is_object($this)) {
 		}
 	} else {
 		if ($allowed) {
-			$content = $email . ' is not a valid email address.';
+			$message = $email . ' is not a valid email address.';
 		} else {
-			$content = 'You do not have the permission to post into this forum!';
+			$message = 'You do not have the permission to post into this forum!';
 		}
-		$GLOBALS['TSFE']->printError($content);
+
+		$title = 'Access denied!';
+		$messagePage = GeneralUtility::makeInstance(ErrorpageMessage::class, $message, $title);
+		$messagePage->output();
 	}
 }
 
@@ -265,7 +272,7 @@ if (is_object($this)) {
 function checkEmail ($email) {
 
 	$email = trim($email);
-	if ($email != '' && !t3lib_div::validEmail($email)) {
+	if ($email != '' && !GeneralUtility::validEmail($email)) {
 		return FALSE;
 	}
 
