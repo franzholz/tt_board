@@ -35,6 +35,7 @@
  */
 
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
 
@@ -58,8 +59,8 @@ if (is_object($this)) {
 				$spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
 				$bSpamFound = FALSE;
 				$internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
-				if ($conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap')) {
-					require_once(t3lib_extMgm::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
+				if ($conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap')) {
+					require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
 					$freeCapObj = GeneralUtility::getUserObj('&tx_srfreecap_pi2');
 					if (!$freeCapObj->checkWord($row['captcha'])) {
 						$GLOBALS['TSFE']->applicationData['tt_board']['error']['captcha'] = TRUE;
@@ -269,7 +270,7 @@ if (is_object($this)) {
 
 
 // Added by Nicolas Liaudat
-function checkEmail ($email) {
+public function checkEmail ($email) {
 
 	$email = trim($email);
 	if ($email != '' && !GeneralUtility::validEmail($email)) {
