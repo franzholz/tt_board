@@ -1,8 +1,7 @@
 <?php
 
-
 // ******************************************************************
-// This is the standard TypoScript Board table, tt_board
+// This is the standard Board table, tt_board
 // ******************************************************************
 $result = array(
 	'ctrl' => array (
