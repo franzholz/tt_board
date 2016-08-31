@@ -39,6 +39,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
 
+use JambageCom\Div2007\Utility\MailUtility;
 
 if (is_object($this)) {
 
@@ -52,8 +53,13 @@ if (is_object($this)) {
 	}
 	$allowed = tx_ttboard_model::isAllowed($conf['memberOfGroups']);
 
-	if ($allowed && (!$conf['emailCheck'] || checkEmail($email))) {
-
+	if (
+		$allowed &&
+		(
+			!$conf['emailCheck'] ||
+			MailUtility::checkMXRecord($email)
+		)
+	) {
 		if (is_array($row) && trim($row['message'])) {
 			do {
 				$spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
@@ -195,9 +201,15 @@ if (is_object($this)) {
 						$notify &&
 						$conf['notify'] &&
 						trim($row['email']) &&
-						(!$conf['emailCheck'] || checkEmail($row['email']))
+						(
+							!$conf['emailCheck'] ||
+							MailUtility::checkMXRecord($row['email']
+						)
 					) {
-						$notifyMe = GeneralUtility::uniqueList(str_replace(',' . $row['email'] . ',', ',', ',' . $notify . ','));
+						$notifyMe =
+							GeneralUtility::uniqueList(
+								str_replace(',' . $row['email'] . ',', ',', ',' . $notify . ',')
+							);
 						$markersArray=array();
 						$markersArray['###AUTHOR###'] = trim($row['author']);
 						$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
@@ -265,38 +277,6 @@ if (is_object($this)) {
 		$title = 'Access denied!';
 		$messagePage = GeneralUtility::makeInstance(ErrorpageMessage::class, $message, $title);
 		$messagePage->output();
-	}
-}
-
-
-// Added by Nicolas Liaudat
-public function checkEmail ($email) {
-
-	$email = trim($email);
-	if ($email != '' && !GeneralUtility::validEmail($email)) {
-		return FALSE;
-	}
-
-
-	// gets domain name
-	list($username, $domain) = explode('@', $email);
-	// checks for if MX records in the DNS
-	$mxhosts = array();
-	if(!getmxrr($domain, $mxhosts)) {
-		// no mx records, ok to check domain
-		if (@fsockopen($domain, 25, $errno, $errstr, 30)) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	} else {
-		// mx records found
-		foreach ($mxhosts as $host) {
-			if (@fsockopen($host, 25, $errno, $errstr, 30)) {
-				return TRUE;
-			}
-		}
-		return FALSE;
 	}
 }
 
