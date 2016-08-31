@@ -47,7 +47,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 	public $alternativeLayouts = '';
 	public $allowCaching = '';
-	public $conf=array();
+	public $conf = array();
 	public $config = array();
 	public $pid_list;			// list of page ids
 
@@ -228,17 +228,16 @@ class tx_ttboard_pibase extends tslib_pibase {
 		if ($contentTmp == 'error') {
 			$fileName = 'EXT:' . TT_BOARD_EXT . '/template/board_help.tmpl';
 			$helpTemplate = $this->cObj->fileResource($fileName);
-			if (ExtensionManagementUtility::isLoaded(DIV2007_EXT)) {
 
-				$content .= tx_div2007_alpha5::displayHelpPage_fh003(
-					$this,
-					$helpTemplate,
-					TT_BOARD_EXT,
-					$this->errorMessage,
-					$theCode
-				);
-				unset($this->errorMessage);
-			}
+			$content .= tx_div2007_alpha5::displayHelpPage_fh003(
+				$this,
+				$this->cObj,
+				$helpTemplate,
+				TT_BOARD_EXT,
+				$this->errorMessage,
+				$theCode
+			);
+			unset($this->errorMessage);
 		}
 	}
 
@@ -339,6 +338,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 							// Substitute
 						$subpartContent .= $local_cObj->substituteMarkerArrayCached($out,$markerArray,array(),$wrappedSubpartContentArray);
 					}
+
 					if (count($forumHeader) && !$lConf['noForums']) {
 							// Rendering forums
 						$c_forum = 0;
@@ -415,7 +415,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 										// Clear:
 									$markerArray=array();
-									$wrappedSubpartContentArray=array();
+									$wrappedSubpartContentArray = array();
 
 										// markers:
 									$markerArray['###POST_TITLE###'] =
@@ -673,7 +673,9 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$freecapMarker = $this->freeCap->makeCaptcha();
 					$textLabel = '';
 					if ($bWrongCaptcha) {
-						$textLabel = '<b>' . sprintf(tx_div2007_alpha5::getLL_fh002($this, 'wrong_captcha'), $word) . '</b><br/>';
+						$textLabel = '<b>' . sprintf(
+							tx_div2007_alpha5::getLL_fh002($this, 'wrong_captcha'), $word
+						) . '</b><br/>';
 					}
 					$lConf['dataArray.']['55.'] = array(
 						'label' => $textLabel.$freecapMarker['###SR_FREECAP_IMAGE###'] . '<br/>' . $freecapMarker['###SR_FREECAP_NOTICE###']. '<br/>' . $freecapMarker['###SR_FREECAP_CANT_READ###'],
@@ -706,7 +708,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					}
 					if (is_array($lConf['dataArray.'][$k . '.'])) {
 						if (
-							(!$this->LLkey || $this->LLkey=='en') && !$lConf['dataArray.'][$k.'.'][$type] ||
+							(!$this->LLkey || $this->LLkey == 'en') && !$lConf['dataArray.'][$k.'.'][$type] ||
 							($this->LLkey!='en' &&
 								!is_array($lConf['dataArray.'][$k.'.'][$type.'.']) ||  !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.']) || !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.'][$this->LLkey.'.'])
 							)
@@ -726,6 +728,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				if ($this->tt_board_uid) {
 					$linkParams[$this->prefixId . '[uid]'] = $this->tt_board_uid;
 				}
+
 				if (isset($linkParams) && is_array($linkParams)) {
 					$url =
 						tx_div2007_alpha5::getPageLink_fh003(
