@@ -516,8 +516,3 @@ class tx_ttboard_forum {
 	} // forum_forum
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/view/class.tx_ttboard_forum.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/view/class.tx_ttboard_forum.php']);
-}
-

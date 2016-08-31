@@ -43,8 +43,3 @@ class tx_ttboard_hooks_cms extends tx_div2007_hooks_cms {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/hooks/class.tx_ttboard_hooks_cms.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/hooks/class.tx_ttboard_hooks_cms.php']);
-}
-
-?>

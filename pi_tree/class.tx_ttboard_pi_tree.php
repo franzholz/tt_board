@@ -63,7 +63,10 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 						$bOrigInitCalled = FALSE;
 						$setup = $conf['userFunc.'][$theCode . '.'];
 						$newConf = $conf;
-						tx_div2007_core::mergeRecursiveWithOverrule($newConf, $setup['10.']);
+						tx_div2007_core::mergeRecursiveWithOverrule(
+							$newConf,
+							$setup['10.']
+						);
 						unset($newConf['userFunc.']);
 						$newSetup = array();
 						if ($setupCode == 'COA') {
@@ -93,63 +96,58 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 
 
 	public function help ($content, $conf) {
-		parent::init ($content, $conf, $this->config);
+		parent::init($content, $conf, $this->config);
 		parent::processCode('HELP', $content);
 		return $content;
 	}
 
 
 	public function listCagetories ($content, $conf) {
-		parent::init ($content, $conf, $this->config);
+		parent::init($content, $conf, $this->config);
 		parent::processCode('LIST_CATEGORIES', $content);
 		return $content;
 	}
 
 
 	public function listForums ($content, $conf) {
-		parent::init ($content, $conf, $this->config);
+		parent::init($content, $conf, $this->config);
 		parent::processCode('LIST_FORUMS', $content);
 		return $content;
 	}
 
 
 	public function forum ($content, $conf) {
-		parent::init ($content, $conf, $this->config);
+		parent::init($content, $conf, $this->config);
 		parent::processCode('FORUM', $content);
 		return $content;
 	}
 
 
 	public function postForm ($content, $conf) {
-		parent::init ($content, $conf, $this->config);
+		parent::init($content, $conf, $this->config);
 		parent::processCode('POSTFORM', $content);
 		return $content;
 	}
 
 
 	public function postFormReply ($content, $conf) {
-		parent::init ($content, $conf, $this->config);
+		parent::init($content, $conf, $this->config);
 		parent::processCode('POSTFORM_REPLY', $content);
 		return $content;
 	}
 
 
 	public function thread ($content, $conf) {
-		parent::init ($content, $conf, $this->config);
+		parent::init($content, $conf, $this->config);
 		parent::processCode('POSTFORM_THREAD', $content);
 		return $content;
 	}
 
 
 	public function threadTree ($content, $conf) {
-		parent::init ($content, $conf, $this->config);
+		parent::init($content, $conf, $this->config);
 		parent::processCode('THREAD_TREE', $content);
 		return $content;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_tree/class.tx_ttboard_pi_tree.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/pi_tree/class.tx_ttboard_pi_tree.php']);
 }
 

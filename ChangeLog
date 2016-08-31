@@ -1,6 +1,7 @@
 2016-08-31 Franz Holzinger <franz@ttproducts.de>
 	* bugfix: text and blob must have a default null value by TCA and not by SQL
 	* refactoring: replace the submit function checkEmail by the div2007 MailUtility::checkMXRecord
+	* remove the TYPO3 4.5 XCLASS statements at the end of the PHP files
 
 2016-08-03 Franz Holzinger <franz@fholzinger.com>
 	* ready for TYPO3 7.6.10 and PHP 7

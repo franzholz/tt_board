@@ -55,8 +55,3 @@ class tx_ttboard_api {
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/api/class.tx_ttboard_api.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_board/api/class.tx_ttboard_api.php']);
-}
-
