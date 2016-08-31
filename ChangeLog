@@ -1,5 +1,8 @@
+2016-08-31 Franz Holzinger <franz@ttproducts.de>
+	* bugfix: text and blob must have a default null value by TCA and not by SQL
+
 2016-08-03 Franz Holzinger <franz@fholzinger.com>
-	* ready for TYPO3 7.6.10
+	* ready for TYPO3 7.6.10 and PHP 7
 
 2016-07-25 Franz Holzinger <franz@fholzinger.com>
 	* remove svn $Id$ and finishing php ?>

@@ -33,7 +33,9 @@ $result = array(
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
-				'max' => '256'
+				'max' => '256',
+				'eval' => 'null',
+				'default' => NULL,
 			)
 		),
 		'message' => array (
@@ -41,7 +43,9 @@ $result = array(
 			'config' => array (
 				'type' => 'text',
 				'cols' => '40',
-				'rows' => '5'
+				'rows' => '5',
+				'eval' => 'null',
+				'default' => NULL,
 			)
 		),
 		'author' => array (
@@ -112,6 +116,8 @@ $result = array(
 				'type' => 'input',
 				'size' => '40',
 				'max' => '40',
+				'eval' => 'null',
+				'default' => NULL,
 			)
 		)
 	),

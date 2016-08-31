@@ -2,12 +2,6 @@
 
 ########################################################################
 # Extension Manager/Repository config file for ext "tt_board".
-#
-# Auto generated 19-01-2011 16:01
-#
-# Manual updates:
-# Only the data in the array - everything else is removed by next
-# writing. "version" and "dependencies" must not be touched!
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
@@ -15,7 +9,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Simple threaded (tree) or list message board.',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '1.6.0',
+	'version' => '1.6.1',
 	'dependencies' => 'div2007,tslib_fetce',
 	'conflicts' => '',
 	'priority' => '',
