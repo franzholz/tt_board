@@ -37,6 +37,7 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -67,7 +68,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 	 * @param		string		  content string
 	 * @param		string		  configuration array
 	 * @param		string		  modified configuration array
-	 * @return	  void
+	 * @return	  boolean  FALSE in error case, TRUE if successfull
 	 */
 	public function init (&$content, &$conf, &$config) {
 		// *************************************
@@ -77,15 +78,18 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$this->conf = &$conf;
 		$this->config = &$config;
 
-		if (t3lib_extMgm::isLoaded(DIV2007_EXTkey)) {
+		if (ExtensionManagementUtility::isLoaded(DIV2007_EXT)) {
 			tx_div2007_alpha5::loadLL_fh002($this, 'EXT:' . $this->extKey . '/share/locallang.xml');
+		} else {
+			$content = 'Error in Board Extension(' . $this->extKey . '): Extension ' . DIV2007_EXT . ' has not been loaded.';
+			return FALSE;
 		}
 
 		$this->tt_board_uid = intval(GeneralUtility::_GP('tt_board_uid'));
 		if ($this->piVars['uid']) {
 			$this->tt_board_uid = $this->piVars['uid'];
 		}
-		$this->alternativeLayouts = intval($this->conf['alternatingLayouts'])>0 ? intval($this->conf['alternatingLayouts']) : 2;
+		$this->alternativeLayouts = intval($this->conf['alternatingLayouts']) > 0 ? intval($this->conf['alternatingLayouts']) : 2;
 
 			// pid_list is the pid/list of pids from where to fetch the guest items.
 		$tmp = trim($this->cObj->stdWrap($conf['pid_list'],$conf['pid_list.']));
@@ -103,7 +107,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 		$globalMarkerArray = $this->markerObj->getGlobalMarkers();
 			// Substitute Global Marker Array
-		$this->orig_templateCode= $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);
+		$this->orig_templateCode = $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);
 
 			// TypoLink.
 		$this->typolink_conf = $this->conf['typolink.'];
@@ -146,8 +150,8 @@ class tx_ttboard_pibase extends tslib_pibase {
 			// Substitute Global Marker Array
 		$this->orig_templateCode = $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);
 
-		if ($this->conf['captcha'] == 'freecap' && t3lib_extMgm::isLoaded('sr_freecap') ) {
-			require_once(t3lib_extMgm::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php');
+		if ($this->conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap') ) {
+			require_once(ExtensionManagementUtility::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php');
 			$this->freeCap = GeneralUtility::getUserObj('&tx_srfreecap_pi2');
 		}
 	}
@@ -224,7 +228,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		if ($contentTmp == 'error') {
 			$fileName = 'EXT:' . TT_BOARD_EXT . '/template/board_help.tmpl';
 			$helpTemplate = $this->cObj->fileResource($fileName);
-			if (t3lib_extMgm::isLoaded('div2007')) {
+			if (ExtensionManagementUtility::isLoaded(DIV2007_EXT)) {
 
 				$content .= tx_div2007_alpha5::displayHelpPage_fh003(
 					$this,
@@ -405,7 +409,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 								$recentPosts = $this->modelObj->getMostRecentPosts($forumData['uid'],intval($lConf['numberOfRecentPosts']));
 								$c_post=0;
 								foreach($recentPosts as $recentPost) {
-									$out=$postHeader[$c_post % count($postHeader)];
+									$out = $postHeader[$c_post % count($postHeader)];
 									$c_post++;
 									$local_cObj->start($recentPost);
 
@@ -484,7 +488,11 @@ class tx_ttboard_pibase extends tslib_pibase {
 											$forumData['pid']
 										)
 									);
-									$wrappedSubpartContentArray['###LINK###'] = array('<a href="' . $pageLink  . '">', '</a>');
+									$wrappedSubpartContentArray['###LINK###'] =
+										array(
+											'<a href="' . $pageLink  . '">',
+											'</a>'
+										);
 									$subpartContent .=
 										$local_cObj->substituteMarkerArrayCached(
 											$out,
@@ -529,7 +537,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$nofity = array();
 
 				// Find parent, if any
-			if ($this->tt_board_uid || $ref != '') {
+			if (
+				$this->tt_board_uid ||
+				$ref != ''
+			) {
 				if ($this->conf['tree']) {
 					$parent = $this->tt_board_uid;
 				}
@@ -579,7 +590,15 @@ class tx_ttboard_pibase extends tslib_pibase {
 //     60.value = Post Reply
 //   }
 
-			$setupArray = array('10' => 'subject', '20' => 'message', '30' => 'author', '40' => 'email', '50' => 'notify_me', '60' => 'post_reply');
+			$setupArray =
+				array(
+					'10' => 'subject',
+					'20' => 'message',
+					'30' => 'author',
+					'40' => 'email',
+					'50' => 'notify_me',
+					'60' => 'post_reply'
+				);
 
 			$modEmail = $this->conf['moderatorEmail'];
 			if (!$parent && isset($this->conf['postform_newThread.'])) {
@@ -599,7 +618,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 				($theCode == 'POSTFORM_REPLY' && $parent) ||
 				($theCode == 'POSTFORM_THREAD' && !$parent)
 			) {
-
 				$origRow = array();
 				$bWrongCaptcha = FALSE;
 				if (
@@ -650,6 +668,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					'type' => '*data[tt_board][NEW][parent]=hidden',
 					'value' => $parent
 				);
+
 				if (is_object($this->freeCap)) {
 					$freecapMarker = $this->freeCap->makeCaptcha();
 					$textLabel = '';
@@ -661,6 +680,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 						'type' => '*data[tt_board][NEW][captcha]=input,60'
 					);
 				}
+
 				if (count($notify)) {
 					$lConf['dataArray.']['9997.'] = array(
 						'type' => 'notify_me=hidden',
