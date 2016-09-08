@@ -9,7 +9,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Simple threaded (tree) or list message board.',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '1.6.1',
+	'version' => '1.6.2',
 	'dependencies' => 'div2007,tslib_fetce',
 	'conflicts' => '',
 	'priority' => '',
@@ -30,7 +30,7 @@ $EM_CONF[$_EXTKEY] = array(
 		'depends' => array(
 			'php' => '5.3.0-7.99.99',
 			'typo3' => '6.1.0-7.99.99',
-			'div2007' => '1.6.14-0.0.0',
+			'div2007' => '1.6.15-0.0.0',
 			'tslib_fetce' => '0.1.0-0.9.0',
 		),
 		'conflicts' => array(

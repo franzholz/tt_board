@@ -140,7 +140,12 @@ if (is_object($this)) {
 
 						// If there is a FE-user group defined, then send notifiers to all FE-members of this group
 						if ($mConf['sendToFEgroup']) {
-							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'fe_users', 'usergroup=' . intval($mConf['sendToFEgroup']));
+							$res =
+								$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+									'*',
+									'fe_users',
+									'usergroup=' . intval($mConf['sendToFEgroup'])
+								);
 							$c = 0;
 							while($feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 								$c++;
@@ -158,7 +163,7 @@ if (is_object($this)) {
 
 							//  Subject
 						if ($row['parent']) {	// RE:
-							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid='.intval($row['parent']));
+							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid=' . intval($row['parent']));
 							$parentRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 							$GLOBALS['TYPO3_DB']->sql_free_result($res);
 							$maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
@@ -174,10 +179,10 @@ if (is_object($this)) {
 							// Send
 
 						if ($conf['debug']) {
-							debug($maillist_recip,1);
-							debug($maillist_subject,1);
-							echo nl2br($maillist_msg.chr(10));
-							debug($maillist_header,1);
+							debug($maillist_recip);
+							debug($maillist_subject);
+							echo nl2br($maillist_msg . chr(10));
+							debug($maillist_header);
 						} else {
 							$addresses = GeneralUtility::trimExplode(',', $maillist_recip);
 
@@ -203,14 +208,10 @@ if (is_object($this)) {
 						trim($row['email']) &&
 						(
 							!$conf['emailCheck'] ||
-							MailUtility::checkMXRecord($row['email']
+							MailUtility::checkMXRecord($row['email'])
 						)
 					) {
-						$notifyMe =
-							GeneralUtility::uniqueList(
-								str_replace(',' . $row['email'] . ',', ',', ',' . $notify . ',')
-							);
-						$markersArray=array();
+						$markersArray = array();
 						$markersArray['###AUTHOR###'] = trim($row['author']);
 						$markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
 						$markersArray['###CR_IP###'] = $row['cr_ip'];
@@ -227,7 +228,7 @@ if (is_object($this)) {
 							$markersArray['###SUBJECT_PREFIX###'] = $conf['newThread.']['subjectPrefix'];
 						}
 						$markersArray['###SUBJECT###'] = strtoupper($row['subject']);
-						$markersArray['###BODY###'] = GeneralUtility::fixed_lgd_cs($row['message'],1000);
+						$markersArray['###BODY###'] = GeneralUtility::fixed_lgd_cs($row['message'], 1000);
 
 						foreach($markersArray as $marker => $markContent) {
 							$msg = str_replace($marker, $markContent, $msg);
@@ -239,9 +240,16 @@ if (is_object($this)) {
 						}
 
 						$msgParts = explode(chr(10), $msg, 2);
+						$emailList = GeneralUtility::rmFromList($row['email'], $notify);
+
+						$notifyMe =
+							GeneralUtility::uniqueList(
+								$emailList
+							);
+
 						if ($conf['debug']) {
-							debug($notifyMe, 1);
-							debug($headers, 1);
+							debug($notifyMe);
+							debug($headers);
 							debug($msgParts);
 						} else {
 							$addresses = GeneralUtility::trimExplode(',', $notifyMe);
