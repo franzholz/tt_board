@@ -61,7 +61,7 @@ class tx_ttboard_model {
 	}
 
 
-	public function getWhereRef ($ref) {
+	static public function getWhereRef ($ref) {
 		$result = ' AND reference=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($ref, 'tt_board');
 		return $result;
 	}
@@ -70,7 +70,7 @@ class tx_ttboard_model {
 	/**
 	 * Checks if posting is allowed to user
 	 */
-	public function isAllowed ($memberOfGroups) {
+	static public function isAllowed ($memberOfGroups) {
 		$allowed = FALSE;
 		if ($memberOfGroups) {
 
@@ -135,7 +135,7 @@ class tx_ttboard_model {
 	 * This function returns an array a pagerecords from the page-uid's in the pid_list supplied.
 	 * Excludes pages, that would normally not enter a regular menu. That means hidden, timed or deleted pages + pages with another doktype than 'standard' or 'advanced'
 	 */
-	public function getPagesInPage ($pid_list) {
+	static public function getPagesInPage ($pid_list) {
 		$thePids = GeneralUtility::intExplode(',', $pid_list);
 		$rcArray = array();
 		foreach($thePids as $p_uid) {
@@ -351,7 +351,7 @@ class tx_ttboard_model {
 	/**
 	 * Returns a message, formatted
 	 */
-	public function outMessage ($string, $content = '') {
+	static public function outMessage ($string, $content = '') {
 		$msg = '
 		<hr>
 		<h3>' . $string . '</h3>
@@ -366,7 +366,7 @@ class tx_ttboard_model {
 	/**
 	 * Returns ORDER BY field
 	 */
-	public function orderBy ($desc = '') {
+	static public function orderBy ($desc = '') {
 		$result = 'crdate ' . $desc;
 		return $result;
 	}
@@ -375,7 +375,7 @@ class tx_ttboard_model {
 	/**
 	 * Returns recent date from a tt_board record
 	 */
-	public function recentDate ($rec) {
+	static public function recentDate ($rec) {
 		return $rec['tstamp'];
 	}
 }
