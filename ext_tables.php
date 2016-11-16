@@ -6,14 +6,6 @@ if (!defined ('TYPO3_MODE')) {
 
 $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
 
-if (
-	class_exists($emClass) &&
-	method_exists($emClass, 'extPath')
-) {
-	// nothing
-} else {
-	$emClass = 't3lib_extMgm';
-}
 
 call_user_func($emClass . '::addStaticFile', $_EXTKEY, 'Configuration/TypoScript/DefaultCSS/', 'Message Board CSS styles');
 call_user_func($emClass . '::addStaticFile', $_EXTKEY, 'Configuration/TypoScript/Default/', 'Message Board Setup');
