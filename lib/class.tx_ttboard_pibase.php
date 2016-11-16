@@ -79,7 +79,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 		$this->config = &$config;
 
 		if (ExtensionManagementUtility::isLoaded(DIV2007_EXT)) {
-			tx_div2007_alpha5::loadLL_fh002($this, 'EXT:' . $this->extKey . '/share/locallang.xml');
+			tx_div2007_alpha5::loadLL_fh002($this, 'EXT:' . $this->extKey . '/share/locallang.xlf');
 		} else {
 			$content = 'Error in Board Extension(' . $this->extKey . '): Extension ' . DIV2007_EXT . ' has not been loaded.';
 			return FALSE;
