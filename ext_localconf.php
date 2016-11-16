@@ -5,15 +5,6 @@ if (!defined ('TYPO3_MODE')) {
 
 $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
 
-if (
-	class_exists($emClass) &&
-	method_exists($emClass, 'extPath')
-) {
-	// nothing
-} else {
-	$emClass = 't3lib_extMgm';
-}
-
 $_EXTCONF = unserialize($_EXTCONF);    // unserializing the configuration so we can use it here:
 
 if (!defined ('TT_BOARD_EXT')) {
