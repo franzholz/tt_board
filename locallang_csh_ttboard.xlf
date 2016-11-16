@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-11-16T09:39:34Z" product-name="tt_board">
+		<header/>
+		<body>
+			<trans-unit id=".description" xml:space="preserve">
+				<source>Built-in discussion board.</source>
+			</trans-unit>
+			<trans-unit id=".details" xml:space="preserve">
+				<source>This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.</source>
+			</trans-unit>
+			<trans-unit id="_.seeAlso" xml:space="preserve">
+				<source>tt_content:list_type</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

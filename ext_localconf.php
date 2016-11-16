@@ -49,16 +49,6 @@ if (TYPO3_MODE == 'BE') {
 	call_user_func($emClass . '::addUserTSConfig', 'options.saveDocNew.tt_board=1');
 }
 
-if (is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['livesearch'])) {
-	// TYPO3 4.5 with livesearch
-	$GLOBALS['TYPO3_CONF_VARS']['SYS']['livesearch'] = array_merge(
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['livesearch'],
-		array(
-			'tt_board' => 'tt_board'
-		)
-	);
-}
-
 
 // support for new Caching Framework
 

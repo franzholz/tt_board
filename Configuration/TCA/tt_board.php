@@ -15,7 +15,7 @@ $result = array(
 		'enablecolumns' => array (
 			'disabled' => 'hidden'
 		),
-		'title' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.php:tt_board',
+		'title' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board',
 		'typeicon_column' => 'parent',
 		'typeicons' => array (
 			'0' => 'tt_faq_board_root.gif'
@@ -29,7 +29,7 @@ $result = array(
 	),
 	'columns' => array (
 		'subject' => array (
-			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.subject',
+			'label' => 'LLL:EXT:tt_board/locallang_tca.xlf:tt_board.subject',
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
@@ -39,7 +39,7 @@ $result = array(
 			)
 		),
 		'message' => array (
-			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.message',
+			'label' => 'LLL:EXT:tt_board/locallang_tca.xlf:tt_board.message',
 			'config' => array (
 				'type' => 'text',
 				'cols' => '40',
@@ -73,7 +73,7 @@ $result = array(
 			)
 		),
 		'parent' => array (
-			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.parent',
+			'label' => 'LLL:EXT:tt_board/locallang_tca.xlf:tt_board.parent',
 			'config' => array (
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -85,14 +85,14 @@ $result = array(
 			)
 		),
 		'notify_me' => array (
-			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.notify_me',
+			'label' => 'LLL:EXT:tt_board/locallang_tca.xlf:tt_board.notify_me',
 			'config' => array (
 				'type' => 'check'
 			)
 		),
 		'crdate' => array (		// This field is by default filled with creation date. See tt_board 'ctrl' section
 			'exclude' => 1,
-			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.crdate',
+			'label' => 'LLL:EXT:tt_board/locallang_tca.xlf:tt_board.crdate',
 			'config' => array (
 				'type' => 'input',
 				'size' => '10',
@@ -102,7 +102,7 @@ $result = array(
 		),
 		'cr_ip' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.cr_ip',
+			'label' => 'LLL:EXT:tt_board/locallang_tca.xlf:tt_board.cr_ip',
 			'config' => array (
 				'type' => 'input',
 				'size' => '15',
@@ -111,7 +111,7 @@ $result = array(
 		),
 		'reference' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:tt_board/locallang_tca.php:tt_board.reference',
+			'label' => 'LLL:EXT:tt_board/locallang_tca.xlf:tt_board.reference',
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',

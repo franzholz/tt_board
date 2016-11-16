@@ -306,6 +306,7 @@ class tx_ttboard_model {
 			$field = 'reference';
 			$value = $ref;
 		}
+
 		if ($limit > 0) {
 			$res =
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(

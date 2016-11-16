@@ -1,3 +1,6 @@
+2016-11-16 Franz Holzinger <franz@ttproducts.de>
+	* put the locallang php files into the xlf format
+
 2016-09-08 Franz Holzinger <franz@ttproducts.de>
 	* bugfix: PHP syntax error
 	* the $notify list contains the configured email addresses. Use GeneralUtility::rmFromList to remove the current user`s email address from this list if present.

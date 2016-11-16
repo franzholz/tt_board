@@ -492,7 +492,7 @@ class tx_ttboard_forum {
 					$markerArray = array();
 					$subpartContentArray = array();
 						// Fill in array
-					$markerArray['###SEARCH_WORD###'] = $GLOBALS['TSFE']->no_cache ? GeneralUtility::_GP('tt_board_sword') : '';	// Setting search words in field if cache is disabled.
+					$markerArray['###SEARCH_WORD###'] = $GLOBALS['TSFE']->no_cache ? htmlspecialchars(GeneralUtility::_GP('tt_board_sword')) : '';	// Setting search words in field if cache is disabled.
 						// Set FORM_URL
 					$local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
 					$temp_conf = $this->typolink_conf;

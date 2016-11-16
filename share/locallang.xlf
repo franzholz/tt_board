@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-11-16T09:40:24Z" product-name="tt_board">
+		<header/>
+		<body>
+			<trans-unit id="plugin" xml:space="preserve">
+				<source>Message Board Plugin</source>
+			</trans-unit>
+			<trans-unit id="members_only" xml:space="preserve">
+				<source>Only logged in members are allowed to post on this forum.</source>
+			</trans-unit>
+			<trans-unit id="subject" xml:space="preserve">
+				<source>Subject:</source>
+			</trans-unit>
+			<trans-unit id="message" xml:space="preserve">
+				<source>Message:</source>
+			</trans-unit>
+			<trans-unit id="author" xml:space="preserve">
+				<source>Name:</source>
+			</trans-unit>
+			<trans-unit id="email" xml:space="preserve">
+				<source>Email:</source>
+			</trans-unit>
+			<trans-unit id="notify_me" xml:space="preserve">
+				<source>Notify me&lt;br&gt;by reply:</source>
+			</trans-unit>
+			<trans-unit id="post_reply" xml:space="preserve">
+				<source>Post Reply</source>
+			</trans-unit>
+			<trans-unit id="post_new_reply" xml:space="preserve">
+				<source>Post New Reply</source>
+			</trans-unit>
+			<trans-unit id="board_age" xml:space="preserve">
+				<source>age</source>
+			</trans-unit>
+			<trans-unit id="board_ago" xml:space="preserve">
+				<source>ago</source>
+			</trans-unit>
+			<trans-unit id="board_author" xml:space="preserve">
+				<source>author</source>
+			</trans-unit>
+			<trans-unit id="board_back_to_forum" xml:space="preserve">
+				<source>Back to forum</source>
+			</trans-unit>
+			<trans-unit id="board_by" xml:space="preserve">
+				<source>by</source>
+			</trans-unit>
+			<trans-unit id="board_content" xml:space="preserve">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="board_date" xml:space="preserve">
+				<source>date</source>
+			</trans-unit>
+			<trans-unit id="board_forum" xml:space="preserve">
+				<source>forum</source>
+			</trans-unit>
+			<trans-unit id="board_forum_list" xml:space="preserve">
+				<source>Forum List</source>
+			</trans-unit>
+			<trans-unit id="board_go_to_top" xml:space="preserve">
+				<source>Go to Top</source>
+			</trans-unit>
+			<trans-unit id="board_last_post" xml:space="preserve">
+				<source>Last Post</source>
+			</trans-unit>
+			<trans-unit id="board_next_message" xml:space="preserve">
+				<source>Next Message</source>
+			</trans-unit>
+			<trans-unit id="board_next_topic" xml:space="preserve">
+				<source>Next Topic</source>
+			</trans-unit>
+			<trans-unit id="board_posts" xml:space="preserve">
+				<source>Posts</source>
+			</trans-unit>
+			<trans-unit id="board_previous_message" xml:space="preserve">
+				<source>Previous Message</source>
+			</trans-unit>
+			<trans-unit id="board_previous_topic" xml:space="preserve">
+				<source>Previous Topic</source>
+			</trans-unit>
+			<trans-unit id="board_replies" xml:space="preserve">
+				<source>Replies</source>
+			</trans-unit>
+			<trans-unit id="board_search" xml:space="preserve">
+				<source>Searching</source>
+			</trans-unit>
+			<trans-unit id="board_subject" xml:space="preserve">
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="board_threads" xml:space="preserve">
+				<source>Threads</source>
+			</trans-unit>
+			<trans-unit id="board_thread_starter" xml:space="preserve">
+				<source>Thread Starter</source>
+			</trans-unit>
+			<trans-unit id="board_topics" xml:space="preserve">
+				<source>Topics</source>
+			</trans-unit>
+			<trans-unit id="button_search" xml:space="preserve">
+				<source>Search in the Board</source>
+			</trans-unit>
+			<trans-unit id="spam_detected" xml:space="preserve">
+				<source>The spam word '%s' has been detected!</source>
+			</trans-unit>
+			<trans-unit id="wrong_captcha" xml:space="preserve">
+				<source>Wrong captcha word '%s' entered!</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
