@@ -641,7 +641,14 @@ class tx_ttboard_pibase extends tslib_pibase {
 				}
 
 				if ($spamWord != '') {
-					$out = sprintf(tx_div2007_alpha5::getLL_fh002($this, 'spam_detected'), $spamWord);
+					$out =
+						sprintf(
+							tx_div2007_alpha5::getLL_fh003(
+								$this,
+								'spam_detected'
+							),
+							$spamWord
+						);
 					$lConf['dataArray.']['1.'] = array(
 						'label' => 'ERROR !',
 						'type' => 'label',
@@ -673,10 +680,17 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$freecapMarker = $this->freeCap->makeCaptcha();
 					$textLabel = '';
 					if ($bWrongCaptcha) {
-						$textLabel = '<b>' . sprintf(
-							tx_div2007_alpha5::getLL_fh002($this, 'wrong_captcha'), $word
-						) . '</b><br/>';
+						$textLabel = '<b>' .
+							sprintf(
+								tx_div2007_alpha5::getLL_fh003(
+									$this,
+									'wrong_captcha'
+								),
+								$word
+							) .
+							'</b><br/>';
 					}
+
 					$lConf['dataArray.']['55.'] = array(
 						'label' => $textLabel.$freecapMarker['###SR_FREECAP_IMAGE###'] . '<br/>' . $freecapMarker['###SR_FREECAP_NOTICE###']. '<br/>' . $freecapMarker['###SR_FREECAP_CANT_READ###'],
 						'type' => '*data[tt_board][NEW][captcha]=input,60'
@@ -686,7 +700,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 				if (count($notify)) {
 					$lConf['dataArray.']['9997.'] = array(
 						'type' => 'notify_me=hidden',
-						'value' => htmlspecialchars(implode($notify,','))
+						'value' => htmlspecialchars(implode($notify, ','))
 					);
 				}
 
@@ -710,10 +724,14 @@ class tx_ttboard_pibase extends tslib_pibase {
 						if (
 							(!$this->LLkey || $this->LLkey == 'en') && !$lConf['dataArray.'][$k.'.'][$type] ||
 							($this->LLkey!='en' &&
-								!is_array($lConf['dataArray.'][$k.'.'][$type.'.']) ||  !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.']) || !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.'][$this->LLkey.'.'])
+								!is_array($lConf['dataArray.'][$k.'.'][$type.'.']) ||  !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.']) || !is_array($lConf['dataArray.'][$k.'.'][$type.'.']['lang.'][$this->LLkey . '.'])
 							)
 						) {
-							$lConf['dataArray.'][$k.'.'][$type] = tx_div2007_alpha5::getLL_fh002($this, $theField);
+							$lConf['dataArray.'][$k . '.'][$type] =
+								tx_div2007_alpha5::getLL_fh003(
+									$this,
+									$theField
+								);
 
 							if (
 								($type == 'label') &&

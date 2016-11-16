@@ -146,11 +146,19 @@ class tx_ttboard_marker {
 
 		foreach ($this->pibase->LOCAL_LANG['default'] as $k => $text) {
 			if (strpos($k, 'board') === 0) {
-				$markerArray['###' . strtoupper($k) . '###'] = tx_div2007_alpha5::getLL_fh002($this->pibase, $k);
+				$markerArray['###' . strtoupper($k) . '###'] =
+					tx_div2007_alpha5::getLL_fh003(
+						$this->pibase,
+						$k
+					);
 			}
 		}
 
-		$markerArray['###BUTTON_SEARCH###'] = tx_div2007_alpha5::getLL_fh002($this->pibase, 'button_search');
+		$markerArray['###BUTTON_SEARCH###'] =
+			tx_div2007_alpha5::getLL_fh003(
+				$this->pibase,
+				'button_search'
+			);
 		return $markerArray;
 	}
 
