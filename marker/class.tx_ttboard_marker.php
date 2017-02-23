@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Franz Holzinger <franzt@ttproducts.de>
+*  (c) 2017 Franz Holzinger <franzt@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -62,7 +62,7 @@ class tx_ttboard_marker {
 		';-)' => 'wink.gif'
 	);
 
-	public $dontParseContent=0;
+	public $dontParseContent = 0;
 
 
 	/**
@@ -70,7 +70,7 @@ class tx_ttboard_marker {
 	 *
 	 */
 
-	public function init ($pibase, &$conf, &$config) {
+	public function init ($pibase, $conf, $config) {
  		$this->pibase = $pibase;
  		$this->cObj = $pibase->cObj;
  		$this->conf = $conf;
@@ -128,13 +128,44 @@ class tx_ttboard_marker {
 		$local_cObj->start($row);
 
 			// Markers
-		$markerArray['###POST_THREAD_CODE###'] = $local_cObj->stdWrap($row['treeIcons'], $lConf['post_thread_code_stdWrap.']);
-		$markerArray['###POST_TITLE###'] = $local_cObj->stdWrap($this->formatStr($row['subject']), $lConf['post_title_stdWrap.']);
-		$markerArray['###POST_CONTENT###'] = $this->substituteEmoticons($local_cObj->stdWrap($this->formatStr($row['message']), $lConf['post_content_stdWrap.']));
-		$markerArray['###POST_REPLIES###'] = $local_cObj->stdWrap($modelObj->getNumReplies($row['pid'], $row['uid']), $lConf['post_replies_stdWrap.']);
-		$markerArray['###POST_AUTHOR###'] = $local_cObj->stdWrap($this->formatStr($row['author']), $lConf['post_author_stdWrap.']);
+		$markerArray['###POST_THREAD_CODE###'] =
+            $local_cObj->stdWrap(
+                $row['treeIcons'],
+                $lConf['post_thread_code_stdWrap.']
+            );
+		$markerArray['###POST_TITLE###'] =
+            $local_cObj->stdWrap(
+                $this->formatStr(
+                    $row['subject']
+                ),
+                $lConf['post_title_stdWrap.']
+            );
+		$markerArray['###POST_CONTENT###'] =
+            $this->substituteEmoticons(
+                $local_cObj->stdWrap(
+                    $this->formatStr(
+                        $row['message']),
+                        $lConf['post_content_stdWrap.']
+                    )
+            );
+		$markerArray['###POST_REPLIES###'] =
+            $local_cObj->stdWrap(
+                $modelObj->getNumReplies(
+                    $row['pid'],
+                    $row['uid']
+                ),
+                $lConf['post_replies_stdWrap.']
+            );
+		$markerArray['###POST_AUTHOR###'] =
+            $local_cObj->stdWrap(
+                $this->formatStr(
+                    $row['author']
+                ),
+                $lConf['post_author_stdWrap.']
+            );
 		$markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
-		$recentDate = $modelObj->recentDate($row);
+		$recentDate =
+            $modelObj->recentDate($row);
 		$markerArray['###POST_DATE###'] = $local_cObj->stdWrap($recentDate, $this->conf['date_stdWrap.']);
 		$markerArray['###POST_TIME###'] = $local_cObj->stdWrap($recentDate, $this->conf['time_stdWrap.']);
 		$markerArray['###POST_AGE###'] = $local_cObj->stdWrap($recentDate, $this->conf['age_stdWrap.']);
@@ -167,10 +198,10 @@ class tx_ttboard_marker {
 	 * Returns alternating layouts
 	 */
 	public function getLayouts ($templateCode, $alternativeLayouts, $marker) {
-		$out=array();
-		for($a=0; $a<$alternativeLayouts; $a++) {
+		$out = array();
+		for($a = 0; $a < $alternativeLayouts; $a++) {
 			$m = '###' . $marker . ($a ? '_' . $a : '') . '###';
-			if(strstr($templateCode,$m)) {
+			if(strstr($templateCode, $m)) {
 				$out[] = $GLOBALS['TSFE']->cObj->getSubpart($templateCode, $m);
 			} else {
 				break;
@@ -200,7 +231,16 @@ class tx_ttboard_marker {
 	public function substituteEmoticons ($str) {
 		if ($this->emoticons) {
 			foreach($this->emoticonsSubst as $source => $dest) {
-				$str = str_replace($source, str_replace('{}', $this->emoticonsPath . $dest, $this->emoticonsTag), $str);
+				$str =
+                    str_replace(
+                        $source,
+                        str_replace(
+                            '{}',
+                            $this->emoticonsPath . $dest,
+                            $this->emoticonsTag
+                        ),
+                        $str
+                    );
 			}
 		}
 		return $str;

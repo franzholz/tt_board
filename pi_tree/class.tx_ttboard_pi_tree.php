@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2017 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -67,6 +67,7 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 							$newConf,
 							$setup['10.']
 						);
+
 						unset($newConf['userFunc.']);
 						$newSetup = array();
 						if ($setupCode == 'COA') {

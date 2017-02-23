@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2016 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2017 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -116,7 +116,10 @@ class tx_ttboard_forum {
 		}
 
 		if (
-			($uid || $ref != '') &&
+			(
+                $uid ||
+                $ref != ''
+            ) &&
 			$theCode == 'FORUM'
 		) {
 			if (!$this->allowCaching) {
@@ -143,6 +146,7 @@ class tx_ttboard_forum {
 					);
 				$rootParent = $modelObj->getRootParent($uid, $ref);
 				$wholeThread = $modelObj->getSingleThread($rootParent['uid'], $ref, 1);
+
 				if ($lConf['single']) {
 					foreach ($wholeThread as $recentP) {
 						if ($recentP['uid'] == $uid) {
@@ -289,10 +293,19 @@ class tx_ttboard_forum {
 							$linkParams,
 							array('useCacheHash' => $this->allowCaching)
 						);
-					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] = array('<a href="' .  htmlspecialchars($url) . '">','</a>');
+					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] =
+                        array(
+                            '<a href="' .  htmlspecialchars($url) . '">',
+                            '</a>'
+                        );
 
 						// Link to prev thread
-					$linkParams[$this->pibase->prefixId.'[uid]'] = ($recentPost['prevUid'] ? $recentPost['prevUid'] : $nextThread['uid']);
+					$linkParams[$this->pibase->prefixId.'[uid]'] =
+                        (
+                            $recentPost['prevUid'] ?
+                            $recentPost['prevUid'] :
+                            $nextThread['uid']
+                        );
 					$url =
 						tx_div2007_alpha5::getPageLink_fh003(
 							$local_cObj,
@@ -317,6 +330,7 @@ class tx_ttboard_forum {
 							$wrappedSubpartContentArray
 						);
 				}
+
 				$GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
 					// Substitution:
 				$content .=
@@ -340,7 +354,11 @@ class tx_ttboard_forum {
 			}
 
 			if ($continue) {
-				$templateCode = $local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_FORUM###');
+				$templateCode =
+                    $local_cObj->getSubpart(
+                        $orig_templateCode,
+                        '###TEMPLATE_FORUM###'
+                    );
 
 				if ($templateCode) {
 						// Clear
@@ -350,7 +368,11 @@ class tx_ttboard_forum {
 
 						// Getting the specific parts of the template
 					$markerArray = $markerObj->getColumnMarkers();
-					$markerArray['###FORUM_TITLE###'] = $local_cObj->stdWrap($GLOBALS['TSFE']->page['title'], $lConf['forum_title_stdWrap.']);
+					$markerArray['###FORUM_TITLE###'] =
+                        $local_cObj->stdWrap(
+                            $GLOBALS['TSFE']->page['title'],
+                            $lConf['forum_title_stdWrap.']
+                        );
 
 					$templateCode =
 						$local_cObj->substituteMarkerArrayCached(
@@ -359,21 +381,43 @@ class tx_ttboard_forum {
 							$subpartMarkerArray,
 							$wrappedSubpartContentArray
 						);
-					$postHeader = $markerObj->getLayouts($templateCode, $alternativeLayouts, 'POST');
+					$postHeader =
+                        $markerObj->getLayouts(
+                            $templateCode,
+                            $alternativeLayouts,
+                            'POST'
+                        );
 						// Template code used if tt_board_uid matches...
-					$postHeader_active = $markerObj->getLayouts($templateCode, 1, 'POST_ACTIVE');
+					$postHeader_active =
+                        $markerObj->getLayouts(
+                            $templateCode,
+                            1,
+                            'POST_ACTIVE'
+                        );
 					$subpartContent = '';
 
 					if ($theCode == 'THREAD_TREE') {
-						$rootParent = $modelObj->getRootParent($uid, $ref);
-						$recentPosts = $modelObj->getSingleThread($rootParent['uid'], $ref, 1);
+						$rootParent =
+                            $modelObj->getRootParent(
+                                $uid,
+                                $ref
+                            );
+						$recentPosts =
+                            $modelObj->getSingleThread(
+                                $rootParent['uid'],
+                                $ref,
+                                1
+                            );
 					} else {
 						$recentPosts =
 							$modelObj->getThreads(
 								$pid_list,
 								$ref,
 								$this->conf['tree'],
-								$lConf['thread_limit'] ? $lConf['thread_limit'] : '50', GeneralUtility::_GP('tt_board_sword')
+								$lConf['thread_limit'] ?
+                                    $lConf['thread_limit'] :
+                                    '50',
+                                GeneralUtility::_GP('tt_board_sword')
 							);
 					}
 					$c_post = 0;
@@ -469,7 +513,11 @@ class tx_ttboard_forum {
 								$linkParams,
 								array('useCacheHash' => $this->allowCaching)
 							);
-						$wrappedSubpartContentArray['###LINK_LAST_POST###'] = array('<a href="' .  htmlspecialchars($url) . '">', '</a>');
+						$wrappedSubpartContentArray['###LINK_LAST_POST###'] =
+                            array(
+                                '<a href="' .  htmlspecialchars($url) . '">',
+                                '</a>'
+                            );
 
 						$GLOBALS['TT']->pull();
 

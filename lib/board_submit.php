@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2016 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2017 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -65,6 +65,7 @@ if (is_object($this)) {
 				$spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
 				$bSpamFound = FALSE;
 				$internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
+
 				if ($conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap')) {
 					require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
 					$freeCapObj = GeneralUtility::getUserObj('&tx_srfreecap_pi2');
@@ -123,19 +124,20 @@ if (is_object($this)) {
 						}
 						$GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
 					}
+
 						// Send post to Mailing list ...
 					if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email']) {
-			/*
-				TypoScript for this section (was used for the TYPO3 mailing list.
+                        /*
+                            TypoScript for this section (was used for the TYPO3 mailing list.
 
-			sendToMailingList=1
-			sendToMailingList {
-			email = typo3@netfielders.de
-			reply = submitmail@typo3.com
-			namePrefix = Typo3Forum/
-			altSubject = Post from www.typo3.com
-			}
-			*/
+                        sendToMailingList=1
+                        sendToMailingList {
+                        email = typo3@netfielders.de
+                        reply = submitmail@typo3.com
+                        namePrefix = Typo3Forum/
+                        altSubject = Post from www.typo3.com
+                        }
+                        */
 						$mConf = $conf['sendToMailingList.'];
 
 						// If there is a FE-user group defined, then send notifiers to all FE-members of this group
@@ -173,6 +175,7 @@ if (is_object($this)) {
 
 							// Message
 						$maillist_msg = chr(10) . chr(10) . $conf['newReply.']['subjectPrefix'] . chr(10) . $row['subject'] . chr(10) . chr(10) . $conf['newReply.']['message'] . chr(10) . $row['message'] . chr(10) . chr(10) . $conf['newReply.']['author'] . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
+
 						$maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10) .
 							GeneralUtility::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id .
 							'&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2017 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -62,7 +62,7 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
 					$setupCode = $conf['userFunc.'][$theCode];
 					if ($setupCode) {
 						$bOrigInitCalled = FALSE;
-						$setup = $conf['userFunc.'][$theCode.'.'];
+						$setup = $conf['userFunc.'][$theCode . '.'];
 						$newConf = $conf;
 						tx_div2007_core::mergeRecursiveWithOverrule(
 							$newConf,
