@@ -47,16 +47,16 @@ class tx_ttboard_forum {
 	public $markerObj;
 	public $pid;
 	public $bHasBeenInitialised = FALSE;
-	public $pibase;
+	public $prefixId;
 
 
-	public function init ($conf, $allowCaching, $typolink_conf, $pid, $pibase) {
+	public function init ($conf, $allowCaching, $typolink_conf, $pid, $prefixId) {
 		$this->conf = $conf;
 		$this->allowCaching = $allowCaching;
 		$this->typolink_conf = $typolink_conf;
 		$this->pid = $pid;
 		$this->bHasBeenInitialised = TRUE;
-		$this->pibase = $pibase;
+		$this->prefixId = $prefixId;
 	}
 
 
@@ -69,6 +69,8 @@ class tx_ttboard_forum {
 	 * Creates the forum display, including listing all items/a single item
 	 */
 	public function printView (
+        $markerObj,
+        $modelObj,
 		$uid,
 		$ref,
 		$pid_list,
@@ -77,8 +79,6 @@ class tx_ttboard_forum {
 		$alternativeLayouts,
 		$linkParams
 	) {
-		$modelObj = GeneralUtility::getUserObj('&tx_ttboard_model');
-		$markerObj = GeneralUtility::getUserObj('&tx_ttboard_marker');
 		$local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
 		$recentPosts = array();
 
@@ -133,7 +133,6 @@ class tx_ttboard_forum {
 					// Clear
 				$subpartMarkerArray = array();
 				$wrappedSubpartContentArray = array();
-				$markerObj = GeneralUtility::getUserObj('&tx_ttboard_marker');
 
 					// Getting the specific parts of the template
 				$markerArray = $markerObj->getColumnMarkers();
@@ -159,7 +158,7 @@ class tx_ttboard_forum {
 				}
 				$nextThread = $modelObj->getThreadRoot($pid_list, $rootParent);
 				$prevThread = $modelObj->getThreadRoot($pid_list, $rootParent, 'prev');
-				$subpartContent='';
+				$subpartContent = '';
 
 					// Clear
 				$markerArray = array();
@@ -177,7 +176,7 @@ class tx_ttboard_forum {
 				$wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] = $local_cObj->typolinkWrap($this->typolink_conf);
 
 					// Link to next thread
-				$linkParams[$this->pibase->prefixId . '[uid]'] = $nextThread['uid'];
+				$linkParams[$this->prefixId . '[uid]'] = $nextThread['uid'];
 				$url =
 					tx_div2007_alpha5::getPageLink_fh003(
 						$local_cObj,
@@ -195,7 +194,7 @@ class tx_ttboard_forum {
 					);
 
 					// Link to prev thread
-				$linkParams[$this->pibase->prefixId . '[uid]'] = $prevThread['uid'];
+				$linkParams[$this->prefixId . '[uid]'] = $prevThread['uid'];
 				$url = tx_div2007_alpha5::getPageLink_fh003(
 					$local_cObj,
 					$this->pid,
@@ -211,7 +210,7 @@ class tx_ttboard_forum {
 					);
 
 					// Link to first !!
-				$linkParams[$this->pibase->prefixId . '[uid]' ] = $rootParent['uid'];
+				$linkParams[$this->prefixId . '[uid]' ] = $rootParent['uid'];
 				$url = tx_div2007_alpha5::getPageLink_fh003(
 					$local_cObj,
 					$this->pid,
@@ -260,14 +259,15 @@ class tx_ttboard_forum {
 					$wrappedSubpartContentArray = array();
 
 					$markerObj->getRowMarkerArray(
+                        $markerArray,
+                        $modelObj,
 						$recentPost,
 						'POST',
-						$markerArray,
 						$lConf
 					);
 
 						// Link to the post
-					$linkParams[$this->pibase->prefixId . '[uid]'] = $recentPost['uid'];
+					$linkParams[$this->prefixId . '[uid]'] = $recentPost['uid'];
 					$url =
 						tx_div2007_alpha5::getPageLink_fh003(
 							$local_cObj,
@@ -284,7 +284,7 @@ class tx_ttboard_forum {
 						);
 
 						// Link to next thread
-					$linkParams[$this->pibase->prefixId . '[uid]'] = ($recentPost['nextUid'] ? $recentPost['nextUid'] : $nextThread['uid']);
+					$linkParams[$this->prefixId . '[uid]'] = ($recentPost['nextUid'] ? $recentPost['nextUid'] : $nextThread['uid']);
 					$url =
 						tx_div2007_alpha5::getPageLink_fh003(
 							$local_cObj,
@@ -300,7 +300,7 @@ class tx_ttboard_forum {
                         );
 
 						// Link to prev thread
-					$linkParams[$this->pibase->prefixId.'[uid]'] =
+					$linkParams[$this->prefixId.'[uid]'] =
                         (
                             $recentPost['prevUid'] ?
                             $recentPost['prevUid'] :
@@ -364,7 +364,6 @@ class tx_ttboard_forum {
 						// Clear
 					$subpartMarkerArray = array();
 					$wrappedSubpartContentArray = array();
-					$markerObj = GeneralUtility::getUserObj('&tx_ttboard_marker');
 
 						// Getting the specific parts of the template
 					$markerArray = $markerObj->getColumnMarkers();
@@ -438,10 +437,11 @@ class tx_ttboard_forum {
 
 							// Markers
 						$GLOBALS['TT']->push('/postMarkers/');
-						$markerObj->getRowMarkerArray (
+						$markerObj->getRowMarkerArray(
+                            $markerArray,
+                            $modelObj,
 							$recentPost,
 							'POST',
-							$markerArray,
 							$lConf
 						);
 
@@ -450,7 +450,7 @@ class tx_ttboard_forum {
 							'uid' => ($recentPost['uid'])
 						);
 
-						$linkParams[$this->pibase->prefixId . '[uid]'] = $recentPost['uid'];
+						$linkParams[$this->prefixId . '[uid]'] = $recentPost['uid'];
 						$url =
 							tx_div2007_alpha5::getPageLink_fh003(
 								$local_cObj,
@@ -504,7 +504,7 @@ class tx_ttboard_forum {
 							);
 
 							// Link to the last post
-						$linkParams[$this->pibase->prefixId . '[uid]'] = $lastPostInfo['uid'];
+						$linkParams[$this->prefixId . '[uid]'] = $lastPostInfo['uid'];
 						$url =
 							tx_div2007_alpha5::getPageLink_fh003(
 								$local_cObj,
@@ -555,8 +555,6 @@ class tx_ttboard_forum {
 						$markerArray,
 						$subpartContentArray
 					);
-				} else {
-					debug('No template code for ');
 				}
 			} // if($continue){
 		}

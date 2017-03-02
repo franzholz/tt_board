@@ -118,13 +118,13 @@ class tx_ttboard_marker {
 
 
 	public function getRowMarkerArray (
-		&$row,
+        &$markerArray,
+        $modelObj,
+		$row,
 		$markerKey,
-		&$markerArray,
 		$lConf
 	) {
 		$local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
-		$modelObj = GeneralUtility::getUserObj('&tx_ttboard_model');
 		$local_cObj->start($row);
 
 			// Markers

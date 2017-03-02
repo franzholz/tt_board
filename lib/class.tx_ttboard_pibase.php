@@ -100,9 +100,9 @@ class tx_ttboard_pibase extends tslib_pibase {
 			// template is read.
 		$this->orig_templateCode = $this->cObj->fileResource($conf['templateFile']);
 		$this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
-		$this->markerObj = GeneralUtility::getUserObj('&tx_ttboard_marker');
+		$this->markerObj = GeneralUtility::getUserObj('tx_ttboard_marker');
 		$this->markerObj->init($this, $conf, $config);
-		$this->modelObj = GeneralUtility::getUserObj('&tx_ttboard_model');
+		$this->modelObj = GeneralUtility::getUserObj('tx_ttboard_model');
 		$this->modelObj->init($this->cObj);
 
 		$globalMarkerArray = $this->markerObj->getGlobalMarkers();
@@ -138,20 +138,13 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$this->tt_board_uid = $this->cObj->data['uid'];
 		}
 
-		// *************************************
-		// *** doing the things...:
-		// *************************************
-		// tt_guest parts:
-//		$this->recordCount = $this->getRecordCount($this->pid_list);
-//		$globalMarkerArray['###PREVNEXT###'] = $this->getPrevNext();
-
 		// all extensions:
 
 			// Substitute Global Marker Array
 		$this->orig_templateCode = $this->cObj->substituteMarkerArray($this->orig_templateCode, $globalMarkerArray);
 
 		if ($this->conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap') ) {
-			require_once(ExtensionManagementUtility::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php');
+			require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
 			$this->freeCap = GeneralUtility::getUserObj('&tx_srfreecap_pi2');
 		}
 	}
@@ -198,19 +191,21 @@ class tx_ttboard_pibase extends tslib_pibase {
 			break;
 			case 'FORUM':
 			case 'THREAD_TREE':
-				$forumViewObj = GeneralUtility::getUserObj('&tx_ttboard_forum');
+				$forumViewObj = GeneralUtility::getUserObj('tx_ttboard_forum');
 				if ($forumViewObj->needsInit()) {
 
 					$pid = ($this->conf['PIDforum'] ? $this->conf['PIDforum'] : $GLOBALS['TSFE']->id);
 					$forumViewObj->init(
-						$this->conf,
+                        $this->conf,
 						$this->allowCaching,
 						$this->typolink_conf,
 						$pid,
-						$this
+						$this->prefixId
 					);
 				}
 				$content .= $forumViewObj->printView(
+                    $this->markerObj,
+                    $this->modelObj,
 					$this->tt_board_uid,
 					$ref,
 					$this->pid_list,
@@ -470,7 +465,7 @@ class tx_ttboard_pibase extends tslib_pibase {
                                         $forumData['uid'],
                                         intval($lConf['numberOfRecentPosts'])
                                     );
-								$c_post=0;
+								$c_post = 0;
 								foreach($recentPosts as $recentPost) {
 									$out = $postHeader[$c_post % count($postHeader)];
 									$c_post++;
