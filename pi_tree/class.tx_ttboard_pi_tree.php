@@ -81,7 +81,7 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 					} else {
 						if (!$bOrigInitCalled) {
 							$bOrigInitCalled = TRUE;
-							parent::init ($content, $conf, $this->config);
+							parent::init ($content, $conf);
 						}
 						parent::processCode($theCode, $content);
 					}
@@ -97,56 +97,56 @@ class tx_ttboard_pi_tree extends tx_ttboard_pibase {
 
 
 	public function help ($content, $conf) {
-		parent::init($content, $conf, $this->config);
+		parent::init($content, $conf);
 		parent::processCode('HELP', $content);
 		return $content;
 	}
 
 
 	public function listCagetories ($content, $conf) {
-		parent::init($content, $conf, $this->config);
+		parent::init($content, $conf);
 		parent::processCode('LIST_CATEGORIES', $content);
 		return $content;
 	}
 
 
 	public function listForums ($content, $conf) {
-		parent::init($content, $conf, $this->config);
+		parent::init($content, $conf);
 		parent::processCode('LIST_FORUMS', $content);
 		return $content;
 	}
 
 
 	public function forum ($content, $conf) {
-		parent::init($content, $conf, $this->config);
+		parent::init($content, $conf);
 		parent::processCode('FORUM', $content);
 		return $content;
 	}
 
 
 	public function postForm ($content, $conf) {
-		parent::init($content, $conf, $this->config);
+		parent::init($content, $conf);
 		parent::processCode('POSTFORM', $content);
 		return $content;
 	}
 
 
 	public function postFormReply ($content, $conf) {
-		parent::init($content, $conf, $this->config);
+		parent::init($content, $conf);
 		parent::processCode('POSTFORM_REPLY', $content);
 		return $content;
 	}
 
 
 	public function thread ($content, $conf) {
-		parent::init($content, $conf, $this->config);
+		parent::init($content, $conf);
 		parent::processCode('POSTFORM_THREAD', $content);
 		return $content;
 	}
 
 
 	public function threadTree ($content, $conf) {
-		parent::init($content, $conf, $this->config);
+		parent::init($content, $conf);
 		parent::processCode('THREAD_TREE', $content);
 		return $content;
 	}

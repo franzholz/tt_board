@@ -34,7 +34,6 @@
  * @package TYPO3
  * @subpackage tt_products
  *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -83,7 +82,7 @@ class tx_ttboard_marker {
 	/**
 	 * getting the global markers
 	 */
-	public function &getGlobalMarkers () {
+	public function getGlobalMarkers () {
 		$markerArray = array();
 
 			// globally substituted markers, fonts and colors.
@@ -172,14 +171,14 @@ class tx_ttboard_marker {
 	}
 
 
-	public function getColumnMarkers () {
-		$markerArray = array();
+	public function getColumnMarkers (&$markerArray, $languageObj) {
+		$locallang = $languageObj->getLocallang();
 
-		foreach ($this->pibase->LOCAL_LANG['default'] as $k => $text) {
+		foreach ($locallang['default'] as $k => $text) {
 			if (strpos($k, 'board') === 0) {
 				$markerArray['###' . strtoupper($k) . '###'] =
 					tx_div2007_alpha5::getLL_fh003(
-						$this->pibase,
+						$languageObj,
 						$k
 					);
 			}
@@ -187,10 +186,9 @@ class tx_ttboard_marker {
 
 		$markerArray['###BUTTON_SEARCH###'] =
 			tx_div2007_alpha5::getLL_fh003(
-				$this->pibase,
+				$languageObj,
 				'button_search'
 			);
-		return $markerArray;
 	}
 
 
@@ -215,23 +213,22 @@ class tx_ttboard_marker {
 	 * Format string with nl2br and htmlspecialchars()
 	 */
 	public function formatStr ($str) {
-		$rc = '';
+		$result = '';
 		if (!$this->dontParseContent) {
-			$rc = nl2br(htmlspecialchars($str));
+			$result = nl2br(htmlspecialchars($str));
 		} else {
-			$rc = $str;
+			$result = $str;
 		}
-		return $rc;
+		return $result;
 	}
 
-
-	/**
-	 * Emoticons substitution
-	 */
-	public function substituteEmoticons ($str) {
-		if ($this->emoticons) {
-			foreach($this->emoticonsSubst as $source => $dest) {
-				$str =
+    /**
+    * Emoticons substitution
+    */
+    public function substituteEmoticons ($str) {
+        if ($this->emoticons) {
+            foreach($this->emoticonsSubst as $source => $dest) {
+                $str =
                     str_replace(
                         $source,
                         str_replace(
@@ -241,9 +238,155 @@ class tx_ttboard_marker {
                         ),
                         $str
                     );
-			}
-		}
-		return $str;
-	}
+            }
+        }
+        return $str;
+    }
+
+
+    public function getBrowserObj (
+        $conf,
+        $browserConf,
+        $recordCount,
+        $piVars,
+        $limit,
+        $maxPages
+    ) {
+        $bShowFirstLast = TRUE;
+
+        if (
+            isset($browserConf) &&
+            is_array($browserConf) &&
+            isset($browserConf['showFirstLast'])
+        ) {
+            $bShowFirstLast = $browserConf['showFirstLast'];
+        }
+
+        $pagefloat = 0;
+        $imageArray = array();
+        $imageActiveArray = array();
+        $browseObj = t3lib_div::getUserObj('&tx_div2007_alpha_browse_base');
+        $browseObj->init_fh002(
+            $conf,
+            $piVars,
+            array(),
+            FALSE,  // no autocache used yet
+            FALSE, // USER obj
+            $recordCount,
+            $limit,
+            $maxPages,
+            $bShowFirstLast,
+            FALSE,
+            $pagefloat,
+            $imageArray,
+            $imageActiveArray
+        );
+
+        return $browseObj;
+    }
+
+
+    public function getBrowserMarkers (
+        &$markerArray,
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $cObj,
+        $languageObj,
+        $browserConf,
+        $prefixId,
+        $addQueryString,
+        $recordCount,
+        $piVars,
+        $limit,
+        $more,
+        $pointerName,
+        $begin_at,
+        $useCache
+    ) {
+        $browseObj =
+            $this->getBrowserObj(
+                $conf,
+                $browserConf,
+                $recordCount,
+                $piVars,
+                $limit,
+                1000
+            );
+
+        $splitMark = md5(microtime());
+
+        if ($more) {
+            $next =
+                (
+                    $begin_at + $limit > $recordCount
+                ) ?
+                    $recordCount - $limit :
+                    $begin_at + $limit;
+            $addQueryString[$pointerName] = intval($next / $limit);
+            $tempUrl =
+                tx_div2007_alpha5::linkTP_keepCtrlVars(
+                    $browseObj,
+                    $cObj,
+                    $prefixId,
+                    $splitMark,
+                    $addQueryString,
+                    $useCache
+                );
+
+            $wrappedSubpartArray['###LINK_NEXT###'] = explode($splitMark, $tempUrl);
+        } else {
+            $subpartArray['###LINK_NEXT###'] = '';
+        }
+
+        if ($begin_at) {
+            $prev = ($begin_at - $limit < 0) ? 0 : $begin_at - $limit;
+            $addQueryString[$pointerName] = intval($prev / $limit);
+            $tempUrl =
+                tx_div2007_alpha5::linkTP_keepCtrlVars(
+                    $browseObj,
+                    $cObj,
+                    $prefixId,
+                    $splitMark,
+                    $addQueryString,
+                    $useCache
+                );
+
+            $wrappedSubpartArray['###LINK_PREV###'] = explode($splitMark, $tempUrl);
+        } else {
+            $subpartArray['###LINK_PREV###'] = '';
+        }
+
+        $markerArray['###BROWSE_LINKS###'] = '';
+
+        if ($recordCount > $limit) { // there is more than one page, so let's browse
+
+            if (is_array($browserConf)) {
+                $wrappedSubpartArray['###LINK_BROWSE###'] = array('', '');
+
+                $markerArray['###BROWSE_LINKS###'] =
+                    tx_div2007_alpha5::list_browseresults_fh004(
+                        $browseObj,
+                        $languageObj,
+                        $cObj,
+                        $prefixId,
+                        TRUE,
+                        1,
+                        '',
+                        $browserConf,
+                        $pointerName,
+                        TRUE,
+                        $addQueryString
+                    );
+            }
+            // ###CURRENT_PAGE### of ###TOTAL_PAGES###
+            $markerArray['###CURRENT_PAGE###'] = intval($begin_at / $limit + 1);
+            $markerArray['###TOTAL_PAGES###'] = ceil($recordCount / $limit);
+        } else {
+            $subpartArray['###LINK_BROWSE###'] = '';
+            $markerArray['###CURRENT_PAGE###'] = '1';
+            $markerArray['###TOTAL_PAGES###'] = '1';
+        }
+    }
 }
+
 
