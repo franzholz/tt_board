@@ -295,8 +295,17 @@ class tx_ttboard_model {
 	 *
 	 * Returns an array with records
 	 */
-	public function getMostRecentPosts ($pid, $number) {
-		$where = 'pid IN (' . $pid . ')' . $this->enableFields;
+	public function getMostRecentPosts ($pid, $number, $days = 300) {
+
+        $timeWhere = '';
+
+        if ($days) {
+            $temptime = time() - 86400 * intval(trim($days));
+            $timeWhere = ' AND crdate >= ' . $temptime;
+        }
+
+		$where = 'pid IN (' . $pid . ')' . $timeWhere . $this->enableFields;
+
 		$res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',

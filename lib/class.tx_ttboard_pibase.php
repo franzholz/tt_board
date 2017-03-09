@@ -74,12 +74,9 @@ class tx_ttboard_pibase extends tslib_pibase {
 		// *************************************
 		// *** getting configuration values:
 		// *************************************
-
 		$this->conf = $conf;
 
-		if (ExtensionManagementUtility::isLoaded(DIV2007_EXT)) {
-			tx_div2007_alpha5::loadLL_fh002($this, 'EXT:' . $this->extKey . '/share/locallang.xlf');
-		} else {
+		if (!ExtensionManagementUtility::isLoaded(DIV2007_EXT)) {
 			$content = 'Error in Board Extension(' . $this->extKey . '): Extension ' . DIV2007_EXT . ' has not been loaded.';
 			return FALSE;
 		}
@@ -107,6 +104,10 @@ class tx_ttboard_pibase extends tslib_pibase {
             $this->cObj,
             $conf,
             'lib/class.tx_ttboard_pibase.php'
+        );
+        tx_div2007_alpha5::loadLL_fh002(
+            $this->languageObj,
+            'EXT:' . $this->extKey . '/share/locallang.xlf'
         );
 
 		$this->markerObj = GeneralUtility::getUserObj('tx_ttboard_marker');
@@ -261,7 +262,6 @@ class tx_ttboard_pibase extends tslib_pibase {
 			);
 			unset($this->errorMessage);
 		}
-
     }
 
 
@@ -345,12 +345,11 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 					// Getting categories
 				$categories = $this->modelObj->getPagesInPage($this->pid_list);
-				reset($categories);
 				$c_cat = 0;
 
 				foreach ($categories as $k => $catData) {
 						// Getting forums in category
-					if ($forumlist)	{
+					if ($forumlist) {
 						$forums = $categories;
 					} else {
 						$forums = $this->modelObj->getPagesInPage($catData['uid']);
@@ -484,11 +483,24 @@ class tx_ttboard_pibase extends tslib_pibase {
 								$markerArray['###LAST_POST_AUTHOR###'] =
                                     $local_cObj->stdWrap($this->markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
 								$markerArray['###LAST_POST_DATE###'] =
-                                    $local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo), $this->conf['date_stdWrap.']);
+                                    $local_cObj->stdWrap(
+                                        $this->modelObj->recentDate(
+                                            $lastPostInfo
+                                        ),
+                                        $this->conf['date_stdWrap.']
+                                    );
 								$markerArray['###LAST_POST_TIME###'] =
-                                    $local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo), $this->conf['time_stdWrap.']);
+                                    $local_cObj->stdWrap(
+                                        $this->modelObj->recentDate(
+                                            $lastPostInfo
+                                        ),
+                                        $this->conf['time_stdWrap.']
+                                    );
 								$markerArray['###LAST_POST_AGE###'] =
-                                    $local_cObj->stdWrap($this->modelObj->recentDate($lastPostInfo), $this->conf['age_stdWrap.']);
+                                    $local_cObj->stdWrap(
+                                        $this->modelObj->recentDate($lastPostInfo),
+                                        $this->conf['age_stdWrap.']
+                                    );
 							} else {
 								$markerArray['###LAST_POST_AUTHOR###'] = '';
 								$markerArray['###LAST_POST_DATE###'] = '';
@@ -497,7 +509,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 							}
 
 								// Link to the last post
-							$overrulePIvars = array('uid'=>$lastPostInfo['uid']);
+							$overrulePIvars = array('uid' => $lastPostInfo['uid']);
 							$pageLink = htmlspecialchars(
 								$this->pi_linkTP_keepPIvars_url(
 									$overrulePIvars,
@@ -506,6 +518,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 									$contentRow['pid']
 								)
 							);
+
 							$wrappedSubpartContentArray['###LINK_LAST_POST###'] =
                                 array(
                                     '<a href="' . $pageLink . '">',
@@ -526,8 +539,10 @@ class tx_ttboard_pibase extends tslib_pibase {
 								$recentPosts =
                                     $this->modelObj->getMostRecentPosts(
                                         $forumData['uid'],
-                                        intval($lConf['numberOfRecentPosts'])
+                                        intval($lConf['numberOfRecentPosts']),
+                                        intval($lConf['numberOfRecentDays']),
                                     );
+
 								$c_post = 0;
 								foreach($recentPosts as $recentPost) {
 									$out = $postHeader[$c_post % count($postHeader)];
@@ -547,7 +562,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 											$lConf['post_title_stdWrap.']
 										);
 									$markerArray['###POST_CONTENT###'] =
-										$this->substituteEmoticons(
+										$this->markerObj->substituteEmoticons(
 											$local_cObj->stdWrap(
 												$this->markerObj->formatStr(
 													$recentPost['message']
@@ -594,11 +609,12 @@ class tx_ttboard_pibase extends tslib_pibase {
 
 										// Link to the post:
 									$local_cObj->setCurrentVal($recentPost['pid']);
-									$temp_conf=$this->typolink_conf;
+									$temp_conf = $this->typolink_conf;
 									$temp_conf['additionalParams'] .= '&tt_board_uid=' . $recentPost['uid'];
 									$temp_conf['useCacheHash'] = $this->allowCaching;
 									$temp_conf['no_cache'] = !$this->allowCaching;
-									$wrappedSubpartContentArray['###LINK###'] = $local_cObj->typolinkWrap($temp_conf);
+									$wrappedSubpartContentArray['###LINK###'] =
+                                        $local_cObj->typolinkWrap($temp_conf);
 
 									$overrulePIvars = array('uid' => $recentPost['uid']);
 									$pageLink = htmlspecialchars(
@@ -606,15 +622,17 @@ class tx_ttboard_pibase extends tslib_pibase {
 											$overrulePIvars,
 											$this->allowCaching,
 											0,
-											$forumData['pid']
+											$recentPost['pid']
 										)
 									);
+
 									$wrappedSubpartContentArray['###LINK###'] =
 										array(
 											'<a href="' . $pageLink  . '">',
 											'</a>'
 										);
-									$subpartContent .=
+
+                                    $subpartContent .=
 										$local_cObj->substituteMarkerArrayCached(
 											$out,
 											$markerArray,
@@ -629,6 +647,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 						break;
 					}
 				}
+
 					// Substitution:
 				$content .=
 					$local_cObj->substituteSubpart(

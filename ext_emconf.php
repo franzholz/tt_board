@@ -6,10 +6,10 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Message board, twin mode',
-	'description' => 'Simple threaded (tree) or list message board.',
+	'description' => 'Simple threaded (tree) or list message board (forum).',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '1.7.0',
+	'version' => '1.7.1',
 	'dependencies' => 'div2007,tslib_fetce',
 	'conflicts' => '',
 	'priority' => '',

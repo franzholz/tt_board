@@ -1,3 +1,7 @@
+2017-03-09 Franz Holzinger <franz@ttproducts.de>
+    * bugfix in forum list: The link of recent post must be the page of the post.
+    * new feature: The most recent posts are only considered for the number of recent days.
+
 2017-03-08 Franz Holzinger <franz@ttproducts.de>
     * new feature: record browser
     * restructuring
