@@ -1,5 +1,6 @@
 2017-03-10 Franz Holzinger <franz@ttproducts.de>
     * bugfix comma
+    * fix missing language bug
 
 2017-03-09 Franz Holzinger <franz@ttproducts.de>
     * bugfix in forum list: The link of recent post must be the page of the post.

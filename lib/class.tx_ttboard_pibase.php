@@ -172,7 +172,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 			// check the flexform
 		$this->pi_initPIflexForm();
 		$config['code'] = tx_div2007_alpha5::getSetupOrFFvalue_fh004(
-			$this,
+			$this->cObj,
 			$conf['code'],
 			$conf['code.'],
 			$conf['defaultCode'],
@@ -253,7 +253,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 			$helpTemplate = $this->cObj->fileResource($fileName);
 
 			$content .= tx_div2007_alpha5::displayHelpPage_fh003(
-				$this,
+				$this->languageObj,
 				$this->cObj,
 				$helpTemplate,
 				TT_BOARD_EXT,
@@ -684,14 +684,23 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$parent = $this->tt_board_uid;
 				}
 
-				$parentR = $this->modelObj->getRootParent($this->tt_board_uid, $ref);
+				$parentR =
+                    $this->modelObj->getRootParent(
+                        $this->tt_board_uid,
+                        $ref#
+                    );
 				if (!$this->conf['tree']) {
 					$parent = $parentR['uid'];
 				}
 
 /*				$rootParent = $this->modelObj->getRootParent($parent, $ref);
 */
-				$wholeThread = $this->modelObj->getSingleThread($parentR['uid'], $ref, 1);
+				$wholeThread =
+                    $this->modelObj->getSingleThread(
+                        $parentR['uid'],
+                        $ref,
+                        1
+                    );
 				$notify = array();
 
 				foreach($wholeThread as $recordP) {	// the last notification checkbox will be superseed the previous settings
@@ -784,7 +793,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 					$out =
 						sprintf(
 							tx_div2007_alpha5::getLL_fh003(
-								$this,
+								$this->languageObj,
 								'spam_detected'
 							),
 							$spamWord
@@ -823,7 +832,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 						$textLabel = '<b>' .
 							sprintf(
 								tx_div2007_alpha5::getLL_fh003(
-									$this,
+									$this->languageObj,
 									'wrong_captcha'
 								),
 								$word
@@ -879,7 +888,7 @@ class tx_ttboard_pibase extends tslib_pibase {
 						) {
 							$lConf['dataArray.'][$k . '.'][$type] =
 								tx_div2007_alpha5::getLL_fh003(
-									$this,
+									$this->languageObj,
 									$theField
 								);
 
