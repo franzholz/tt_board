@@ -540,7 +540,7 @@ class tx_ttboard_pibase extends tslib_pibase {
                                     $this->modelObj->getMostRecentPosts(
                                         $forumData['uid'],
                                         intval($lConf['numberOfRecentPosts']),
-                                        intval($lConf['numberOfRecentDays']),
+                                        intval($lConf['numberOfRecentDays'])
                                     );
 
 								$c_post = 0;
