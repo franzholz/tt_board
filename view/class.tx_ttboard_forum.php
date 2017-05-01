@@ -42,327 +42,327 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttboard_forum {
-	public $conf;
-	public $typolink_conf;
-	public $allowCaching;
-	public $markerObj;
-	public $pid;
-	public $bHasBeenInitialised = FALSE;
-	public $prefixId;
+    public $conf;
+    public $typolink_conf;
+    public $allowCaching;
+    public $markerObj;
+    public $pid;
+    public $bHasBeenInitialised = FALSE;
+    public $prefixId;
 
 
-	public function init ($conf, $allowCaching, $typolink_conf, $pid, $prefixId) {
-		$this->conf = $conf;
-		$this->allowCaching = $allowCaching;
-		$this->typolink_conf = $typolink_conf;
-		$this->pid = $pid;
-		$this->bHasBeenInitialised = TRUE;
-		$this->prefixId = $prefixId;
-	}
+    public function init ($conf, $allowCaching, $typolink_conf, $pid, $prefixId) {
+        $this->conf = $conf;
+        $this->allowCaching = $allowCaching;
+        $this->typolink_conf = $typolink_conf;
+        $this->pid = $pid;
+        $this->bHasBeenInitialised = TRUE;
+        $this->prefixId = $prefixId;
+    }
 
 
-	public function needsInit () {
-		return !$this->bHasBeenInitialised;
-	}
+    public function needsInit () {
+        return !$this->bHasBeenInitialised;
+    }
 
 
-	/**
-	 * Creates the forum display, including listing all items/a single item
-	 */
-	public function printView (
+    /**
+    * Creates the forum display, including listing all items/a single item
+    */
+    public function printView (
         $languageObj,
         $markerObj,
         $modelObj,
-		$uid,
-		$ref,
-		$pid_list,
-		$theCode,
-		$orig_templateCode,
-		$alternativeLayouts,
-		$linkParams
-	) {
-		$local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
-		$controlObj = GeneralUtility::getUserObj('JambageCom\Div2007\Utility\ControlUtility');
-		$recentPosts = array();
+        $uid,
+        $ref,
+        $pid_list,
+        $theCode,
+        $orig_templateCode,
+        $alternativeLayouts,
+        $linkParams
+    ) {
+        $local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
+        $controlObj = GeneralUtility::getUserObj('JambageCom\Div2007\Utility\ControlUtility');
+        $recentPosts = array();
         $searchWord = $controlObj->readGP('sword', $this->prefixId);
         $pointerName = 'pointer';
 
-		if ($this->conf['iconCode']) {
-			$modelObj->treeIcons['joinBottom'] =
-				$local_cObj->stdWrap(
-					$this->conf['iconCode.']['joinBottom'],
-					$this->conf['iconCode.']['joinBottom.']
-				);
-			$modelObj->treeIcons['join'] =
-				$local_cObj->stdWrap(
-					$this->conf['iconCode.']['join'],
-					$this->conf['iconCode.']['join.']
-				);
-			$modelObj->treeIcons['line'] =
-				$local_cObj->stdWrap(
-					$this->conf['iconCode.']['line'],
-					$this->conf['iconCode.']['line.']
-				);
-			$modelObj->treeIcons['blank'] =
-				$local_cObj->stdWrap(
-					$this->conf['iconCode.']['blank'],
-					$this->conf['iconCode.']['blank.']
-				);
-			$modelObj->treeIcons['thread'] =
-				$local_cObj->stdWrap(
-					$this->conf['iconCode.']['thread'],
-					$this->conf['iconCode.']['thread.']
-				);
-			$modelObj->treeIcons['end'] =
-				$local_cObj->stdWrap(
-					$this->conf['iconCode.']['end'],
-					$this->conf['iconCode.']['end.']
-				);
-		}
+        if ($this->conf['iconCode']) {
+            $modelObj->treeIcons['joinBottom'] =
+                $local_cObj->stdWrap(
+                    $this->conf['iconCode.']['joinBottom'],
+                    $this->conf['iconCode.']['joinBottom.']
+                );
+            $modelObj->treeIcons['join'] =
+                $local_cObj->stdWrap(
+                    $this->conf['iconCode.']['join'],
+                    $this->conf['iconCode.']['join.']
+                );
+            $modelObj->treeIcons['line'] =
+                $local_cObj->stdWrap(
+                    $this->conf['iconCode.']['line'],
+                    $this->conf['iconCode.']['line.']
+                );
+            $modelObj->treeIcons['blank'] =
+                $local_cObj->stdWrap(
+                    $this->conf['iconCode.']['blank'],
+                    $this->conf['iconCode.']['blank.']
+                );
+            $modelObj->treeIcons['thread'] =
+                $local_cObj->stdWrap(
+                    $this->conf['iconCode.']['thread'],
+                    $this->conf['iconCode.']['thread.']
+                );
+            $modelObj->treeIcons['end'] =
+                $local_cObj->stdWrap(
+                    $this->conf['iconCode.']['end'],
+                    $this->conf['iconCode.']['end.']
+                );
+        }
 
-		if (
-			(
+        if (
+            (
                 $uid ||
                 $ref != ''
             ) &&
-			$theCode == 'FORUM'
-		) {
-			if (!$this->allowCaching) {
-				$GLOBALS['TSFE']->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
-			}
-			$lConf = $this->conf['view_thread.'];
-			$templateCode = $local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_THREAD###');
+            $theCode == 'FORUM'
+        ) {
+            if (!$this->allowCaching) {
+                $GLOBALS['TSFE']->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
+            }
+            $lConf = $this->conf['view_thread.'];
+            $templateCode = $local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_THREAD###');
 
-			if ($templateCode) {
+            if ($templateCode) {
 
-					// Clear
-				$subpartMarkerArray = array();
-				$wrappedSubpartContentArray = array();
+                    // Clear
+                $subpartMarkerArray = array();
+                $wrappedSubpartContentArray = array();
 
-					// Getting the specific parts of the template
+                    // Getting the specific parts of the template
                 $markerObj->getColumnMarkers(
                     $markerArray,
                     $languageObj
                 );
-				$templateCode =
-					$local_cObj->substituteMarkerArrayCached(
-						$templateCode,
-						$markerArray,
-						$subpartMarkerArray,
-						$wrappedSubpartContentArray
-					);
-				$rootParent = $modelObj->getRootParent($uid, $ref);
-				$wholeThread = $modelObj->getSingleThread($rootParent['uid'], $ref, 1);
+                $templateCode =
+                    $local_cObj->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        $subpartMarkerArray,
+                        $wrappedSubpartContentArray
+                    );
+                $rootParent = $modelObj->getRootParent($uid, $ref);
+                $wholeThread = $modelObj->getSingleThread($rootParent['uid'], $ref, 1);
 
-				if ($lConf['single']) {
-					foreach ($wholeThread as $recentP) {
-						if ($recentP['uid'] == $uid) {
-							$recentPosts[] = $recentP;
-							break;
-						}
-					}
-				} else {
-					$recentPosts = $wholeThread;
-				}
-				$nextThread = $modelObj->getThreadRoot($pid_list, $rootParent);
-				$prevThread = $modelObj->getThreadRoot($pid_list, $rootParent, 'prev');
-				$subpartContent = '';
+                if ($lConf['single']) {
+                    foreach ($wholeThread as $recentP) {
+                        if ($recentP['uid'] == $uid) {
+                            $recentPosts[] = $recentP;
+                            break;
+                        }
+                    }
+                } else {
+                    $recentPosts = $wholeThread;
+                }
+                $nextThread = $modelObj->getThreadRoot($pid_list, $rootParent);
+                $prevThread = $modelObj->getThreadRoot($pid_list, $rootParent, 'prev');
+                $subpartContent = '';
 
-					// Clear
-				$markerArray = array();
-				$wrappedSubpartContentArray = array();
+                    // Clear
+                $markerArray = array();
+                $wrappedSubpartContentArray = array();
 
-					// Getting the specific parts of the template
-				$markerArray['###FORUM_TITLE###'] =
-					$local_cObj->stdWrap(
-						$GLOBALS['TSFE']->page['title'],
-						$lConf['forum_title_stdWrap.']
-					);
+                    // Getting the specific parts of the template
+                $markerArray['###FORUM_TITLE###'] =
+                    $local_cObj->stdWrap(
+                        $GLOBALS['TSFE']->page['title'],
+                        $lConf['forum_title_stdWrap.']
+                    );
 
-					// Link back to forum
-				$local_cObj->setCurrentVal($this->pid);
-				$wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] = $local_cObj->typolinkWrap($this->typolink_conf);
+                    // Link back to forum
+                $local_cObj->setCurrentVal($this->pid);
+                $wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] = $local_cObj->typolinkWrap($this->typolink_conf);
 
-					// Link to next thread
-				$linkParams[$this->prefixId . '[uid]'] = $nextThread['uid'];
-				$url =
-					tx_div2007_alpha5::getPageLink_fh003(
-						$local_cObj,
-						$this->pid,
-						'',
-						$linkParams,
-						array(
-							'useCacheHash' => $this->allowCaching
-						)
-					);
-				$wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] =
-					array(
-						'<a href="' . htmlspecialchars($url) . '">',
-						'</a>'
-					);
+                    // Link to next thread
+                $linkParams[$this->prefixId . '[uid]'] = $nextThread['uid'];
+                $url =
+                    tx_div2007_alpha5::getPageLink_fh003(
+                        $local_cObj,
+                        $this->pid,
+                        '',
+                        $linkParams,
+                        array(
+                            'useCacheHash' => $this->allowCaching
+                        )
+                    );
+                $wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] =
+                    array(
+                        '<a href="' . htmlspecialchars($url) . '">',
+                        '</a>'
+                    );
 
-					// Link to prev thread
-				$linkParams[$this->prefixId . '[uid]'] = $prevThread['uid'];
-				$url = tx_div2007_alpha5::getPageLink_fh003(
-					$local_cObj,
-					$this->pid,
-					'',
-					$linkParams,
-					array('useCacheHash' => $this->allowCaching)
-				);
+                    // Link to prev thread
+                $linkParams[$this->prefixId . '[uid]'] = $prevThread['uid'];
+                $url = tx_div2007_alpha5::getPageLink_fh003(
+                    $local_cObj,
+                    $this->pid,
+                    '',
+                    $linkParams,
+                    array('useCacheHash' => $this->allowCaching)
+                );
 
-				$wrappedSubpartContentArray['###LINK_PREV_THREAD###'] =
-					array(
-						'<a href="'. htmlspecialchars($url)  . '">',
-						'</a>'
-					);
+                $wrappedSubpartContentArray['###LINK_PREV_THREAD###'] =
+                    array(
+                        '<a href="'. htmlspecialchars($url)  . '">',
+                        '</a>'
+                    );
 
-					// Link to first !!
-				$linkParams[$this->prefixId . '[uid]' ] = $rootParent['uid'];
-				$url = tx_div2007_alpha5::getPageLink_fh003(
-					$local_cObj,
-					$this->pid,
-					'',
-					$linkParams,
-					array('useCacheHash' => $this->allowCaching)
-				);
+                    // Link to first !!
+                $linkParams[$this->prefixId . '[uid]' ] = $rootParent['uid'];
+                $url = tx_div2007_alpha5::getPageLink_fh003(
+                    $local_cObj,
+                    $this->pid,
+                    '',
+                    $linkParams,
+                    array('useCacheHash' => $this->allowCaching)
+                );
 
-				$wrappedSubpartContentArray['###LINK_FIRST_POST###'] =
-					array(
-						'<a href="' . htmlspecialchars($url)   . '">',
-						'</a>'
-					);
+                $wrappedSubpartContentArray['###LINK_FIRST_POST###'] =
+                    array(
+                        '<a href="' . htmlspecialchars($url)   . '">',
+                        '</a>'
+                    );
 
-					// Substitute:
-				$templateCode =
-					$local_cObj->substituteMarkerArrayCached(
-						$templateCode,
-						$markerArray,
-						array(),
-						$wrappedSubpartContentArray
-					);
+                    // Substitute:
+                $templateCode =
+                    $local_cObj->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        array(),
+                        $wrappedSubpartContentArray
+                    );
 
-					// Getting subpart for items:
-				$postHeader =
-					$markerObj->getLayouts(
-						$templateCode,
-						$alternativeLayouts,
-						'POST'
-					);
-				$c_post = 0;
-				$indexedTitle = '';
+                    // Getting subpart for items:
+                $postHeader =
+                    $markerObj->getLayouts(
+                        $templateCode,
+                        $alternativeLayouts,
+                        'POST'
+                    );
+                $c_post = 0;
+                $indexedTitle = '';
 
-				foreach ($recentPosts as $recentPost) {
-					$out = $postHeader[$c_post % count($postHeader)];
-					$c_post++;
-					if (
-						!$indexedTitle &&
-						trim($recentPost['subject'])
-					) {
-						$indexedTitle = trim($recentPost['subject']);
-					}
+                foreach ($recentPosts as $recentPost) {
+                    $out = $postHeader[$c_post % count($postHeader)];
+                    $c_post++;
+                    if (
+                        !$indexedTitle &&
+                        trim($recentPost['subject'])
+                    ) {
+                        $indexedTitle = trim($recentPost['subject']);
+                    }
 
-						// Clear
-					$markerArray = array();
-					$wrappedSubpartContentArray = array();
+                        // Clear
+                    $markerArray = array();
+                    $wrappedSubpartContentArray = array();
 
-					$markerObj->getRowMarkerArray(
+                    $markerObj->getRowMarkerArray(
                         $markerArray,
                         $modelObj,
-						$recentPost,
-						'POST',
-						$lConf
-					);
+                        $recentPost,
+                        'POST',
+                        $lConf
+                    );
 
-						// Link to the post
-					$linkParams[$this->prefixId . '[uid]'] = $recentPost['uid'];
-					$url =
-						tx_div2007_alpha5::getPageLink_fh003(
-							$local_cObj,
-							$this->pid,
-							'',
-							$linkParams,
-							array('useCacheHash' => $this->allowCaching)
-						);
+                        // Link to the post
+                    $linkParams[$this->prefixId . '[uid]'] = $recentPost['uid'];
+                    $url =
+                        tx_div2007_alpha5::getPageLink_fh003(
+                            $local_cObj,
+                            $this->pid,
+                            '',
+                            $linkParams,
+                            array('useCacheHash' => $this->allowCaching)
+                        );
 
-					$wrappedSubpartContentArray['###LINK###'] =
-						array(
-							'<a href="' . htmlspecialchars($url) . '">',
-							'</a>'
-						);
+                    $wrappedSubpartContentArray['###LINK###'] =
+                        array(
+                            '<a href="' . htmlspecialchars($url) . '">',
+                            '</a>'
+                        );
 
-						// Link to next thread
-					$linkParams[$this->prefixId . '[uid]'] = ($recentPost['nextUid'] ? $recentPost['nextUid'] : $nextThread['uid']);
-					$url =
-						tx_div2007_alpha5::getPageLink_fh003(
-							$local_cObj,
-							$this->pid,
-							'',
-							$linkParams,
-							array('useCacheHash' => $this->allowCaching)
-						);
-					$wrappedSubpartContentArray['###LINK_NEXT_POST###'] =
+                        // Link to next thread
+                    $linkParams[$this->prefixId . '[uid]'] = ($recentPost['nextUid'] ? $recentPost['nextUid'] : $nextThread['uid']);
+                    $url =
+                        tx_div2007_alpha5::getPageLink_fh003(
+                            $local_cObj,
+                            $this->pid,
+                            '',
+                            $linkParams,
+                            array('useCacheHash' => $this->allowCaching)
+                        );
+                    $wrappedSubpartContentArray['###LINK_NEXT_POST###'] =
                         array(
                             '<a href="' .  htmlspecialchars($url) . '">',
                             '</a>'
                         );
 
-						// Link to prev thread
-					$linkParams[$this->prefixId . '[uid]'] =
+                        // Link to prev thread
+                    $linkParams[$this->prefixId . '[uid]'] =
                         (
                             $recentPost['prevUid'] ?
                             $recentPost['prevUid'] :
                             $nextThread['uid']
                         );
-					$url =
-						tx_div2007_alpha5::getPageLink_fh003(
-							$local_cObj,
-							$this->pid,
-							'',
-							$linkParams,
-							array('useCacheHash' => $this->allowCaching)
-					);
+                    $url =
+                        tx_div2007_alpha5::getPageLink_fh003(
+                            $local_cObj,
+                            $this->pid,
+                            '',
+                            $linkParams,
+                            array('useCacheHash' => $this->allowCaching)
+                    );
 
-					$wrappedSubpartContentArray['###LINK_PREV_POST###'] =
-						array(
-							'<a href="' .  htmlspecialchars($url) . '">',
-							'</a>'
-						);
+                    $wrappedSubpartContentArray['###LINK_PREV_POST###'] =
+                        array(
+                            '<a href="' .  htmlspecialchars($url) . '">',
+                            '</a>'
+                        );
 
-						// Substitute:
-					$subpartContent .=
-						$local_cObj->substituteMarkerArrayCached(
-							$out,
-							$markerArray,
-							array(),
-							$wrappedSubpartContentArray
-						);
-				}
+                        // Substitute:
+                    $subpartContent .=
+                        $local_cObj->substituteMarkerArrayCached(
+                            $out,
+                            $markerArray,
+                            array(),
+                            $wrappedSubpartContentArray
+                        );
+                }
 
-				$GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
-					// Substitution:
-				$content .=
-					$local_cObj->substituteSubpart(
-						$templateCode,
-						'###CONTENT###',
-						$subpartContent
-					);
-			} else {
-				debug('No template code for ');
-			}
-		} else { // if ($this->tt_board_uid && $theCode == 'FORUM')
-			$continue = TRUE;
-			if ($theCode == 'THREAD_TREE') {
-				if (!$uid && $ref == '') {
-					$continue = FALSE;
-				}
-				$lConf = $this->conf['thread_tree.'];
-			} else {
-				$lConf = $this->conf['list_threads.'];
-			}
+                $GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
+                    // Substitution:
+                $content .=
+                    $local_cObj->substituteSubpart(
+                        $templateCode,
+                        '###CONTENT###',
+                        $subpartContent
+                    );
+            } else {
+                debug('No template code for ');
+            }
+        } else { // if ($this->tt_board_uid && $theCode == 'FORUM')
+            $continue = TRUE;
+            if ($theCode == 'THREAD_TREE') {
+                if (!$uid && $ref == '') {
+                    $continue = FALSE;
+                }
+                $lConf = $this->conf['thread_tree.'];
+            } else {
+                $lConf = $this->conf['list_threads.'];
+            }
             $limit = $lConf['thread_limit'];
 
-			if ($continue) {
+            if ($continue) {
                     // Clear
                 $subpartMarkerArray = array();
                 $wrappedSubpartContentArray = array();
@@ -637,10 +637,10 @@ class tx_ttboard_forum {
                     );
                     $content .= $newContent;
                 } // if ($templateCode) {
-			} // if($continue) {
-		}
-		return $content;
-	} // forum_forum
+            } // if($continue) {
+        }
+        return $content;
+    } // forum_forum
 
 }
 

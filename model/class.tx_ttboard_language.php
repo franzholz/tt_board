@@ -40,27 +40,27 @@
 
 class tx_ttboard_language extends tx_div2007_alpha_language_base {
 
-	public function init1 ($pObj, $cObj, $conf, $scriptRelPath) {
-		parent::init(
-			$cObj,
-			TT_BOARD_EXT,
-			$conf,
-			$scriptRelPath
-		);
+    public function init1 ($pObj, $cObj, $conf, $scriptRelPath) {
+        parent::init(
+            $cObj,
+            TT_BOARD_EXT,
+            $conf,
+            $scriptRelPath
+        );
 
-		if (isset($pObj) && is_object($pObj)) {
-			if (isset($pObj->LOCAL_LANG) && is_array($pObj->LOCAL_LANG)) {
-				$this->LOCAL_LANG = $pObj->LOCAL_LANG;
-			}
-			if (isset($pObj->LOCAL_LANG_charset) && is_array($pObj->LOCAL_LANG_charset)) {
-				$this->LOCAL_LANG_charset = $pObj->LOCAL_LANG_charset;
-			}
-			if (isset($pObj->LOCAL_LANG_loaded) && is_array($pObj->LOCAL_LANG_loaded)) {
-				$this->LOCAL_LANG_loaded = $pObj->LOCAL_LANG_loaded;
-			}
-		}
+        if (isset($pObj) && is_object($pObj)) {
+            if (isset($pObj->LOCAL_LANG) && is_array($pObj->LOCAL_LANG)) {
+                $this->LOCAL_LANG = $pObj->LOCAL_LANG;
+            }
+            if (isset($pObj->LOCAL_LANG_charset) && is_array($pObj->LOCAL_LANG_charset)) {
+                $this->LOCAL_LANG_charset = $pObj->LOCAL_LANG_charset;
+            }
+            if (isset($pObj->LOCAL_LANG_loaded) && is_array($pObj->LOCAL_LANG_loaded)) {
+                $this->LOCAL_LANG_loaded = $pObj->LOCAL_LANG_loaded;
+            }
+        }
 
-		return TRUE;
-	}
+        return TRUE;
+    }
 }
 

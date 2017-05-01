@@ -35,23 +35,23 @@
 
 class tx_ttboard_api {
 
-	/**
-	 * Retrieves default configuration of tt_board.
-	 * Uses plugin.tt_board_list or plugin.tt_board_tree from page TypoScript template
-	 *
-	 * @param	string		type of the forum: list or tree
-     *
-	 * @return	array		TypoScript configuration for ratings
-	 */
-	public function getDefaultConfig ($type) {
+    /**
+    * Retrieves default configuration of tt_board.
+    * Uses plugin.tt_board_list or plugin.tt_board_tree from page TypoScript template
+    *
+    * @param	string		type of the forum: list or tree
+    *
+    * @return	array		TypoScript configuration for ratings
+    */
+    public function getDefaultConfig ($type) {
 
-		if ($type == 'list' || $type == 'tree') {
-			$key = 'tt_board_' . $type . '.';
-			$rc = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$key];
-		} else {
-			$rc = FALSE;
-		}
-		return $rc;
-	}
+        if ($type == 'list' || $type == 'tree') {
+            $key = 'tt_board_' . $type . '.';
+            $rc = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$key];
+        } else {
+            $rc = FALSE;
+        }
+        return $rc;
+    }
 }
 

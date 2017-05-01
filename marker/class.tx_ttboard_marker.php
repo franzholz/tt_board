@@ -40,106 +40,106 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttboard_marker {
-	public $pibase;
-	public $cObj;
-	public $cnf;
-	public $conf;
-	public $config;
-	public $urlArray;
+    public $pibase;
+    public $cObj;
+    public $cnf;
+    public $conf;
+    public $config;
+    public $urlArray;
 
-	public $emoticons = 1;
-	public $emoticonsPath = 'media/emoticons/';
-	public $emoticonsTag = '<img src="{}" valign="bottom" hspace=4>';
-	public $emoticonsSubst = array(
-		'>:-<' => 'angry.gif',
-		':D' => 'grin.gif',
-		':-(' => 'sad.gif',
-		':-)' => 'smile.gif',
-		':-P' => 'tongue.gif',
-		';-P' => 'tonguewink.gif',
-		':-D' => 'veryhappy.gif',
-		';-)' => 'wink.gif'
-	);
+    public $emoticons = 1;
+    public $emoticonsPath = 'media/emoticons/';
+    public $emoticonsTag = '<img src="{}" valign="bottom" hspace=4>';
+    public $emoticonsSubst = array(
+        '>:-<' => 'angry.gif',
+        ':D' => 'grin.gif',
+        ':-(' => 'sad.gif',
+        ':-)' => 'smile.gif',
+        ':-P' => 'tongue.gif',
+        ';-P' => 'tonguewink.gif',
+        ':-D' => 'veryhappy.gif',
+        ';-)' => 'wink.gif'
+    );
 
-	public $dontParseContent = 0;
-
-
-	/**
-	 * Initialized the marker object
-	 *
-	 */
-
-	public function init ($pibase, $conf, $config) {
- 		$this->pibase = $pibase;
- 		$this->cObj = $pibase->cObj;
- 		$this->conf = $conf;
- 		$this->config = $config;
-
-		$this->dontParseContent = $this->conf['dontParseContent'];
-	}
+    public $dontParseContent = 0;
 
 
-	/**
-	 * getting the global markers
-	 */
-	public function getGlobalMarkers () {
-		$markerArray = array();
+    /**
+    * Initialized the marker object
+    *
+    */
 
-			// globally substituted markers, fonts and colors.
-		$splitMark = md5(microtime());
-		list($markerArray['###GW1B###'], $markerArray['###GW1E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap1.']));
-		list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap2.']));
-		list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap3.']));
-		$markerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'], $this->conf['color1.']);
-		$markerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'], $this->conf['color2.']);
-		$markerArray['###GC3###'] = $this->cObj->stdWrap($this->conf['color3'], $this->conf['color3.']);
-		$markerArray['###GC4###'] = $this->cObj->stdWrap($this->conf['color4'], $this->conf['color4.']);
-		$markerArray['###PATH###'] = PATH_FE_TTBOARD_REL;
+    public function init ($pibase, $conf, $config) {
+        $this->pibase = $pibase;
+        $this->cObj = $pibase->cObj;
+        $this->conf = $conf;
+        $this->config = $config;
 
-		if (is_array($this->conf['marks.'])) {
-				// Substitute Marker Array from TypoScript Setup
-			foreach ($this->conf['marks.'] as $key => $value) {
-				$markerArray['###' . $key . '###'] = $value;
-			}
-		}
-
-			// Call all addURLMarkers hooks at the end of this method
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
-			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
-				$hookObj= GeneralUtility::getUserObj($classRef);
-				if (method_exists($hookObj, 'addGlobalMarkers')) {
-					$hookObj->addGlobalMarkers($markerArray);
-				}
-			}
-		}
-		return $markerArray;
-	} // getGlobalMarkers
+        $this->dontParseContent = $this->conf['dontParseContent'];
+    }
 
 
-	public function getRowMarkerArray (
+    /**
+    * getting the global markers
+    */
+    public function getGlobalMarkers () {
+        $markerArray = array();
+
+            // globally substituted markers, fonts and colors.
+        $splitMark = md5(microtime());
+        list($markerArray['###GW1B###'], $markerArray['###GW1E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap1.']));
+        list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap2.']));
+        list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap3.']));
+        $markerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'], $this->conf['color1.']);
+        $markerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'], $this->conf['color2.']);
+        $markerArray['###GC3###'] = $this->cObj->stdWrap($this->conf['color3'], $this->conf['color3.']);
+        $markerArray['###GC4###'] = $this->cObj->stdWrap($this->conf['color4'], $this->conf['color4.']);
+        $markerArray['###PATH###'] = PATH_FE_TTBOARD_REL;
+
+        if (is_array($this->conf['marks.'])) {
+                // Substitute Marker Array from TypoScript Setup
+            foreach ($this->conf['marks.'] as $key => $value) {
+                $markerArray['###' . $key . '###'] = $value;
+            }
+        }
+
+            // Call all addURLMarkers hooks at the end of this method
+        if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
+            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
+                $hookObj= GeneralUtility::getUserObj($classRef);
+                if (method_exists($hookObj, 'addGlobalMarkers')) {
+                    $hookObj->addGlobalMarkers($markerArray);
+                }
+            }
+        }
+        return $markerArray;
+    } // getGlobalMarkers
+
+
+    public function getRowMarkerArray (
         &$markerArray,
         $modelObj,
-		$row,
-		$markerKey,
-		$lConf
-	) {
-		$local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
-		$local_cObj->start($row);
+        $row,
+        $markerKey,
+        $lConf
+    ) {
+        $local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
+        $local_cObj->start($row);
 
-			// Markers
-		$markerArray['###POST_THREAD_CODE###'] =
+            // Markers
+        $markerArray['###POST_THREAD_CODE###'] =
             $local_cObj->stdWrap(
                 $row['treeIcons'],
                 $lConf['post_thread_code_stdWrap.']
             );
-		$markerArray['###POST_TITLE###'] =
+        $markerArray['###POST_TITLE###'] =
             $local_cObj->stdWrap(
                 $this->formatStr(
                     $row['subject']
                 ),
                 $lConf['post_title_stdWrap.']
             );
-		$markerArray['###POST_CONTENT###'] =
+        $markerArray['###POST_CONTENT###'] =
             $this->substituteEmoticons(
                 $local_cObj->stdWrap(
                     $this->formatStr(
@@ -147,7 +147,7 @@ class tx_ttboard_marker {
                         $lConf['post_content_stdWrap.']
                     )
             );
-		$markerArray['###POST_REPLIES###'] =
+        $markerArray['###POST_REPLIES###'] =
             $local_cObj->stdWrap(
                 $modelObj->getNumReplies(
                     $row['pid'],
@@ -155,72 +155,72 @@ class tx_ttboard_marker {
                 ),
                 $lConf['post_replies_stdWrap.']
             );
-		$markerArray['###POST_AUTHOR###'] =
+        $markerArray['###POST_AUTHOR###'] =
             $local_cObj->stdWrap(
                 $this->formatStr(
                     $row['author']
                 ),
                 $lConf['post_author_stdWrap.']
             );
-		$markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
-		$recentDate =
+        $markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
+        $recentDate =
             $modelObj->recentDate($row);
-		$markerArray['###POST_DATE###'] = $local_cObj->stdWrap($recentDate, $this->conf['date_stdWrap.']);
-		$markerArray['###POST_TIME###'] = $local_cObj->stdWrap($recentDate, $this->conf['time_stdWrap.']);
-		$markerArray['###POST_AGE###'] = $local_cObj->stdWrap($recentDate, $this->conf['age_stdWrap.']);
-	}
+        $markerArray['###POST_DATE###'] = $local_cObj->stdWrap($recentDate, $this->conf['date_stdWrap.']);
+        $markerArray['###POST_TIME###'] = $local_cObj->stdWrap($recentDate, $this->conf['time_stdWrap.']);
+        $markerArray['###POST_AGE###'] = $local_cObj->stdWrap($recentDate, $this->conf['age_stdWrap.']);
+    }
 
 
-	public function getColumnMarkers (&$markerArray, $languageObj) {
-		$locallang = $languageObj->getLocallang();
+    public function getColumnMarkers (&$markerArray, $languageObj) {
+        $locallang = $languageObj->getLocallang();
 
-		foreach ($locallang['default'] as $k => $text) {
-			if (strpos($k, 'board') === 0) {
-				$markerArray['###' . strtoupper($k) . '###'] =
-					tx_div2007_alpha5::getLL_fh003(
-						$languageObj,
-						$k
-					);
-			}
-		}
+        foreach ($locallang['default'] as $k => $text) {
+            if (strpos($k, 'board') === 0) {
+                $markerArray['###' . strtoupper($k) . '###'] =
+                    tx_div2007_alpha5::getLL_fh003(
+                        $languageObj,
+                        $k
+                    );
+            }
+        }
 
-		$markerArray['###BUTTON_SEARCH###'] =
-			tx_div2007_alpha5::getLL_fh003(
-				$languageObj,
-				'button_search'
-			);
-	}
-
-
-	/**
-	 * Returns alternating layouts
-	 */
-	public function getLayouts ($templateCode, $alternativeLayouts, $marker) {
-		$out = array();
-		for($a = 0; $a < $alternativeLayouts; $a++) {
-			$m = '###' . $marker . ($a ? '_' . $a : '') . '###';
-			if(strstr($templateCode, $m)) {
-				$out[] = $GLOBALS['TSFE']->cObj->getSubpart($templateCode, $m);
-			} else {
-				break;
-			}
-		}
-		return $out;
-	}
+        $markerArray['###BUTTON_SEARCH###'] =
+            tx_div2007_alpha5::getLL_fh003(
+                $languageObj,
+                'button_search'
+            );
+    }
 
 
-	/**
-	 * Format string with nl2br and htmlspecialchars()
-	 */
-	public function formatStr ($str) {
-		$result = '';
-		if (!$this->dontParseContent) {
-			$result = nl2br(htmlspecialchars($str));
-		} else {
-			$result = $str;
-		}
-		return $result;
-	}
+    /**
+    * Returns alternating layouts
+    */
+    public function getLayouts ($templateCode, $alternativeLayouts, $marker) {
+        $out = array();
+        for($a = 0; $a < $alternativeLayouts; $a++) {
+            $m = '###' . $marker . ($a ? '_' . $a : '') . '###';
+            if(strstr($templateCode, $m)) {
+                $out[] = $GLOBALS['TSFE']->cObj->getSubpart($templateCode, $m);
+            } else {
+                break;
+            }
+        }
+        return $out;
+    }
+
+
+    /**
+    * Format string with nl2br and htmlspecialchars()
+    */
+    public function formatStr ($str) {
+        $result = '';
+        if (!$this->dontParseContent) {
+            $result = nl2br(htmlspecialchars($str));
+        } else {
+            $result = $str;
+        }
+        return $result;
+    }
 
     /**
     * Emoticons substitution
