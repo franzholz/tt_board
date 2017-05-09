@@ -1,6 +1,6 @@
 <?php
 if (!defined ('TYPO3_MODE')) {
-	die ('Access denied.');
+    die ('Access denied.');
 }
 
 $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
@@ -8,57 +8,57 @@ $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
 $_EXTCONF = unserialize($_EXTCONF);    // unserializing the configuration so we can use it here:
 
 if (!defined ('TT_BOARD_EXT')) {
-	define('TT_BOARD_EXT', $_EXTKEY);
+    define('TT_BOARD_EXT', $_EXTKEY);
 }
 
 if (!defined ('PATH_BE_TTBOARD')) {
-	define('PATH_BE_TTBOARD', call_user_func($emClass . '::extPath', $_EXTKEY));
+    define('PATH_BE_TTBOARD', call_user_func($emClass . '::extPath', $_EXTKEY));
 }
 
 if (!defined ('PATH_BE_TTBOARD_REL')) {
-	define('PATH_BE_TTBOARD_REL', call_user_func($emClass . '::extRelPath', $_EXTKEY));
+    define('PATH_BE_TTBOARD_REL', call_user_func($emClass . '::extRelPath', $_EXTKEY));
 }
 
 if (!defined ('PATH_FE_TTBOARD_REL')) {
-	define('PATH_FE_TTBOARD_REL', call_user_func($emClass . '::siteRelPath', $_EXTKEY));
+    define('PATH_FE_TTBOARD_REL', call_user_func($emClass . '::siteRelPath', $_EXTKEY));
 }
 
 if (isset($_EXTCONF) && is_array($_EXTCONF)) {
-	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY] = $_EXTCONF;
-	if (isset($tmpArray) && is_array($tmpArray)) {
-		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY] =
-			array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY], $tmpArray);
-	}
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY] = $_EXTCONF;
+    if (isset($tmpArray) && is_array($tmpArray)) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY] =
+            array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY], $tmpArray);
+    }
 }
 
 if (TYPO3_MODE == 'BE') {
-	// replace the output of the former CODE field with the flexform
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] =
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
-		'EXT:' . $_EXTKEY . '/hooks/class.tx_ttboard_hooks_cms.php:&tx_ttboard_hooks_cms->pmDrawItem';
+    // replace the output of the former CODE field with the flexform
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] =
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
+        'EXT:' . $_EXTKEY . '/hooks/class.tx_ttboard_hooks_cms.php:&tx_ttboard_hooks_cms->pmDrawItem';
 
-	call_user_func($emClass . '::addUserTSConfig', 'options.saveDocNew.tt_board=1');
+    call_user_func($emClass . '::addUserTSConfig', 'options.saveDocNew.tt_board=1');
 }
 
 
 // support for new Caching Framework
 
 if (
-	version_compare(TYPO3_version, '7.0.0', '<')
+    version_compare(TYPO3_version, '7.0.0', '<')
 ) {
-	// Register cache 'tt_board_cache'
-	if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'])) {
-		$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'] = array();
-	}
-	// Define string frontend as default frontend, this must be set with TYPO3 4.5 and below
-	// and overrides the default variable frontend of 4.6
-	if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'])) {
-		$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'] = 't3lib_cache_frontend_StringFrontend';
-	}
+    // Register cache 'tt_board_cache'
+    if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'])) {
+        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'] = array();
+    }
+    // Define string frontend as default frontend, this must be set with TYPO3 4.5 and below
+    // and overrides the default variable frontend of 4.6
+    if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'])) {
+        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'] = 't3lib_cache_frontend_StringFrontend';
+    }
 }
 
 
-	// add missing setup for the tt_content "list_type = 2" which is used by tt_board
+    // add missing setup for the tt_content "list_type = 2" which is used by tt_board
 $addLine = trim('
 tt_content.list.20.2 = CASE
 tt_content.list.20.2 {
@@ -67,16 +67,16 @@ tt_content.list.20.2 {
 }');
 
 call_user_func(
-	$emClass . '::addTypoScript',
-	$_EXTKEY,
-	'setup', '
-	# Setting ' . $_EXTKEY . ' plugin TypoScript
-	' . $addLine . '
-	',
-	43
+    $emClass . '::addTypoScript',
+    $_EXTKEY,
+    'setup', '
+    # Setting ' . $_EXTKEY . ' plugin TypoScript
+    ' . $addLine . '
+    ',
+    43
 );
 
-	// add missing setup for the tt_content "list_type = 4" which is used by tt_board
+    // add missing setup for the tt_content "list_type = 4" which is used by tt_board
 $addLine = trim('
 tt_content.list.20.4 = CASE
 tt_content.list.20.4 {
@@ -86,12 +86,12 @@ tt_content.list.20.4 {
 }');
 
 call_user_func(
-	$emClass . '::addTypoScript',
-	$_EXTKEY,
-	'setup', '
+    $emClass . '::addTypoScript',
+    $_EXTKEY,
+    'setup', '
 # Setting ' . $_EXTKEY . ' plugin TypoScript
 ' . $addLine . '
 ',
-	43
+    43
 );
 

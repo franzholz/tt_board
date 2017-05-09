@@ -22,6 +22,7 @@ FEData.tt_board {
     newReply.msg = EXT:tt_board/template/board_notify.txt
     newReply.didWhat = has just replied to a thread at
     newReply.subjectPrefix = Reply to post at
+    newReply.followThisLink = Follow this link:
     newThread.msg = EXT:tt_board/template/board_notify.txt
     newThread.didWhat = has just created a new thread at
     newThread.subjectPrefix = New thread
@@ -122,6 +123,10 @@ temp.tt_board.shared {
   moderatorEmail = {$plugin.tt_board.moderatorEmail}
 
   PIDforum = {$plugin.tt_board.PIDforum}
+
+# configurable typolink
+  typolink {
+  }
 }
 
 

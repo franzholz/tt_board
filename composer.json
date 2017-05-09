@@ -1,0 +1,64 @@
+{
+  "name": "jambagecom/tt-board",
+  "type": "typo3-cms-extension",
+  "description": "Simple threaded (tree) or list message board (forum).",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "forum",
+    "message",
+    "board"
+  ],
+  "support": {
+    "issues": "https://github.com/franzholz/tt_board/issues"
+  },
+  "homepage": "https://jambage.com",
+  "authors": [
+    {
+      "name": "Franz Holzinger",
+      "role": "Developer",
+      "homepage": "http://ttproducts.de"
+    }
+  ],
+  "license": [
+    "GPL-2.0+"
+  ],
+  "require": {
+    "typo3/cms-core": ">=4.5.0,<8.99.99"
+  },
+  "autoload": {
+    "psr-4": {
+      "JambageCom\\TtBoard\\": "Classes"
+    },
+    "classmap": [
+      "/",
+      "api/",
+      "hooks/",
+      "lib/",
+      "marker/",
+      "model/",
+      "pi_list/",
+      "pi_tree/",
+      "view/"
+    ]
+  },
+  "replace": {
+    "tt_board": "self.version",
+    "typo3-ter/tt-board": "self.version"
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin",
+    "preferred-install": {
+      "typo3/cms": "source",
+      "typo3/cms-core": "source",
+      "*": "dist"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
+}

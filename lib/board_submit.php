@@ -47,6 +47,10 @@ if (is_object($this)) {
     $row = $this->newData['tt_board']['NEW'];
     $prefixId = $row['prefixid'];
     unset($row['prefixid']);
+    $pid = intval($row['pid']);
+    $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+    $local_cObj->setCurrentVal($pid);
+    $allowCaching = $conf['allowCaching'] ? 1 : 0;
 
     if (is_array($row)) {
         $email = $row['email'];
@@ -62,8 +66,6 @@ if (is_object($this)) {
     ) {
         if (is_array($row) && trim($row['message'])) {
             do {
-                $spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
-                $bSpamFound = FALSE;
                 $internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
 
                 if ($conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap')) {
@@ -76,6 +78,9 @@ if (is_object($this)) {
                         break;
                     }
                 }
+
+                $spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
+                $bSpamFound = FALSE;
 
                 foreach ($row as $field => $value) {
                     if (!in_array($field, $internalFieldArray)) {
@@ -107,9 +112,27 @@ if (is_object($this)) {
                     $this->execNEWinsert('tt_board', $row);
                     $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
 
-                    $this->clear_cacheCmd(intval($row['pid']));
-                    $GLOBALS['TSFE']->clearPageCacheContent_pidList(intval($row['pid']));
-                    if ($row['pid'] != $GLOBALS['TSFE']->id) {
+                        // Link to this thread
+                    $linkParams = array();
+                    if ($GLOBALS['TSFE']->type) {
+                        $linkParams['type'] = $GLOBALS['TSFE']->type;
+                    }
+                    $linkParams[$prefixId . '[uid]'] = $newId;
+                    $url =
+                        tx_div2007_alpha5::getPageLink_fh003(
+                            $local_cObj,
+                            $pid,
+                            '',
+                            $linkParams,
+                            array(
+                                'useCacheHash' => $allowCaching,
+                                'forceAbsoluteUrl' => 1
+                            )
+                        );
+
+                    $this->clear_cacheCmd($pid);
+                    $GLOBALS['TSFE']->clearPageCacheContent_pidList($pid);
+                    if ($pid != $GLOBALS['TSFE']->id) {
                         $this->clear_cacheCmd($GLOBALS['TSFE']->id);
                         $GLOBALS['TSFE']->clearPageCacheContent_pidList(
                             $GLOBALS['TSFE']->id
@@ -119,9 +142,9 @@ if (is_object($this)) {
                         // Clear specific cache:
                     if ($conf['clearCacheForPids']) {
                         $ccPids = GeneralUtility::intExplode(',', $conf['clearCacheForPids']);
-                        foreach($ccPids as $pid) {
-                            if ($pid > 0) {
-                                $this->clear_cacheCmd($pid);
+                        foreach($ccPids as $ccPid) {
+                            if ($ccPid > 0) {
+                                $this->clear_cacheCmd($ccPid);
                             }
                         }
                         $GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
@@ -129,17 +152,18 @@ if (is_object($this)) {
 
                         // Send post to Mailing list ...
                     if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email']) {
-                        /*
-                            TypoScript for this section (was used for the TYPO3 mailing list.
-
-                        sendToMailingList=1
+                    /*
+                        TypoScript for this section (was used for the TYPO3 mailing list.
+                    FEData.tt_board.processScript {
+                        sendToMailingList = 1
                         sendToMailingList {
-                        email = typo3@netfielders.de
-                        reply = submitmail@typo3.com
-                        namePrefix = Typo3Forum/
-                        altSubject = Post from www.typo3.com
+                            email = typo3@netfielders.de
+                            reply = submitmail@typo3.com
+                            namePrefix = Typo3Forum/
+                            altSubject = Post from www.typo3.com
                         }
-                        */
+                    }
+                    */
                         $mConf = $conf['sendToMailingList.'];
 
                         // If there is a FE-user group defined, then send notifiers to all FE-members of this group
@@ -178,11 +202,10 @@ if (is_object($this)) {
                             // Message
                         $maillist_msg = chr(10) . chr(10) . $conf['newReply.']['subjectPrefix'] . chr(10) . $row['subject'] . chr(10) . chr(10) . $conf['newReply.']['message'] . chr(10) . $row['message'] . chr(10) . chr(10) . $conf['newReply.']['author'] . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
 
-                        $maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10) .
-                            GeneralUtility::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id .
-                            '&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
-                            // Send
+                        $maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10);
+                        $maillist_msg .= $url;
 
+                            // Send
                         if ($conf['debug']) {
                             debug($maillist_recip);
                             debug($maillist_subject);
@@ -221,7 +244,7 @@ if (is_object($this)) {
                         $markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
                         $markersArray['###CR_IP###'] = $row['cr_ip'];
                         $markersArray['###HOST###'] = GeneralUtility::getIndpEnv('HTTP_HOST');
-                        $markersArray['###URL###'] = GeneralUtility::getIndpEnv('TYPO3_REQUEST_SCRIPT') . '?id=' . $GLOBALS['TSFE']->id . '&amp;type=' . $GLOBALS['TSFE']->type . '&amp;' . $prefixId . '%5Buid%5D=' . $newId;
+                        $markersArray['###URL###'] = $url;
 
                         if ($row['parent']) {		// If reply and not new thread:
                             $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));

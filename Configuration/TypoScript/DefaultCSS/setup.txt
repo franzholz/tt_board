@@ -14,12 +14,12 @@ temp.tt_board.css {
 width: 100%;
 }
 
-.tx-ttboard-overview a:link{
+.tx-ttboard-overview a:link {
 color: #283a44;
 text-decoration: underline;
 }
 
-.tx-ttboard-overview a:hover{
+.tx-ttboard-overview a:hover {
 color: #6f081d;
 text-decoration: none;
 }
@@ -39,12 +39,13 @@ text-decoration: none;
   font-size: 12px;
   padding: 3px;
 }
-.tx-ttboard-tree-rows td a:link, .link-back-to-forum a:link, .link-to-forum-message a:link{
+
+.tx-ttboard-tree-rows td a:link, .link-back-to-forum a:link, .link-to-forum-message a:link {
   color: #283a44;
   text-decoration: none;
 }
 
-.tx-ttboard-tree-rows td a:hover, .link-back-to-forum a:hover, .link-to-forum-message a:hover{
+.tx-ttboard-tree-rows td a:hover, .link-back-to-forum a:hover, .link-to-forum-message a:hover {
   color: #6f081d;
   text-decoration: none;
 }
