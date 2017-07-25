@@ -53,7 +53,7 @@ class tx_ttboard_model {
     public $enableFields = '';		// The enablefields of the tt_board table.
     public $searchFieldList = 'author,email,subject,message';
     public $cObj;
-    public $tablename = 'tt_board';
+    protected $tablename = 'tt_board';
 
 
     public function init ($cObj) {
@@ -61,6 +61,9 @@ class tx_ttboard_model {
         $this->enableFields = $this->cObj->enableFields($this->tablename);
     }
 
+    public function getTablename() {
+        return $this->tablename;
+    }
 
     static public function getWhereRef ($ref) {
         $result = '';
@@ -76,7 +79,7 @@ class tx_ttboard_model {
     * Checks if posting is allowed to user
     */
     static public function isAllowed ($memberOfGroups) {
-        $allowed = FALSE;
+        $allowed = false;
 
         if ($memberOfGroups) {
             if (is_array($GLOBALS['TSFE']->fe_user->user)) {
@@ -88,13 +91,13 @@ class tx_ttboard_model {
                 $usergroupArray = explode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
                 $fitArray = array_intersect($requestGroupArray, $usergroupArray);
                 if (count($fitArray)) {
-                    $allowed = TRUE;
+                    $allowed = true;
                 }
             } else {
-                $allowed = FALSE;
+                $allowed = false;
             }
         } else {
-            $allowed = TRUE;
+            $allowed = true;
         }
         return $allowed;
     }

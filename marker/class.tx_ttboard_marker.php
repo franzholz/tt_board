@@ -123,8 +123,10 @@ class tx_ttboard_marker {
         $markerKey,
         $lConf
     ) {
-        $local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
-        $local_cObj->start($row);
+        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer(
+            $row,
+            $modelObj->getTablename()
+        );
 
             // Markers
         $markerArray['###POST_THREAD_CODE###'] =
@@ -165,9 +167,21 @@ class tx_ttboard_marker {
         $markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
         $recentDate =
             $modelObj->recentDate($row);
-        $markerArray['###POST_DATE###'] = $local_cObj->stdWrap($recentDate, $this->conf['date_stdWrap.']);
-        $markerArray['###POST_TIME###'] = $local_cObj->stdWrap($recentDate, $this->conf['time_stdWrap.']);
-        $markerArray['###POST_AGE###'] = $local_cObj->stdWrap($recentDate, $this->conf['age_stdWrap.']);
+        $markerArray['###POST_DATE###'] =
+            $local_cObj->stdWrap(
+                $recentDate,
+                $this->conf['date_stdWrap.']
+            );
+        $markerArray['###POST_TIME###'] =
+            $local_cObj->stdWrap(
+                $recentDate,
+                $this->conf['time_stdWrap.']
+            );
+        $markerArray['###POST_AGE###'] =
+            $local_cObj->stdWrap(
+                $recentDate,
+                $this->conf['age_stdWrap.']
+            );
     }
 
 
@@ -252,7 +266,7 @@ class tx_ttboard_marker {
         $limit,
         $maxPages
     ) {
-        $bShowFirstLast = TRUE;
+        $bShowFirstLast = true;
 
         if (
             isset($browserConf) &&
@@ -265,18 +279,18 @@ class tx_ttboard_marker {
         $pagefloat = 0;
         $imageArray = array();
         $imageActiveArray = array();
-        $browseObj = t3lib_div::getUserObj('&tx_div2007_alpha_browse_base');
+        $browseObj = t3lib_div::getUserObj('tx_div2007_alpha_browse_base');
         $browseObj->init_fh002(
             $conf,
             $piVars,
             array(),
-            FALSE,  // no autocache used yet
-            FALSE, // USER obj
+            false,  // no autocache used yet
+            false, // USER obj
             $recordCount,
             $limit,
             $maxPages,
             $bShowFirstLast,
-            FALSE,
+            false,
             $pagefloat,
             $imageArray,
             $imageActiveArray
@@ -369,12 +383,12 @@ class tx_ttboard_marker {
                         $languageObj,
                         $cObj,
                         $prefixId,
-                        TRUE,
+                        true,
                         1,
                         '',
                         $browserConf,
                         $pointerName,
-                        TRUE,
+                        true,
                         $addQueryString
                     );
             }

@@ -271,12 +271,33 @@ plugin.tt_board_tree {
   list_forums.post_content_stdWrap.crop = 200 | ...
 
   iconCode = 1
-  iconCode.joinBottom = <img src="typo3/sysext/cms/tslib/media/scripts/joinbottom.gif" width=18 height=16 align="top">
-  iconCode.join = <img src="typo3/sysext/cms/tslib/media/scripts/join.gif" width=18 height=16 align="top">
-  iconCode.line = <img src="typo3/sysext/cms/tslib/media/scripts/line.gif" width=18 height=16 align="top">
-  iconCode.blank = <img src="typo3/sysext/cms/tslib/media/scripts/blank.gif" width=18 height=16 align="top">
-  iconCode.thread = <img src="typo3/sysext/cms/tslib/media/scripts/thread.gif" width=18 height=16 align="top">
-  iconCode.end = <img src="typo3/sysext/cms/tslib/media/scripts/end.gif" width=18 height=16 align="top">
+  iconCode.join = IMAGE
+  iconCode.join {
+    file = typo3/sysext/t3skin/icons/gfx/ol/join.gif
+    width = 18
+    height = 16
+    params = align="top"
+  }
+  iconCode.joinBottom < iconCode.join
+  iconCode.joinBottom {
+    file = typo3/sysext/t3skin/icons/gfx/ol/joinbottom.gif
+  }
+  iconCode.line < iconCode.join
+  iconCode.line {
+    file = typo3/sysext/t3skin/icons/gfx/ol/line.gif
+  }
+  iconCode.blank < iconCode.join
+  iconCode.blank {
+    file = EXT:tt_board/Resources/Public/Icons/blank.gif
+  }
+  iconCode.thread < iconCode.join
+  iconCode.thread {
+    file = EXT:tt_board/Resources/Public/Icons/thread.gif
+  }
+  iconCode.end < iconCode.join
+  iconCode.end {
+    file = EXT:tt_board/Resources/Public/Icons/end.gif
+  }
 
   list_threads.post_title_stdWrap.wrap = <font face="verdana,arial" size=1 color=black> | </font>
   list_threads.post_title_stdWrap.crop = 80 | ...

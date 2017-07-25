@@ -43,8 +43,8 @@ use JambageCom\Div2007\Utility\MailUtility;
 
 if (is_object($this)) {
 
-    $conf = $this->extScriptsConf['tt_board'];
-    $row = $this->newData['tt_board']['NEW'];
+    $conf = $this->extScriptsConf[TT_BOARD_EXT];
+    $row = $this->newData[TT_BOARD_EXT]['NEW'];
     $prefixId = $row['prefixid'];
     unset($row['prefixid']);
     $pid = intval($row['pid']);
@@ -70,23 +70,23 @@ if (is_object($this)) {
 
                 if ($conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap')) {
                     require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
-                    $freeCapObj = GeneralUtility::getUserObj('&tx_srfreecap_pi2');
+                    $freeCapObj = GeneralUtility::getUserObj('tx_srfreecap_pi2');
                     if (!$freeCapObj->checkWord($row['captcha'])) {
-                        $GLOBALS['TSFE']->applicationData['tt_board']['error']['captcha'] = TRUE;
-                        $GLOBALS['TSFE']->applicationData['tt_board']['row'] = $row;
-                        $GLOBALS['TSFE']->applicationData['tt_board']['word'] = $row['captcha'];
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row['captcha'];
                         break;
                     }
                 }
 
                 $spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
-                $bSpamFound = FALSE;
+                $bSpamFound = false;
 
                 foreach ($row as $field => $value) {
                     if (!in_array($field, $internalFieldArray)) {
                         foreach ($spamArray as $k => $word) {
-                            if ($word && stripos($value, $word) !== FALSE) {
-                                $bSpamFound = TRUE;
+                            if ($word && stripos($value, $word) !== false) {
+                                $bSpamFound = true;
                                 break;
                             }
                         }
@@ -98,9 +98,9 @@ if (is_object($this)) {
                 }
 
                 if ($bSpamFound) {
-                    $GLOBALS['TSFE']->applicationData['tt_board']['error']['spam'] = TRUE;
-                    $GLOBALS['TSFE']->applicationData['tt_board']['row'] = $row;
-                    $GLOBALS['TSFE']->applicationData['tt_board']['word'] = $word;
+                    $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['spam'] = true;
+                    $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
+                    $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $word;
                     break;
                 } else {
                     $row['cr_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');

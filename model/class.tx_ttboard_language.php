@@ -60,7 +60,7 @@ class tx_ttboard_language extends tx_div2007_alpha_language_base {
             }
         }
 
-        return TRUE;
+        return true;
     }
 }
 

@@ -47,7 +47,7 @@ class tx_ttboard_forum {
     public $allowCaching;
     public $markerObj;
     public $pid;
-    public $bHasBeenInitialised = FALSE;
+    public $bHasBeenInitialised = false;
     public $prefixId;
 
 
@@ -56,7 +56,7 @@ class tx_ttboard_forum {
         $this->allowCaching = $allowCaching;
         $this->typolink_conf = $typolink_conf;
         $this->pid = $pid;
-        $this->bHasBeenInitialised = TRUE;
+        $this->bHasBeenInitialised = true;
         $this->prefixId = $prefixId;
     }
 
@@ -81,43 +81,27 @@ class tx_ttboard_forum {
         $alternativeLayouts,
         $linkParams
     ) {
-        $local_cObj = GeneralUtility::getUserObj('&tx_div2007_cobj');
+        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
         $controlObj = GeneralUtility::getUserObj('JambageCom\Div2007\Utility\ControlUtility');
         $recentPosts = array();
         $searchWord = $controlObj->readGP('sword', $this->prefixId);
         $pointerName = 'pointer';
 
         if ($this->conf['iconCode']) {
-            $modelObj->treeIcons['joinBottom'] =
-                $local_cObj->stdWrap(
-                    $this->conf['iconCode.']['joinBottom'],
-                    $this->conf['iconCode.']['joinBottom.']
-                );
-            $modelObj->treeIcons['join'] =
-                $local_cObj->stdWrap(
-                    $this->conf['iconCode.']['join'],
-                    $this->conf['iconCode.']['join.']
-                );
-            $modelObj->treeIcons['line'] =
-                $local_cObj->stdWrap(
-                    $this->conf['iconCode.']['line'],
-                    $this->conf['iconCode.']['line.']
-                );
-            $modelObj->treeIcons['blank'] =
-                $local_cObj->stdWrap(
-                    $this->conf['iconCode.']['blank'],
-                    $this->conf['iconCode.']['blank.']
-                );
-            $modelObj->treeIcons['thread'] =
-                $local_cObj->stdWrap(
-                    $this->conf['iconCode.']['thread'],
-                    $this->conf['iconCode.']['thread.']
-                );
-            $modelObj->treeIcons['end'] =
-                $local_cObj->stdWrap(
-                    $this->conf['iconCode.']['end'],
-                    $this->conf['iconCode.']['end.']
-                );
+            $joinTypes = array('joinBottom', 'join', 'line', 'blank', 'thread', 'end');
+            foreach ($joinTypes as $joinType) {
+                if (
+                    isset($this->conf['iconCode.'][$joinType]) &&
+                    isset($this->conf['iconCode.'][$joinType . '.'])
+                ) {
+                    $modelObj->treeIcons[$joinType] =
+                        $local_cObj->getContentObject(
+                            $this->conf['iconCode.'][$joinType]
+                        )->render(
+                            $this->conf['iconCode.'][$joinType . '.']
+                        );
+                }
+            }
         }
 
         if (
@@ -181,7 +165,10 @@ class tx_ttboard_forum {
 
                     // Link back to forum
                 $local_cObj->setCurrentVal($this->pid);
-                $wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] = $local_cObj->typolinkWrap($this->typolink_conf);
+                $wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] =
+                    $local_cObj->typolinkWrap(
+                        $this->typolink_conf
+                    );
 
                     // Link to next thread
                 $linkParams[$this->prefixId . '[uid]'] = $nextThread['uid'];
@@ -229,7 +216,7 @@ class tx_ttboard_forum {
 
                 $wrappedSubpartContentArray['###LINK_FIRST_POST###'] =
                     array(
-                        '<a href="' . htmlspecialchars($url)   . '">',
+                        '<a href="' . htmlspecialchars($url) . '">',
                         '</a>'
                     );
 
@@ -348,13 +335,13 @@ class tx_ttboard_forum {
                         $subpartContent
                     );
             } else {
-                debug('No template code for ');
+                debug('No template subpart for thread view: ###TEMPLATE_THREAD###');
             }
         } else { // if ($this->tt_board_uid && $theCode == 'FORUM')
-            $continue = TRUE;
+            $continue = true;
             if ($theCode == 'THREAD_TREE') {
                 if (!$uid && $ref == '') {
-                    $continue = FALSE;
+                    $continue = false;
                 }
                 $lConf = $this->conf['thread_tree.'];
             } else {
@@ -388,7 +375,7 @@ class tx_ttboard_forum {
                     $addQueryString = array();
                     $recordCount = 0;
                     $more = 0;
-                    $useCache = TRUE;
+                    $useCache = true;
 
                     if ($theCode == 'FORUM') {
                         $recordCount = $modelObj->getNumThreads(
@@ -403,7 +390,7 @@ class tx_ttboard_forum {
                     }
                     if ($searchWord != '') {
                         $addQueryString['sword'] = $searchWord;
-                        $useCache = FALSE;
+                        $useCache = false;
                     }
 
                     $begin_at = intval($controlObj->readGP($pointerName, $this->prefixId)) * $limit;
@@ -498,7 +485,6 @@ class tx_ttboard_forum {
                     $subpartArray = array();
 
                     foreach ($recentPosts as $recentPost) {
-                        $GLOBALS['TT']->push('/Post/');
                         $out = $postHeader[$c_post % count($postHeader)];
                         if ($recentPost['uid'] == $uid && $postHeader_active[0]) {
                             $out = $postHeader_active[0];
@@ -511,7 +497,6 @@ class tx_ttboard_forum {
                         $wrappedSubpartContentArray = array();
 
                             // Markers
-                        $GLOBALS['TT']->push('/postMarkers/');
                         $markerObj->getRowMarkerArray(
                             $markerArray,
                             $modelObj,
@@ -540,22 +525,18 @@ class tx_ttboard_forum {
                                 '</a>'
                         );
 
-                        $GLOBALS['TT']->pull();
                             // Last post processing:
-                        $GLOBALS['TT']->push('/last post info/');
                         $lastPostInfo =
                             $modelObj->getLastPostInThread(
                                 $recentPost['pid'],
                                 $recentPost['uid'],
                                 $ref
                             );
-                        $GLOBALS['TT']->pull();
                         if (!$lastPostInfo) {
                             $lastPostInfo = $recentPost;
                         }
 
                         $local_cObj->start($lastPostInfo);
-                        $GLOBALS['TT']->push('/lastPostMarkers/');
                         $recentDate = $modelObj->recentDate($lastPostInfo);
                         $markerArray['###LAST_POST_DATE###'] =
                             $local_cObj->stdWrap(
@@ -593,9 +574,6 @@ class tx_ttboard_forum {
                                 '<a href="' .  htmlspecialchars($url) . '">',
                                 '</a>'
                             );
-
-                        $GLOBALS['TT']->pull();
-
                             // Substitute:
                         $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
                             $local_cObj->substituteMarkerArrayCached(
@@ -604,7 +582,6 @@ class tx_ttboard_forum {
                                 array(),
                                 $wrappedSubpartContentArray
                             );
-                        $GLOBALS['TT']->pull();
                     }
 
                     if (!$this->conf['tree']) {

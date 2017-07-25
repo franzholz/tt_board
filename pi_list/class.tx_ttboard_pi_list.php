@@ -48,11 +48,11 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
     * Main board function. Call this from TypoScript
     */
     public function main ($content, $conf) {
-        $bOrigInitCalled = FALSE;
+        $bOrigInitCalled = false;
 
         $this->conf = $conf;
         $codeArray = $this->getCodeArray($conf);
-        $bCreate = TRUE;
+        $bCreate = true;
 
         foreach ($codeArray as $k => $theCode) {
             $theCode = (string) strtoupper(trim($theCode));
@@ -61,7 +61,7 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
                 default:
                     $setupCode = $conf['userFunc.'][$theCode];
                     if ($setupCode) {
-                        $bOrigInitCalled = FALSE;
+                        $bOrigInitCalled = false;
                         $setup = $conf['userFunc.'][$theCode . '.'];
                         $newConf = $conf;
                         tx_div2007_core::mergeRecursiveWithOverrule(
@@ -80,7 +80,7 @@ class tx_ttboard_pi_list extends tx_ttboard_pibase {
                         $content .= $this->cObj->cObjGetSingle($setupCode, $newSetup);
                     } else {
                         if (!$bOrigInitCalled) {
-                            $bOrigInitCalled = TRUE;
+                            $bOrigInitCalled = true;
                             parent::init($content, $conf);
                         }
                         parent::processCode($theCode, $content);

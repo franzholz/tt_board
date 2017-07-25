@@ -47,11 +47,11 @@ class tx_ttboard_api {
 
         if ($type == 'list' || $type == 'tree') {
             $key = 'tt_board_' . $type . '.';
-            $rc = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$key];
+            $result = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$key];
         } else {
-            $rc = FALSE;
+            $result = false;
         }
-        return $rc;
+        return $result;
     }
 }
 
