@@ -4,6 +4,7 @@
     * bugfix: use image icon path typo3/sysext/t3skin/icons/gfx/ol instead of typo3/sysext/cms/tslib/media/scripts
     * remove $GLOBALS['TT']
     * bugfix: fix paths for the iconCode join images and change them into an IMAGE cObject
+    * TYPO3 7.6 is required as a minimum, only because the extension tslib_fetce is required and has not been programmed for TYPO3 6.1 or 6.2
 
 2017-05-24 Franz Holzinger <franz@ttproducts.de>
     * add an installation tutorial

@@ -29,7 +29,7 @@ $EM_CONF[$_EXTKEY] = array(
     'constraints' => array(
         'depends' => array(
             'php' => '5.3.3-7.99.99',
-            'typo3' => '6.1.0-8.99.99',
+            'typo3' => '7.6.0-8.99.99',
             'div2007' => '1.7.8-0.0.0',
             'tslib_fetce' => '0.1.0-0.9.0',
         ),
