@@ -112,11 +112,11 @@ class tx_ttboard_pibase extends tslib_pibase {
         );
 
         $this->markerObj = GeneralUtility::getUserObj('tx_ttboard_marker');
-        $this->markerObj->init($this, $conf, $this->config);
+        $this->markerObj->init($conf);
         $this->modelObj = GeneralUtility::getUserObj('tx_ttboard_model');
         $this->modelObj->init($this->cObj);
 
-        $globalMarkerArray = $this->markerObj->getGlobalMarkers();
+        $globalMarkerArray = $this->markerObj->getGlobalMarkers($this->cObj);
             // Substitute Global Marker Array
         $this->orig_templateCode =
             $this->cObj->substituteMarkerArray(

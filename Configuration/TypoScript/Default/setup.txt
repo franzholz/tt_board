@@ -127,6 +127,33 @@ temp.tt_board.shared {
 # configurable typolink
   typolink {
   }
+
+  emoticons = 1
+  emoticons {
+    path = EXT:tt_board/Resources/Public/Icons/Emoticons/
+    icon = IMAGE
+    icon {
+        params = valign="bottom" hspace=4
+    }
+    substitute {
+        10.source = >:-<
+        10.destination = angry.gif
+        20.source = :D
+        20.destination = grin.gif
+        30.source = :-(
+        30.destination = sad.gif
+        40.source = :-)
+        40.destination = smile.gif
+        50.source = :-P
+        50.destination = tongue.gif
+        60.source = ;-P
+        60.destination = tonguewink.gif
+        70.source = :-D
+        70.destination = veryhappy.gif
+        80.source = ;-)
+        80.destination = wink.gif
+    }
+  }
 }
 
 
@@ -288,15 +315,15 @@ plugin.tt_board_tree {
   }
   iconCode.blank < iconCode.join
   iconCode.blank {
-    file = EXT:tt_board/Resources/Public/Icons/blank.gif
+    file = EXT:tt_board/Resources/Public/Icons/Tree/blank.gif
   }
   iconCode.thread < iconCode.join
   iconCode.thread {
-    file = EXT:tt_board/Resources/Public/Icons/thread.gif
+    file = EXT:tt_board/Resources/Public/Icons/Tree/thread.gif
   }
   iconCode.end < iconCode.join
   iconCode.end {
-    file = EXT:tt_board/Resources/Public/Icons/end.gif
+    file = EXT:tt_board/Resources/Public/Icons/Tree/end.gif
   }
 
   list_threads.post_title_stdWrap.wrap = <font face="verdana,arial" size=1 color=black> | </font>

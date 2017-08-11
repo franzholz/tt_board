@@ -29,10 +29,6 @@
  *
  * Creates a forum/board in tree or list style
  *
- * TypoScript config:
- * - See static_template 'plugin.tt_board_tree' and plugin.tt_board_list
- * - See TS_ref.pdf
- *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */

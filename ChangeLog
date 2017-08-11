@@ -1,3 +1,7 @@
+2017-08-11 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: show emoticons and make them configurable
+    * remove pibase class from marker object
+
 2017-07-25 Franz Holzinger <franz@ttproducts.de>
     * support for TYPO3 8.x
     * bugfix: issue #1 use div2007 class FrontendUtility and method getContentObjectRenderer to fetch a contentObject

@@ -40,28 +40,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttboard_marker {
-    public $pibase;
-    public $cObj;
-    public $cnf;
-    public $conf;
-    public $config;
-    public $urlArray;
-
-    public $emoticons = 1;
-    public $emoticonsPath = 'media/emoticons/';
-    public $emoticonsTag = '<img src="{}" valign="bottom" hspace=4>';
-    public $emoticonsSubst = array(
-        '>:-<' => 'angry.gif',
-        ':D' => 'grin.gif',
-        ':-(' => 'sad.gif',
-        ':-)' => 'smile.gif',
-        ':-P' => 'tongue.gif',
-        ';-P' => 'tonguewink.gif',
-        ':-D' => 'veryhappy.gif',
-        ';-)' => 'wink.gif'
-    );
-
-    public $dontParseContent = 0;
+    protected $conf;
+    protected $dontParseContent = 0;
 
 
     /**
@@ -69,36 +49,56 @@ class tx_ttboard_marker {
     *
     */
 
-    public function init ($pibase, $conf, $config) {
-        $this->pibase = $pibase;
-        $this->cObj = $pibase->cObj;
-        $this->conf = $conf;
-        $this->config = $config;
+    public function init ($conf) {
+        $this->setConf($conf);
+        $this->dontParseContent = $conf['dontParseContent'];
+    }
 
-        $this->dontParseContent = $this->conf['dontParseContent'];
+
+    public function setConf ($conf) {
+        $this->conf = $conf;
+    }
+
+
+    public function getConf () {
+        return $this->conf;
     }
 
 
     /**
     * getting the global markers
     */
-    public function getGlobalMarkers () {
+    public function getGlobalMarkers ($cObj) {
         $markerArray = array();
+        $conf = $this->getConf();
 
             // globally substituted markers, fonts and colors.
         $splitMark = md5(microtime());
-        list($markerArray['###GW1B###'], $markerArray['###GW1E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap1.']));
-        list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap2.']));
-        list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $this->cObj->stdWrap($splitMark, $conf['wrap3.']));
-        $markerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'], $this->conf['color1.']);
-        $markerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'], $this->conf['color2.']);
-        $markerArray['###GC3###'] = $this->cObj->stdWrap($this->conf['color3'], $this->conf['color3.']);
-        $markerArray['###GC4###'] = $this->cObj->stdWrap($this->conf['color4'], $this->conf['color4.']);
+        for ($i = 1; $i <= 3; ++$i) {
+            list(
+                $markerArray['###GW' . $i . 'B###'],
+                $markerArray['###GW' . $i . 'E###']
+            ) =
+                explode(
+                    $splitMark,
+                    $cObj->stdWrap(
+                        $splitMark,
+                        $conf['wrap' . $i . '.']
+                    )
+                );
+        }
+        for ($i = 1; $i <= 4; ++$i) {
+            $markerArray['###GC' . $i . '###'] =
+                $cObj->stdWrap(
+                    $conf['color' . $i],
+                    $conf['color' . $i . '.']
+                );
+        }
         $markerArray['###PATH###'] = PATH_FE_TTBOARD_REL;
 
-        if (is_array($this->conf['marks.'])) {
+        if (is_array($conf['marks.'])) {
                 // Substitute Marker Array from TypoScript Setup
-            foreach ($this->conf['marks.'] as $key => $value) {
+            foreach ($conf['marks.'] as $key => $value) {
                 $markerArray['###' . $key . '###'] = $value;
             }
         }
@@ -123,6 +123,7 @@ class tx_ttboard_marker {
         $markerKey,
         $lConf
     ) {
+        $conf = $this->getConf();
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer(
             $row,
             $modelObj->getTablename()
@@ -170,17 +171,17 @@ class tx_ttboard_marker {
         $markerArray['###POST_DATE###'] =
             $local_cObj->stdWrap(
                 $recentDate,
-                $this->conf['date_stdWrap.']
+                $conf['date_stdWrap.']
             );
         $markerArray['###POST_TIME###'] =
             $local_cObj->stdWrap(
                 $recentDate,
-                $this->conf['time_stdWrap.']
+                $conf['time_stdWrap.']
             );
         $markerArray['###POST_AGE###'] =
             $local_cObj->stdWrap(
                 $recentDate,
-                $this->conf['age_stdWrap.']
+                $conf['age_stdWrap.']
             );
     }
 
@@ -236,22 +237,44 @@ class tx_ttboard_marker {
         return $result;
     }
 
+
     /**
     * Emoticons substitution
     */
     public function substituteEmoticons ($str) {
-        if ($this->emoticons) {
-            foreach($this->emoticonsSubst as $source => $dest) {
-                $str =
-                    str_replace(
-                        $source,
-                        str_replace(
-                            '{}',
-                            $this->emoticonsPath . $dest,
-                            $this->emoticonsTag
-                        ),
-                        $str
+        $conf = $this->getConf();
+
+        if (
+            isset($conf['emoticons']) &&
+            $conf['emoticons'] &&
+            isset($conf['emoticons.']) &&
+            isset($conf['emoticons.']['substitute.']) &&
+            isset($conf['emoticons.']['path']) &&
+            isset($conf['emoticons.']['icon']) &&
+            isset($conf['emoticons.']['icon.'])
+        ) {
+            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+            $image = $conf['emoticons.']['icon.'];
+            foreach ($conf['emoticons.']['substitute.'] as $key => $substitute) {
+                if (
+                    isset($substitute['source']) &&
+                    isset($substitute['destination'])
+                ) {
+                    $source = $substitute['source'];
+                    $image['file'] = $conf['emoticons.']['path'] . $substitute['destination'];
+                    $destination = $local_cObj->getContentObject(
+                        $conf['emoticons.']['icon']
+                    )->render(
+                        $image
                     );
+
+                    $str =
+                        str_replace(
+                            $source,
+                            $destination,
+                            $str
+                        );
+                }
             }
         }
         return $str;
@@ -319,7 +342,7 @@ class tx_ttboard_marker {
     ) {
         $browseObj =
             $this->getBrowserObj(
-                $conf,
+                $this->getConf(),
                 $browserConf,
                 $recordCount,
                 $piVars,
@@ -402,5 +425,4 @@ class tx_ttboard_marker {
         }
     }
 }
-
 
