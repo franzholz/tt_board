@@ -1,3 +1,10 @@
+2017-08-12 Franz Holzinger <franz@ttproducts.de>
+    * restructuring of code into the Classes folder by the usage of namespaces
+    * rename model/class.tx_ttboard_language.php => Classes/Api/Localization.php
+    * rename lib/class.tx_ttboard_pibase.php => Classes/Controller/ActionController.php
+    * rename pi_list/class.tx_ttboard_pi_list.php => Classes/Controller/ListPluginController.php
+    * rename pi_tree/class.tx_ttboard_pi_tree.php => Classes/Controller/TreePluginController.php
+
 2017-08-11 Franz Holzinger <franz@ttproducts.de>
     * bugfix: show emoticons and make them configurable
     * remove pibase class from marker object

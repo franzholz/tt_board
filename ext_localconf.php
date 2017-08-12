@@ -58,7 +58,7 @@ if (
 }
 
 
-    // add missing setup for the tt_content "list_type = 2" which is used by tt_board
+    // add missing setup for the tt_content "list_type = 2" which is used by the tt_board tree view forum
 $addLine = trim('
 tt_content.list.20.2 = CASE
 tt_content.list.20.2 {
@@ -76,7 +76,7 @@ call_user_func(
     43
 );
 
-    // add missing setup for the tt_content "list_type = 4" which is used by tt_board
+    // add missing setup for the tt_content "list_type = 4" which is used by the tt_board list view forum
 $addLine = trim('
 tt_content.list.20.4 = CASE
 tt_content.list.20.4 {

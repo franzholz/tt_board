@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtBoard\Controller;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -21,130 +24,27 @@
 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *  GNU General Public License for more details.
-*0
+*
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * boardLib.inc
- *
- * Creates a forum/board in tree or list style
+ * Creates a forum/board in tree style
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
 
-
-class tx_ttboard_pi_tree extends tx_ttboard_pibase {
-    public $prefixId = 'tx_ttboard_pi_tree';	// Same as class name
-    public $scriptRelPath = 'pi_list/class.tx_ttboard_pi_tree.php';	// Path to this script relative to the extension dir.
-    public $list_type = '2';
-
+class TreePluginController extends RegisterPluginController {
 
     /**
-    * Main board function. Call this from TypoScript
-    */
-    public function main ($content, $conf) {
-        $bOrigInitCalled = false;
-        $this->conf = $conf;
-        $codeArray = $this->getCodeArray($conf);
-        $bCreate = true;
+     * @var string
+     */
+    public $prefixId = 'tt_board_tree';
 
-        foreach ($codeArray as $k => $theCode) {
-            $theCode = (string)strtoupper(trim($theCode));
-            switch($theCode) {
-                default:
-                    $setupCode = $conf['userFunc.'][$theCode];
-                    if ($setupCode) {
-                        $bOrigInitCalled = false;
-                        $setup = $conf['userFunc.'][$theCode . '.'];
-                        $newConf = $conf;
-                        tx_div2007_core::mergeRecursiveWithOverrule(
-                            $newConf,
-                            $setup['10.']
-                        );
-
-                        unset($newConf['userFunc.']);
-                        $newSetup = array();
-                        if ($setupCode == 'COA') {
-                            $newSetup['10'] = 'USER';
-                        } else {
-                            $newSetup['10'] = 'USER_INT';
-                        }
-                        $newSetup['10'] = 'USER';
-                        $newSetup['10.'] = $newConf;
-                        $content .= $this->cObj->cObjGetSingle($setupCode, $newSetup);
-                    } else {
-                        if (!$bOrigInitCalled) {
-                            $bOrigInitCalled = true;
-                            parent::init ($content, $conf);
-                        }
-                        parent::processCode($theCode, $content);
-                    }
-                break;
-            }	// Switch
-
-            if ($this->errorMessage) {
-                break;
-            }
-        }
-        return $content;
-    }
-
-
-    public function help ($content, $conf) {
-        parent::init($content, $conf);
-        parent::processCode('HELP', $content);
-        return $content;
-    }
-
-
-    public function listCagetories ($content, $conf) {
-        parent::init($content, $conf);
-        parent::processCode('LIST_CATEGORIES', $content);
-        return $content;
-    }
-
-
-    public function listForums ($content, $conf) {
-        parent::init($content, $conf);
-        parent::processCode('LIST_FORUMS', $content);
-        return $content;
-    }
-
-
-    public function forum ($content, $conf) {
-        parent::init($content, $conf);
-        parent::processCode('FORUM', $content);
-        return $content;
-    }
-
-
-    public function postForm ($content, $conf) {
-        parent::init($content, $conf);
-        parent::processCode('POSTFORM', $content);
-        return $content;
-    }
-
-
-    public function postFormReply ($content, $conf) {
-        parent::init($content, $conf);
-        parent::processCode('POSTFORM_REPLY', $content);
-        return $content;
-    }
-
-
-    public function thread ($content, $conf) {
-        parent::init($content, $conf);
-        parent::processCode('POSTFORM_THREAD', $content);
-        return $content;
-    }
-
-
-    public function threadTree ($content, $conf) {
-        parent::init($content, $conf);
-        parent::processCode('THREAD_TREE', $content);
-        return $content;
-    }
+    /**
+     * @var string
+     */
+    public $list_type = '2';
 }
 

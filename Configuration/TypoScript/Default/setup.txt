@@ -3,10 +3,6 @@
 ## @subpackage tt_boad
 ##
 
-## Includes tt_board as a TYPO3 extension:
-includeLibs.tt_board_list = EXT:tt_board/pi_tree/class.tx_ttboard_pi_list.php
-includeLibs.tt_board_tree = EXT:tt_board/pi_tree/class.tx_ttboard_pi_tree.php
-
 
 ## Sets up the fields, that may be submitted in order to create items. Mandatory!
 FEData.tt_board >
@@ -133,66 +129,73 @@ temp.tt_board.shared {
     path = EXT:tt_board/Resources/Public/Icons/Emoticons/
     icon = IMAGE
     icon {
-        params = valign="bottom" hspace=4
+      params = valign="bottom" hspace=4
     }
     substitute {
-        10.source = >:-<
-        10.destination = angry.gif
-        20.source = :D
-        20.destination = grin.gif
-        30.source = :-(
-        30.destination = sad.gif
-        40.source = :-)
-        40.destination = smile.gif
-        50.source = :-P
-        50.destination = tongue.gif
-        60.source = ;-P
-        60.destination = tonguewink.gif
-        70.source = :-D
-        70.destination = veryhappy.gif
-        80.source = ;-)
-        80.destination = wink.gif
+      10.source = >:-<
+      10.destination = angry.gif
+      20.source = :D
+      20.destination = grin.gif
+      30.source = :-(
+      30.destination = sad.gif
+      40.source = :-)
+      40.destination = smile.gif
+      50.source = :-P
+      50.destination = tongue.gif
+      60.source = ;-P
+      60.destination = tonguewink.gif
+      70.source = :-D
+      70.destination = veryhappy.gif
+      80.source = ;-)
+      80.destination = wink.gif
     }
   }
 }
 
 
-temp.userFuncList = tx_ttboard_pi_list->main
+temp.userFuncList = JambageCom\TtBoard\Controller\ListPluginController->main
 temp.userFuncList {
 
-  HELP = COA_INT
+  HELP = COA
   HELP {
-    10.userFunc = tx_ttboard_pi_list->help
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->help
   }
 
   LIST_CATEGORIES = COA
   LIST_CATEGORIES {
-    10.userFunc = tx_ttboard_pi_list->listCagetories
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->listCategories
   }
 
   LIST_FORUMS = COA
   LIST_FORUMS {
-    10.userFunc = tx_ttboard_pi_list->listForums
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->listForums
   }
 
   FORUM = COA
   FORUM {
-    10.userFunc = tx_ttboard_pi_list->forum
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->forum
   }
 
-  POSTFORM = COA_INT
+  POSTFORM = COA
   POSTFORM {
-    10.userFunc = tx_ttboard_pi_list->postForm
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->postForm
   }
 
-  POSTFORM_REPLY = COA_INT
+  POSTFORM_REPLY = COA
   POSTFORM_REPLY {
-    10.userFunc = tx_ttboard_pi_list->postFormReply
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->postFormReply
   }
 
-  POSTFORM_THREAD = COA_INT
+  POSTFORM_THREAD = COA
   POSTFORM_THREAD {
-    10.userFunc = tx_ttboard_pi_list->thread
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->thread
   }
 }
 
@@ -214,6 +217,9 @@ plugin.tt_board_list {
   color3.wrap = {$plugin.tt_board_list.color3}
   color4.wrap = {$plugin.tt_board_list.color4}
 
+    # Disallows for the forum to draw it as a tree
+  tree = 0
+
   _CSS_DEFAULT_STYLE < temp.tt_board.css._CSS_DEFAULT_STYLE
 }
 
@@ -225,51 +231,57 @@ tt_board_list.displayCurrentRecord = 1
 
 
 
-temp.userFuncTree = tx_ttboard_pi_tree->main
+temp.userFuncTree = JambageCom\TtBoard\Controller\TreePluginController->main
 temp.userFuncTree {
 
-  HELP = COA_INT
+  HELP = COA
   HELP {
-    10.userFunc = tx_ttboard_pi_tree->help
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->help
   }
 
   LIST_CATEGORIES = COA
   LIST_CATEGORIES {
-    10.userFunc = tx_ttboard_pi_tree->listCagetories
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->listCategories
   }
 
   LIST_FORUMS = COA
   LIST_FORUMS {
-    10.userFunc = tx_ttboard_pi_tree->listForums
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->listForums
   }
 
   FORUM = COA
   FORUM {
-    10.userFunc = tx_ttboard_pi_tree->forum
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->forum
   }
 
-  POSTFORM = COA_INT
+  POSTFORM = COA
   POSTFORM {
-    10.userFunc = tx_ttboard_pi_tree->postForm
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->postForm
   }
 
-  POSTFORM_REPLY = COA_INT
+  POSTFORM_REPLY = COA
   POSTFORM_REPLY {
-    10.userFunc = tx_ttboard_pi_tree->postFormReply
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->postFormReply
   }
 
-  POSTFORM_THREAD = COA_INT
+  POSTFORM_THREAD = COA
   POSTFORM_THREAD {
-    10.userFunc = tx_ttboard_pi_tree->thread
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->thread
   }
 
   THREAD_TREE = COA
   THREAD_TREE {
-    10.userFunc = tx_ttboard_pi_tree->threadTree
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->threadTree
   }
 }
-
-
 
 
 
@@ -290,7 +302,7 @@ plugin.tt_board_tree {
 
     # Allows for elements to be viewed one at a time and not parent+childs
   view_thread.single = 1
-    # Allows for the forum to draw as a tree
+    # Allows for the forum to draw it as a tree
   tree = 1
 
   list_forums.author_stdWrap.wrap = by |

@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtBoard\Api;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -38,26 +41,34 @@
 
 
 
-class tx_ttboard_language extends tx_div2007_alpha_language_base {
+class Localization extends \JambageCom\Div2007\Base\LocalisationBase implements \TYPO3\CMS\Core\SingletonInterface {
 
     public function init1 ($pObj, $cObj, $conf, $scriptRelPath) {
-        parent::init(
+
+        $this->init(
             $cObj,
             TT_BOARD_EXT,
             $conf,
             $scriptRelPath
         );
 
-        if (isset($pObj) && is_object($pObj)) {
-            if (isset($pObj->LOCAL_LANG) && is_array($pObj->LOCAL_LANG)) {
-                $this->LOCAL_LANG = $pObj->LOCAL_LANG;
-            }
-            if (isset($pObj->LOCAL_LANG_charset) && is_array($pObj->LOCAL_LANG_charset)) {
-                $this->LOCAL_LANG_charset = $pObj->LOCAL_LANG_charset;
-            }
-            if (isset($pObj->LOCAL_LANG_loaded) && is_array($pObj->LOCAL_LANG_loaded)) {
-                $this->LOCAL_LANG_loaded = $pObj->LOCAL_LANG_loaded;
-            }
+        // keep previsous language settings if available
+        if (
+            isset($pObj->LOCAL_LANG) &&
+            is_array($pObj->LOCAL_LANG)
+        ) {
+            $this->setLocallang($pObj->LOCAL_LANG);
+        }
+
+        if (
+            isset($pObj->LOCAL_LANG_charset) &&
+            is_array($pObj->LOCAL_LANG_charset)
+        ) {
+            $this->setLocallangCharset($pObj->LOCAL_LANG_charset);
+        }
+
+        if (isset($pObj->LOCAL_LANG_loaded)) {
+            $this->setLocallangLoaded($pObj->LOCAL_LANG_loaded);
         }
 
         return true;

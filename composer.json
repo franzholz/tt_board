@@ -37,8 +37,6 @@
       "lib/",
       "marker/",
       "model/",
-      "pi_list/",
-      "pi_tree/",
       "view/"
     ]
   },
