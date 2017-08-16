@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtBoard\View;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -25,7 +28,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * class.tx_ttboard_forum.php
  *
  * Function library for a forum/board in tree or list style
  *
@@ -41,7 +43,7 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class tx_ttboard_forum {
+class Forum implements \TYPO3\CMS\Core\SingletonInterface {
     public $conf;
     public $typolink_conf;
     public $allowCaching;
@@ -82,7 +84,7 @@ class tx_ttboard_forum {
         $linkParams
     ) {
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        $controlObj = GeneralUtility::getUserObj('JambageCom\Div2007\Utility\ControlUtility');
+        $controlObj = GeneralUtility::makeInstance('JambageCom\Div2007\Utility\ControlUtility');
         $recentPosts = array();
         $searchWord = $controlObj->readGP('sword', $this->prefixId);
         $pointerName = 'pointer';
@@ -173,7 +175,7 @@ class tx_ttboard_forum {
                     // Link to next thread
                 $linkParams[$this->prefixId . '[uid]'] = $nextThread['uid'];
                 $url =
-                    tx_div2007_alpha5::getPageLink_fh003(
+                    \tx_div2007_alpha5::getPageLink_fh003(
                         $local_cObj,
                         $this->pid,
                         '',
@@ -190,7 +192,7 @@ class tx_ttboard_forum {
 
                     // Link to prev thread
                 $linkParams[$this->prefixId . '[uid]'] = $prevThread['uid'];
-                $url = tx_div2007_alpha5::getPageLink_fh003(
+                $url = \tx_div2007_alpha5::getPageLink_fh003(
                     $local_cObj,
                     $this->pid,
                     '',
@@ -206,7 +208,7 @@ class tx_ttboard_forum {
 
                     // Link to first !!
                 $linkParams[$this->prefixId . '[uid]' ] = $rootParent['uid'];
-                $url = tx_div2007_alpha5::getPageLink_fh003(
+                $url = \tx_div2007_alpha5::getPageLink_fh003(
                     $local_cObj,
                     $this->pid,
                     '',
@@ -264,7 +266,7 @@ class tx_ttboard_forum {
                         // Link to the post
                     $linkParams[$this->prefixId . '[uid]'] = $recentPost['uid'];
                     $url =
-                        tx_div2007_alpha5::getPageLink_fh003(
+                        \tx_div2007_alpha5::getPageLink_fh003(
                             $local_cObj,
                             $this->pid,
                             '',
@@ -281,7 +283,7 @@ class tx_ttboard_forum {
                         // Link to next thread
                     $linkParams[$this->prefixId . '[uid]'] = ($recentPost['nextUid'] ? $recentPost['nextUid'] : $nextThread['uid']);
                     $url =
-                        tx_div2007_alpha5::getPageLink_fh003(
+                        \tx_div2007_alpha5::getPageLink_fh003(
                             $local_cObj,
                             $this->pid,
                             '',
@@ -302,7 +304,7 @@ class tx_ttboard_forum {
                             $nextThread['uid']
                         );
                     $url =
-                        tx_div2007_alpha5::getPageLink_fh003(
+                        \tx_div2007_alpha5::getPageLink_fh003(
                             $local_cObj,
                             $this->pid,
                             '',
@@ -512,7 +514,7 @@ class tx_ttboard_forum {
 
                         $linkParams[$this->prefixId . '[uid]'] = $recentPost['uid'];
                         $url =
-                            tx_div2007_alpha5::getPageLink_fh003(
+                            \tx_div2007_alpha5::getPageLink_fh003(
                                 $local_cObj,
                                 $this->pid,
                                 '',
@@ -562,7 +564,7 @@ class tx_ttboard_forum {
                             // Link to the last post
                         $linkParams[$this->prefixId . '[uid]'] = $lastPostInfo['uid'];
                         $url =
-                            tx_div2007_alpha5::getPageLink_fh003(
+                            \tx_div2007_alpha5::getPageLink_fh003(
                                 $local_cObj,
                                 $this->pid,
                                 '',
@@ -617,7 +619,6 @@ class tx_ttboard_forum {
             } // if($continue) {
         }
         return $content;
-    } // forum_forum
-
+    } // printView
 }
 

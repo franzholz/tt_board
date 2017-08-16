@@ -82,7 +82,7 @@ class ActionController {
             break;
             case 'FORUM':
             case 'THREAD_TREE':
-                $forumViewObj = GeneralUtility::getUserObj('tx_ttboard_forum');
+                $forumViewObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
                 if ($forumViewObj->needsInit()) {
 
                     $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);

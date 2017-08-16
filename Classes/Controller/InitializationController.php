@@ -114,8 +114,8 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
         $markerObj = GeneralUtility::makeInstance('tx_ttboard_marker');
         $markerObj->init($conf);
         $composite->setMarkerObj($markerObj);
-        $modelObj = GeneralUtility::makeInstance('tx_ttboard_model');
-        $modelObj->init($cObj);
+        $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
+        $modelObj->init();
         $composite->setModelObj($modelObj);
 
         $globalMarkerArray = $markerObj->getGlobalMarkers($cObj);

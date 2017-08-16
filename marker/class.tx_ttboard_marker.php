@@ -106,7 +106,7 @@ class tx_ttboard_marker {
             // Call all addURLMarkers hooks at the end of this method
         if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
             foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
-                $hookObj= GeneralUtility::getUserObj($classRef);
+                $hookObj= GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addGlobalMarkers')) {
                     $hookObj->addGlobalMarkers($markerArray);
                 }
@@ -302,7 +302,7 @@ class tx_ttboard_marker {
         $pagefloat = 0;
         $imageArray = array();
         $imageActiveArray = array();
-        $browseObj = t3lib_div::getUserObj('tx_div2007_alpha_browse_base');
+        $browseObj = t3lib_div::makeInstance('tx_div2007_alpha_browse_base');
         $browseObj->init_fh002(
             $conf,
             $piVars,

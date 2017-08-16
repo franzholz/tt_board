@@ -1,3 +1,7 @@
+2017-08-16 Franz Holzinger <franz@ttproducts.de>
+    * rename model/class.tx_ttboard_model.php => Classes/Domain/TtBoard.php
+    * rename view/class.tx_ttboard_forum.php => Classes/View/Forum.php
+
 2017-08-12 Franz Holzinger <franz@ttproducts.de>
     * restructuring of code into the Classes folder by the usage of namespaces
     * rename model/class.tx_ttboard_language.php => Classes/Api/Localization.php

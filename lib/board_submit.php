@@ -55,7 +55,9 @@ if (is_object($this)) {
     if (is_array($row)) {
         $email = $row['email'];
     }
-    $allowed = tx_ttboard_model::isAllowed($conf['memberOfGroups']);
+    $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
+    $modelObj->init();
+    $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
 
     if (
         $allowed &&
@@ -70,7 +72,7 @@ if (is_object($this)) {
 
                 if ($conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap')) {
                     require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
-                    $freeCapObj = GeneralUtility::getUserObj('tx_srfreecap_pi2');
+                    $freeCapObj = GeneralUtility::makeInstance('tx_srfreecap_pi2');
                     if (!$freeCapObj->checkWord($row['captcha'])) {
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;

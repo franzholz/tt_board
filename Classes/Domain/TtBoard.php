@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtBoard\Domain;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -40,7 +43,7 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class tx_ttboard_model {
+class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
 
     public $treeIcons = array(
         'joinBottom' => '\\-',
@@ -52,17 +55,24 @@ class tx_ttboard_model {
     );
     public $enableFields = '';		// The enablefields of the tt_board table.
     public $searchFieldList = 'author,email,subject,message';
-    public $cObj;
     protected $tablename = 'tt_board';
 
 
-    public function init ($cObj) {
-        $this->cObj = $cObj;
-        $this->enableFields = $this->cObj->enableFields($this->tablename);
+    public function init () {
+        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($this->tablename);
+        $this->setEnableFields($enableFields);
     }
 
     public function getTablename() {
         return $this->tablename;
+    }
+
+    public function setEnableFields ($value) {
+        $this->enableFields = $value;
+    }
+
+    public function getEnableFields () {
+        return $this->enableFields;
     }
 
     static public function getWhereRef ($ref) {
@@ -108,7 +118,7 @@ class tx_ttboard_model {
     */
     public function getRecordTree (&$theRows, $parent, $pid, $ref, $treeIcons = '') {
         $whereRef = $this->getWhereRef($ref);
-        $where = 'pid=' . intval($pid) . ' AND parent=' . intval($parent) . $whereRef . $this->enableFields;
+        $where = 'pid=' . intval($pid) . ' AND parent=' . intval($parent) . $whereRef . $this->getEnableFields();
 
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -188,21 +198,13 @@ class tx_ttboard_model {
     * Returns number of post in a forum.
     */
     public function getNumPosts ($pid) {
-        $where = 'pid IN (' . $pid . ')' . $this->enableFields;
+        $where = 'pid IN (' . $pid . ')' . $this->getEnableFields();
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->tablename, $where);
         $row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
         return $row[0];
     }
 
-
-// 	public function getNumThreads ($pid) {
-// 		$where = 'pid IN (' . $pid . ') AND parent=0' . $this->enableFields;
-// 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->tablename, $where);
-// 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
-// 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
-// 		return $row[0];
-// 	}
 
     /**
     * Returns number of threads.
@@ -212,13 +214,14 @@ class tx_ttboard_model {
         $whereRef = $this->getWhereRef($ref);
 
         if ($searchWord) {
+            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
             $where =
-                $this->cObj->searchWhere(
+                $local_cObj->searchWhere(
                     $searchWord,
                     $this->searchFieldList,
                     $this->tablename
                 );
-            $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->enableFields;
+            $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->getEnableFields();
             $count =
                 $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
                     '*',
@@ -226,7 +229,7 @@ class tx_ttboard_model {
                     $where
                 );
         } else {
-            $where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->enableFields;
+            $where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->getEnableFields();
             $count =
                 $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
                     '*',
@@ -244,7 +247,7 @@ class tx_ttboard_model {
     * Returns number of replies.
     */
     public function getNumReplies ($pid, $uid) {
-        $where = 'pid IN (' . $pid . ') AND parent=' . intval($uid) . $this->enableFields;
+        $where = 'pid IN (' . $pid . ') AND parent=' . intval($uid) . $this->getEnableFields();
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->tablename, $where);
         $row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
@@ -256,7 +259,7 @@ class tx_ttboard_model {
     * Returns last post.
     */
     public function getLastPost ($pid) {
-        $where = 'pid IN (' . $pid . ')' . $this->enableFields;
+        $where = 'pid IN (' . $pid . ')' . $this->getEnableFields();
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',
@@ -277,7 +280,7 @@ class tx_ttboard_model {
     */
     public function getLastPostInThread ($pid, $uid, $ref) {
         $whereRef = $this->getWhereRef($ref);
-        $where = 'pid IN (' . $pid . ') AND parent=' . $uid . $whereRef . $this->enableFields;
+        $where = 'pid IN (' . $pid . ') AND parent=' . $uid . $whereRef . $this->getEnableFields();
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',
@@ -307,7 +310,7 @@ class tx_ttboard_model {
             $timeWhere = ' AND crdate >= ' . $temptime;
         }
 
-        $where = 'pid IN (' . $pid . ')' . $timeWhere . $this->enableFields;
+        $where = 'pid IN (' . $pid . ')' . $timeWhere . $this->getEnableFields();
 
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -349,13 +352,14 @@ class tx_ttboard_model {
         }
 
         if ($searchWord) {
+            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
             $where =
-                $this->cObj->searchWhere(
+                $local_cObj->searchWhere(
                     $searchWord,
                     $this->searchFieldList,
                     $this->tablename
                 );
-            $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->enableFields;
+            $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->getEnableFields();
             $res =
                 $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     '*',
@@ -383,7 +387,7 @@ class tx_ttboard_model {
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
         } else {
-            $where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->enableFields;
+            $where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->getEnableFields();
             $res =
                 $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     '*',
@@ -422,7 +426,7 @@ class tx_ttboard_model {
                 $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     '*',
                     'tt_board',
-                    'uid=' . $uid . $whereRef . $this->enableFields
+                    'uid=' . $uid . $whereRef . $this->getEnableFields()
                 );
 
             if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
@@ -460,7 +464,7 @@ class tx_ttboard_model {
                             $value,
                             'tt_board'
                         ) .
-                        $this->enableFields
+                        $this->getEnableFields()
                 );
 
             if($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
@@ -487,7 +491,7 @@ class tx_ttboard_model {
     */
     public function getThreadRoot ($pid, $rootParent, $type = 'next') {
         $datePart = ' AND crdate' . ($type != 'next' ? '>' : '<') . intval($rootParent['crdate']);
-        $where = 'pid IN (' . $pid . ') AND parent=0' . $datePart . $this->enableFields;
+        $where = 'pid IN (' . $pid . ') AND parent=0' . $datePart . $this->getEnableFields();
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',
