@@ -1,3 +1,8 @@
+
+2017-08-21 Franz Holzinger <franz@ttproducts.de>
+    * rename lib/board_submit.php => Classes/Controller/Submit.php
+    * rename marker/class.tx_ttboard_marker.php => Classes/View/Marker.php
+
 2017-08-16 Franz Holzinger <franz@ttproducts.de>
     * rename model/class.tx_ttboard_model.php => Classes/Domain/TtBoard.php
     * rename view/class.tx_ttboard_forum.php => Classes/View/Forum.php
