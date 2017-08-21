@@ -111,7 +111,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
         );
 
         $composite->setLanguageObj($languageObj);
-        $markerObj = GeneralUtility::makeInstance('tx_ttboard_marker');
+        $markerObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Marker::class);
         $markerObj->init($conf);
         $composite->setMarkerObj($markerObj);
         $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);

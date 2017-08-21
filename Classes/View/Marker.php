@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtBoard\View;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -39,7 +42,7 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class tx_ttboard_marker {
+class Marker {
     protected $conf;
     protected $dontParseContent = 0;
 
@@ -192,7 +195,7 @@ class tx_ttboard_marker {
         foreach ($locallang['default'] as $k => $text) {
             if (strpos($k, 'board') === 0) {
                 $markerArray['###' . strtoupper($k) . '###'] =
-                    tx_div2007_alpha5::getLL_fh003(
+                    \tx_div2007_alpha5::getLL_fh003(
                         $languageObj,
                         $k
                     );
@@ -200,7 +203,7 @@ class tx_ttboard_marker {
         }
 
         $markerArray['###BUTTON_SEARCH###'] =
-            tx_div2007_alpha5::getLL_fh003(
+            \tx_div2007_alpha5::getLL_fh003(
                 $languageObj,
                 'button_search'
             );
@@ -302,7 +305,7 @@ class tx_ttboard_marker {
         $pagefloat = 0;
         $imageArray = array();
         $imageActiveArray = array();
-        $browseObj = t3lib_div::makeInstance('tx_div2007_alpha_browse_base');
+        $browseObj = GeneralUtility::makeInstance('tx_div2007_alpha_browse_base');
         $browseObj->init_fh002(
             $conf,
             $piVars,
@@ -361,7 +364,7 @@ class tx_ttboard_marker {
                     $begin_at + $limit;
             $addQueryString[$pointerName] = intval($next / $limit);
             $tempUrl =
-                tx_div2007_alpha5::linkTP_keepCtrlVars(
+                \tx_div2007_alpha5::linkTP_keepCtrlVars(
                     $browseObj,
                     $cObj,
                     $prefixId,
@@ -379,7 +382,7 @@ class tx_ttboard_marker {
             $prev = ($begin_at - $limit < 0) ? 0 : $begin_at - $limit;
             $addQueryString[$pointerName] = intval($prev / $limit);
             $tempUrl =
-                tx_div2007_alpha5::linkTP_keepCtrlVars(
+                \tx_div2007_alpha5::linkTP_keepCtrlVars(
                     $browseObj,
                     $cObj,
                     $prefixId,
@@ -401,7 +404,7 @@ class tx_ttboard_marker {
                 $wrappedSubpartArray['###LINK_BROWSE###'] = array('', '');
 
                 $markerArray['###BROWSE_LINKS###'] =
-                    tx_div2007_alpha5::list_browseresults_fh004(
+                    \tx_div2007_alpha5::list_browseresults_fh004(
                         $browseObj,
                         $languageObj,
                         $cObj,

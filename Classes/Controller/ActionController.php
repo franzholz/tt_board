@@ -44,7 +44,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class ActionController {
+class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
     public function processCode ($theCode, &$content, $storeObject) {
 

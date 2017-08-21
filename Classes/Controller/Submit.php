@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtBoard\Controller;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -25,8 +28,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * board_submit.php
- *
  * See TSref document: boardLib.inc / FEDATA section for details on how to use this script.
  * The static template 'plugin.tt_board' provides a working example of configuration.
  *
@@ -39,282 +40,297 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
 
+use JambageCom\TslibFetce\Controller\TypoScriptFrontendDataController;
 use JambageCom\Div2007\Utility\MailUtility;
 
-if (is_object($this)) {
+class Submit implements \TYPO3\CMS\Core\SingletonInterface {
 
-    $conf = $this->extScriptsConf[TT_BOARD_EXT];
-    $row = $this->newData[TT_BOARD_EXT]['NEW'];
-    $prefixId = $row['prefixid'];
-    unset($row['prefixid']);
-    $pid = intval($row['pid']);
-    $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-    $local_cObj->setCurrentVal($pid);
-    $allowCaching = $conf['allowCaching'] ? 1 : 0;
+    static public function execute (TypoScriptFrontendDataController $pObj, $conf) {
 
-    if (is_array($row)) {
-        $email = $row['email'];
-    }
-    $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
-    $modelObj->init();
-    $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
+        $row = $pObj->newData[TT_BOARD_EXT]['NEW'];
 
-    if (
-        $allowed &&
-        (
-            !$conf['emailCheck'] ||
-            MailUtility::checkMXRecord($email)
-        )
-    ) {
-        if (is_array($row) && trim($row['message'])) {
-            do {
-                $internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
+        $prefixId = $row['prefixid'];
+        unset($row['prefixid']);
+        $pid = intval($row['pid']);
+        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $local_cObj->setCurrentVal($pid);
+        $allowCaching = $conf['allowCaching'] ? 1 : 0;
 
-                if ($conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap')) {
-                    require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
-                    $freeCapObj = GeneralUtility::makeInstance('tx_srfreecap_pi2');
-                    if (!$freeCapObj->checkWord($row['captcha'])) {
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row['captcha'];
-                        break;
-                    }
-                }
+        if (is_array($row)) {
+            $email = $row['email'];
+        }
+        $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
+        $modelObj->init();
+        $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
 
-                $spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
-                $bSpamFound = false;
-
-                foreach ($row as $field => $value) {
-                    if (!in_array($field, $internalFieldArray)) {
-                        foreach ($spamArray as $k => $word) {
-                            if ($word && stripos($value, $word) !== false) {
-                                $bSpamFound = true;
-                                break;
-                            }
-                        }
-                    }
-                    if ($bSpamFound) {
-                        break;
-                    }
-                    $row[$field] = $value;
-                }
-
-                if ($bSpamFound) {
-                    $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['spam'] = true;
-                    $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
-                    $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $word;
-                    break;
-                } else {
-                    $row['cr_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
-                    if (isset($row['captcha'])) {
-                        unset($row['captcha']);
-                    }
-
-                        // Plain insert of record:
-                    $this->execNEWinsert('tt_board', $row);
-                    $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
-
-                        // Link to this thread
-                    $linkParams = array();
-                    if ($GLOBALS['TSFE']->type) {
-                        $linkParams['type'] = $GLOBALS['TSFE']->type;
-                    }
-                    $linkParams[$prefixId . '[uid]'] = $newId;
-                    $url =
-                        tx_div2007_alpha5::getPageLink_fh003(
-                            $local_cObj,
-                            $pid,
-                            '',
-                            $linkParams,
-                            array(
-                                'useCacheHash' => $allowCaching,
-                                'forceAbsoluteUrl' => 1
-                            )
-                        );
-
-                    $this->clear_cacheCmd($pid);
-                    $GLOBALS['TSFE']->clearPageCacheContent_pidList($pid);
-                    if ($pid != $GLOBALS['TSFE']->id) {
-                        $this->clear_cacheCmd($GLOBALS['TSFE']->id);
-                        $GLOBALS['TSFE']->clearPageCacheContent_pidList(
-                            $GLOBALS['TSFE']->id
-                        );
-                    }
-
-                        // Clear specific cache:
-                    if ($conf['clearCacheForPids']) {
-                        $ccPids = GeneralUtility::intExplode(',', $conf['clearCacheForPids']);
-                        foreach($ccPids as $ccPid) {
-                            if ($ccPid > 0) {
-                                $this->clear_cacheCmd($ccPid);
-                            }
-                        }
-                        $GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
-                    }
-
-                        // Send post to Mailing list ...
-                    if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email']) {
-                    /*
-                        TypoScript for this section (was used for the TYPO3 mailing list.
-                    FEData.tt_board.processScript {
-                        sendToMailingList = 1
-                        sendToMailingList {
-                            email = typo3@netfielders.de
-                            reply = submitmail@typo3.com
-                            namePrefix = Typo3Forum/
-                            altSubject = Post from www.typo3.com
-                        }
-                    }
-                    */
-                        $mConf = $conf['sendToMailingList.'];
-
-                        // If there is a FE-user group defined, then send notifiers to all FE-members of this group
-                        if ($mConf['sendToFEgroup']) {
-                            $res =
-                                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                                    '*',
-                                    'fe_users',
-                                    'usergroup=' . intval($mConf['sendToFEgroup'])
-                                );
-                            $c = 0;
-                            while($feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-                                $c++;
-                                $emails .= $feRow['email'] . ',';
-                            }
-                            $GLOBALS['TYPO3_DB']->sql_free_result($res);
-                            $maillist_recip = substr($emails, 0, -1);
-                            // else, send to sendToMailingList.email
-                        } else {
-                            $maillist_recip = $mConf['email'];
-                        }
-
-                        $maillist_header='From: ' . $mConf['namePrefix'] . $row['author'] . ' <' . $mConf['reply'] . '>' . chr(10);
-                        $maillist_header .= 'Reply-To: ' . $mConf['reply'];
-
-                            //  Subject
-                        if ($row['parent']) {	// RE:
-                            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid=' . intval($row['parent']));
-                            $parentRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-                            $GLOBALS['TYPO3_DB']->sql_free_result($res);
-                            $maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
-                        } else {	// New:
-                            $maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']) . ' [#' . $newId . ']';
-                        }
-
-                            // Message
-                        $maillist_msg = chr(10) . chr(10) . $conf['newReply.']['subjectPrefix'] . chr(10) . $row['subject'] . chr(10) . chr(10) . $conf['newReply.']['message'] . chr(10) . $row['message'] . chr(10) . chr(10) . $conf['newReply.']['author'] . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
-
-                        $maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10);
-                        $maillist_msg .= $url;
-
-                            // Send
-                        if ($conf['debug']) {
-                            debug($maillist_recip);
-                            debug($maillist_subject);
-                            echo nl2br($maillist_msg . chr(10));
-                            debug($maillist_header);
-                        } else {
-                            $addresses = GeneralUtility::trimExplode(',', $maillist_recip);
-
-                            foreach ($addresses as $email) {
-                                tx_div2007_email::sendMail(
-                                    $email,
-                                    $maillist_subject,
-                                    $maillist_msg,
-                                    '',
-                                    $mConf['reply'],
-                                    $mConf['namePrefix'] . $row['author']
-                                );
-                            }
-                        }
-                    }
-
-                    // Notify me...
-                    $notify = GeneralUtility::_POST('notify_me');
+        if (
+            $allowed &&
+            (
+                !$conf['emailCheck'] ||
+                MailUtility::checkMXRecord($email)
+            )
+        ) {
+            if (is_array($row) && trim($row['message'])) {
+                do {
+                    $internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
 
                     if (
-                        $notify &&
-                        $conf['notify'] &&
-                        trim($row['email']) &&
-                        (
-                            !$conf['emailCheck'] ||
-                            MailUtility::checkMXRecord($row['email'])
-                        )
+                        $conf['captcha'] == 'freecap' &&
+                        ExtensionManagementUtility::isLoaded('sr_freecap')
                     ) {
-                        $markersArray = array();
-                        $markersArray['###AUTHOR###'] = trim($row['author']);
-                        $markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
-                        $markersArray['###CR_IP###'] = $row['cr_ip'];
-                        $markersArray['###HOST###'] = GeneralUtility::getIndpEnv('HTTP_HOST');
-                        $markersArray['###URL###'] = $url;
-
-                        if ($row['parent']) {		// If reply and not new thread:
-                            $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
-                            $markersArray['###DID_WHAT###'] = $conf['newReply.']['didWhat'];
-                            $markersArray['###SUBJECT_PREFIX###'] = $conf['newReply.']['subjectPrefix'];
-                        } else {	// If new thread:
-                            $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
-                            $markersArray['###DID_WHAT###'] = $conf['newThread.']['didWhat'];
-                            $markersArray['###SUBJECT_PREFIX###'] = $conf['newThread.']['subjectPrefix'];
+                        require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
+                        $freeCapObj = GeneralUtility::makeInstance('tx_srfreecap_pi2');
+                        if (!$freeCapObj->checkWord($row['captcha'])) {
+                            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
+                            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
+                            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row['captcha'];
+                            break;
                         }
-                        $markersArray['###SUBJECT###'] = strtoupper($row['subject']);
-                        $markersArray['###BODY###'] = GeneralUtility::fixed_lgd_cs($row['message'], 1000);
+                    }
 
-                        foreach($markersArray as $marker => $markContent) {
-                            $msg = str_replace($marker, $markContent, $msg);
+                    $spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
+                    $bSpamFound = false;
+
+                    foreach ($row as $field => $value) {
+                        if (!in_array($field, $internalFieldArray)) {
+                            foreach ($spamArray as $k => $word) {
+                                if ($word && stripos($value, $word) !== false) {
+                                    $bSpamFound = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if ($bSpamFound) {
+                            break;
+                        }
+                        $row[$field] = $value;
+                    }
+
+                    if ($bSpamFound) {
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['spam'] = true;
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $word;
+                        break;
+                    } else {
+                        $row['cr_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
+                        if (isset($row['captcha'])) {
+                            unset($row['captcha']);
                         }
 
-                        $headers = array();
-                        if ($conf['notify_from']) {
-                            $headers[] = 'FROM: ' . $conf['notify_from'];
+                            // Plain insert of record:
+                        $pObj->execNEWinsert('tt_board', $row);
+                        $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
+
+                            // Link to this thread
+                        $linkParams = array();
+                        if ($GLOBALS['TSFE']->type) {
+                            $linkParams['type'] = $GLOBALS['TSFE']->type;
                         }
-
-                        $msgParts = explode(chr(10), $msg, 2);
-                        $emailList = GeneralUtility::rmFromList($row['email'], $notify);
-
-                        $notifyMe =
-                            GeneralUtility::uniqueList(
-                                $emailList
+                        $linkParams[$prefixId . '[uid]'] = $newId;
+                        $url =
+                            \tx_div2007_alpha5::getPageLink_fh003(
+                                $local_cObj,
+                                $pid,
+                                '',
+                                $linkParams,
+                                array(
+                                    'useCacheHash' => $allowCaching,
+                                    'forceAbsoluteUrl' => 1
+                                )
                             );
 
-                        if ($conf['debug']) {
-                            debug($notifyMe);
-                            debug($headers);
-                            debug($msgParts);
-                        } else {
-                            $addresses = GeneralUtility::trimExplode(',', $notifyMe);
-                            $senderArray = preg_split('/(<|>)/', $conf['notify_from'], 3, PREG_SPLIT_DELIM_CAPTURE);
-                            if (count($senderArray) >= 4) {
-                                $fromEmail = $senderArray[2];
-                            } else {
-                                $fromEmail = $senderArray[0];
+                        $pObj->clear_cacheCmd($pid);
+                        $GLOBALS['TSFE']->clearPageCacheContent_pidList($pid);
+                        if ($pid != $GLOBALS['TSFE']->id) {
+                            $pObj->clear_cacheCmd($GLOBALS['TSFE']->id);
+                            $GLOBALS['TSFE']->clearPageCacheContent_pidList(
+                                $GLOBALS['TSFE']->id
+                            );
+                        }
+
+                            // Clear specific cache:
+                        if ($conf['clearCacheForPids']) {
+                            $ccPids = GeneralUtility::intExplode(',', $conf['clearCacheForPids']);
+                            foreach($ccPids as $ccPid) {
+                                if ($ccPid > 0) {
+                                    $pObj->clear_cacheCmd($ccPid);
+                                }
                             }
-                            $fromName = $senderArray[0];
-                            foreach ($addresses as $email) {
-                                tx_div2007_email::sendMail(
-                                    $email,
-                                    $msgParts[0],
-                                    $msgParts[1],
-                                    '',
-                                    $fromEmail,
-                                    $fromName
+                            $GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
+                        }
+
+                            // Send post to Mailing list ...
+                        if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email']) {
+                        /*
+                            TypoScript for this section (was used for the TYPO3 mailing list.
+                        FEData.tt_board.processScript {
+                            sendToMailingList = 1
+                            sendToMailingList {
+                                email = typo3@netfielders.de
+                                reply = submitmail@typo3.com
+                                namePrefix = Typo3Forum/
+                                altSubject = Post from www.typo3.com
+                            }
+                        }
+                        */
+                            $mConf = $conf['sendToMailingList.'];
+
+                            // If there is a FE-user group defined, then send notifiers to all FE-members of this group
+                            if ($mConf['sendToFEgroup']) {
+                                $res =
+                                    $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                                        '*',
+                                        'fe_users',
+                                        'usergroup=' . intval($mConf['sendToFEgroup'])
+                                    );
+                                $c = 0;
+                                while($feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+                                    $c++;
+                                    $emails .= $feRow['email'] . ',';
+                                }
+                                $GLOBALS['TYPO3_DB']->sql_free_result($res);
+                                $maillist_recip = substr($emails, 0, -1);
+                                // else, send to sendToMailingList.email
+                            } else {
+                                $maillist_recip = $mConf['email'];
+                            }
+
+                            $maillist_header='From: ' . $mConf['namePrefix'] . $row['author'] . ' <' . $mConf['reply'] . '>' . chr(10);
+                            $maillist_header .= 'Reply-To: ' . $mConf['reply'];
+
+                                //  Subject
+                            if ($row['parent']) {	// RE:
+                                $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid=' . intval($row['parent']));
+                                $parentRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+                                $GLOBALS['TYPO3_DB']->sql_free_result($res);
+                                $maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
+                            } else {	// New:
+                                $maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']) . ' [#' . $newId . ']';
+                            }
+
+                                // Message
+                            $maillist_msg = chr(10) . chr(10) . $conf['newReply.']['subjectPrefix'] . chr(10) . $row['subject'] . chr(10) . chr(10) . $conf['newReply.']['message'] . chr(10) . $row['message'] . chr(10) . chr(10) . $conf['newReply.']['author'] . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
+
+                            $maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10);
+                            $maillist_msg .= $url;
+
+                                // Send
+                            if ($conf['debug']) {
+                                debug($maillist_recip);
+                                debug($maillist_subject);
+                                echo nl2br($maillist_msg . chr(10));
+                                debug($maillist_header);
+                            } else {
+                                $addresses = GeneralUtility::trimExplode(',', $maillist_recip);
+
+                                foreach ($addresses as $email) {
+                                    \tx_div2007_email::sendMail(
+                                        $email,
+                                        $maillist_subject,
+                                        $maillist_msg,
+                                        '',
+                                        $mConf['reply'],
+                                        $mConf['namePrefix'] . $row['author']
+                                    );
+                                }
+                            }
+                        }
+
+                        // Notify me...
+                        $notify = GeneralUtility::_POST('notify_me');
+
+                        if (
+                            $notify &&
+                            $conf['notify'] &&
+                            trim($row['email']) &&
+                            (
+                                !$conf['emailCheck'] ||
+                                MailUtility::checkMXRecord($row['email'])
+                            )
+                        ) {
+                            $markersArray = array();
+                            $markersArray['###AUTHOR###'] = trim($row['author']);
+                            $markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
+                            $markersArray['###CR_IP###'] = $row['cr_ip'];
+                            $markersArray['###HOST###'] = GeneralUtility::getIndpEnv('HTTP_HOST');
+                            $markersArray['###URL###'] = $url;
+
+                            if ($row['parent']) {		// If reply and not new thread:
+                                $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
+                                $markersArray['###DID_WHAT###'] = $conf['newReply.']['didWhat'];
+                                $markersArray['###SUBJECT_PREFIX###'] = $conf['newReply.']['subjectPrefix'];
+                            } else {	// If new thread:
+                                $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
+                                $markersArray['###DID_WHAT###'] = $conf['newThread.']['didWhat'];
+                                $markersArray['###SUBJECT_PREFIX###'] = $conf['newThread.']['subjectPrefix'];
+                            }
+                            $markersArray['###SUBJECT###'] = strtoupper($row['subject']);
+                            $markersArray['###BODY###'] = GeneralUtility::fixed_lgd_cs($row['message'], 1000);
+
+                            foreach($markersArray as $marker => $markContent) {
+                                $msg = str_replace($marker, $markContent, $msg);
+                            }
+
+                            $headers = array();
+                            if ($conf['notify_from']) {
+                                $headers[] = 'FROM: ' . $conf['notify_from'];
+                            }
+
+                            $msgParts = explode(chr(10), $msg, 2);
+                            $emailList = GeneralUtility::rmFromList($row['email'], $notify);
+
+                            $notifyMe =
+                                GeneralUtility::uniqueList(
+                                    $emailList
                                 );
+
+                            if ($conf['debug']) {
+                                debug($notifyMe);
+                                debug($headers);
+                                debug($msgParts);
+                            } else {
+                                $addresses = GeneralUtility::trimExplode(',', $notifyMe);
+                                $senderArray =
+                                    preg_split(
+                                        '/(<|>)/',
+                                        $conf['notify_from'],
+                                        3,
+                                        PREG_SPLIT_DELIM_CAPTURE
+                                    );
+                                if (count($senderArray) >= 4) {
+                                    $fromEmail = $senderArray[2];
+                                } else {
+                                    $fromEmail = $senderArray[0];
+                                }
+                                $fromName = $senderArray[0];
+                                foreach ($addresses as $email) {
+                                    \tx_div2007_email::sendMail(
+                                        $email,
+                                        $msgParts[0],
+                                        $msgParts[1],
+                                        '',
+                                        $fromEmail,
+                                        $fromName
+                                    );
+                                }
                             }
                         }
                     }
-                }
-            } while (1 == 0);	// only once
-        }
-    } else {
-        if ($allowed) {
-            $message = $email . ' is not a valid email address.';
+                } while (1 == 0);	// only once
+            }
         } else {
-            $message = 'You do not have the permission to post into this forum!';
+            if ($allowed) {
+                $message = $email . ' is not a valid email address.';
+            } else {
+                $message = 'You do not have the permission to post into this forum!';
+            }
+
+            $title = 'Access denied!';
+            $messagePage = GeneralUtility::makeInstance(ErrorpageMessage::class, $message, $title);
+            $messagePage->output();
         }
 
-        $title = 'Access denied!';
-        $messagePage = GeneralUtility::makeInstance(ErrorpageMessage::class, $message, $title);
-        $messagePage->output();
+        return true;
     }
 }
 
