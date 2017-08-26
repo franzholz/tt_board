@@ -1,4 +1,7 @@
 
+2017-08-26 Franz Holzinger <franz@ttproducts.de>
+    * remove unused api/class.tx_ttboard_api.php
+
 2017-08-21 Franz Holzinger <franz@ttproducts.de>
     * rename lib/board_submit.php => Classes/Controller/Submit.php
     * rename marker/class.tx_ttboard_marker.php => Classes/View/Marker.php
