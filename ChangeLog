@@ -1,6 +1,9 @@
 
 2017-08-26 Franz Holzinger <franz@ttproducts.de>
     * remove unused api/class.tx_ttboard_api.php
+    * rename hooks/class.tx_ttboard_hooks_cms.php -> Classes/Hooks/CmsBackend.php
+    * adapt the renamed class for namespace, the hook call and the file composer.json
+    * remove support for TYPO3 before version 7
 
 2017-08-21 Franz Holzinger <franz@ttproducts.de>
     * rename lib/board_submit.php => Classes/Controller/Submit.php

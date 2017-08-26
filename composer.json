@@ -24,17 +24,14 @@
     "GPL-2.0+"
   ],
   "require": {
-    "typo3/cms-core": ">=7.6.0,<8.99.99"
+    "typo3/cms-core": ">=7.6.0,<8.99.99",
+    "jambagecom/div2007": ">=1.7.10",
+    "jambagecom/tslib_fetce": ">=0.3.0,<=0.9.0"
   },
   "autoload": {
     "psr-4": {
       "JambageCom\\TtBoard\\": "Classes"
-    },
-    "classmap": [
-      "/",
-      "api/",
-      "hooks/"
-    ]
+    }
   },
   "replace": {
     "tt_board": "self.version",

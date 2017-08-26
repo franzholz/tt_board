@@ -35,26 +35,9 @@ if (TYPO3_MODE == 'BE') {
     // replace the output of the former CODE field with the flexform
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] =
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
-        'EXT:' . $_EXTKEY . '/hooks/class.tx_ttboard_hooks_cms.php:&tx_ttboard_hooks_cms->pmDrawItem';
+        'JambageCom\\TtBoard\\Hooks\\CmsBackend->pmDrawItem';
 
     call_user_func($emClass . '::addUserTSConfig', 'options.saveDocNew.tt_board=1');
-}
-
-
-// support for new Caching Framework
-
-if (
-    version_compare(TYPO3_version, '7.0.0', '<')
-) {
-    // Register cache 'tt_board_cache'
-    if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'])) {
-        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache'] = array();
-    }
-    // Define string frontend as default frontend, this must be set with TYPO3 4.5 and below
-    // and overrides the default variable frontend of 4.6
-    if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'])) {
-        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tt_board_cache']['frontend'] = 't3lib_cache_frontend_StringFrontend';
-    }
 }
 
 

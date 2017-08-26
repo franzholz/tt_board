@@ -1,8 +1,11 @@
 <?php
+
+namespace JambageCom\TtBoard\Hooks;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2017 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,7 +40,8 @@
  *
  */
 
-class tx_ttboard_hooks_cms extends tx_div2007_hooks_cms {
+
+class CmsBackend extends \JambageCom\Div2007\Base\CmsHookBase {
     public $extKey = TT_BOARD_EXT;
 
 }

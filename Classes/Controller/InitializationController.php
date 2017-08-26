@@ -103,7 +103,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
             $this,
             $cObj,
             $conf,
-            'lib/class.tx_ttboard_pibase.php'
+            'Classes/RegisterPluginController.php'
         );
         \tx_div2007_alpha5::loadLL_fh002(
             $languageObj,
