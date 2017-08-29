@@ -31,13 +31,13 @@
 class tx_ttboard_wizicon {
     public function proc ($wizardItems) {
         $wizardItems['plugins_ttboard_tree'] = array(
-            'icon' => PATH_BE_TTBOARD_REL . 'forum.gif',
+            'icon' => PATH_BE_TTBOARD_REL . 'Resources/Public/Icons/forum.gif',
             'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.xlf:plugins_tree_title'),
             'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.xlf:plugins_tree_description'),
             'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=2&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM')
         );
         $wizardItems['plugins_ttboard_list'] = array(
-            'icon' => PATH_BE_TTBOARD_REL . 'message_board.gif',
+            'icon' => PATH_BE_TTBOARD_REL . 'Resources/Public/Icons/message_board.gif',
             'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.xlf:plugins_list_title'),
             'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.xlf:plugins_list_description'),
             'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=4&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM')
