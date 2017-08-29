@@ -1,5 +1,7 @@
 2017-08-29 Franz Holzinger <franz@ttproducts.de>
     * move icons forum.gif and message_board.gif into Resources/Public/Icons/
+    * rename class.tx_ttboard_wizicon.php => Classes/Controller/WizardIcon.php
+    * plugin wizard as namespace
 
 2017-08-26 Franz Holzinger <franz@ttproducts.de>
     * remove unused api/class.tx_ttboard_api.php

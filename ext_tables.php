@@ -21,6 +21,6 @@ call_user_func($emClass . '::addToInsertRecords', 'tt_board');
 call_user_func($emClass . '::addLLrefForTCAdescr', 'tt_board', 'EXT:' . $_EXTKEY . '/locallang_csh_ttboard.xlf');
 
 if (TYPO3_MODE == 'BE') {
-    $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['tx_ttboard_wizicon'] = PATH_BE_TTBOARD . 'class.tx_ttboard_wizicon.php';
+    $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['JambageCom\\TtBoard\\Controller\\WizardIcon'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Classes/Controller/WizardIcon.php';
 }
 
