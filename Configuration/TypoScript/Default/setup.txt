@@ -7,7 +7,7 @@
 ## Sets up the fields, that may be submitted in order to create items. Mandatory!
 FEData.tt_board = USER_INT
 FEData.tt_board {
-  processScript = \JambageCom\TtBoard\Controller\Submit->execute
+  processScript = JambageCom\TtBoard\Controller\Submit->execute
   processScript {
       # Enable notify
     notify = 1
