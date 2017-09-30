@@ -46,9 +46,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
-    public function processCode ($theCode, &$content, $storeObject) {
+    public function processCode ($theCode, &$content, $composite) {
 
-        $conf = $storeObject->getConf();
+        $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : '');
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());
 
@@ -58,7 +58,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 $content .=
                     $this->forum_list(
                         $theCode,
-                        $storeObject,
+                        $composite,
                         $linkParams
                     );
             break;
@@ -68,7 +68,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 $pidArray =
                     GeneralUtility::trimExplode(
                         ',',
-                        $storeObject->getPidList()
+                        $composite->getPidList()
                     );
                 $pid = $pidArray[0];
                 $content .=
@@ -77,34 +77,29 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                         $pid,
                         $ref,
                         $linkParams,
-                        $storeObject
+                        $composite
                     );
             break;
             case 'FORUM':
             case 'THREAD_TREE':
+                $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
                 $forumViewObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
-                if ($forumViewObj->needsInit()) {
-
-                    $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
-                    $forumViewObj->init(
-                        $conf,
-                        $storeObject->getAllowCaching(),
-                        $storeObject->getTypolinkConf(),
-                        $pid,
-                        $storeObject->getPrefixId()
-                    );
-                }
                 $content .= $forumViewObj->printView(
-                    $storeObject->getLanguageObj(),
-                    $storeObject->getMarkerObj(),
-                    $storeObject->getModelObj(),
-                    $storeObject->getTtBoardUid(),
+                    $composite->getLanguageObj(),
+                    $composite->getMarkerObj(),
+                    $composite->getModelObj(),
+                    $conf,
+                    $composite->getTtBoardUid(),
                     $ref,
-                    $storeObject->getPidList(),
+                    $composite->getPidList(),
                     $theCode,
-                    $storeObject->getOrigTemplateCode(),
-                    $storeObject->getAlternativeLayouts(),
-                    $linkParams
+                    $composite->getOrigTemplateCode(),
+                    $composite->getAlternativeLayouts(),
+                    $linkParams,
+                    $composite->getPrefixId(),
+                    $pid,
+                    $composite->getTypolinkConf(),
+                    $composite->getAllowCaching()
                 );
             break;
             default:
@@ -114,17 +109,17 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
         if ($contentTmp == 'error') {
             $fileName = 'EXT:' . TT_BOARD_EXT . '/template/board_help.tmpl';
-            $helpTemplate = $storeObject->getCObj()->fileResource($fileName);
+            $helpTemplate = $composite->getCObj()->fileResource($fileName);
 
             $content .= \tx_div2007_alpha5::displayHelpPage_fh003(
-                $storeObject->getLanguageObj(),
-                $storeObject->getCObj(),
+                $composite->getLanguageObj(),
+                $composite->getCObj(),
                 $helpTemplate,
                 TT_BOARD_EXT,
-                $storeObject->getErrorMessage(),
+                $composite->getErrorMessage(),
                 $theCode
             );
-            $storeObject->setErrorMessage('');
+            $composite->setErrorMessage('');
         }
     }
 
@@ -145,19 +140,19 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
     /**
     * Creates a list of forums or categories depending on theCode
     */
-    public function forum_list ($theCode, $storeObject, array $linkParams) {
-        $conf = $storeObject->getConf();
-        $modelObj = $storeObject->getModelObj();
-        $markerObj = $storeObject->getMarkerObj();
-        $languageObj = $storeObject->getLanguageObj();
-        $alternativeLayouts = $storeObject->getAlternativeLayouts();
-        $allowCaching = $storeObject->getAllowCaching();
+    public function forum_list ($theCode, $composite, array $linkParams) {
+        $conf = $composite->getConf();
+        $modelObj = $composite->getModelObj();
+        $markerObj = $composite->getMarkerObj();
+        $languageObj = $composite->getLanguageObj();
+        $alternativeLayouts = $composite->getAlternativeLayouts();
+        $allowCaching = $composite->getAllowCaching();
 
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
         $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
         $forum_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer(array(), $modelObj->getTablename());
 
-        if (!$storeObject->getTtBoardUid()) {
+        if (!$composite->getTtBoardUid()) {
             $forumlist = 0;		// set to true if this is a list of forums and not categories + forums
             if ($theCode == 'LIST_CATEGORIES') {
                     // Config if categories are listed.
@@ -172,7 +167,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
             $GLOBALS['TSFE']->set_cache_timeout_default($lConf['cache_timeout'] ? intval($lConf['cache_timeout']) : 300);
             $templateCode =
                 $local_cObj->getSubpart(
-                    $storeObject->getOrigTemplateCode(),
+                    $composite->getOrigTemplateCode(),
                     '###TEMPLATE_OVERVIEW###'
                 );
 
@@ -216,7 +211,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 $subpartContent = '';
 
                     // Getting categories
-                $categories = $modelObj->getPagesInPage($storeObject->getPidList());
+                $categories = $modelObj->getPagesInPage($composite->getPidList());
                 $c_cat = 0;
 
                 foreach ($categories as $k => $catData) {
@@ -260,7 +255,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
                         $pageLink =
                             \tx_div2007_alpha5::getPageLink_fh003(
-                                $storeObject->getCObj(),
+                                $composite->getCObj(),
                                 $catData['uid'],
                                 '',
                                 $linkParams,
@@ -333,7 +328,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                                 // Link to the forum (wrap)
                             $pageLink =
                                 \tx_div2007_alpha5::getPageLink_fh003(
-                                    $storeObject->getCObj(),
+                                    $composite->getCObj(),
                                     $forumData['uid'],
                                     '',
                                     $linkParams,
@@ -386,7 +381,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                                 );
                             $pageLink =
                                 \tx_div2007_alpha5::getPageLink_fh003(
-                                    $storeObject->getCObj(),
+                                    $composite->getCObj(),
                                     $contentRow['pid'],
                                     '',
                                     $overrulePIvars,
@@ -483,7 +478,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
                                         // Link to the post:
                                     $forum_cObj->setCurrentVal($recentPost['pid']);
-                                    $temp_conf = $storeObject->getTypolinkConf();
+                                    $temp_conf = $composite->getTypolinkConf();
                                     $temp_conf['additionalParams'] .= '&tt_board_uid=' . $recentPost['uid'];
                                     $temp_conf['useCacheHash'] = $allowCaching;
                                     $temp_conf['no_cache'] = !$allowCaching;
@@ -497,7 +492,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                                         );
                                     $pageLink =
                                         \tx_div2007_alpha5::getPageLink_fh003(
-                                            $storeObject->getCObj(),
+                                            $composite->getCObj(),
                                             $recentPost['pid'],
                                             '',
                                             $overrulePIvars,
@@ -550,12 +545,12 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
         $pid,
         $ref,
         array $linkParams,
-        $storeObject
+        $composite
     ) {
         $content = '';
-        $conf = $storeObject->getConf();
-        $modelObj = $storeObject->getModelObj();
-        $languageObj = $storeObject->getLanguageObj();
+        $conf = $composite->getConf();
+        $modelObj = $composite->getModelObj();
+        $languageObj = $composite->getLanguageObj();
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 
         if (
@@ -566,16 +561,16 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
                 // Find parent, if any
             if (
-                $storeObject->getTtBoardUid() ||
+                $composite->getTtBoardUid() ||
                 $ref != ''
             ) {
                 if ($conf['tree']) {
-                    $parent = $storeObject->getTtBoardUid();
+                    $parent = $composite->getTtBoardUid();
                 }
 
                 $parentR =
                     $modelObj->getRootParent(
-                        $storeObject->getTtBoardUid(),
+                        $composite->getTtBoardUid(),
                         $ref#
                     );
                 if (!$conf['tree']) {
@@ -695,7 +690,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 }
                 $lConf['dataArray.']['9995.'] = array(
                     'type' => '*data[tt_board][NEW][prefixid]=hidden',
-                    'value' => $storeObject->getPrefixId()
+                    'value' => $composite->getPrefixId()
                 );
                 $lConf['dataArray.']['9996.'] = array(
                     'type' => '*data[tt_board][NEW][reference]=hidden',
@@ -710,8 +705,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     'value' => $parent
                 );
 
-                if (is_object($storeObject->getFreeCap())) {
-                    $freecapMarker = $storeObject->getFreeCap()->makeCaptcha();
+                if (is_object($composite->getFreeCap())) {
+                    $freecapMarker = $composite->getFreeCap()->makeCaptcha();
                     $textLabel = '';
                     if ($bWrongCaptcha) {
                         $textLabel = '<b>' .
@@ -787,8 +782,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     }
                 }
 
-                if ($storeObject->getTtBoardUid()) {
-                    $linkParams[$storeObject->getPrefixId() . '[uid]'] = $storeObject->getTtBoardUid();
+                if ($composite->getTtBoardUid()) {
+                    $linkParams[$composite->getPrefixId() . '[uid]'] = $composite->getTtBoardUid();
                 }
 
                 if (isset($linkParams) && is_array($linkParams)) {

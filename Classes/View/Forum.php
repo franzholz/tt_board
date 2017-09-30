@@ -44,29 +44,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class Forum implements \TYPO3\CMS\Core\SingletonInterface {
-    public $conf;
-    public $typolink_conf;
-    public $allowCaching;
-    public $markerObj;
-    public $pid;
-    public $bHasBeenInitialised = false;
-    public $prefixId;
-
-
-    public function init ($conf, $allowCaching, $typolink_conf, $pid, $prefixId) {
-        $this->conf = $conf;
-        $this->allowCaching = $allowCaching;
-        $this->typolink_conf = $typolink_conf;
-        $this->pid = $pid;
-        $this->bHasBeenInitialised = true;
-        $this->prefixId = $prefixId;
-    }
-
-
-    public function needsInit () {
-        return !$this->bHasBeenInitialised;
-    }
-
 
     /**
     * Creates the forum display, including listing all items/a single item
@@ -75,32 +52,37 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
         $languageObj,
         $markerObj,
         $modelObj,
+        $conf,
         $uid,
         $ref,
         $pid_list,
         $theCode,
         $orig_templateCode,
         $alternativeLayouts,
-        $linkParams
+        $linkParams,
+        $prefixId,
+        $pid,
+        $typolinkConf,
+        $allowCaching
     ) {
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
         $controlObj = GeneralUtility::makeInstance('JambageCom\Div2007\Utility\ControlUtility');
         $recentPosts = array();
-        $searchWord = $controlObj->readGP('sword', $this->prefixId);
+        $searchWord = $controlObj->readGP('sword', $prefixId);
         $pointerName = 'pointer';
 
-        if ($this->conf['iconCode']) {
+        if ($conf['iconCode']) {
             $joinTypes = array('joinBottom', 'join', 'line', 'blank', 'thread', 'end');
             foreach ($joinTypes as $joinType) {
                 if (
-                    isset($this->conf['iconCode.'][$joinType]) &&
-                    isset($this->conf['iconCode.'][$joinType . '.'])
+                    isset($conf['iconCode.'][$joinType]) &&
+                    isset($conf['iconCode.'][$joinType . '.'])
                 ) {
                     $modelObj->treeIcons[$joinType] =
                         $local_cObj->getContentObject(
-                            $this->conf['iconCode.'][$joinType]
+                            $conf['iconCode.'][$joinType]
                         )->render(
-                            $this->conf['iconCode.'][$joinType . '.']
+                            $conf['iconCode.'][$joinType . '.']
                         );
                 }
             }
@@ -113,10 +95,10 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
             ) &&
             $theCode == 'FORUM'
         ) {
-            if (!$this->allowCaching) {
+            if (!$allowCaching) {
                 $GLOBALS['TSFE']->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
             }
-            $lConf = $this->conf['view_thread.'];
+            $lConf = $conf['view_thread.'];
             $templateCode = $local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_THREAD###');
 
             if ($templateCode) {
@@ -166,22 +148,22 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                     );
 
                     // Link back to forum
-                $local_cObj->setCurrentVal($this->pid);
+                $local_cObj->setCurrentVal($pid);
                 $wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] =
                     $local_cObj->typolinkWrap(
-                        $this->typolink_conf
+                        $typolinkConf
                     );
 
                     // Link to next thread
-                $linkParams[$this->prefixId . '[uid]'] = $nextThread['uid'];
+                $linkParams[$prefixId . '[uid]'] = $nextThread['uid'];
                 $url =
                     \tx_div2007_alpha5::getPageLink_fh003(
                         $local_cObj,
-                        $this->pid,
+                        $pid,
                         '',
                         $linkParams,
                         array(
-                            'useCacheHash' => $this->allowCaching
+                            'useCacheHash' => $allowCaching
                         )
                     );
                 $wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] =
@@ -191,13 +173,13 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                     );
 
                     // Link to prev thread
-                $linkParams[$this->prefixId . '[uid]'] = $prevThread['uid'];
+                $linkParams[$prefixId . '[uid]'] = $prevThread['uid'];
                 $url = \tx_div2007_alpha5::getPageLink_fh003(
                     $local_cObj,
-                    $this->pid,
+                    $pid,
                     '',
                     $linkParams,
-                    array('useCacheHash' => $this->allowCaching)
+                    array('useCacheHash' => $allowCaching)
                 );
 
                 $wrappedSubpartContentArray['###LINK_PREV_THREAD###'] =
@@ -207,13 +189,13 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                     );
 
                     // Link to first !!
-                $linkParams[$this->prefixId . '[uid]' ] = $rootParent['uid'];
+                $linkParams[$prefixId . '[uid]' ] = $rootParent['uid'];
                 $url = \tx_div2007_alpha5::getPageLink_fh003(
                     $local_cObj,
-                    $this->pid,
+                    $pid,
                     '',
                     $linkParams,
-                    array('useCacheHash' => $this->allowCaching)
+                    array('useCacheHash' => $allowCaching)
                 );
 
                 $wrappedSubpartContentArray['###LINK_FIRST_POST###'] =
@@ -264,14 +246,14 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                     );
 
                         // Link to the post
-                    $linkParams[$this->prefixId . '[uid]'] = $recentPost['uid'];
+                    $linkParams[$prefixId . '[uid]'] = $recentPost['uid'];
                     $url =
                         \tx_div2007_alpha5::getPageLink_fh003(
                             $local_cObj,
-                            $this->pid,
+                            $pid,
                             '',
                             $linkParams,
-                            array('useCacheHash' => $this->allowCaching)
+                            array('useCacheHash' => $allowCaching)
                         );
 
                     $wrappedSubpartContentArray['###LINK###'] =
@@ -281,14 +263,14 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                         );
 
                         // Link to next thread
-                    $linkParams[$this->prefixId . '[uid]'] = ($recentPost['nextUid'] ? $recentPost['nextUid'] : $nextThread['uid']);
+                    $linkParams[$prefixId . '[uid]'] = ($recentPost['nextUid'] ? $recentPost['nextUid'] : $nextThread['uid']);
                     $url =
                         \tx_div2007_alpha5::getPageLink_fh003(
                             $local_cObj,
-                            $this->pid,
+                            $pid,
                             '',
                             $linkParams,
-                            array('useCacheHash' => $this->allowCaching)
+                            array('useCacheHash' => $allowCaching)
                         );
                     $wrappedSubpartContentArray['###LINK_NEXT_POST###'] =
                         array(
@@ -297,7 +279,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                         );
 
                         // Link to prev thread
-                    $linkParams[$this->prefixId . '[uid]'] =
+                    $linkParams[$prefixId . '[uid]'] =
                         (
                             $recentPost['prevUid'] ?
                             $recentPost['prevUid'] :
@@ -306,10 +288,10 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                     $url =
                         \tx_div2007_alpha5::getPageLink_fh003(
                             $local_cObj,
-                            $this->pid,
+                            $pid,
                             '',
                             $linkParams,
-                            array('useCacheHash' => $this->allowCaching)
+                            array('useCacheHash' => $allowCaching)
                     );
 
                     $wrappedSubpartContentArray['###LINK_PREV_POST###'] =
@@ -345,9 +327,9 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                 if (!$uid && $ref == '') {
                     $continue = false;
                 }
-                $lConf = $this->conf['thread_tree.'];
+                $lConf = $conf['thread_tree.'];
             } else {
-                $lConf = $this->conf['list_threads.'];
+                $lConf = $conf['list_threads.'];
             }
             $limit = $lConf['thread_limit'];
 
@@ -395,8 +377,8 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                         $useCache = false;
                     }
 
-                    $begin_at = intval($controlObj->readGP($pointerName, $this->prefixId)) * $limit;
-                    $piVars = $controlObj->readGP('', $this->prefixId);
+                    $begin_at = intval($controlObj->readGP($pointerName, $prefixId)) * $limit;
+                    $piVars = $controlObj->readGP('', $prefixId);
 
                     $markerObj->getBrowserMarkers(
                         $markerArray,
@@ -405,7 +387,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                         $local_cObj,
                         $languageObj,
                         $browserConf,
-                        $this->prefixId,
+                        $prefixId,
                         $addQueryString,
                         $recordCount,
                         $piVars,
@@ -474,12 +456,12 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                             $modelObj->getThreads(
                                 $pid_list,
                                 $ref,
-                                $this->conf['tree'],
+                                $conf['tree'],
                                 $lConf['thread_limit'] ?
                                     $lConf['thread_limit'] :
                                     '50',
                                 $begin_at,
-                                $controlObj->readGP('sword', $this->prefixId)
+                                $controlObj->readGP('sword', $prefixId)
                             );
                     }
 
@@ -512,14 +494,14 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                             'uid' => ($recentPost['uid'])
                         );
 
-                        $linkParams[$this->prefixId . '[uid]'] = $recentPost['uid'];
+                        $linkParams[$prefixId . '[uid]'] = $recentPost['uid'];
                         $url =
                             \tx_div2007_alpha5::getPageLink_fh003(
                                 $local_cObj,
-                                $this->pid,
+                                $pid,
                                 '',
                                 $linkParams,
-                                array('useCacheHash' => $this->allowCaching)
+                                array('useCacheHash' => $allowCaching)
                         );
                         $wrappedSubpartContentArray['###LINK###'] =
                             array(
@@ -543,17 +525,17 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                         $markerArray['###LAST_POST_DATE###'] =
                             $local_cObj->stdWrap(
                                 $recentDate,
-                                $this->conf['date_stdWrap.']
+                                $conf['date_stdWrap.']
                             );
                         $markerArray['###LAST_POST_TIME###'] =
                             $local_cObj->stdWrap(
                                 $recentDate,
-                                $this->conf['time_stdWrap.']
+                                $conf['time_stdWrap.']
                             );
                         $markerArray['###LAST_POST_AGE###'] =
                             $local_cObj->stdWrap(
                                 $recentDate,
-                                $this->conf['age_stdWrap.']
+                                $conf['age_stdWrap.']
                             );
                         $markerArray['###LAST_POST_AUTHOR###'] =
                             $local_cObj->stdWrap(
@@ -562,14 +544,14 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                             );
 
                             // Link to the last post
-                        $linkParams[$this->prefixId . '[uid]'] = $lastPostInfo['uid'];
+                        $linkParams[$prefixId . '[uid]'] = $lastPostInfo['uid'];
                         $url =
                             \tx_div2007_alpha5::getPageLink_fh003(
                                 $local_cObj,
-                                $this->pid,
+                                $pid,
                                 '',
                                 $linkParams,
-                                array('useCacheHash' => $this->allowCaching)
+                                array('useCacheHash' => $allowCaching)
                             );
                         $wrappedSubpartContentArray['###LINK_LAST_POST###'] =
                             array(
@@ -586,23 +568,23 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                             );
                     }
 
-                    if (!$this->conf['tree']) {
+                    if (!$conf['tree']) {
                         krsort($subpartArray);
                     }
 
                         // Substitution:
                     $markerArray = array();
                     $subpartContentArray = array();
-                    $markerArray['###SEARCH_NAME###'] = $this->prefixId . '[sword]';
+                    $markerArray['###SEARCH_NAME###'] = $prefixId . '[sword]';
 
                         // Fill in array
                     $markerArray['###SEARCH_WORD###'] =
                         $GLOBALS['TSFE']->no_cache ?
-                            $controlObj->readGP('sword', $this->prefixId) :
+                            $controlObj->readGP('sword', $prefixId) :
                             '';	// Setting search words in field if cache is disabled.
                         // Set FORM_URL
                     $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
-                    $temp_conf = $this->typolink_conf;
+                    $temp_conf = $typolinkConf;
                     $temp_conf['no_cache'] = 1;
                     $markerArray['###FORM_URL###'] = $local_cObj->typoLink_URL($temp_conf);
                     $subpartContent = implode('', $subpartArray);
