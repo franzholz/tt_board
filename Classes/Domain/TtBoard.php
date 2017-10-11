@@ -28,8 +28,6 @@ namespace JambageCom\TtBoard\Domain;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * boardLib.inc
- *
  * Function library for a forum/board in tree or list style
  *
  * TypoScript config:
@@ -42,17 +40,11 @@ namespace JambageCom\TtBoard\Domain;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtBoard\Constants\TreeMark;
+
 
 class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
 
-    public $treeIcons = array(
-        'joinBottom' => '\\-',
-        'join' => '|-',
-        'line' => '|&nbsp;',
-        'blank' => '&nbsp;&nbsp;',
-        'thread' => '+',
-        'end' => '-'
-    );
     public $enableFields = '';		// The enablefields of the tt_board table.
     public $searchFieldList = 'author,email,subject,message';
     protected $tablename = 'tt_board';
@@ -63,7 +55,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $this->setEnableFields($enableFields);
     }
 
-    public function getTablename() {
+    public function getTablename () {
         return $this->tablename;
     }
 
@@ -79,7 +71,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $result = '';
 
         if ($ref != '') {
-            $result = ' AND reference=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($ref, $this->tablename);
+            $result = ' AND reference=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($ref, $this->getTablename());
         }
         return $result;
     }
@@ -110,58 +102,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
             $allowed = true;
         }
         return $allowed;
-    }
-
-
-    /**
-    * Get a record tree of forum items
-    */
-    public function getRecordTree (&$theRows, $parent, $pid, $ref, $treeIcons = '') {
-        $whereRef = $this->getWhereRef($ref);
-        $where = 'pid=' . intval($pid) . ' AND parent=' . intval($parent) . $whereRef . $this->getEnableFields();
-
-        $res =
-            $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                '*',
-                $this->tablename,
-                $where,
-                '',
-                $this->orderBy()
-            );
-        $c = 0;
-        $numberRows = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
-        $prevUid = end(array_keys($theRows));
-        $theRows[$prevUid]['treeIcons'] .=
-            (
-                $numberRows ?
-                $this->treeIcons['thread'] :
-                $this->treeIcons['end']
-            );
-
-        while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-            $c++;
-            $uid = $row['uid'];
-            // check for a loop
-            if (isset($theRows[$uid])) {
-                break;
-            }
-
-            $row['treeIcons'] = $treeIcons . ($numberRows == $c ? $this->treeIcons['joinBottom'] : $this->treeIcons['join']);
-                // prev/next item:
-            $theRows[$prevUid]['nextUid'] = $uid;
-            $row['prevUid'] = $theRows[$prevUid]['uid'];
-            $theRows[$uid] = $row;
-                // get the branch
-            $this->getRecordTree(
-                $theRows,
-                $uid,
-                $row['pid'],
-                $ref,
-                $treeIcons . ($numberRows == $c ? $this->treeIcons['blank'] : $this->treeIcons['line'])
-            );
-            $prevUid = $uid;
-        }
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
     }
 
 
@@ -199,7 +139,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     */
     public function getNumPosts ($pid) {
         $where = 'pid IN (' . $pid . ')' . $this->getEnableFields();
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->tablename, $where);
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->getTablename(), $where);
         $row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
         return $row[0];
@@ -219,13 +159,13 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
                 $local_cObj->searchWhere(
                     $searchWord,
                     $this->searchFieldList,
-                    $this->tablename
+                    $this->getTablename()
                 );
             $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->getEnableFields();
             $count =
                 $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
                     '*',
-                    $this->tablename,
+                    $this->getTablename(),
                     $where
                 );
         } else {
@@ -233,7 +173,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
             $count =
                 $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
                     '*',
-                    $this->tablename,
+                    $this->getTablename(),
                     $where
                 );
         }
@@ -248,7 +188,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     */
     public function getNumReplies ($pid, $uid) {
         $where = 'pid IN (' . $pid . ') AND parent=' . intval($uid) . $this->getEnableFields();
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->tablename, $where);
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->getTablename(), $where);
         $row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
         return $row[0];
@@ -263,7 +203,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',
-                $this->tablename,
+                $this->getTablename(),
                 $where,
                 '',
                 $this->orderBy('DESC'),
@@ -284,7 +224,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',
-                $this->tablename,
+                $this->getTablename(),
                 $where,
                 '',
                 $this->orderBy('DESC'),
@@ -315,7 +255,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',
-                $this->tablename,
+                $this->getTablename(),
                 $where,
                 '',
                 $this->orderBy('DESC'),
@@ -327,118 +267,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         }
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
         return $out;
-    }
-
-
-    /**
-    * Returns an array with threads
-    */
-    public function getThreads (
-        $pid,
-        $ref,
-        $descend = 0,
-        $limit = 100,
-        $offset = 0,
-        $searchWord = 0
-    ) {
-        $outArray = array();
-        $whereRef = $this->getWhereRef($ref);
-        $limitString = '';
-        if ($limit) {
-            $limitString = intval($limit);
-            if ($offset) {
-                $limitString = intval($offset) . ',' . $limitString;
-            }
-        }
-
-        if ($searchWord) {
-            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-            $where =
-                $local_cObj->searchWhere(
-                    $searchWord,
-                    $this->searchFieldList,
-                    $this->tablename
-                );
-            $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->getEnableFields();
-            $res =
-                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    '*',
-                    $this->tablename,
-                    $where,
-                    '',
-                    $this->orderBy('DESC'),
-                    $limitString
-                );
-            $set = array();
-            while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-                $rootRow = $this->getRootParent($row['uid']);
-                if (is_array($rootRow) && !isset($set[$rootRow['uid']])) {
-                    $set[$rootRow['uid']] = 1;
-                    $outArray[$rootRow['uid']] = $rootRow;
-                    if ($descend) {
-                        $this->getRecordTree(
-                            $outArray,
-                            $rootRow['uid'],
-                            $rootRow['pid'],
-                            $ref
-                        );
-                    }
-                }
-            }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
-        } else {
-            $where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->getEnableFields();
-            $res =
-                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    '*',
-                    'tt_board',
-                    $where,
-                    '',
-                    $this->orderBy('DESC'),
-                    $limitString
-                );
-            while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-                $outArray[$row['uid']] = $row;
-                if ($descend) {
-                    $this->getRecordTree($outArray, $row['uid'], $row['pid'], $ref);
-                }
-            }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
-        }
-        return $outArray;
-    }
-
-
-    /**
-    * Returns records in a thread
-    */
-    public function getSingleThread ($uid, $ref, $descend = 0) {
-        $hash = md5($uid . '|' . $ref . '|' . $descend);
-        if ($this->cache_thread[$hash]) {
-            return $this->cache_thread[$hash];
-        }
-
-        $outArray = array();
-        if ($uid) {
-            $whereRef = $this->getWhereRef($ref);
-
-            $res =
-                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    '*',
-                    'tt_board',
-                    'uid=' . $uid . $whereRef . $this->getEnableFields()
-                );
-
-            if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-
-                $outArray[$row['uid']] = $row;
-                if ($descend) {
-                    $this->getRecordTree($outArray, $row['uid'], $row['pid'], $ref);
-                }
-            }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
-        }
-        return $outArray;
     }
 
 
@@ -507,17 +335,170 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
 
 
     /**
-    * Returns a message, formatted
+    * Returns records in a thread
     */
-    static public function outMessage ($string, $content = '') {
-        $msg = '
-        <hr>
-        <h3>' . $string . '</h3>
-        ' . $content . '
-        <hr>
-        ';
+    public function getSingleThread (
+        $uid,
+        $ref,
+        $descend = 0
+    ) {
+        $hash = md5($uid . '|' . $ref . '|' . $descend);
+        if ($this->cache_thread[$hash]) {
+            return $this->cache_thread[$hash];
+        }
 
-        return $msg;
+        $outArray = array();
+        if ($uid) {
+            $whereRef = $this->getWhereRef($ref);
+
+            $res =
+                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                    '*',
+                    'tt_board',
+                    'uid=' . $uid . $whereRef . $this->getEnableFields()
+                );
+
+            if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+
+                $outArray[$row['uid']] = $row;
+                if ($descend) {
+                    $this->getRecordTree($outArray, $row['uid'], $row['pid'], $ref);
+                }
+            }
+            $GLOBALS['TYPO3_DB']->sql_free_result($res);
+        }
+        return $outArray;
+    }
+
+
+    /**
+    * Returns an array with threads
+    */
+    public function getThreads (
+        $pid,
+        $ref,
+        $descend = 0,
+        $limit = 100,
+        $offset = 0,
+        $searchWord = 0
+    ) {
+        $outArray = array();
+        $whereRef = $this->getWhereRef($ref);
+        $limitString = '';
+        if ($limit) {
+            $limitString = intval($limit);
+            if ($offset) {
+                $limitString = intval($offset) . ',' . $limitString;
+            }
+        }
+
+        if ($searchWord) {
+            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+            $where =
+                $local_cObj->searchWhere(
+                    $searchWord,
+                    $this->searchFieldList,
+                    $this->getTablename()
+                );
+            $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->getEnableFields();
+            $res =
+                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                    '*',
+                    $this->getTablename(),
+                    $where,
+                    '',
+                    $this->orderBy('DESC'),
+                    $limitString
+                );
+            $set = array();
+            while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+                $rootRow = $this->getRootParent($row['uid']);
+                if (is_array($rootRow) && !isset($set[$rootRow['uid']])) {
+                    $set[$rootRow['uid']] = 1;
+                    $outArray[$rootRow['uid']] = $rootRow;
+                    if ($descend) {
+                        $this->getRecordTree(
+                            $outArray,
+                            $rootRow['uid'],
+                            $rootRow['pid'],
+                            $ref
+                        );
+                    }
+                }
+            }
+            $GLOBALS['TYPO3_DB']->sql_free_result($res);
+        } else {
+            $where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->getEnableFields();
+            $res =
+                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                    '*',
+                    'tt_board',
+                    $where,
+                    '',
+                    $this->orderBy('DESC'),
+                    $limitString
+                );
+            while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+                $outArray[$row['uid']] = $row;
+                if ($descend) {
+                    $this->getRecordTree($outArray, $row['uid'], $row['pid'], $ref);
+                }
+            }
+            $GLOBALS['TYPO3_DB']->sql_free_result($res);
+        }
+        return $outArray;
+    }
+
+
+    /**
+    * Get a record tree of forum items
+    */
+    public function getRecordTree (&$theRows, $parent, $pid, $ref, $treeMarks = '') {
+        $whereRef = $this->getWhereRef($ref);
+        $where = 'pid=' . intval($pid) . ' AND parent=' . intval($parent) . $whereRef . $this->getEnableFields();
+
+        $res =
+            $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                '*',
+                $this->getTablename(),
+                $where,
+                '',
+                $this->orderBy()
+            );
+        $c = 0;
+        $numberRows = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+        $prevUid = end(array_keys($theRows));
+        $theRows[$prevUid]['treeMarks'] =
+            (
+                $numberRows ?
+                TreeMark::THREAD :
+                TreeMark::END
+            );
+
+        while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            $c++;
+            $uid = $row['uid'];
+            // check for a loop
+            if (isset($theRows[$uid])) {
+                break;
+            }
+
+            $row['treeMarks'] = $treeMarks . ($numberRows == $c ? TreeMark::JOIN_BOTTOM : TreeMark::JOIN);
+                // prev/next item:
+            $theRows[$prevUid]['nextUid'] = $uid;
+            $row['prevUid'] = $theRows[$prevUid]['uid'];
+            $theRows[$uid] = $row;
+                // get the branch
+            $this->getRecordTree(
+                $theRows,
+                $uid,
+                $row['pid'],
+                $ref,
+                $treeMarks . ($numberRows == $c ? TreeMark::BLANK : TreeMark::LINE)
+            );
+            $prevUid = $uid;
+        }
+        $GLOBALS['TYPO3_DB']->sql_free_result($res);
     }
 
 

@@ -311,28 +311,30 @@ plugin.tt_board_tree {
   iconCode = 1
   iconCode.join = IMAGE
   iconCode.join {
-    file = typo3/sysext/t3skin/icons/gfx/ol/join.gif
-    width = 18
-    height = 16
-    params = align="top"
+    file = EXT:tt_board/Resources/Public/Icons/Tree/join.gif
+    file {
+      width = 18
+      height = 16
+      params = align="top"
+    }
   }
-  iconCode.joinBottom < iconCode.join
+  iconCode.joinBottom < .iconCode.join
   iconCode.joinBottom {
-    file = typo3/sysext/t3skin/icons/gfx/ol/joinbottom.gif
+    file = EXT:tt_board/Resources/Public/Icons/Tree/joinbottom.gif
   }
-  iconCode.line < iconCode.join
+  iconCode.line < .iconCode.join
   iconCode.line {
-    file = typo3/sysext/t3skin/icons/gfx/ol/line.gif
+    file = EXT:tt_board/Resources/Public/Icons/Tree/line.gif
   }
-  iconCode.blank < iconCode.join
+  iconCode.blank < .iconCode.join
   iconCode.blank {
     file = EXT:tt_board/Resources/Public/Icons/Tree/blank.gif
   }
-  iconCode.thread < iconCode.join
+  iconCode.thread < .iconCode.join
   iconCode.thread {
     file = EXT:tt_board/Resources/Public/Icons/Tree/thread.gif
   }
-  iconCode.end < iconCode.join
+  iconCode.end < .iconCode.join
   iconCode.end {
     file = EXT:tt_board/Resources/Public/Icons/Tree/end.gif
   }

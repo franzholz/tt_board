@@ -1,3 +1,6 @@
+2017-10-1 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: the tree view images have not been used
+
 2017-08-29 Franz Holzinger <franz@ttproducts.de>
     * move icons forum.gif and message_board.gif into Resources/Public/Icons/
     * rename class.tx_ttboard_wizicon.php => Classes/Controller/WizardIcon.php

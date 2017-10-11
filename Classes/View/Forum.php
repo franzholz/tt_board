@@ -52,6 +52,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
         $languageObj,
         $markerObj,
         $modelObj,
+        $treeView,
         $conf,
         $uid,
         $ref,
@@ -70,23 +71,6 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
         $recentPosts = array();
         $searchWord = $controlObj->readGP('sword', $prefixId);
         $pointerName = 'pointer';
-
-        if ($conf['iconCode']) {
-            $joinTypes = array('joinBottom', 'join', 'line', 'blank', 'thread', 'end');
-            foreach ($joinTypes as $joinType) {
-                if (
-                    isset($conf['iconCode.'][$joinType]) &&
-                    isset($conf['iconCode.'][$joinType . '.'])
-                ) {
-                    $modelObj->treeIcons[$joinType] =
-                        $local_cObj->getContentObject(
-                            $conf['iconCode.'][$joinType]
-                        )->render(
-                            $conf['iconCode.'][$joinType . '.']
-                        );
-                }
-            }
-        }
 
         if (
             (
@@ -121,6 +105,10 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                     );
                 $rootParent = $modelObj->getRootParent($uid, $ref);
                 $wholeThread = $modelObj->getSingleThread($rootParent['uid'], $ref, 1);
+
+                if (is_object($treeView)) {
+                    $treeView->addTreeIcons($wholeThread);
+                }
 
                 if ($lConf['single']) {
                     foreach ($wholeThread as $recentP) {
@@ -463,6 +451,9 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                                 $begin_at,
                                 $controlObj->readGP('sword', $prefixId)
                             );
+                    }
+                    if (is_object($treeView)) {
+                        $treeView->addTreeIcons($recentPosts);
                     }
 
                     $c_post = 0;

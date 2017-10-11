@@ -30,7 +30,7 @@ namespace JambageCom\TtBoard\Controller;
 /**
  * tx_ttboard_pibase
  *
- * Function library for a forum/board in tree or list style
+ * Function library for a forum / board in tree or list style
  *
  * TypoScript config:
  * - See static_template 'plugin.tt_board_tree' and plugin.tt_board_list
@@ -46,10 +46,25 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
+    /**
+    * Returns a message, formatted
+    */
+    static public function outMessage ($string, $content = '') {
+        $msg = '
+        <hr>
+        <h3>' . $string . '</h3>
+        ' . $content . '
+        <hr>
+        ';
+
+        return $msg;
+    }
+
+
     public function processCode ($theCode, &$content, $composite) {
 
         $conf = $composite->getConf();
-        $ref = (isset($conf['ref']) ? $conf['ref'] : '');
+        $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());
 
         switch($theCode) {
@@ -83,11 +98,25 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
             case 'FORUM':
             case 'THREAD_TREE':
                 $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
+                $treeView = null;
+                $iconConf = array();
+
+                if ($conf['iconCode']) {
+                    $iconConf = $conf['iconCode.'];
+                    $treeView =
+                        GeneralUtility::makeInstance(
+                            \JambageCom\TtBoard\View\Tree::class,
+                            $composite->getModelObj(),
+                            $iconConf
+                        );
+                }
+
                 $forumViewObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
                 $content .= $forumViewObj->printView(
                     $composite->getLanguageObj(),
                     $composite->getMarkerObj(),
                     $composite->getModelObj(),
+                    $treeView,
                     $conf,
                     $composite->getTtBoardUid(),
                     $ref,
@@ -587,7 +616,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     );
                 $notify = array();
 
-                foreach($wholeThread as $recordP) {	// the last notification checkbox will be superseed the previous settings
+                foreach($wholeThread as $recordP) {	// the last notification checkbox will be supercede the previous settings
 
                     if ($recordP['email']) {
 
