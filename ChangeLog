@@ -1,4 +1,7 @@
-2017-10-1 Franz Holzinger <franz@ttproducts.de>
+2017-10-14 Franz Holzinger <franz@ttproducts.de>
+    * make better usage of the TYPO3_DB methods
+
+2017-10-11 Franz Holzinger <franz@ttproducts.de>
     * bugfix: the tree view images have not been used
 
 2017-08-29 Franz Holzinger <franz@ttproducts.de>

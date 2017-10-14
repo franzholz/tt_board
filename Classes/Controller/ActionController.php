@@ -43,6 +43,7 @@ namespace JambageCom\TtBoard\Controller;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtBoard\Domain\Composite;
 
 class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
@@ -61,7 +62,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
     }
 
 
-    public function processCode ($theCode, &$content, $composite) {
+    public function processCode ($theCode, &$content, Composite $composite) {
 
         $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
@@ -241,6 +242,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
                     // Getting categories
                 $categories = $modelObj->getPagesInPage($composite->getPidList());
+
                 $c_cat = 0;
 
                 foreach ($categories as $k => $catData) {
@@ -561,7 +563,6 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 $content = $this->outMessage('No template code for ###TEMPLATE_OVERVIEW###');
             }
         }
-
         return $content;
     }
 
@@ -574,7 +575,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
         $pid,
         $ref,
         array $linkParams,
-        $composite
+        Composite $composite
     ) {
         $content = '';
         $conf = $composite->getConf();

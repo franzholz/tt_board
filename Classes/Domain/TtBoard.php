@@ -95,8 +95,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
                 if (count($fitArray)) {
                     $allowed = true;
                 }
-            } else {
-                $allowed = false;
             }
         } else {
             $allowed = true;
@@ -109,40 +107,46 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     * Get subpages
     *
     * This function returns an array a pagerecords from the page-uid's in the pid_list supplied.
-    * Excludes pages, that would normally not enter a regular menu. That means hidden, timed or deleted pages + pages with another doktype than 'standard' or 'advanced'
+    * Excludes pages, that would normally not enter a regular menu. That means hidden, timed or deleted pages and pages with another doktype than 'standard' or 'advanced'
     */
     static public function getPagesInPage ($pid_list) {
+        $result = array();
         $thePids = GeneralUtility::intExplode(',', $pid_list);
-        $rcArray = array();
-        foreach($thePids as $p_uid) {
-            $rcArray =
-                array_merge(
-                    $rcArray,
-                    $GLOBALS['TSFE']->sys_page->getMenu($p_uid)
-                );
+        $pageRows = array();
+        foreach($thePids as $pid) {
+            $menuRows = $GLOBALS['TSFE']->sys_page->getMenu($pid);
+                // avoid the insertion of duplicate page rows
+            foreach ($menuRows as $menuRow) {
+                $uid = $menuRow['uid'];
+                if (!isset($pageRows[$uid])) {
+                    $pageRows[$uid] = $menuRow;
+                }
+            }
         }
 
             // Exclude pages not of doktype 'Standard' or 'Advanced'
-        foreach($rcArray as $key => $data) {
+        foreach($pageRows as $pageRow) {
             if (
-                !GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes'], $data['doktype'])
+                GeneralUtility::inList(
+                    $GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes'],
+                    $pageRow['doktype']
+                )
             ) {
-                unset($rcArray[$key]);
+                $result[] = $pageRow;
             } // All pages including pages 'not in menu'
         }
-        return $rcArray;
+        return $result;
     }
 
 
     /**
     * Returns number of post in a forum.
     */
-    public function getNumPosts ($pid) {
-        $where = 'pid IN (' . $pid . ')' . $this->getEnableFields();
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->getTablename(), $where);
-        $row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
-        return $row[0];
+    public function getNumPosts ($pid, $where = '') {
+        $where = 'pid IN (' . $pid . ')' . $where . $this->getEnableFields();
+        $result = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows('*', $this->getTablename(), $where);
+
+        return $result;
     }
 
 
@@ -150,7 +154,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     * Returns number of threads.
     */
     public function getNumThreads ($pid, $ref = '', $searchWord = 0) {
-        $outArray = array();
+        $count = 0;
         $whereRef = $this->getWhereRef($ref);
 
         if ($searchWord) {
@@ -161,21 +165,9 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
                     $this->searchFieldList,
                     $this->getTablename()
                 );
-            $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->getEnableFields();
-            $count =
-                $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
-                    '*',
-                    $this->getTablename(),
-                    $where
-                );
+            $count = $this->getNumPosts ($pid, $whereRef . $where);
         } else {
-            $where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->getEnableFields();
-            $count =
-                $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
-                    '*',
-                    $this->getTablename(),
-                    $where
-                );
+            $count = $this->getNumPosts ($pid, ' AND parent=0' . $whereRef);
         }
 
         return $count;
@@ -187,11 +179,9 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     * Returns number of replies.
     */
     public function getNumReplies ($pid, $uid) {
-        $where = 'pid IN (' . $pid . ') AND parent=' . intval($uid) . $this->getEnableFields();
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('count(*)', $this->getTablename(), $where);
-        $row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
-        return $row[0];
+        $count = $this->getNumPosts ($pid, ' AND parent=' . intval($uid));
+
+        return $count;
     }
 
 
@@ -200,17 +190,14 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     */
     public function getLastPost ($pid) {
         $where = 'pid IN (' . $pid . ')' . $this->getEnableFields();
-        $res =
-            $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                '*',
-                $this->getTablename(),
-                $where,
-                '',
-                $this->orderBy('DESC'),
-                '1'
-            );
-        $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
+        $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+            '*',
+            $this->getTablename(),
+            $where,
+            '',
+            $this->orderBy('DESC')
+        );
+
         return $row;
     }
 
@@ -221,17 +208,14 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     public function getLastPostInThread ($pid, $uid, $ref) {
         $whereRef = $this->getWhereRef($ref);
         $where = 'pid IN (' . $pid . ') AND parent=' . $uid . $whereRef . $this->getEnableFields();
-        $res =
-            $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                '*',
-                $this->getTablename(),
-                $where,
-                '',
-                $this->orderBy('DESC'),
-                '1'
-            );
-        $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
+
+        $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+            '*',
+            $this->getTablename(),
+            $where,
+            '',
+            $this->orderBy('DESC')
+        );
         return $row;
     }
 
@@ -252,8 +236,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
 
         $where = 'pid IN (' . $pid . ')' . $timeWhere . $this->getEnableFields();
 
-        $res =
-            $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        $result =
+            $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                 '*',
                 $this->getTablename(),
                 $where,
@@ -261,12 +245,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
                 $this->orderBy('DESC'),
                 $number
             );
-        $out = array();
-        while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-            $out[] = $row;
-        }
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
-        return $out;
+
+        return $result;
     }
 
 
@@ -465,7 +445,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
                 '',
                 $this->orderBy()
             );
-        $c = 0;
+        $counter = 0;
         $numberRows = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
         $prevUid = end(array_keys($theRows));
         $theRows[$prevUid]['treeMarks'] =
@@ -476,14 +456,14 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
             );
 
         while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-            $c++;
+            $counter++;
             $uid = $row['uid'];
             // check for a loop
             if (isset($theRows[$uid])) {
                 break;
             }
 
-            $row['treeMarks'] = $treeMarks . ($numberRows == $c ? TreeMark::JOIN_BOTTOM : TreeMark::JOIN);
+            $row['treeMarks'] = $treeMarks . ($numberRows == $counter ? TreeMark::JOIN_BOTTOM : TreeMark::JOIN);
                 // prev/next item:
             $theRows[$prevUid]['nextUid'] = $uid;
             $row['prevUid'] = $theRows[$prevUid]['uid'];
@@ -494,7 +474,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
                 $uid,
                 $row['pid'],
                 $ref,
-                $treeMarks . ($numberRows == $c ? TreeMark::BLANK : TreeMark::LINE)
+                $treeMarks . ($numberRows == $counter ? TreeMark::BLANK : TreeMark::LINE)
             );
             $prevUid = $uid;
         }
