@@ -113,10 +113,14 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface {
         $icons = $this->getIcons();
         foreach ($rows as &$row) {
             if (
-                !empty($row['treeMarks']) &&
-                isset($icons[$row['treeMarks']])
+                !empty($row['treeMarks'])
             ) {
-                $row['treeIcons'] = $icons[$row['treeMarks']];
+                $treeMarks = explode(',', $row['treeMarks']);
+                foreach ($treeMarks as $treeMark) {
+                    if (isset($icons[$treeMark])) {
+                        $row['treeIcons'] .= $icons[$treeMark];
+                    }
+                }
             }
         }
     }

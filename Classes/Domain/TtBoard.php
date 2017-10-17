@@ -393,9 +393,11 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
             $set = array();
             while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 $rootRow = $this->getRootParent($row['uid']);
+
                 if (is_array($rootRow) && !isset($set[$rootRow['uid']])) {
                     $set[$rootRow['uid']] = 1;
                     $outArray[$rootRow['uid']] = $rootRow;
+
                     if ($descend) {
                         $this->getRecordTree(
                             $outArray,
@@ -420,8 +422,14 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
                 );
             while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 $outArray[$row['uid']] = $row;
+
                 if ($descend) {
-                    $this->getRecordTree($outArray, $row['uid'], $row['pid'], $ref);
+                    $this->getRecordTree(
+                        $outArray,
+                        $row['uid'],
+                        $row['pid'],
+                        $ref
+                    );
                 }
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
@@ -434,6 +442,10 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     * Get a record tree of forum items
     */
     public function getRecordTree (&$theRows, $parent, $pid, $ref, $treeMarks = '') {
+
+        if ($treeMarks != '') {
+            $treeMarks .= ',';
+        }
         $whereRef = $this->getWhereRef($ref);
         $where = 'pid=' . intval($pid) . ' AND parent=' . intval($parent) . $whereRef . $this->getEnableFields();
 
@@ -448,7 +460,12 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $counter = 0;
         $numberRows = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
         $prevUid = end(array_keys($theRows));
-        $theRows[$prevUid]['treeMarks'] =
+
+        if ($theRows[$prevUid]['treeMarks'] != '') {
+            $theRows[$prevUid]['treeMarks'] .= ',';
+        }
+
+        $theRows[$prevUid]['treeMarks'] .=
             (
                 $numberRows ?
                 TreeMark::THREAD :
@@ -458,13 +475,20 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
             $counter++;
             $uid = $row['uid'];
+
             // check for a loop
             if (isset($theRows[$uid])) {
                 break;
             }
 
-            $row['treeMarks'] = $treeMarks . ($numberRows == $counter ? TreeMark::JOIN_BOTTOM : TreeMark::JOIN);
-                // prev/next item:
+            $row['treeMarks'] =
+                $treeMarks . (
+                    $numberRows == $counter ?
+                        TreeMark::JOIN_BOTTOM :
+                        TreeMark::JOIN
+                );
+
+            // prev/next item:
             $theRows[$prevUid]['nextUid'] = $uid;
             $row['prevUid'] = $theRows[$prevUid]['uid'];
             $theRows[$uid] = $row;

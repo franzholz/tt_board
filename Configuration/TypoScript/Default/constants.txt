@@ -41,9 +41,9 @@ plugin.tt_board_list {
   wrap3 = <font face="verdana" size=2 color=white> | </font>
 
     # cat=plugin.board/color; type=color; label= List-style, Color 1: This bgcolor is used in the template-file.
-  color1 = #cccccc
+  color1 = #cae8f5
     # cat=plugin.board/color; type=color; label= List-style, Color 2: This bgcolor is used in the template-file.
-  color2 = #999999
+  color2 = #ddff33
     # cat=plugin.board/color; type=color; label= List-style, Color 3: This bgcolor is used in the template-file.
   color3 = #333333
     # cat=plugin.board/color; type=color; label= List-style, Color 4: This bgcolor is used in the template-file.
@@ -63,9 +63,9 @@ plugin.tt_board_tree {
   wrap3 = <font face="verdana" size=2 color=white> | </font>
 
     # cat=plugin.board/color; type=color; label= Tree-style, Color 1: This bgcolor is used in the template-file.
-  color1 = #cccccc
+  color1 = #cae8f5
     # cat=plugin.board/color; type=color; label= Tree-style, Color 2: This bgcolor is used in the template-file.
-  color2 = #999999
+  color2 = #ddff33
     # cat=plugin.board/color; type=color; label= Tree-style, Color 3: This bgcolor is used in the template-file.
   color3 = #333333
     # cat=plugin.board/color; type=color; label= Tree-style, Color 4: This bgcolor is used in the template-file.
