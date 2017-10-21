@@ -41,6 +41,8 @@ namespace JambageCom\TtBoard\View;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class Marker {
     protected $conf;
@@ -109,7 +111,7 @@ class Marker {
             // Call all addURLMarkers hooks at the end of this method
         if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
             foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addGlobalMarkers')) {
                     $hookObj->addGlobalMarkers($markerArray);
                 }
@@ -195,16 +197,14 @@ class Marker {
         foreach ($locallang['default'] as $k => $text) {
             if (strpos($k, 'board') === 0) {
                 $markerArray['###' . strtoupper($k) . '###'] =
-                    \tx_div2007_alpha5::getLL_fh003(
-                        $languageObj,
+                    $languageObj->getLL(
                         $k
                     );
             }
         }
 
         $markerArray['###BUTTON_SEARCH###'] =
-            \tx_div2007_alpha5::getLL_fh003(
-                $languageObj,
+            $languageObj->getLL(
                 'button_search'
             );
     }
@@ -305,8 +305,8 @@ class Marker {
         $pagefloat = 0;
         $imageArray = array();
         $imageActiveArray = array();
-        $browseObj = GeneralUtility::makeInstance('tx_div2007_alpha_browse_base');
-        $browseObj->init_fh002(
+        $browseObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Base\BrowserBase::class);
+        $browseObj->init(
             $conf,
             $piVars,
             array(),
@@ -364,7 +364,7 @@ class Marker {
                     $begin_at + $limit;
             $addQueryString[$pointerName] = intval($next / $limit);
             $tempUrl =
-                \tx_div2007_alpha5::linkTP_keepCtrlVars(
+                FrontendUtility::linkTPKeepCtrlVars(
                     $browseObj,
                     $cObj,
                     $prefixId,
@@ -382,7 +382,7 @@ class Marker {
             $prev = ($begin_at - $limit < 0) ? 0 : $begin_at - $limit;
             $addQueryString[$pointerName] = intval($prev / $limit);
             $tempUrl =
-                \tx_div2007_alpha5::linkTP_keepCtrlVars(
+                FrontendUtility::linkTPKeepCtrlVars(
                     $browseObj,
                     $cObj,
                     $prefixId,
@@ -404,7 +404,7 @@ class Marker {
                 $wrappedSubpartArray['###LINK_BROWSE###'] = array('', '');
 
                 $markerArray['###BROWSE_LINKS###'] =
-                    \tx_div2007_alpha5::list_browseresults_fh004(
+                    FrontendUtility::listBrowser(
                         $browseObj,
                         $languageObj,
                         $cObj,

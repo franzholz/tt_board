@@ -170,7 +170,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
     /**
     * Creates a list of forums or categories depending on theCode
     */
-    public function forum_list ($theCode, $composite, array $linkParams) {
+    public function forum_list ($theCode, Composite $composite, array $linkParams) {
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $markerObj = $composite->getMarkerObj();
@@ -211,6 +211,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     $markerArray,
                     $languageObj
                 );
+
                 $templateCode =
                     $local_cObj->substituteMarkerArrayCached(
                         $templateCode,
@@ -242,7 +243,6 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
                     // Getting categories
                 $categories = $modelObj->getPagesInPage($composite->getPidList());
-
                 $c_cat = 0;
 
                 foreach ($categories as $k => $catData) {
@@ -706,8 +706,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 if ($spamWord != '') {
                     $out =
                         sprintf(
-                            \tx_div2007_alpha5::getLL_fh003(
-                                $languageObj,
+                            $languageObj->getLL(
                                 'spam_detected'
                             ),
                             $spamWord
@@ -741,8 +740,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     if ($bWrongCaptcha) {
                         $textLabel = '<b>' .
                             sprintf(
-                                \tx_div2007_alpha5::getLL_fh003(
-                                    $languageObj,
+                                $languageObj->getLL(
                                     'wrong_captcha'
                                 ),
                                 $word
@@ -797,8 +795,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                             )
                         ) {
                             $lConf['dataArray.'][$k . '.'][$type] =
-                                \tx_div2007_alpha5::getLL_fh003(
-                                    $languageObj,
+                                $languageObj->getLL(
                                     $theField
                                 );
 

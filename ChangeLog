@@ -1,3 +1,6 @@
+2017-10-21 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: use the div2007 1.7.14 namespace page browser BrowserBase and the FrontendUtility methods for the browser
+
 2017-10-17 Franz Holzinger <franz@ttproducts.de>
     * bugfix of the tree view and the indentation of the icons
     * change the default colors 1 and 2

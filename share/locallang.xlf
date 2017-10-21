@@ -31,28 +31,28 @@
 				<source>Post New Reply</source>
 			</trans-unit>
 			<trans-unit id="board_age" xml:space="preserve">
-				<source>age</source>
+				<source>Age</source>
 			</trans-unit>
 			<trans-unit id="board_ago" xml:space="preserve">
-				<source>ago</source>
+				<source>Ago</source>
 			</trans-unit>
 			<trans-unit id="board_author" xml:space="preserve">
-				<source>author</source>
+				<source>Author</source>
 			</trans-unit>
 			<trans-unit id="board_back_to_forum" xml:space="preserve">
-				<source>Back to forum</source>
+				<source>Back to Forum</source>
 			</trans-unit>
 			<trans-unit id="board_by" xml:space="preserve">
-				<source>by</source>
+				<source>By</source>
 			</trans-unit>
 			<trans-unit id="board_content" xml:space="preserve">
 				<source>Content</source>
 			</trans-unit>
 			<trans-unit id="board_date" xml:space="preserve">
-				<source>date</source>
+				<source>Date</source>
 			</trans-unit>
 			<trans-unit id="board_forum" xml:space="preserve">
-				<source>forum</source>
+				<source>Forum</source>
 			</trans-unit>
 			<trans-unit id="board_forum_list" xml:space="preserve">
 				<source>Forum List</source>

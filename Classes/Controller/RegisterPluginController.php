@@ -120,6 +120,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
             $this->piVars['uid'],
             $this->prefixId
         );
+
         return $composite;
     }
 
@@ -166,7 +167,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     }
 
 
-    public function listCagetories ($content, $conf) {
+    public function listCategories ($content, $conf) {
         $composite = $this->init($content, $conf);
         $this->processCode('LIST_CATEGORIES', $content, $composite);
         return $content;
