@@ -107,7 +107,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
         );
         \tx_div2007_alpha5::loadLL_fh002(
             $languageObj,
-            'EXT:' . TT_BOARD_EXT . '/share/locallang.xlf'
+            'EXT:' . TT_BOARD_EXT . '/Resources/Private/Language/locallang.xlf'
         );
 
         $composite->setLanguageObj($languageObj);

@@ -1,3 +1,6 @@
+2017-10-23 Franz Holzinger <franz@ttproducts.de>
+    * move share/locallang.xlf -> Resources/Private/Language/locallang.xlf
+
 2017-10-21 Franz Holzinger <franz@ttproducts.de>
     * bugfix: use the div2007 1.7.14 namespace page browser BrowserBase and the FrontendUtility methods for the browser
 
