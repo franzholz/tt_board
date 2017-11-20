@@ -21,11 +21,11 @@ plugin.tt_board {
     # cat=plugin.board/email; type=boolean; label= Email check: If you want to verify the validity of an entered email address
   emailCheck = 0
 
-    # cat=plugin.board/captcha; type=string; label= Captcha check: If you want to display the captcha view and field.
-  captcha = freecap
+    # cat=plugin.board/captcha; type=string; label= Captcha check: If you want to display the captcha view and field. freecap or captcha are supported.
+  captcha =
 
     # cat=plugin.board/spam; type=text; label= Spam words: Comma separated list of spam words. No message contaning one of these words will be stored.
-  spamWords = 0zu.tw, mark-blog, erotik, penis, viagra, cialis, gogofacility, pornvideo, nudity, wifelover, extra.hu, mega-phentermine, fkool.info, coffeehousearoma.com, fccj.edu, netfirms.com, pcdor.info, oic.orokz.info, netfirms.com, orokz.info, yaporn.net, eeporn.com, y118.net, blue11.cn, kisswow.com.cn, ririwow.cn, winzipices.cn
+  spamWords = mark-blog, erotik, penis, viagra, cialis, gogofacility, pornvideo, nudity, wifelover, mega-phentermine, orokz.info, yaporn.net
 }
 
 

@@ -46,6 +46,7 @@ FEData.tt_board {
   }
   autoInsertPID = 0
   doublePostCheck = doublePostCheck
+  doublePostCheck.fields = subject,message,author
 }
 
 
@@ -110,6 +111,7 @@ temp.tt_board.shared {
     60.value =
   }
   postform.no_cache = 1
+  postform.dontXssFieldNames = captcha
 
   postform_newThread < .postform
   postform_newThread.dataArray.60.value = Post New Thread
@@ -147,6 +149,25 @@ temp.tt_board.shared {
       70.destination = veryhappy.gif
       80.source = ;-)
       80.destination = wink.gif
+    }
+  }
+
+  image = IMAGE
+  image {
+    file {
+      width  = 18
+      height = 16
+      params = align="top"
+    }
+  }
+
+  icon.new < .image
+  icon.new {
+    file = EXT:tt_board/Resources/Public/Icons/List/new.gif
+    file {
+      width  = 35
+      height = 10
+      params = align="top"
     }
   }
 }
@@ -304,40 +325,40 @@ plugin.tt_board_tree {
     # Allows for the forum to draw it as a tree
   tree = 1
 
-  list_forums.author_stdWrap.wrap = by |
-  list_threads.post_content_stdWrap.crop = 200 | ...
-  list_forums.post_content_stdWrap.crop = 200 | ...
+  list_forums {
+    author_stdWrap.wrap = by |
+    post_content_stdWrap.crop = 200 | ...
+    forum_posts_stdWrap.wrap = Posts:&nbsp; |
+  }
+  list_threads {
+    post_content_stdWrap.crop = 200 | ...
+  }
 
-  iconCode = 1
-  iconCode.join = IMAGE
+  iconCode.join < .image
   iconCode.join {
     file = EXT:tt_board/Resources/Public/Icons/Tree/join.gif
-    file {
-      width = 18
-      height = 16
-      params = align="top"
-    }
   }
-  iconCode.joinBottom < .iconCode.join
+  iconCode.joinBottom < .image
   iconCode.joinBottom {
     file = EXT:tt_board/Resources/Public/Icons/Tree/joinbottom.gif
   }
-  iconCode.line < .iconCode.join
+  iconCode.line < .image
   iconCode.line {
     file = EXT:tt_board/Resources/Public/Icons/Tree/line.gif
   }
-  iconCode.blank < .iconCode.join
+  iconCode.blank < .image
   iconCode.blank {
     file = EXT:tt_board/Resources/Public/Icons/Tree/blank.gif
   }
-  iconCode.thread < .iconCode.join
+  iconCode.thread < .image
   iconCode.thread {
     file = EXT:tt_board/Resources/Public/Icons/Tree/thread.gif
   }
-  iconCode.end < .iconCode.join
+  iconCode.end < .image
   iconCode.end {
     file = EXT:tt_board/Resources/Public/Icons/Tree/end.gif
   }
+
 
   list_threads.post_title_stdWrap.wrap = <font face="verdana,arial" size=1 color=black> | </font>
   list_threads.post_title_stdWrap.crop = 80 | ...
