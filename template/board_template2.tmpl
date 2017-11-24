@@ -35,7 +35,7 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 			Template for the display of forum information
 		-->
 	<tr bgcolor="###GC4###">
-		<td width="60%"><!--###LINK###-->###GW3B###<B>###FORUM_TITLE###</B>###GW3E###<!--###LINK###-->###GW3B###<B>###FORUM_POSTS###</B>###GW3E###
+		<td width="60%"><!--###LINK###-->###GW3B###<b>###FORUM_TITLE###</b>###GW3E###<!--###LINK###-->&nbsp;###GW3B###<b>###FORUM_POSTS###</b>###GW3E###
 		</td>
 	</tr>
 	<tr bgcolor="###GC2###">
@@ -47,14 +47,14 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 			Template for the display of latest posts of a forum
 		-->
 	<tr bgcolor="###GC1###">
-		<td><img src="typo3/sysext/cms/tslib/media/scripts/new.gif" height="10" width="35"><!-- ###LINK### begin -->###GW1B### ###POST_TITLE### ###GW1E###<!-- ###LINK### end --></td>
+		<td>###IMAGE_NEW###<!-- ###LINK### begin -->###GW1B### ###POST_TITLE### ###GW1E###<!-- ###LINK### end --></td>
 	</tr>
 		<!-- ###POST### end -->
 		<!-- ###POST_1### begin
 			See POST marker, this is the alternative layout used every second time.
 		-->
 	<tr bgcolor="###GC2###">
-		<td><img src="typo3/sysext/cms/tslib/media/scripts/new.gif" height="10" width="35"><!-- ###LINK### begin -->###GW1B### ###POST_TITLE### ###GW1E###<!-- ###LINK### end --></td>
+		<td>###IMAGE_NEW###<!-- ###LINK### begin -->###GW1B### ###POST_TITLE### ###GW1E###<!-- ###LINK### end --></td>
 	</tr>
 		<!-- ###POST_1### end -->
 	<tr>
@@ -139,16 +139,16 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 		<!--###POST### begin -->
 			<table width="100%" cellspacing="0" cellpadding="3" border="0">
       <tr class="tx-ttboard-catlistheader-forum">
-      <td>  ###GW1B### <b>###FORUM_TITLE###</b>###GW1E### </td>
+      <td>  ###GW1B### <b>###FORUM_TITLE###</b> ###GW1E### </td>
 				</tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
 					<td class="tx-ttboard-link-back-to-forum" width="40%" align="left" >
-						###GW2B### <b><!-- ###LINK_BACK_TO_FORUM### begin -->###BOARD_FORUM_LIST###<!-- ###LINK_BACK_TO_FORUM### end -->&nbsp;&nbsp;|&nbsp;&nbsp;<!-- ###LINK_FIRST_POST### begin -->###BOARD_GO_TO_TOP###<!-- ###LINK_FIRST_POST### end -->&nbsp;&nbsp;&nbsp;</b>###GW2E###
+						###GW2B### <b><!-- ###LINK_BACK_TO_FORUM### begin -->###BOARD_FORUM_LIST###<!-- ###LINK_BACK_TO_FORUM### end -->&nbsp;&nbsp;|&nbsp;&nbsp;<!-- ###LINK_FIRST_POST### begin -->###BOARD_GO_TO_TOP###<!-- ###LINK_FIRST_POST### end -->&nbsp;&nbsp;&nbsp;</b> ###GW2E###
 					</td>
 					<td class="tx-ttboard-link-to-forum-message" width="40%" align="right" >###GW2B### <b>
 						<!-- ###LINK_PREV_POST### begin -->###BOARD_PREVIOUS_MESSAGE###<!-- ###LINK_PREV_POST### end -->&nbsp;&nbsp;|
-						&nbsp;<!-- ###LINK_NEXT_POST### begin -->###BOARD_NEXT_MESSAGE###<!-- ###LINK_NEXT_POST### end --></b>###GW2E### &nbsp;
+						&nbsp;<!-- ###LINK_NEXT_POST### begin -->###BOARD_NEXT_MESSAGE###<!-- ###LINK_NEXT_POST### end --></b> ###GW2E### &nbsp;
 					</td>
      		</tr>
          <tr><td>&nbsp;</td></tr>

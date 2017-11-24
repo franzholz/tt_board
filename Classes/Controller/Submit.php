@@ -75,12 +75,14 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface {
                     $internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
 
                     if (
-                        $conf['captcha'] == 'freecap' &&
-                        ExtensionManagementUtility::isLoaded('sr_freecap')
+                        $captcha =
+                            \JambageCom\Div2007\Captcha\CaptchaManager::getCaptcha(
+                                TT_BOARD_EXT,
+                                $conf['captcha']
+                            )
                     ) {
-                        require_once(ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
-                        $freeCapObj = GeneralUtility::makeInstance('tx_srfreecap_pi2');
-                        if (!$freeCapObj->checkWord($row['captcha'])) {
+                        if (!$captcha->evalValues($row['captcha'], $conf['captcha']))
+                        {
                             $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
                             $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
                             $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row['captcha'];
@@ -216,13 +218,12 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface {
 
                                 // Send
                             if ($conf['debug']) {
-                                debug($maillist_recip);
-                                debug($maillist_subject);
+                                debug($maillist_recip); // keep this
+                                debug($maillist_subject); // keep this
                                 echo nl2br($maillist_msg . chr(10));
-                                debug($maillist_header);
+                                debug($maillist_header); // keep this
                             } else {
                                 $addresses = GeneralUtility::trimExplode(',', $maillist_recip);
-
                                 foreach ($addresses as $email) {
                                     \tx_div2007_email::sendMail(
                                         $email,
@@ -285,9 +286,9 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface {
                                 );
 
                             if ($conf['debug']) {
-                                debug($notifyMe);
-                                debug($headers);
-                                debug($msgParts);
+                                debug($notifyMe); // keep this
+                                debug($headers); // keep this
+                                debug($msgParts); // keep this
                             } else {
                                 $addresses = GeneralUtility::trimExplode(',', $notifyMe);
                                 $senderArray =
@@ -329,7 +330,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface {
             $messagePage = GeneralUtility::makeInstance(ErrorpageMessage::class, $message, $title);
             $messagePage->output();
         }
-
         return true;
     }
 }

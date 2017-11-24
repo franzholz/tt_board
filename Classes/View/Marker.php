@@ -41,6 +41,7 @@ namespace JambageCom\TtBoard\View;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 
@@ -207,6 +208,31 @@ class Marker {
             $languageObj->getLL(
                 'button_search'
             );
+    }
+
+
+    public function getIconMarkers (&$markerArray, $iconConfig) {
+
+        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+
+        foreach ($iconConfig as $type => $renderType) {
+            if (strpos($type, '.') !== false) {
+                continue;
+            }
+            $config = $iconConfig[$type . '.'];
+            $config['file'] =
+                ExtensionUtility::getExtensionFilePath(
+                    $config['file'],
+                    true
+                );
+            $imageHtml =
+                $local_cObj->getContentObject(
+                    $renderType
+                )->render(
+                    $config
+                );
+            $markerArray['###IMAGE_' . strtoupper($type) . '###'] = $imageHtml;
+        }
     }
 
 

@@ -28,7 +28,7 @@ namespace JambageCom\TtBoard\Controller;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * tx_ttboard_pibase
+ * ActionController
  *
  * Function library for a forum / board in tree or list style
  *
@@ -63,7 +63,6 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
 
     public function processCode ($theCode, &$content, Composite $composite) {
-
         $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());
@@ -71,7 +70,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
         switch($theCode) {
             case 'LIST_CATEGORIES':
             case 'LIST_FORUMS':
-                $content .=
+                $newContent =
                     $this->forum_list(
                         $theCode,
                         $composite,
@@ -87,7 +86,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                         $composite->getPidList()
                     );
                 $pid = $pidArray[0];
-                $content .=
+                $newContent =
                     $this->forum_postform(
                         $theCode,
                         $pid,
@@ -100,37 +99,36 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
             case 'THREAD_TREE':
                 $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
                 $treeView = null;
-                $iconConf = array();
 
-                if ($conf['iconCode']) {
-                    $iconConf = $conf['iconCode.'];
+                if ($conf['tree']) {
                     $treeView =
                         GeneralUtility::makeInstance(
                             \JambageCom\TtBoard\View\Tree::class,
                             $composite->getModelObj(),
-                            $iconConf
+                            $conf['iconCode.']
                         );
                 }
 
                 $forumViewObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
-                $content .= $forumViewObj->printView(
-                    $composite->getLanguageObj(),
-                    $composite->getMarkerObj(),
-                    $composite->getModelObj(),
-                    $treeView,
-                    $conf,
-                    $composite->getTtBoardUid(),
-                    $ref,
-                    $composite->getPidList(),
-                    $theCode,
-                    $composite->getOrigTemplateCode(),
-                    $composite->getAlternativeLayouts(),
-                    $linkParams,
-                    $composite->getPrefixId(),
-                    $pid,
-                    $composite->getTypolinkConf(),
-                    $composite->getAllowCaching()
-                );
+                $newContent =
+                    $forumViewObj->printView(
+                        $composite->getLanguageObj(),
+                        $composite->getMarkerObj(),
+                        $composite->getModelObj(),
+                        $treeView,
+                        $conf,
+                        $composite->getTtBoardUid(),
+                        $ref,
+                        $composite->getPidList(),
+                        $theCode,
+                        $composite->getOrigTemplateCode(),
+                        $composite->getAlternativeLayouts(),
+                        $linkParams,
+                        $composite->getPrefixId(),
+                        $pid,
+                        $composite->getTypolinkConf(),
+                        $composite->getAllowCaching()
+                    );
             break;
             default:
                 $contentTmp = 'error';
@@ -141,7 +139,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
             $fileName = 'EXT:' . TT_BOARD_EXT . '/template/board_help.tmpl';
             $helpTemplate = $composite->getCObj()->fileResource($fileName);
 
-            $content .= \tx_div2007_alpha5::displayHelpPage_fh003(
+            $newContent = \tx_div2007_alpha5::displayHelpPage_fh003(
                 $composite->getLanguageObj(),
                 $composite->getCObj(),
                 $helpTemplate,
@@ -151,6 +149,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
             );
             $composite->setErrorMessage('');
         }
+
+        $content .= $newContent;
     }
 
 
@@ -160,17 +160,21 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
     public function getContentRecord ($pid) {
         $where = 'pid=' . intval($pid) . ' AND list_type IN (\'2\',\'4\') AND sys_language_uid=' . intval($GLOBALS['TSFE']->config['config']['sys_language_uid']) . $GLOBALS['TSFE']->sys_page->deleteClause('tt_content');
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_content', $where);
-        $rc = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+        $result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
-        return $rc;
+        return $result;
     } //getRecord
 
 
     /**
     * Creates a list of forums or categories depending on theCode
     */
-    public function forum_list ($theCode, Composite $composite, array $linkParams) {
+    public function forum_list (
+        $theCode,
+        Composite $composite,
+        array $linkParams
+    ) {
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $markerObj = $composite->getMarkerObj();
@@ -184,6 +188,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
 
         if (!$composite->getTtBoardUid()) {
             $forumlist = 0;		// set to true if this is a list of forums and not categories + forums
+
             if ($theCode == 'LIST_CATEGORIES') {
                     // Config if categories are listed.
                 $lConf = $conf['list_categories.'];
@@ -212,6 +217,12 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     $languageObj
                 );
 
+                    // Getting the icon markers
+                $markerObj->getIconMarkers(
+                    $markerArray,
+                    $conf['icon.']
+                );
+
                 $templateCode =
                     $local_cObj->substituteMarkerArrayCached(
                         $templateCode,
@@ -227,12 +238,14 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                         $alternativeLayouts,
                         'CATEGORY'
                     );
+
                 $forumHeader =
                     $markerObj->getLayouts(
                         $templateCode,
                         $alternativeLayouts,
                         'FORUM'
                     );
+
                 $postHeader =
                     $markerObj->getLayouts(
                         $templateCode,
@@ -271,6 +284,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                                 ),
                                 $lConf['title_stdWrap.']
                             );
+
                         $markerArray['###CATEGORY_DESCRIPTION###'] =
                             $local_cObj->stdWrap(
                                 $markerObj->formatStr(
@@ -278,6 +292,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                                 ),
                                 $lConf['subtitle_stdWrap.']
                             );
+
                         $markerArray['###CATEGORY_FORUMNUMBER###'] =
                             $local_cObj->stdWrap(
                                 count($forums),
@@ -345,6 +360,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                                     $contentRow['pages'] :
                                     $forumData['uid']
                             );
+
                             $markerArray['###FORUM_POSTS###'] =
                                 $forum_cObj->stdWrap(
                                     $modelObj->getNumPosts($pid),
@@ -365,6 +381,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                                     $linkParams,
                                     array('useCacheHash' => $allowCaching)
                                 );
+
                             $wrappedSubpartContentArray['###LINK###'] =
                                 array(
                                     '<a href="' . htmlspecialchars($pageLink) . '">',
@@ -513,6 +530,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                                     $temp_conf['additionalParams'] .= '&tt_board_uid=' . $recentPost['uid'];
                                     $temp_conf['useCacheHash'] = $allowCaching;
                                     $temp_conf['no_cache'] = !$allowCaching;
+
                                     $wrappedSubpartContentArray['###LINK###'] =
                                         $forum_cObj->typolinkWrap($temp_conf);
 
@@ -563,6 +581,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 $content = $this->outMessage('No template code for ###TEMPLATE_OVERVIEW###');
             }
         }
+
         return $content;
     }
 
@@ -601,14 +620,16 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 $parentR =
                     $modelObj->getRootParent(
                         $composite->getTtBoardUid(),
-                        $ref#
+                        $ref
                     );
-                if (!$conf['tree']) {
+
+                if (
+                    is_array($parentR) &&
+                    !$conf['tree']
+                ) {
                     $parent = $parentR['uid'];
                 }
 
-/*				$rootParent = $modelObj->getRootParent($parent, $ref);
-*/
                 $wholeThread =
                     $modelObj->getSingleThread(
                         $parentR['uid'],
@@ -665,6 +686,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
             $modEmail = $conf['moderatorEmail'];
             if (!$parent && isset($conf['postform_newThread.'])) {
                 $lConf = $conf['postform_newThread.'] ? $conf['postform_newThread.'] : $lConf;	// Special form for newThread posts...
+
                 $modEmail = $conf['moderatorEmail_newThread'] ? $conf['moderatorEmail_newThread'] : $modEmail;
                 $setupArray['60'] = 'post_new_reply';
             }
@@ -682,7 +704,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 ($theCode == 'POSTFORM_THREAD' && !$parent)
             ) {
                 $origRow = array();
-                $bWrongCaptcha = false;
+                $wrongCaptcha = false;
                 if (
                     isset($GLOBALS['TSFE']->applicationData) &&
                     is_array($GLOBALS['TSFE']->applicationData) &&
@@ -694,7 +716,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     if ($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] == true) {
                         $origRow = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'];
                         unset ($origRow['doublePostCheck']);
-                        $bWrongCaptcha = true;
+                        $wrongCaptcha = true;
                         $word = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'];
                     }
                     if ($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['spam'] == true) {
@@ -734,10 +756,21 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     'value' => $parent
                 );
 
-                if (is_object($composite->getFreeCap())) {
-                    $freecapMarker = $composite->getFreeCap()->makeCaptcha();
+                if (
+                    is_object(
+                        $captcha = \JambageCom\Div2007\Captcha\CaptchaManager::getCaptcha(
+                            TT_BOARD_EXT,
+                            $conf['captcha']
+                        )
+                    )
+                ) {
+                    $captchaMarker = array();
+                    $captcha->addGlobalMarkers(
+                        $captchaMarker,
+                        true
+                    );
                     $textLabel = '';
-                    if ($bWrongCaptcha) {
+                    if ($wrongCaptcha) {
                         $textLabel = '<b>' .
                             sprintf(
                                 $languageObj->getLL(
@@ -748,10 +781,17 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                             '</b><br/>';
                     }
 
-                    $lConf['dataArray.']['55.'] = array(
-                        'label' => $textLabel . $freecapMarker['###SR_FREECAP_IMAGE###'] . '<br/>' . $freecapMarker['###SR_FREECAP_NOTICE###'] . '<br/>' . $freecapMarker['###SR_FREECAP_CANT_READ###'],
-                        'type' => '*data[tt_board][NEW][captcha]=input,60'
-                    );
+                    if ($conf['captcha'] == 'freecap') {
+                        $lConf['dataArray.']['55.'] = array(
+                            'label' => $textLabel . $captchaMarker['###CAPTCHA_IMAGE###'] . '<br/>' . $captchaMarker['###CAPTCHA_NOTICE###'] . '<br/>' . $captchaMarker['###CAPTCHA_CANT_READ###'] . '<br/>' . $captchaMarker['###CAPTCHA_ACCESSIBLE###'],
+                            'type' => '*data[tt_board][NEW][captcha]=input,60'
+                        );
+                    } else if ($conf['captcha'] == 'captcha') {
+                        $lConf['dataArray.']['55.'] = array(
+                            'label' => $textLabel . $captchaMarker['###CAPTCHA_IMAGE###'],
+                            'type' => '*data[tt_board][NEW][captcha]=input,60'
+                        );
+                    }
                 }
 
                 if (count($notify)) {
@@ -825,7 +865,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                     $lConf['type'] = $url;
                 }
                 ksort($lConf['dataArray.']);
-                $content .=  $local_cObj->cObjGetSingle('FORM', $lConf);
+                $out = $local_cObj->cObjGetSingle('FORM', $lConf);
+                $content .= $out;
             }
         }
 

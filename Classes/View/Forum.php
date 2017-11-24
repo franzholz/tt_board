@@ -83,13 +83,17 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                 $GLOBALS['TSFE']->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
             }
             $lConf = $conf['view_thread.'];
-            $templateCode = $local_cObj->getSubpart($orig_templateCode, '###TEMPLATE_THREAD###');
+            $templateCode =
+                $local_cObj->getSubpart(
+                    $orig_templateCode,
+                    '###TEMPLATE_THREAD###'
+                );
 
             if ($templateCode) {
 
                     // Clear
                 $subpartMarkerArray = array();
-                $wrappedSubpartContentArray = array();
+                $wrappedSubpartArray = array();
 
                     // Getting the specific parts of the template
                 $markerObj->getColumnMarkers(
@@ -101,10 +105,31 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                         $templateCode,
                         $markerArray,
                         $subpartMarkerArray,
-                        $wrappedSubpartContentArray
+                        $wrappedSubpartArray
                     );
+
                 $rootParent = $modelObj->getRootParent($uid, $ref);
-                $wholeThread = $modelObj->getSingleThread($rootParent['uid'], $ref, 1);
+                $theadRootUid = $uid;
+                $crdate = 0;
+                if (
+                    is_array($rootParent) &&
+                    $rootParent['uid']
+                ) {
+                    $theadRootUid = $rootParent['uid'];
+                    $crdate = $rootParent['crdate'];
+                } else {
+                    $row =
+                        $modelObj->getSingleThread (
+                            $uid,
+                            $ref
+                        );
+                    if (
+                        is_array($row)
+                    ) {
+                        $crdate = $row['crdate'];
+                    }
+                }
+                $wholeThread = $modelObj->getSingleThread($theadRootUid, $ref, 1);
 
                 if (is_object($treeView)) {
                     $treeView->addTreeIcons($wholeThread);
@@ -120,13 +145,15 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                 } else {
                     $recentPosts = $wholeThread;
                 }
-                $nextThread = $modelObj->getThreadRoot($pid_list, $rootParent);
-                $prevThread = $modelObj->getThreadRoot($pid_list, $rootParent, 'prev');
+                $thread = array();
+                $thread['next'] = $modelObj->getThreadRoot($pid_list, $crdate);
+                $thread['previous'] = $modelObj->getThreadRoot($pid_list, $crdate, 'prev');
                 $subpartContent = '';
 
                     // Clear
                 $markerArray = array();
-                $wrappedSubpartContentArray = array();
+                $subpartArray = array();
+                $wrappedSubpartArray = array();
 
                     // Getting the specific parts of the template
                 $markerArray['###FORUM_TITLE###'] =
@@ -137,68 +164,71 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
 
                     // Link back to forum
                 $local_cObj->setCurrentVal($pid);
-                $wrappedSubpartContentArray['###LINK_BACK_TO_FORUM###'] =
+                $wrappedSubpartArray['###LINK_BACK_TO_FORUM###'] =
                     $local_cObj->typolinkWrap(
                         $typolinkConf
                     );
 
-                    // Link to next thread
-                $linkParams[$prefixId . '[uid]'] = $nextThread['uid'];
-                $url =
-                    \tx_div2007_alpha5::getPageLink_fh003(
+                $destinations = array('prev' /* previous */, 'next');
+                foreach ($destinations as $destination) {
+                    $destinationUid = 0;
+                    if (
+                        is_array($thread[$destination]) &&
+                        !empty($thread[$destination]['uid'])
+                    ) {
+                        $destinationUid = $thread[$destination]['uid'];
+                    }
+
+                    if ($destinationUid) {
+                            // Link to previous or next thread
+                        $linkParams[$prefixId . '[uid]'] = $destinationUid;
+                        $url =
+                            \tx_div2007_alpha5::getPageLink_fh003(
+                                $local_cObj,
+                                $pid,
+                                '',
+                                $linkParams,
+                                array(
+                                    'useCacheHash' => $allowCaching
+                                )
+                            );
+                        $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_THREAD###'] =
+                            array(
+                                '<a href="' . htmlspecialchars($url) . '">',
+                                '</a>'
+                            );
+                    } else {
+                        $subpartArray['###LINK_' . strtoupper($destination) . '_THREAD###'] = '';
+                    }
+                }
+
+                if (is_array($rootParent)) {
+                        // Link to first !!
+                    $linkParams[$prefixId . '[uid]' ] = $rootParent['uid'];
+                    $url = \tx_div2007_alpha5::getPageLink_fh003(
                         $local_cObj,
                         $pid,
                         '',
                         $linkParams,
+                        array('useCacheHash' => $allowCaching)
+                    );
+
+                    $wrappedSubpartArray['###LINK_FIRST_POST###'] =
                         array(
-                            'useCacheHash' => $allowCaching
-                        )
-                    );
-                $wrappedSubpartContentArray['###LINK_NEXT_THREAD###'] =
-                    array(
-                        '<a href="' . htmlspecialchars($url) . '">',
-                        '</a>'
-                    );
-
-                    // Link to prev thread
-                $linkParams[$prefixId . '[uid]'] = $prevThread['uid'];
-                $url = \tx_div2007_alpha5::getPageLink_fh003(
-                    $local_cObj,
-                    $pid,
-                    '',
-                    $linkParams,
-                    array('useCacheHash' => $allowCaching)
-                );
-
-                $wrappedSubpartContentArray['###LINK_PREV_THREAD###'] =
-                    array(
-                        '<a href="'. htmlspecialchars($url)  . '">',
-                        '</a>'
-                    );
-
-                    // Link to first !!
-                $linkParams[$prefixId . '[uid]' ] = $rootParent['uid'];
-                $url = \tx_div2007_alpha5::getPageLink_fh003(
-                    $local_cObj,
-                    $pid,
-                    '',
-                    $linkParams,
-                    array('useCacheHash' => $allowCaching)
-                );
-
-                $wrappedSubpartContentArray['###LINK_FIRST_POST###'] =
-                    array(
-                        '<a href="' . htmlspecialchars($url) . '">',
-                        '</a>'
-                    );
+                            '<a href="' . htmlspecialchars($url) . '">',
+                            '</a>'
+                        );
+                } else {
+                    $subpartArray['###LINK_FIRST_POST###'] = '';
+                }
 
                     // Substitute:
                 $templateCode =
                     $local_cObj->substituteMarkerArrayCached(
                         $templateCode,
                         $markerArray,
-                        array(),
-                        $wrappedSubpartContentArray
+                        $subpartArray,
+                        $wrappedSubpartArray
                     );
 
                     // Getting subpart for items:
@@ -223,7 +253,8 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
 
                         // Clear
                     $markerArray = array();
-                    $wrappedSubpartContentArray = array();
+                    $subpartMarkerArray = array();
+                    $wrappedSubpartArray = array();
 
                     $markerObj->getRowMarkerArray(
                         $markerArray,
@@ -244,57 +275,54 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                             array('useCacheHash' => $allowCaching)
                         );
 
-                    $wrappedSubpartContentArray['###LINK###'] =
+                    $wrappedSubpartArray['###LINK###'] =
                         array(
                             '<a href="' . htmlspecialchars($url) . '">',
                             '</a>'
                         );
 
-                        // Link to next thread
-                    $linkParams[$prefixId . '[uid]'] = ($recentPost['nextUid'] ? $recentPost['nextUid'] : $nextThread['uid']);
-                    $url =
-                        \tx_div2007_alpha5::getPageLink_fh003(
-                            $local_cObj,
-                            $pid,
-                            '',
-                            $linkParams,
-                            array('useCacheHash' => $allowCaching)
-                        );
-                    $wrappedSubpartContentArray['###LINK_NEXT_POST###'] =
-                        array(
-                            '<a href="' .  htmlspecialchars($url) . '">',
-                            '</a>'
-                        );
+                    foreach ($destinations as $destination) {
 
-                        // Link to prev thread
-                    $linkParams[$prefixId . '[uid]'] =
-                        (
-                            $recentPost['prevUid'] ?
-                            $recentPost['prevUid'] :
-                            $nextThread['uid']
-                        );
-                    $url =
-                        \tx_div2007_alpha5::getPageLink_fh003(
-                            $local_cObj,
-                            $pid,
-                            '',
-                            $linkParams,
-                            array('useCacheHash' => $allowCaching)
-                    );
+                        $destinationUid = 0;
+                        if (!empty($recentPost[$destination . 'Uid'])) {
+                            $destinationUid = $recentPost[$destination . 'Uid'];
+                        } else if (
+                            is_array($thread[$destination]) &&
+                            !empty($thread[$destination]['uid'])
+                        ) {
+                            $destinationUid = $thread[$destination]['uid'];
+                        }
 
-                    $wrappedSubpartContentArray['###LINK_PREV_POST###'] =
-                        array(
-                            '<a href="' .  htmlspecialchars($url) . '">',
-                            '</a>'
-                        );
+                        if ($destinationUid) {
+                                // Link to the previous or next thread
+                            $linkParams[$prefixId . '[uid]'] = $destinationUid;
+
+                            $url =
+                                \tx_div2007_alpha5::getPageLink_fh003(
+                                    $local_cObj,
+                                    $pid,
+                                    '',
+                                    $linkParams,
+                                    array('useCacheHash' => $allowCaching)
+                                );
+
+                            $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_POST###'] =
+                                array(
+                                    '<a href="' .  htmlspecialchars($url) . '">',
+                                    '</a>'
+                                );
+                        } else {
+                            $subpartMarkerArray['###LINK_' . strtoupper($destination) . '_POST###'] = '';
+                        }
+                    }
 
                         // Substitute:
                     $subpartContent .=
                         $local_cObj->substituteMarkerArrayCached(
                             $out,
                             $markerArray,
-                            array(),
-                            $wrappedSubpartContentArray
+                            $subpartMarkerArray,
+                            $wrappedSubpartArray
                         );
                 }
 
@@ -312,19 +340,22 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
         } else { // if ($this->tt_board_uid && $theCode == 'FORUM')
             $continue = true;
             if ($theCode == 'THREAD_TREE') {
+
                 if (!$uid && $ref == '') {
                     $continue = false;
                 }
+
                 $lConf = $conf['thread_tree.'];
             } else {
                 $lConf = $conf['list_threads.'];
             }
+
             $limit = $lConf['thread_limit'];
 
             if ($continue) {
                     // Clear
                 $subpartMarkerArray = array();
-                $wrappedSubpartContentArray = array();
+                $wrappedSubpartArray = array();
 
                 $templateCode =
                     $local_cObj->getSubpart(
@@ -371,7 +402,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                     $markerObj->getBrowserMarkers(
                         $markerArray,
                         $subpartMarkerArray,
-                        $wrappedSubpartContentArray,
+                        $wrappedSubpartArray,
                         $local_cObj,
                         $languageObj,
                         $browserConf,
@@ -410,7 +441,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                             $templateCode,
                             $markerArray,
                             $subpartMarkerArray,
-                            $wrappedSubpartContentArray
+                            $wrappedSubpartArray
                         );
                     $postHeader =
                         $markerObj->getLayouts(
@@ -427,15 +458,23 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                         );
                     $subpartContent = '';
 
-                    if ($theCode == 'THREAD_TREE') {
+                    if (
+                        $theCode == 'THREAD_TREE' &&
+                        $uid > 0
+                    ) {
+                        $parentUid = $uid;
                         $rootParent =
                             $modelObj->getRootParent(
                                 $uid,
                                 $ref
                             );
+                        if (is_array($rootParent)) {
+                            $parentUid = $rootParent['uid'];
+                        }
+
                         $recentPosts =
                             $modelObj->getSingleThread(
-                                $rootParent['uid'],
+                                $parentUid,
                                 $ref,
                                 1
                             );
@@ -461,6 +500,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
 
                     foreach ($recentPosts as $recentPost) {
                         $out = $postHeader[$c_post % count($postHeader)];
+
                         if ($recentPost['uid'] == $uid && $postHeader_active[0]) {
                             $out = $postHeader_active[0];
                         }
@@ -469,7 +509,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
 
                             // Clear
                         $markerArray = array();
-                        $wrappedSubpartContentArray = array();
+                        $wrappedSubpartArray = array();
 
                             // Markers
                         $markerObj->getRowMarkerArray(
@@ -494,7 +534,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                                 $linkParams,
                                 array('useCacheHash' => $allowCaching)
                         );
-                        $wrappedSubpartContentArray['###LINK###'] =
+                        $wrappedSubpartArray['###LINK###'] =
                             array(
                                 '<a href="' . htmlspecialchars($url)  . '">',
                                 '</a>'
@@ -544,18 +584,19 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                                 $linkParams,
                                 array('useCacheHash' => $allowCaching)
                             );
-                        $wrappedSubpartContentArray['###LINK_LAST_POST###'] =
+                        $wrappedSubpartArray['###LINK_LAST_POST###'] =
                             array(
                                 '<a href="' .  htmlspecialchars($url) . '">',
                                 '</a>'
                             );
+
                             // Substitute:
                         $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
                             $local_cObj->substituteMarkerArrayCached(
                                 $out,
                                 $markerArray,
                                 array(),
-                                $wrappedSubpartContentArray
+                                $wrappedSubpartArray
                             );
                     }
 
@@ -587,10 +628,12 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                         $markerArray,
                         $subpartContentArray
                     );
+
                     $content .= $newContent;
                 } // if ($templateCode) {
             } // if($continue) {
         }
+
         return $content;
     } // printView
 }

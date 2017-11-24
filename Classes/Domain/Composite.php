@@ -61,7 +61,6 @@ class Composite implements \TYPO3\CMS\Core\SingletonInterface {
     protected $languageObj;
     protected $markerObj;
     protected $modelObj;
-    protected $freeCap;
 
 
     public function setCObj ($value) {
@@ -182,14 +181,6 @@ class Composite implements \TYPO3\CMS\Core\SingletonInterface {
 
     public function getModelObj () {
         return $this->modelObj;
-    }
-
-    public function setFreeCap ($value) {
-        $this->freeCap = $value;
-    }
-
-    public function getFreeCap () {
-        return $this->freeCap;
     }
 }
 

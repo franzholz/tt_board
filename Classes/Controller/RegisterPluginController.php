@@ -109,6 +109,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
 
     public function init ($content, $conf) {
+
         $initialization = GeneralUtility::makeInstance(
             \JambageCom\TtBoard\Controller\InitializationController::class
         );

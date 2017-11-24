@@ -55,17 +55,21 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $this->setEnableFields($enableFields);
     }
 
+
     public function getTablename () {
         return $this->tablename;
     }
+
 
     public function setEnableFields ($value) {
         $this->enableFields = $value;
     }
 
+
     public function getEnableFields () {
         return $this->enableFields;
     }
+
 
     static public function getWhereRef ($ref) {
         $result = '';
@@ -174,7 +178,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     }
 
 
-
     /**
     * Returns number of replies.
     */
@@ -253,7 +256,9 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     /**
     * Get root parent of a tt_board record by uid or reference.
     */
-    public function getRootParent ($uid, $ref = '', $limit = 99) {
+    public function getRootParent ($uid, $ref = '', $limit = 99, $calllevel = 0) {
+        $result = false;
+
         if ($uid) {
             $field = 'uid';
             $value = $uid;
@@ -275,30 +280,35 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
                         $this->getEnableFields()
                 );
 
-            if($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 if ($row['parent']) {
                     $tmpRow =
                         $this->getRootParent(
                             $row['parent'],
                             '',
-                            $limit - 1
+                            $limit - 1,
+                            $calllevel + 1
                         );
                     if ($tmpRow) {
-                        $row = $tmpRow;
+                        $result = $tmpRow;
                     }
+                } else if ($calllevel > 0) {
+                    $result = $row;
                 }
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
         }
-        return $row;
+
+
+        return $result;
     }
 
 
     /**
     * Returns next or prev thread in a tree
     */
-    public function getThreadRoot ($pid, $rootParent, $type = 'next') {
-        $datePart = ' AND crdate' . ($type != 'next' ? '>' : '<') . intval($rootParent['crdate']);
+    public function getThreadRoot ($pid, $crdate, $type = 'next') {
+        $datePart = ' AND crdate' . ($type != 'next' ? '>' : '<') . intval($crdate);
         $where = 'pid IN (' . $pid . ') AND parent=0' . $datePart . $this->getEnableFields();
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -322,27 +332,33 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $ref,
         $descend = 0
     ) {
-        $hash = md5($uid . '|' . $ref . '|' . $descend);
-        if ($this->cache_thread[$hash]) {
-            return $this->cache_thread[$hash];
-        }
-
         $outArray = array();
         if ($uid) {
+            $hash = md5($uid . '|' . $ref . '|' . $descend);
+            if ($this->cache_thread[$hash]) {
+                return $this->cache_thread[$hash];
+            }
+
+            $whereUid = 'uid=' . intval($uid);
             $whereRef = $this->getWhereRef($ref);
 
             $res =
                 $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     '*',
                     'tt_board',
-                    'uid=' . $uid . $whereRef . $this->getEnableFields()
+                    $whereUid . $whereRef . $this->getEnableFields()
                 );
 
             if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 
                 $outArray[$row['uid']] = $row;
                 if ($descend) {
-                    $this->getRecordTree($outArray, $row['uid'], $row['pid'], $ref);
+                    $this->getRecordTree(
+                        $outArray,
+                        $row['uid'],
+                        $row['pid'],
+                        $ref
+                    );
                 }
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
@@ -393,6 +409,9 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
             $set = array();
             while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 $rootRow = $this->getRootParent($row['uid']);
+                if (!$rootRow) {
+                    $rootRow = $row;
+                }
 
                 if (is_array($rootRow) && !isset($set[$rootRow['uid']])) {
                     $set[$rootRow['uid']] = 1;
@@ -441,8 +460,13 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     /**
     * Get a record tree of forum items
     */
-    public function getRecordTree (&$theRows, $parent, $pid, $ref, $treeMarks = '') {
-
+    public function getRecordTree (
+        &$theRows,
+        $parent,
+        $pid,
+        $ref,
+        $treeMarks = ''
+    ) {
         if ($treeMarks != '') {
             $treeMarks .= ',';
         }

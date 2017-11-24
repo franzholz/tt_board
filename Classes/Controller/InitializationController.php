@@ -74,8 +74,17 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
         $composite->setConf($conf);
         $composite->setCObj($cObj);
         $composite->setPrefixId($prefixId);
+        $ttboardParams = GeneralUtility::_GP($prefixId);
 
-        $tt_board_uid = intval(GeneralUtility::_GP('tt_board_uid'));
+        if (
+            isset($ttboardParams) &&
+            is_array($ttboardParams) &&
+            isset($ttboardParams['uid']) &&
+            $ttboardParams['uid'] != ''
+        ) {
+            $tt_board_uid = intval($ttboardParams['uid']);
+        }
+
         if ($uid) {
             $tt_board_uid = $uid;
         }
@@ -162,15 +171,6 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
 
         $composite->setConfig($config);
         $composite->setTtBoardUid($tt_board_uid);
-
-        // all extensions:
-
-        if (
-            $conf['captcha'] == 'freecap' && ExtensionManagementUtility::isLoaded('sr_freecap')
-        ) {
-            $freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
-            $composite->setFreeCap($freeCap);
-        }
     }
 }
 

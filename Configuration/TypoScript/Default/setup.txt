@@ -165,8 +165,8 @@ temp.tt_board.shared {
   icon.new {
     file = EXT:tt_board/Resources/Public/Icons/List/new.gif
     file {
-      width  = 35
-      height = 10
+      width  = 12
+      height = 12
       params = align="top"
     }
   }
