@@ -2,6 +2,7 @@
     * add file README.txt with the hint that the constants PAGE_TARGET must be set to _top
     * restructuring
     * not not show the previous, next and go to the top when there is no other post
+    * bugfix and better support for captcha
 
 2017-10-23 Franz Holzinger <franz@ttproducts.de>
     * move share/locallang.xlf -> Resources/Private/Language/locallang.xlf
