@@ -119,7 +119,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
                     $crdate = $rootParent['crdate'];
                 } else {
                     $row =
-                        $modelObj->getSingleThread (
+                        $modelObj->getSingleThread(
                             $uid,
                             $ref
                         );
