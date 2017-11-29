@@ -210,7 +210,25 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
     */
     public function getLastPostInThread ($pid, $uid, $ref) {
         $whereRef = $this->getWhereRef($ref);
-        $where = 'pid IN (' . $pid . ') AND parent=' . $uid . $whereRef . $this->getEnableFields();
+        $where = 'pid IN (' . $pid . ') AND parent=' . intval($uid) . $whereRef . $this->getEnableFields();
+
+        $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+            '*',
+            $this->getTablename(),
+            $where,
+            '',
+            $this->orderBy('DESC')
+        );
+        return $row;
+    }
+
+
+    /**
+    * Returns last post in thread.
+    */
+    public function getCurrentPost ($uid, $ref) {
+        $whereRef = $this->getWhereRef($ref);
+        $where = 'uid=' . $uid . $whereRef . $this->getEnableFields();
 
         $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
             '*',

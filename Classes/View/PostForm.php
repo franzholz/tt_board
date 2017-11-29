@@ -56,6 +56,7 @@ class PostForm implements \TYPO3\CMS\Core\SingletonInterface {
         $modelObj = $composite->getModelObj();
         $languageObj = $composite->getLanguageObj();
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $uid = $composite->getTtBoardUid();
 
         if (
             $modelObj->isAllowed($conf['memberOfGroups'])
@@ -65,29 +66,35 @@ class PostForm implements \TYPO3\CMS\Core\SingletonInterface {
 
                 // Find parent, if any
             if (
-                $composite->getTtBoardUid() ||
+                $uid ||
                 $ref != ''
             ) {
                 if ($conf['tree']) {
-                    $parent = $composite->getTtBoardUid();
+                    $parent = $uid;
                 }
-
-                $parentR =
+                $row =
                     $modelObj->getRootParent(
-                        $composite->getTtBoardUid(),
+                        $uid,
                         $ref
                     );
 
+                if (!$row) {
+                    $row =
+                        $modelObj->getCurrentPost(
+                            $uid,
+                            $ref
+                        );
+                }
+
                 if (
-                    is_array($parentR) &&
                     !$conf['tree']
                 ) {
-                    $parent = $parentR['uid'];
+                    $parent = $row['uid'];
                 }
 
                 $wholeThread =
                     $modelObj->getSingleThread(
-                        $parentR['uid'],
+                        $row['uid'],
                         $ref,
                         1
                     );
@@ -324,9 +331,7 @@ class PostForm implements \TYPO3\CMS\Core\SingletonInterface {
                 $content .= $out;
             }
         }
-
         return $content;
     }
 }
-
 

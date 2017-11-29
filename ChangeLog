@@ -1,6 +1,7 @@
 
 2017-11-29 Franz Holzinger <franz@ttproducts.de>
     * restructure ActionController::forum_postform: extract PostForm as a new class with a render method
+    * bugfix: The connection to the parent record has not been stored.
 
 2017-11-24 Franz Holzinger <franz@ttproducts.de>
     * add file README.txt with the hint that the constants PAGE_TARGET must be set to _top
