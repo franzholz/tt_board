@@ -1,3 +1,6 @@
+2017-12-04 Franz Holzinger <franz@ttproducts.de>
+    * restructure ActionController::forum_postform: extract FormuList as a new class with a render method
+    * restructure ActionController::getContentRecord: extract Content as a new class with a getRecord method
 
 2017-11-29 Franz Holzinger <franz@ttproducts.de>
     * restructure ActionController::forum_postform: extract PostForm as a new class with a render method
