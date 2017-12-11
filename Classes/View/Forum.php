@@ -42,6 +42,8 @@ namespace JambageCom\TtBoard\View;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtBoard\Domain\Composite;
+
 
 class Forum implements \TYPO3\CMS\Core\SingletonInterface {
 
@@ -49,28 +51,30 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
     * Creates the forum display, including listing all items/a single item
     */
     public function printView (
-        $languageObj,
-        $markerObj,
-        $modelObj,
+        Composite $composite,
         $treeView,
         $conf,
-        $uid,
         $ref,
-        $pid_list,
         $theCode,
-        $orig_templateCode,
-        $alternativeLayouts,
         $linkParams,
-        $prefixId,
-        $pid,
-        $typolinkConf,
-        $allowCaching
+        $pid
     ) {
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
         $controlObj = GeneralUtility::makeInstance('JambageCom\Div2007\Utility\ControlUtility');
         $recentPosts = array();
         $searchWord = $controlObj->readGP('sword', $prefixId);
         $pointerName = 'pointer';
+
+        $languageObj = $composite->getLanguageObj();
+        $markerObj = $composite->getMarkerObj();
+        $modelObj = $composite->getModelObj();
+        $uid = $composite->getTtBoardUid();
+        $pid_list = $composite->getPidList();
+        $orig_templateCode = $composite->getOrigTemplateCode();
+        $alternativeLayouts = $composite->getAlternativeLayouts();
+        $prefixId = $composite->getPrefixId();
+        $typolinkConf = $composite->getTypolinkConf();
+        $allowCaching = $composite->getAllowCaching();
 
         if (
             (

@@ -121,22 +121,13 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
                 $forumViewObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
                 $newContent =
                     $forumViewObj->printView(
-                        $composite->getLanguageObj(),
-                        $composite->getMarkerObj(),
-                        $composite->getModelObj(),
+                        $composite,
                         $treeView,
                         $conf,
-                        $composite->getTtBoardUid(),
                         $ref,
-                        $composite->getPidList(),
                         $theCode,
-                        $composite->getOrigTemplateCode(),
-                        $composite->getAlternativeLayouts(),
                         $linkParams,
-                        $composite->getPrefixId(),
-                        $pid,
-                        $composite->getTypolinkConf(),
-                        $composite->getAllowCaching()
+                        $pid
                     );
             break;
             default:
