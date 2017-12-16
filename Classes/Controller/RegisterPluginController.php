@@ -73,6 +73,8 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     public function main ($content, $conf) {
         $this->conf = $conf;
         $codeArray = $this->getCodeArray($conf);
+        // Save the original flexform in case if we need it later as USER_INT
+        $this->cObj->data['_original_pi_flexform'] = $this->cObj->data['pi_flexform'];
 
         foreach ($codeArray as $k => $theCode) {
             $theCode = (string) strtoupper(trim($theCode));
@@ -130,7 +132,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $action = GeneralUtility::makeInstance(
             \JambageCom\TtBoard\Controller\ActionController::class
         );
-        $action->processCode($theCode, $content, $composite);
+        $action->processCode($this->cObj, $theCode, $content, $composite);
     }
 
 

@@ -42,6 +42,7 @@ namespace JambageCom\TtBoard\Controller;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtBoard\Domain\Composite;
 
@@ -61,8 +62,30 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
         return $msg;
     }
 
+    /**
+     * Converts the plugin to USER_INT if it is not USER_INT already. After
+     * calling this function the plugin should return if the function returns
+     * TRUE. The content will be ignored and the plugin will be called again
+     * later as USER_INT.
+     *
+     * @return boolean TRUE if the plugin should return immediately
+     */
+    protected function convertToUserInt(
+        ContentObjectRenderer &$cObj
+    ) {
+        $result = false;
+        if (
+            $cObj->getUserObjectType() == ContentObjectRenderer::OBJECTTYPE_USER
+        ) {
+            $cObj->convertToUserIntObject();
+            $cObj->data['pi_flexform'] = $cObj->data['_original_pi_flexform'];
+            unset($cObj->data['_original_pi_flexform']);
+            $result = true;
+        }
+        return $result;
+    }
 
-    public function processCode ($theCode, &$content, Composite $composite) {
+    public function processCode (&$cObj, $theCode, &$content, Composite $composite) {
         $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());
@@ -106,6 +129,15 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
             break;
             case 'FORUM':
             case 'THREAD_TREE':
+                if (
+                    !$composite->getAllowCaching() &&
+                    $this->convertToUserInt($cObj)
+                ) {
+                    $composite->setCObj($cObj);
+                    $content = '';
+                    return false;
+                }
+
                 $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
                 $treeView = null;
 
@@ -153,6 +185,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         $content .= $newContent;
+
+        return true;
     }
 }
 

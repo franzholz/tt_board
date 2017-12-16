@@ -83,9 +83,9 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
             ) &&
             $theCode == 'FORUM'
         ) {
-            if (!$allowCaching) {
-                $GLOBALS['TSFE']->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
-            }
+//             if (!$allowCaching) {
+//                 $GLOBALS['TSFE']->set_no_cache();	// MUST set no_cache as this displays single items and not a whole page....
+//             }
             $lConf = $conf['view_thread.'];
             $templateCode =
                 $local_cObj->getSubpart(
