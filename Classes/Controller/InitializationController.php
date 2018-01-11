@@ -114,11 +114,9 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
             $conf,
             'Classes/RegisterPluginController.php'
         );
-        \tx_div2007_alpha5::loadLL_fh002(
-            $languageObj,
+        $languageObj->loadLL(
             'EXT:' . TT_BOARD_EXT . '/Resources/Private/Language/locallang.xlf'
         );
-
         $composite->setLanguageObj($languageObj);
         $markerObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Marker::class);
         $markerObj->init($conf);
