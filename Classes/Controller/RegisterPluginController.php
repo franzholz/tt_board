@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2018 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,8 +28,6 @@ namespace JambageCom\TtBoard\Controller;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * boardLib.inc
- *
  * Creates a forum/board in tree or list style
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
@@ -59,8 +57,8 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
      * Should normally be set in the main function with the TypoScript content passed to the method.
      *
-     * $conf[LOCAL_LANG][_key_] is reserved for Local Language overrides.
-     * $conf[userFunc] / $conf[includeLibs]  reserved for setting up the USER / USER_INT object. See TSref
+     * $conf['LOCAL_LANG'][_key_] is reserved for Local Language overrides.
+     * $conf['CODE.']['10.']['userFunc'] reserved for setting up the USER / USER_INT object. See TSref where CODE is the code of the plugin
      *
      * @var array
      */
@@ -139,9 +137,10 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     public function getCodeArray ($conf) {
         $config = array();
 
-            // check the flexform
-        $this->pi_initPIflexForm();
-        $config['code'] = \tx_div2007_alpha5::getSetupOrFFvalue_fh004(
+        $this->cObj->data['pi_flexform'] =
+            GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
+
+        $config['code'] = \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
             $this->cObj,
             $conf['code'],
             $conf['code.'],
