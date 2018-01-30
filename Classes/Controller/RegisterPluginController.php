@@ -38,7 +38,8 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
+class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+{
 
     /**
      * The backReference to the mother cObj object set at call time
@@ -68,7 +69,8 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     /**
     * Main board function. Call this from TypoScript
     */
-    public function main ($content, $conf) {
+    public function main ($content, $conf)
+    {
         $this->conf = $conf;
         $codeArray = $this->getCodeArray($conf);
         // Save the original flexform in case if we need it later as USER_INT
@@ -107,9 +109,8 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         return $content;
     }
 
-
-    public function init ($content, $conf) {
-
+    public function init ($content, $conf)
+    {
         $initialization = GeneralUtility::makeInstance(
             \JambageCom\TtBoard\Controller\InitializationController::class
         );
@@ -125,16 +126,16 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         return $composite;
     }
 
-
-    public function processCode ($theCode, &$content, $composite) {
+    public function processCode ($theCode, &$content, $composite)
+    {
         $action = GeneralUtility::makeInstance(
             \JambageCom\TtBoard\Controller\ActionController::class
         );
         $action->processCode($this->cObj, $theCode, $content, $composite);
     }
 
-
-    public function getCodeArray ($conf) {
+    public function getCodeArray ($conf)
+    {
         $config = array();
 
         $this->cObj->data['pi_flexform'] =
@@ -161,57 +162,57 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         return ($codeArray);
     }
 
-
-    public function help ($content, $conf) {
+    public function help ($content, $conf)
+    {
         $composite = $this->init($content, $conf);
         $this->processCode('HELP', $content, $composite);
         return $content;
     }
 
-
-    public function listCategories ($content, $conf) {
+    public function listCategories ($content, $conf)
+    {
         $composite = $this->init($content, $conf);
         $this->processCode('LIST_CATEGORIES', $content, $composite);
         return $content;
     }
 
-
-    public function listForums ($content, $conf) {
+    public function listForums ($content, $conf)
+    {
         $composite = $this->init($content, $conf);
         $this->processCode('LIST_FORUMS', $content, $composite);
         return $content;
     }
 
-
-    public function forum ($content, $conf) {
+    public function forum ($content, $conf)
+    {
         $composite = $this->init($content, $conf);
         $this->processCode('FORUM', $content, $composite);
         return $content;
     }
 
-
-    public function postForm ($content, $conf) {
+    public function postForm ($content, $conf)
+    {
         $composite = $this->init($content, $conf);
         $this->processCode('POSTFORM', $content, $composite);
         return $content;
     }
 
-
-    public function postFormReply ($content, $conf) {
+    public function postFormReply ($content, $conf)
+    {
         $composite = $this->init($content, $conf);
         $this->processCode('POSTFORM_REPLY', $content, $composite);
         return $content;
     }
 
-
-    public function thread ($content, $conf) {
+    public function thread ($content, $conf)
+    {
         $composite = $this->init($content, $conf);
         $this->processCode('POSTFORM_THREAD', $content, $composite);
         return $content;
     }
 
-
-    public function threadTree ($content, $conf) {
+    public function threadTree ($content, $conf)
+    {
         $composite = $this->init($content, $conf);
         $this->processCode('THREAD_TREE', $content, $composite);
         return $content;

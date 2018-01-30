@@ -35,8 +35,8 @@ namespace JambageCom\TtBoard\Controller;
  */
 
 
-class TreePluginController extends RegisterPluginController {
-
+class TreePluginController extends RegisterPluginController
+{
     /**
      * @var string
      */

@@ -43,35 +43,36 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\TtBoard\Constants\TreeMark;
 
 
-class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
-
+class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $enableFields = '';		// The enablefields of the tt_board table.
     public $searchFieldList = 'author,email,subject,message';
     protected $tablename = 'tt_board';
 
 
-    public function init () {
+    public function init ()
+    {
         $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($this->tablename);
         $this->setEnableFields($enableFields);
     }
 
-
-    public function getTablename () {
+    public function getTablename ()
+    {
         return $this->tablename;
     }
 
-
-    public function setEnableFields ($value) {
+    public function setEnableFields ($value)
+    {
         $this->enableFields = $value;
     }
 
-
-    public function getEnableFields () {
+    public function getEnableFields ()
+    {
         return $this->enableFields;
     }
 
-
-    static public function getWhereRef ($ref) {
+    static public function getWhereRef ($ref)
+    {
         $result = '';
 
         if ($ref != '') {
@@ -80,11 +81,11 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
     /**
     * Checks if posting is allowed to user
     */
-    static public function isAllowed ($memberOfGroups) {
+    static public function isAllowed ($memberOfGroups)
+    {
         $allowed = false;
 
         if ($memberOfGroups) {
@@ -106,14 +107,14 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $allowed;
     }
 
-
     /**
     * Get subpages
     *
     * This function returns an array a pagerecords from the page-uid's in the pid_list supplied.
     * Excludes pages, that would normally not enter a regular menu. That means hidden, timed or deleted pages and pages with another doktype than 'standard' or 'advanced'
     */
-    static public function getPagesInPage ($pid_list) {
+    static public function getPagesInPage ($pid_list)
+    {
         $result = array();
         $thePids = GeneralUtility::intExplode(',', $pid_list);
         $pageRows = array();
@@ -142,22 +143,22 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
     /**
     * Returns number of post in a forum.
     */
-    public function getNumPosts ($pid, $where = '') {
+    public function getNumPosts ($pid, $where = '')
+    {
         $where = 'pid IN (' . $pid . ')' . $where . $this->getEnableFields();
         $result = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows('*', $this->getTablename(), $where);
 
         return $result;
     }
 
-
     /**
     * Returns number of threads.
     */
-    public function getNumThreads ($pid, $ref = '', $searchWord = 0) {
+    public function getNumThreads ($pid, $ref = '', $searchWord = 0)
+    {
         $count = 0;
         $whereRef = $this->getWhereRef($ref);
 
@@ -177,21 +178,21 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $count;
     }
 
-
     /**
     * Returns number of replies.
     */
-    public function getNumReplies ($pid, $uid) {
+    public function getNumReplies ($pid, $uid)
+    {
         $count = $this->getNumPosts ($pid, ' AND parent=' . intval($uid));
 
         return $count;
     }
 
-
     /**
     * Returns last post.
     */
-    public function getLastPost ($pid) {
+    public function getLastPost ($pid)
+    {
         $where = 'pid IN (' . $pid . ')' . $this->getEnableFields();
         $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
             '*',
@@ -204,11 +205,11 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $row;
     }
 
-
     /**
     * Returns last post in thread.
     */
-    public function getLastPostInThread ($pid, $uid, $ref) {
+    public function getLastPostInThread ($pid, $uid, $ref)
+    {
         $whereRef = $this->getWhereRef($ref);
         $where = 'pid IN (' . $pid . ') AND parent=' . intval($uid) . $whereRef . $this->getEnableFields();
 
@@ -222,11 +223,11 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $row;
     }
 
-
     /**
     * Returns last post in thread.
     */
-    public function getCurrentPost ($uid, $ref) {
+    public function getCurrentPost ($uid, $ref)
+    {
         $whereRef = $this->getWhereRef($ref);
         $where = 'uid=' . $uid . $whereRef . $this->getEnableFields();
 
@@ -240,14 +241,13 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $row;
     }
 
-
     /**
     * Most recent posts.
     *
     * Returns an array with records
     */
-    public function getMostRecentPosts ($pid, $number, $days = 300) {
-
+    public function getMostRecentPosts ($pid, $number, $days = 300)
+    {
         $timeWhere = '';
 
         if ($days) {
@@ -270,11 +270,11 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
     /**
     * Get root parent of a tt_board record by uid or reference.
     */
-    public function getRootParent ($uid, $ref = '', $limit = 99, $calllevel = 0) {
+    public function getRootParent ($uid, $ref = '', $limit = 99, $calllevel = 0)
+    {
         $result = false;
 
         if ($uid) {
@@ -316,16 +316,14 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
         }
-
-
         return $result;
     }
-
 
     /**
     * Returns next or prev thread in a tree
     */
-    public function getThreadRoot ($pid, $crdate, $type = 'next') {
+    public function getThreadRoot ($pid, $crdate, $type = 'next')
+    {
         $datePart = ' AND crdate' . ($type != 'next' ? '>' : '<') . intval($crdate);
         $where = 'pid IN (' . $pid . ') AND parent=0' . $datePart . $this->getEnableFields();
         $res =
@@ -341,7 +339,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
     /**
     * Returns records in a thread
     */
@@ -349,7 +346,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $uid,
         $ref,
         $descend = 0
-    ) {
+    )
+    {
         $outArray = array();
         if ($uid) {
             $hash = md5($uid . '|' . $ref . '|' . $descend);
@@ -384,7 +382,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $outArray;
     }
 
-
     /**
     * Returns an array with threads
     */
@@ -395,7 +392,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $limit = 100,
         $offset = 0,
         $searchWord = 0
-    ) {
+    )
+    {
         $outArray = array();
         $whereRef = $this->getWhereRef($ref);
         $limitString = '';
@@ -474,7 +472,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         return $outArray;
     }
 
-
     /**
     * Get a record tree of forum items
     */
@@ -484,7 +481,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $pid,
         $ref,
         $treeMarks = ''
-    ) {
+    )
+    {
         if ($treeMarks != '') {
             $treeMarks .= ',';
         }
@@ -547,21 +545,22 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface {
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
     }
 
-
     /**
     * Returns ORDER BY field
     */
-    static public function orderBy ($desc = '') {
+    static public function orderBy ($desc = '')
+    {
         $result = 'crdate ' . $desc;
         return $result;
     }
 
-
     /**
     * Returns recent date from a tt_board record
     */
-    static public function recentDate ($rec) {
-        return $rec['tstamp'];
+    static public function recentDate ($row)
+    {
+        return $row['tstamp'];
     }
 }
+
 

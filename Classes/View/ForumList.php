@@ -41,8 +41,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\TtBoard\Domain\Composite;
 
 
-class ForumList implements \TYPO3\CMS\Core\SingletonInterface {
-
+class ForumList implements \TYPO3\CMS\Core\SingletonInterface
+{
     /**
     * Creates a list of forums or categories depending on theCode
     */
@@ -50,7 +50,8 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface {
         $theCode,
         Composite $composite,
         array $linkParams
-    ) {
+    )
+    {
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $markerObj = $composite->getMarkerObj();

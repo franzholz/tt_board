@@ -44,8 +44,8 @@ use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\TtBoard\Constants\TreeMark;
 
 
-class Tree implements \TYPO3\CMS\Core\SingletonInterface {
-
+class Tree implements \TYPO3\CMS\Core\SingletonInterface
+{
     private $dataModel;
     protected $treeIcons = array(
         TreeMark::THREAD => '+',
@@ -68,7 +68,8 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface {
     public function __construct (
         \JambageCom\TtBoard\Domain\TtBoard $dataModel,
         array $iconConfig
-    ) {
+    )
+    {
         $this->dataModel = $dataModel;
 
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
@@ -99,17 +100,18 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-
-    public function getDataModel () {
+    public function getDataModel ()
+    {
         return $this->dataModel;
     }
 
-
-    public function getIcons () {
+    public function getIcons ()
+    {
         return $this->treeIcons;
     }
 
-    public function addTreeIcons (array &$rows) {
+    public function addTreeIcons (array &$rows)
+    {
         $icons = $this->getIcons();
         foreach ($rows as &$row) {
             if (

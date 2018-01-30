@@ -43,7 +43,8 @@ class Content implements \TYPO3\CMS\Core\SingletonInterface {
     /**
     * Returns the content record
     */
-    public function getRecord ($pid) {
+    public function getRecord ($pid)
+    {
         $where = 'pid=' . intval($pid) . ' AND list_type IN (\'2\',\'4\') AND sys_language_uid=' . intval($GLOBALS['TSFE']->config['config']['sys_language_uid']) . $GLOBALS['TSFE']->sys_page->deleteClause('tt_content');
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $this->tablename, $where);
         $result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);

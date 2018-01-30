@@ -46,12 +46,14 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtBoard\Domain\Composite;
 
-class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
+class ActionController implements \TYPO3\CMS\Core\SingletonInterface
+{
 
     /**
     * Returns a message, formatted
     */
-    static public function outMessage ($string, $content = '') {
+    static public function outMessage ($string, $content = '')
+    {
         $msg = '
         <hr>
         <h3>' . $string . '</h3>
@@ -72,7 +74,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
      */
     protected function convertToUserInt(
         ContentObjectRenderer &$cObj
-    ) {
+    )
+    {
         $result = false;
         if (
             $cObj->getUserObjectType() == ContentObjectRenderer::OBJECTTYPE_USER
@@ -85,7 +88,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-    public function processCode (&$cObj, $theCode, &$content, Composite $composite) {
+    public function processCode (&$cObj, $theCode, &$content, Composite $composite)
+    {
         $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());

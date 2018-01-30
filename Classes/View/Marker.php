@@ -45,7 +45,8 @@ use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 
-class Marker {
+class Marker
+{
     protected $conf;
     protected $dontParseContent = 0;
 
@@ -54,27 +55,27 @@ class Marker {
     * Initialized the marker object
     *
     */
-
-    public function init ($conf) {
+    public function init ($conf)
+    {
         $this->setConf($conf);
         $this->dontParseContent = $conf['dontParseContent'];
     }
 
-
-    public function setConf ($conf) {
+    public function setConf ($conf)
+    {
         $this->conf = $conf;
     }
 
-
-    public function getConf () {
+    public function getConf ()
+    {
         return $this->conf;
     }
-
 
     /**
     * getting the global markers
     */
-    public function getGlobalMarkers ($cObj) {
+    public function getGlobalMarkers ($cObj)
+    {
         $markerArray = array();
         $conf = $this->getConf();
 
@@ -121,14 +122,14 @@ class Marker {
         return $markerArray;
     } // getGlobalMarkers
 
-
     public function getRowMarkerArray (
         &$markerArray,
         $modelObj,
         $row,
         $markerKey,
         $lConf
-    ) {
+    )
+    {
         $conf = $this->getConf();
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer(
             $row,
@@ -191,8 +192,8 @@ class Marker {
             );
     }
 
-
-    public function getColumnMarkers (&$markerArray, $languageObj) {
+    public function getColumnMarkers (&$markerArray, $languageObj)
+    {
         $locallang = $languageObj->getLocallang();
 
         foreach ($locallang['default'] as $k => $text) {
@@ -210,9 +211,8 @@ class Marker {
             );
     }
 
-
-    public function getIconMarkers (&$markerArray, $iconConfig) {
-
+    public function getIconMarkers (&$markerArray, $iconConfig)
+    {
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 
         foreach ($iconConfig as $type => $renderType) {
@@ -235,11 +235,11 @@ class Marker {
         }
     }
 
-
     /**
     * Returns alternating layouts
     */
-    public function getLayouts ($templateCode, $alternativeLayouts, $marker) {
+    public function getLayouts ($templateCode, $alternativeLayouts, $marker)
+    {
         $out = array();
         for($a = 0; $a < $alternativeLayouts; $a++) {
             $m = '###' . $marker . ($a ? '_' . $a : '') . '###';
@@ -252,11 +252,11 @@ class Marker {
         return $out;
     }
 
-
     /**
     * Format string with nl2br and htmlspecialchars()
     */
-    public function formatStr ($str) {
+    public function formatStr ($str)
+    {
         $result = '';
         if (!$this->dontParseContent) {
             $result = nl2br(htmlspecialchars($str));
@@ -266,11 +266,11 @@ class Marker {
         return $result;
     }
 
-
     /**
     * Emoticons substitution
     */
-    public function substituteEmoticons ($str) {
+    public function substituteEmoticons ($str)
+    {
         $conf = $this->getConf();
 
         if (
@@ -309,7 +309,6 @@ class Marker {
         return $str;
     }
 
-
     public function getBrowserObj (
         $conf,
         $browserConf,
@@ -317,7 +316,8 @@ class Marker {
         $piVars,
         $limit,
         $maxPages
-    ) {
+    )
+    {
         $bShowFirstLast = true;
 
         if (
@@ -351,7 +351,6 @@ class Marker {
         return $browseObj;
     }
 
-
     public function getBrowserMarkers (
         &$markerArray,
         &$subpartArray,
@@ -368,7 +367,8 @@ class Marker {
         $pointerName,
         $begin_at,
         $useCache
-    ) {
+    )
+    {
         $browseObj =
             $this->getBrowserObj(
                 $this->getConf(),

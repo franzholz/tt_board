@@ -43,6 +43,5 @@ namespace JambageCom\TtBoard\Hooks;
 
 class CmsBackend extends \JambageCom\Div2007\Base\CmsHookBase {
     public $extKey = TT_BOARD_EXT;
-
 }
 

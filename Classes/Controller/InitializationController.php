@@ -43,7 +43,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
+class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
+{
 
     /**
     * does the initialization stuff
@@ -59,7 +60,8 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface {
         array $conf,
         $uid,
         $prefixId
-    ) {
+    )
+    {
         if (!ExtensionManagementUtility::isLoaded(DIV2007_EXT)) {
             $content = 'Error in Board Extension(' . TT_BOARD_EXT . '): Extension ' . DIV2007_EXT . ' has not been loaded.';
             return false;

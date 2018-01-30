@@ -30,7 +30,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  */
 class WizardIcon
 {
-
     /**
      * Processes the wizard items array.
      *

@@ -41,10 +41,10 @@ namespace JambageCom\TtBoard\Api;
 
 
 
-class Localization extends \JambageCom\Div2007\Base\LocalisationBase implements \TYPO3\CMS\Core\SingletonInterface {
-
-    public function init1 ($pObj, $cObj, $conf, $scriptRelPath) {
-
+class Localization extends \JambageCom\Div2007\Base\LocalisationBase implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public function init1 ($pObj, $cObj, $conf, $scriptRelPath)
+    {
         $this->init(
             $cObj,
             TT_BOARD_EXT,

@@ -43,10 +43,10 @@ use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
 use JambageCom\TslibFetce\Controller\TypoScriptFrontendDataController;
 use JambageCom\Div2007\Utility\MailUtility;
 
-class Submit implements \TYPO3\CMS\Core\SingletonInterface {
-
-    static public function execute (TypoScriptFrontendDataController $pObj, $conf) {
-
+class Submit implements \TYPO3\CMS\Core\SingletonInterface
+{
+    static public function execute (TypoScriptFrontendDataController $pObj, $conf)
+    {
         $row = $pObj->newData[TT_BOARD_EXT]['NEW'];
 
         $prefixId = $row['prefixid'];

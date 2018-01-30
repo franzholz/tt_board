@@ -45,8 +45,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\TtBoard\Domain\Composite;
 
 
-class Forum implements \TYPO3\CMS\Core\SingletonInterface {
-
+class Forum implements \TYPO3\CMS\Core\SingletonInterface
+{
     /**
     * Creates the forum display, including listing all items/a single item
     */
@@ -58,7 +58,8 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface {
         $theCode,
         $linkParams,
         $pid
-    ) {
+    )
+    {
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
         $controlObj = GeneralUtility::makeInstance('JambageCom\Div2007\Utility\ControlUtility');
         $recentPosts = array();
