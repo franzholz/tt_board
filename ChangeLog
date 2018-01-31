@@ -1,4 +1,7 @@
 
+2018-01-31 Franz Holzinger <franz@ttproducts.de>
+    * replace \tx_div2007_alpha5::getPageLink_fh003 by \JambageCom\Div2007\Utility\FrontendUtility::getTypoLink_URL with the change of paramters 3 and 4
+
 2017-12-16 Franz Holzinger <franz@ttproducts.de>
     * never use the call $TSFE->set_no_cache(). Convert all USER objects into a USER_INT if caching is not allowed
 

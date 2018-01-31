@@ -44,6 +44,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class Forum implements \TYPO3\CMS\Core\SingletonInterface
 {
@@ -188,11 +189,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             // Link to previous or next thread
                         $linkParams[$prefixId . '[uid]'] = $destinationUid;
                         $url =
-                            \tx_div2007_alpha5::getPageLink_fh003(
+                            FrontendUtility::getTypoLink_URL(
                                 $local_cObj,
                                 $pid,
-                                '',
                                 $linkParams,
+                                '',
                                 array(
                                     'useCacheHash' => $allowCaching
                                 )
@@ -210,11 +211,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                 if (is_array($rootParent)) {
                         // Link to first !!
                     $linkParams[$prefixId . '[uid]' ] = $rootParent['uid'];
-                    $url = \tx_div2007_alpha5::getPageLink_fh003(
+                    $url = FrontendUtility::getTypoLink_URL(
                         $local_cObj,
                         $pid,
-                        '',
                         $linkParams,
+                        '',
                         array('useCacheHash' => $allowCaching)
                     );
 
@@ -272,11 +273,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                         // Link to the post
                     $linkParams[$prefixId . '[uid]'] = $recentPost['uid'];
                     $url =
-                        \tx_div2007_alpha5::getPageLink_fh003(
+                        FrontendUtility::getTypoLink_URL(
                             $local_cObj,
                             $pid,
-                            '',
                             $linkParams,
+                            '',
                             array('useCacheHash' => $allowCaching)
                         );
 
@@ -303,11 +304,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $linkParams[$prefixId . '[uid]'] = $destinationUid;
 
                             $url =
-                                \tx_div2007_alpha5::getPageLink_fh003(
+                                FrontendUtility::getTypoLink_URL(
                                     $local_cObj,
                                     $pid,
-                                    '',
                                     $linkParams,
+                                    '',
                                     array('useCacheHash' => $allowCaching)
                                 );
 
@@ -532,11 +533,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
                         $linkParams[$prefixId . '[uid]'] = $recentPost['uid'];
                         $url =
-                            \tx_div2007_alpha5::getPageLink_fh003(
+                            FrontendUtility::getTypoLink_URL(
                                 $local_cObj,
                                 $pid,
-                                '',
                                 $linkParams,
+                                '',
                                 array('useCacheHash' => $allowCaching)
                         );
                         $wrappedSubpartArray['###LINK###'] =
@@ -582,11 +583,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             // Link to the last post
                         $linkParams[$prefixId . '[uid]'] = $lastPostInfo['uid'];
                         $url =
-                            \tx_div2007_alpha5::getPageLink_fh003(
+                            FrontendUtility::getTypoLink_URL(
                                 $local_cObj,
                                 $pid,
-                                '',
                                 $linkParams,
+                                '',
                                 array('useCacheHash' => $allowCaching)
                             );
                         $wrappedSubpartArray['###LINK_LAST_POST###'] =

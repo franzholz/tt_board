@@ -40,6 +40,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 {
@@ -177,11 +179,11 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             );
 
                         $pageLink =
-                            \tx_div2007_alpha5::getPageLink_fh003(
+                            FrontendUtility::getTypoLink_URL(
                                 $composite->getCObj(),
                                 $catData['uid'],
-                                '',
                                 $linkParams,
+                                '',
                                 array('useCacheHash' => $allowCaching)
                             );
 
@@ -255,11 +257,11 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 
                                 // Link to the forum (wrap)
                             $pageLink =
-                                \tx_div2007_alpha5::getPageLink_fh003(
+                                FrontendUtility::getTypoLink_URL(
                                     $composite->getCObj(),
                                     $forumData['uid'],
-                                    '',
                                     $linkParams,
+                                    '',
                                     array('useCacheHash' => $allowCaching)
                                 );
 
@@ -309,11 +311,11 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     array('uid' => $lastPostInfo['uid'])
                                 );
                             $pageLink =
-                                \tx_div2007_alpha5::getPageLink_fh003(
+                                FrontendUtility::getTypoLink_URL(
                                     $composite->getCObj(),
                                     $contentRow['pid'],
-                                    '',
                                     $overrulePIvars,
+                                    '',
                                     array('useCacheHash' => $allowCaching)
                                 );
 
@@ -421,11 +423,11 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             array('uid' => $recentPost['uid'])
                                         );
                                     $pageLink =
-                                        \tx_div2007_alpha5::getPageLink_fh003(
+                                        FrontendUtility::getTypoLink_URL(
                                             $composite->getCObj(),
                                             $recentPost['pid'],
-                                            '',
                                             $overrulePIvars,
+                                            '',
                                             array('useCacheHash' => $allowCaching)
                                         );
 

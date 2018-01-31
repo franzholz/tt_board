@@ -130,11 +130,11 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         }
                         $linkParams[$prefixId . '[uid]'] = $newId;
                         $url =
-                            \tx_div2007_alpha5::getPageLink_fh003(
+                            \JambageCom\Div2007\Utility\FrontendUtility::getTypoLink_URL(
                                 $local_cObj,
                                 $pid,
-                                '',
                                 $linkParams,
+                                '',
                                 array(
                                     'useCacheHash' => $allowCaching,
                                     'forceAbsoluteUrl' => 1

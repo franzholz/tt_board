@@ -318,11 +318,11 @@ class PostForm implements \TYPO3\CMS\Core\SingletonInterface
 
                 if (isset($linkParams) && is_array($linkParams)) {
                     $url =
-                        \tx_div2007_alpha5::getPageLink_fh003(
+                        \JambageCom\Div2007\Utility\FrontendUtility::getTypoLink_URL(
                             $local_cObj,
                             $GLOBALS['TSFE']->id,
-                            '',
                             $linkParams,
+                            '',
                             array('useCacheHash' => false)
                         );
                     $lConf['type'] = $url;

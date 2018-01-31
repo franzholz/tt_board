@@ -70,7 +70,6 @@ class WizardIcon
                 )
             );
             $wizardItem['iconIdentifier'] = $iconIdentifier;
-
             $wizardItems['plugins_ttboard_' . $type] = $wizardItem;
         }
         return $wizardItems;
