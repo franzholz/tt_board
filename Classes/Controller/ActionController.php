@@ -88,8 +88,14 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 
-    public function processCode (&$cObj, $theCode, &$content, Composite $composite)
+    public function processCode (
+        ContentObjectRenderer &$cObj,
+        $theCode,
+        &$content,
+        Composite $composite
+    )
     {
+    debug ($cObj, 'processCode  $cObj');
         $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());

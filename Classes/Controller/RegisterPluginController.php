@@ -37,6 +37,8 @@ namespace JambageCom\TtBoard\Controller;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtBoard\Domain\Composite;
+
 
 class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {
@@ -126,7 +128,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         return $composite;
     }
 
-    public function processCode ($theCode, &$content, $composite)
+    public function processCode ($theCode, &$content, Composite $composite)
     {
         $action = GeneralUtility::makeInstance(
             \JambageCom\TtBoard\Controller\ActionController::class

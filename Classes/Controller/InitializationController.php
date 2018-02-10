@@ -42,6 +42,10 @@ namespace JambageCom\TtBoard\Controller;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
+use JambageCom\TtBoard\Domain\Composite;
+
 
 class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
 {
@@ -49,13 +53,14 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
     /**
     * does the initialization stuff
     *
+    * @param		Composite	  A composite object will be returned.
     * @param		string		  content string
     * @param		string		  configuration array
     * @return	  boolean  false in error case, true if successfull
     */
     public function init (
         &$composite,
-        $cObj,
+        ContentObjectRenderer $cObj,
         $content,
         array $conf,
         $uid,
@@ -68,7 +73,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         $config = array();
-        $composite = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\Composite::class);
+        $composite = GeneralUtility::makeInstance(Composite::class);
 
         // *************************************
         // *** getting configuration values:
