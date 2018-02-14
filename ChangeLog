@@ -1,3 +1,5 @@
+2018-02-14 Franz Holzinger <franz@ttproducts.de>
+    * exctract class ForumThread out of Forum
 
 2018-01-31 Franz Holzinger <franz@ttproducts.de>
     * replace \tx_div2007_alpha5::getPageLink_fh003 by \JambageCom\Div2007\Utility\FrontendUtility::getTypoLink_URL with the change of paramters 3 and 4

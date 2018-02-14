@@ -159,18 +159,39 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                             $conf['iconCode.']
                         );
                 }
+                $uid = $composite->getTtBoardUid();
 
-                $forumViewObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
-                $newContent =
-                    $forumViewObj->printView(
-                        $composite,
-                        $treeView,
-                        $conf,
-                        $ref,
-                        $theCode,
-                        $linkParams,
-                        $pid
-                    );
+                if (
+                    (
+                        $uid ||
+                        $ref != ''
+                    ) &&
+                    $theCode == 'FORUM'
+                ) {
+                    $view = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\ForumThread::class);
+                    $newContent =
+                        $view->printView(
+                            $composite,
+                            $treeView,
+                            $conf,
+                            $ref,
+                            $theCode,
+                            $linkParams,
+                            $pid
+                        );
+                } else {
+                    $view = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
+                    $newContent =
+                        $view->printView(
+                            $composite,
+                            $treeView,
+                            $conf,
+                            $ref,
+                            $theCode,
+                            $linkParams,
+                            $pid
+                        );
+                }
             break;
             default:
                 $contentTmp = 'error';
