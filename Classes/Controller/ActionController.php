@@ -72,7 +72,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
      *
      * @return boolean TRUE if the plugin should return immediately
      */
-    protected function convertToUserInt(
+    protected function convertToUserInt (
         ContentObjectRenderer &$cObj
     )
     {
@@ -95,7 +95,6 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         Composite $composite
     )
     {
-    debug ($cObj, 'processCode  $cObj');
         $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());
@@ -204,7 +203,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
             $fileName = 'EXT:' . TT_BOARD_EXT . '/template/board_help.tmpl';
             $helpTemplate = $composite->getCObj()->fileResource($fileName);
 
-            $newContent = \tx_div2007_alpha5::displayHelpPage_fh003(
+            $newContent = \JambageCom\Div2007\Utility\ViewUtility::displayHelpPage(
                 $composite->getLanguageObj(),
                 $composite->getCObj(),
                 $helpTemplate,
