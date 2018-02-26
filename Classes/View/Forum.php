@@ -69,15 +69,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
         $searchWord = $controlObj->readGP('sword', $prefixId);
         $pointerName = 'pointer';
 
-        $languageObj = $composite->getLanguageObj();
         $markerObj = $composite->getMarkerObj();
         $modelObj = $composite->getModelObj();
-        $pid_list = $composite->getPidList();
-        $orig_templateCode = $composite->getOrigTemplateCode();
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $prefixId = $composite->getPrefixId();
         $typolinkConf = $composite->getTypolinkConf();
-        $allowCaching = $composite->getAllowCaching();
 
         $continue = true;
         if ($theCode == 'THREAD_TREE') {
@@ -100,7 +96,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
             $templateCode =
                 $local_cObj->getSubpart(
-                    $orig_templateCode,
+                    $composite->getOrigTemplateCode(),
                     '###LINK_BROWSE###'
                 );
 
@@ -123,7 +119,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
                 if ($theCode == 'FORUM') {
                     $recordCount = $modelObj->getNumThreads(
-                        $pid_list,
+                        $composite->getPidList(),
                         $ref,
                         $searchWord
                     );
@@ -145,7 +141,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     $subpartMarkerArray,
                     $wrappedSubpartArray,
                     $local_cObj,
-                    $languageObj,
+                    $composite->getLanguageObj(),
                     $browserConf,
                     $prefixId,
                     $addQueryString,
@@ -161,7 +157,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
             $templateCode =
                 $local_cObj->getSubpart(
-                    $orig_templateCode,
+                    $composite->getOrigTemplateCode(),
                     '###TEMPLATE_FORUM###'
                 );
 
@@ -169,7 +165,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     // Getting the specific parts of the template
                 $markerObj->getColumnMarkers(
                     $markerArray,
-                    $languageObj
+                    $composite->getLanguageObj()
                 );
 
                 $markerArray['###FORUM_TITLE###'] =
@@ -222,7 +218,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                 } else {
                     $recentPosts =
                         $modelObj->getThreads(
-                            $pid_list,
+                            $composite->getPidList(),
                             $ref,
                             $conf['tree'],
                             $lConf['thread_limit'] ?
@@ -273,7 +269,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $pid,
                             $linkParams,
                             '',
-                            array('useCacheHash' => $allowCaching)
+                            array('useCacheHash' => $composite->getAllowCaching())
                     );
                     $wrappedSubpartArray['###LINK###'] =
                         array(
@@ -323,7 +319,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $pid,
                             $linkParams,
                             '',
-                            array('useCacheHash' => $allowCaching)
+                            array('useCacheHash' => $composite->getAllowCaching())
                         );
                     $wrappedSubpartArray['###LINK_LAST_POST###'] =
                         array(
