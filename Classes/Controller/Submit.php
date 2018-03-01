@@ -225,7 +225,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             } else {
                                 $addresses = GeneralUtility::trimExplode(',', $maillist_recip);
                                 foreach ($addresses as $email) {
-                                    \tx_div2007_email::sendMail(
+                                    MailUtility::send(
                                         $email,
                                         $maillist_subject,
                                         $maillist_msg,
@@ -305,7 +305,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 }
                                 $fromName = $senderArray[0];
                                 foreach ($addresses as $email) {
-                                    \tx_div2007_email::sendMail(
+                                    MailUtility::send(
                                         $email,
                                         $msgParts[0],
                                         $msgParts[1],

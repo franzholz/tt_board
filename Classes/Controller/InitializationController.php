@@ -41,7 +41,6 @@ namespace JambageCom\TtBoard\Controller;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtBoard\Domain\Composite;

@@ -67,10 +67,10 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Converts the plugin to USER_INT if it is not USER_INT already. After
      * calling this function the plugin should return if the function returns
-     * TRUE. The content will be ignored and the plugin will be called again
+     * true. The content will be ignored and the plugin will be called again
      * later as USER_INT.
      *
-     * @return boolean TRUE if the plugin should return immediately
+     * @return boolean true if the plugin should return immediately
      */
     protected function convertToUserInt (
         ContentObjectRenderer &$cObj
