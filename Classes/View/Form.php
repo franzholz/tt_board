@@ -39,7 +39,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\TtBoard\Domain\Composite;
 
 
-class PostForm implements \TYPO3\CMS\Core\SingletonInterface
+class Form implements \TYPO3\CMS\Core\SingletonInterface
 {
     /**
     * Creates a post form for a forum
