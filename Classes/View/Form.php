@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\View;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2018 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,11 +36,34 @@ namespace JambageCom\TtBoard\View;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtBoard\Constants\Field;
 use JambageCom\TtBoard\Domain\Composite;
 
 
 class Form implements \TYPO3\CMS\Core\SingletonInterface
 {
+    public function getPrivacyJavaScript ($checkId, $buttonId)
+    {
+        $result = '
+function addListeners() {
+    if(window.addEventListener) {
+        document.getElementById("' . $checkId . '").addEventListener("click", enableSubmitButtonFunc,false);
+    } else if (window.attachEvent) { // Added For Internet Explorer versions previous to IE9
+        document.getElementById("' . $checkId . '").attachEvent("onclick", enableSubmitButtonFunc);
+    }
+
+    function enableSubmitButtonFunc() {
+        document.getElementById("' . $buttonId . '").disabled = !this.checked;
+    }
+}
+window.onload = addListeners; 
+        ';
+
+        return $result;
+    }
+
+    //         document.getElementById("' . $buttonId . '").disabled = !document.getElementById("' . $checkId . '").value;
+
     /**
     * Creates a post form for a forum
     */
@@ -58,12 +81,25 @@ class Form implements \TYPO3\CMS\Core\SingletonInterface
         $languageObj = $composite->getLanguageObj();
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
         $uid = $composite->getTtBoardUid();
+        $xhtmlFix = \JambageCom\Div2007\Utility\HtmlUtility::determineXhtmlFix();
+        $useXhtml = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
+        $idPrefix = 'mailform';
 
         if (
             $modelObj->isAllowed($conf['memberOfGroups'])
         ) {
             $parent = 0;        // This is the parent item for the form. If this ends up being is set, then the form is a reply and not a new post.
             $nofity = array();
+            $feuserLoggedIn = false;
+            if (
+                is_array($GLOBALS['TSFE']->fe_user->user) &&
+                (
+                    isset($GLOBALS['TSFE']->fe_user->user['name']) ||
+                    isset($GLOBALS['TSFE']->fe_user->user['email'])
+                )
+            ) {
+                $feuserLoggedIn = true;
+            }
 
                 // Find parent, if any
             if (
@@ -132,8 +168,12 @@ class Form implements \TYPO3\CMS\Core\SingletonInterface
 //     40.type = *data[tt_board][NEW][email]=input,40
 //     50.label = Notify me<BR>by reply:
 //     50.type = data[tt_board][NEW][notify_me]=check
-//     60.type = formtype_db=submit
-//     60.value = Post Reply
+//     Captcha:
+//     55.label =
+//     Privacy Policy:
+//     60.label =
+//    300.type = formtype_db=submit
+//    300.value = Post Reply
 //   }
 
             $setupArray =
@@ -143,7 +183,7 @@ class Form implements \TYPO3\CMS\Core\SingletonInterface
                     '30' => 'author',
                     '40' => 'email',
                     '50' => 'notify_me',
-                    '60' => 'post_reply'
+                    '300' => 'post_reply'
                 );
 
             $modEmail = $conf['moderatorEmail'];
@@ -151,7 +191,7 @@ class Form implements \TYPO3\CMS\Core\SingletonInterface
                 $lConf = $conf['postform_newThread.'] ? $conf['postform_newThread.'] : $lConf;  // Special form for newThread posts...
 
                 $modEmail = $conf['moderatorEmail_newThread'] ? $conf['moderatorEmail_newThread'] : $modEmail;
-                $setupArray['60'] = 'post_new_reply';
+                $setupArray['300'] = 'post_new_reply';
             }
 
             if ($modEmail) {
@@ -178,7 +218,7 @@ class Form implements \TYPO3\CMS\Core\SingletonInterface
                 ) {
                     if ($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] == true) {
                         $origRow = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'];
-                        unset ($origRow['doublePostCheck']);
+                        unset($origRow['doublePostCheck']);
                         $wrongCaptcha = true;
                         $word = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'];
                     }
@@ -228,31 +268,111 @@ class Form implements \TYPO3\CMS\Core\SingletonInterface
                     )
                 ) {
                     $captchaMarker = array();
-                    $captcha->addGlobalMarkers(
+                    $textLabelWrap = '';
+                    $markerFilled = $captcha->addGlobalMarkers(
                         $captchaMarker,
                         true
                     );
-                    $textLabel = '';
+                    $textLabel =
+                        $languageObj->getLL(
+                            'captcha'
+                        );
+
                     if ($wrongCaptcha) {
-                        $textLabel = '<b>' .
+                        $textLabelWrap = '<strong>' .
                             sprintf(
                                 $languageObj->getLL(
                                     'wrong_captcha'
                                 ),
                                 $word
                             ) .
-                            '</b><br/>';
+                            '</strong><br'. $xhtmlFix . '>';
                     }
 
-                    if ($conf['captcha'] == 'freecap') {
+                    if (
+                        $markerFilled
+                    ) {
+                        $additionalText = '';
+                        if ($conf['captcha'] == 'freecap') {
+                            $additionalText =
+                                $captchaMarker['###CAPTCHA_CANT_READ###'] . '<br' . $xhtmlFix . '>' .
+                                $captchaMarker['###CAPTCHA_ACCESSIBLE###'];
+                        }
                         $lConf['dataArray.']['55.'] = array(
-                            'label' => $textLabel . $captchaMarker['###CAPTCHA_IMAGE###'] . '<br/>' . $captchaMarker['###CAPTCHA_NOTICE###'] . '<br/>' . $captchaMarker['###CAPTCHA_CANT_READ###'] . '<br/>' . $captchaMarker['###CAPTCHA_ACCESSIBLE###'],
-                            'type' => '*data[tt_board][NEW][captcha]=input,60'
+                            'label' => $textLabel,
+                            'label.' =>
+                                array(
+                                    'wrap' =>
+                                    '<span class="'. TT_BOARD_CSS_PREFIX . 'captcha">|' . 
+                                    $textLabelWrap .
+                                    $captchaMarker['###CAPTCHA_IMAGE###'] . '<br' . $xhtmlFix .'>' .
+                                    $captchaMarker['###CAPTCHA_NOTICE###'] . '<br' . $xhtmlFix .'>' .
+                                    $additionalText . '</span>'
+                                ),
+                            'type' => '*data[tt_board][NEW][' . Field::CAPTCHA . ']=input,20'
                         );
-                    } else if ($conf['captcha'] == 'captcha') {
-                        $lConf['dataArray.']['55.'] = array(
-                            'label' => $textLabel . $captchaMarker['###CAPTCHA_IMAGE###'],
-                            'type' => '*data[tt_board][NEW][captcha]=input,60'
+                    }
+                }
+
+                if (!$feuserLoggedIn) {
+                    if (intval($conf['PIDprivacyPolicy'])) {
+                        $labelMap = array(
+                            'title' => 'privacy_policy.title',
+                            'acknowledgement' => 'privacy_policy.acknowledgement',
+                            'approval_required' => 'privacy_policy.approval_required',
+                            'acknowledged' => 'privacy_policy.acknowledged',
+                            'acknowledged_2' => 'privacy_policy.acknowledged_2',
+                            'hint' => 'privacy_policy.hint',
+                            'hint_1' => 'privacy_policy.hint_1'
+                        );
+
+                        foreach ($labelMap as $key => $languageKey) {
+                            $labels[$key] = $languageObj->getLL($languageKey);
+                        }
+                        $piVars = array();
+
+                        $pagePrivacy = intval($conf['PIDprivacyPolicy']);
+                        $privacyUrl = $local_cObj->getTypoLink_URL($pagePrivacy, $piVars);
+                        $privacyUrl = str_replace(array('[', ']'), array('%5B', '%5D'), $privacyUrl);
+
+                        $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>'. chr(13);
+
+                        $lConf['dataArray.']['60.'] = array(
+                            'label' => $labels['title'] . ':',
+                            'label.' =>
+                                array(
+                                    'wrap' =>
+                                    '<div class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' . 
+                                    $textLabelWrap .
+                                    $labels['acknowledged_2'] . '<br' . $xhtmlFix .'>' .
+                                    '<strong>' . $labels['hint'] . '</strong><br' . $xhtmlFix . '>' .
+                                    $labels['hint_1'] . '</div>'
+                                ),
+                            'type' => 'label',
+                            'value' =>  $labels['approval_required'],
+                        );
+                        if (!$_REQUEST['privacy_policy']) {
+                            $lConf['params.']['submit'] .=
+                                ($useXhtml ? ' disabled="disabled" ' : ' disabled ');
+                        }
+                            
+                        $lConf['dataArray.']['61.']['label'] = $labels['acknowledgement'];
+                        $lConf['dataArray.']['61.']['label.'] =
+                            array(
+                                'wrap' => 
+                                    '<span class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy_checkbox">' . 
+                                    $labels['acknowledged'] .
+                                    '</span>'
+                                );
+                        $privacyJavaScript =
+                            $this->getPrivacyJavaScript(
+                                $idPrefix . 'privacypolicy',
+                                'mailformformtypedb'
+                            );
+
+                        $GLOBALS['TSFE']->setJS(
+                            TT_BOARD_EXT . '-privacy_policy',
+                            $privacyJavaScript
                         );
                     }
                 }
@@ -264,22 +384,25 @@ class Form implements \TYPO3\CMS\Core\SingletonInterface
                     );
                 }
 
-                if (is_array($GLOBALS['TSFE']->fe_user->user)) {
+                if (
+                    $feuserLoggedIn
+                ) {
                     foreach ($lConf['dataArray.'] as $k => $dataRow) {
                         if (strpos($dataRow['type'], '[author]') !== false) {
                             $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'];
-                        } else if (strpos($dataRow['type'],'[email]') !== false) {
+                        } else if (strpos($dataRow['type'], '[email]') !== false) {
                             $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'];
                         }
                     }
                 }
 
                 foreach ($setupArray as $k => $theField) {
-                    if ($k == '60') {
+                    if ($k == '300') {
                         $type = 'value';
                     } else {
                         $type = 'label';
                     }
+
                     if (is_array($lConf['dataArray.'][$k . '.'])) {
                         if (
                             (
@@ -332,6 +455,7 @@ class Form implements \TYPO3\CMS\Core\SingletonInterface
                 $content .= $out;
             }
         }
+
         return $content;
     }
 }

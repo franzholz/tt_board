@@ -59,6 +59,7 @@ temp.tt_board.shared {
   code.field = select_key
   memberOfGroups = {$plugin.tt_board.memberOfGroups}
   captcha = {$plugin.tt_board.captcha}
+  PIDprivacyPolicy = {$plugin.tt_board.PIDprivacyPolicy}
 
   date_stdWrap.strftime = %e-%m-%y
   time_stdWrap.strftime = %H:%M:%S
@@ -106,15 +107,21 @@ temp.tt_board.shared {
 # Notify by reply:
     50.label =
     50.type = data[tt_board][NEW][notify_me]=check
+# Captcha:
+    55.label =
+# Privacy policy:
+    60.label =
+    61.label =
+    61.type = privacy_policy=check
 # Post Reply button
-    60.type = formtype_db=submit
-    60.value =
+    300.type = formtype_db=submit
+    300.value =
   }
   postform.no_cache = 1
   postform.dontXssFieldNames = captcha
 
   postform_newThread < .postform
-  postform_newThread.dataArray.60.value = Post New Thread
+  postform_newThread.dataArray.300.value = Post New Thread
 
   moderatorEmail_newThread = {$plugin.tt_board.moderatorEmail}
   moderatorEmail = {$plugin.tt_board.moderatorEmail}
@@ -360,9 +367,9 @@ plugin.tt_board_tree {
   }
 
 
-  list_threads.post_title_stdWrap.wrap = <font face="verdana,arial" size=1 color=black> | </font>
+  list_threads.post_title_stdWrap.wrap = 
   list_threads.post_title_stdWrap.crop = 80 | ...
-  list_threads.post_author_stdWrap.wrap = <font face="verdana,arial" size=1 color=black> | </font>
+  list_threads.post_author_stdWrap.wrap = 
   list_threads.post_author_stdWrap.crop = 20 | ...
   list_threads.thread_limit = {$plugin.tt_board.threadLimit}
 

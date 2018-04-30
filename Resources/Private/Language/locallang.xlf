@@ -21,6 +21,9 @@
 			<trans-unit id="email" xml:space="preserve">
 				<source>Email:</source>
 			</trans-unit>
+			<trans-unit id="captcha" xml:space="preserve">
+				<source>Captcha:</source>
+			</trans-unit>
 			<trans-unit id="notify_me" xml:space="preserve">
 				<source>Notify me&lt;br&gt;by reply:</source>
 			</trans-unit>

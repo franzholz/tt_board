@@ -123,12 +123,12 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                         $composite->getPidList()
                     );
                 $pid = $pidArray[0];
-                $postForm =
+                $form =
                     GeneralUtility::makeInstance(
-                        \JambageCom\TtBoard\View\PostForm::class
+                        \JambageCom\TtBoard\View\Form::class
                     );
                 $newContent =
-                    $postForm->render(
+                    $form->render(
                         $theCode,
                         $pid,
                         $ref,

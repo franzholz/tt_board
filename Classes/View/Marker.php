@@ -33,7 +33,6 @@ namespace JambageCom\TtBoard\View;
  * marker functions
  *
  * @author	Franz Holzinger <franzt@ttproducts.de>
- * @maintainer	Franz Holzinger <franzt@ttproducts.de>
  * @package TYPO3
  * @subpackage tt_products
  *

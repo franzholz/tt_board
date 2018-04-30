@@ -52,7 +52,7 @@ class Localization extends \JambageCom\Div2007\Base\LocalisationBase implements 
             $scriptRelPath
         );
 
-        // keep previsous language settings if available
+        // keep previous language settings if available
         if (
             isset($pObj->LOCAL_LANG) &&
             is_array($pObj->LOCAL_LANG)

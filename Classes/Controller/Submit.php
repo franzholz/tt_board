@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2018 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -42,13 +42,14 @@ use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
 
 use JambageCom\TslibFetce\Controller\TypoScriptFrontendDataController;
 use JambageCom\Div2007\Utility\MailUtility;
+use JambageCom\TtBoard\Constants\Field;
 
 class Submit implements \TYPO3\CMS\Core\SingletonInterface
 {
     static public function execute (TypoScriptFrontendDataController $pObj, $conf)
     {
+        $table = 'tt_board';
         $row = $pObj->newData[TT_BOARD_EXT]['NEW'];
-
         $prefixId = $row['prefixid'];
         unset($row['prefixid']);
         $pid = intval($row['pid']);
@@ -75,17 +76,22 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                     $internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
 
                     if (
+                        isset($row[Field::CAPTCHA]) &&
                         $captcha =
                             \JambageCom\Div2007\Captcha\CaptchaManager::getCaptcha(
                                 TT_BOARD_EXT,
                                 $conf['captcha']
                             )
                     ) {
-                        if (!$captcha->evalValues($row['captcha'], $conf['captcha']))
-                        {
+                        if (
+                            !$captcha->evalValues(
+                                $row[Field::CAPTCHA],
+                                $conf['captcha']
+                            )
+                        ) {
                             $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
                             $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
-                            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row['captcha'];
+                            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row[Field::CAPTCHA];
                             break;
                         }
                     }
@@ -114,9 +120,18 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $word;
                         break;
                     } else {
-                        $row['cr_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
-                        if (isset($row['captcha'])) {
-                            unset($row['captcha']);
+                        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
+                        if (
+                            !GeneralUtility::inList(
+                                $excludeArray[$table],
+                                'cr_ip'
+                            )
+                        ) {                     
+                            $row['cr_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
+                        }
+
+                        if (isset($row[Field::CAPTCHA])) {
+                            unset($row[Field::CAPTCHA]);
                         }
 
                             // Plain insert of record:
@@ -330,6 +345,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             $messagePage = GeneralUtility::makeInstance(ErrorpageMessage::class, $message, $title);
             $messagePage->output();
         }
+
         return true;
     }
 }

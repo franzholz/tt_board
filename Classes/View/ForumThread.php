@@ -328,7 +328,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $subpartContent
                 );
         } else {
-            debug('No template subpart for thread view: ###TEMPLATE_THREAD###');
+            debug('No template subpart for thread view: ###TEMPLATE_THREAD###'); // keep this
         }
 
         return $content;

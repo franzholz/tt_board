@@ -1,3 +1,12 @@
+
+2018-04-30 Franz Holzinger <franz@ttproducts.de>
+    * new feature: privacy policy checkbox for GDPR when there is no front end user
+    * set PIDprivacyPolicy to the privacy policy page.
+    * HTML templates: remove the font entries. Use CSS instead.
+
+2018-04-02 Franz Holzinger <franz@ttproducts.de>
+    * new feature: disallow fields by exclude.tt_board. Set it to cr_ip for GDPR compliance 
+
 2018-03-19 Franz Holzinger <franz@ttproducts.de>
     * rename PostForm into Form
 

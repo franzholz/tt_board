@@ -1,0 +1,3 @@
+  # cat=basic/enable; type=string; label=exclude creator IP: Exclude the creator IP address from tt_board.
+exclude.tt_board = cr_ip
+

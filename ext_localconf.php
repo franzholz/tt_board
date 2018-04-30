@@ -23,6 +23,10 @@ if (!defined ('PATH_FE_TTBOARD_REL')) {
     define('PATH_FE_TTBOARD_REL', call_user_func($emClass . '::siteRelPath', $_EXTKEY));
 }
 
+if (!defined ('TT_BOARD_CSS_PREFIX')) {
+    define('TT_BOARD_CSS_PREFIX', 'tx-ttboard-');
+}
+
 if (isset($_EXTCONF) && is_array($_EXTCONF)) {
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY] = $_EXTCONF;
     if (isset($tmpArray) && is_array($tmpArray)) {
@@ -39,7 +43,6 @@ if (TYPO3_MODE == 'BE') {
 
     call_user_func($emClass . '::addUserTSConfig', 'options.saveDocNew.tt_board=1');
 }
-
 
     // add missing setup for the tt_content "list_type = 2" which is used by the tt_board tree view forum
 $addLine = trim('
@@ -78,12 +81,10 @@ call_user_func(
     43
 );
 
-
 // Configure captcha hooks
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'])) {
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'] = [];
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';
 }
-
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';
 

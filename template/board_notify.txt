@@ -1,4 +1,4 @@
-###AUTHOR###:  '###SUBJECT_PREFIX###' at '###HOST###' using IP ###CR_IP###
+###AUTHOR###:  '###SUBJECT_PREFIX###' at '###HOST###'
 Hello,
 
 ###AUTHOR### (###AUTHOR_EMAIL###) ###DID_WHAT### ###HOST###.

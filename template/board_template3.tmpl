@@ -38,11 +38,11 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 -->
 <table cellpadding="4" cellspacing="1" border="0" width="98%">
 	<tr bgcolor="#7C848C">
-		<td><font face="verdana,arial,helvetica" size="1">&nbsp;</font></td>
-		<td><font face="verdana,arial,helvetica" size="1" color="#FFFFFF">&nbsp;</font></td>
-		<td nowrap align="center"><b><font face="verdana,arial,helvetica" size="1" color="#FFFFFF">###BOARD_POSTS###</font></b></td>
-		<td nowrap align="center"><b><font face="verdana,arial,helvetica" size="1" color="#FFFFFF">###BOARD_THREADS###</font></b></td>
-		<td nowrap align="center"><font face="verdana,arial,helvetica" size="1" color="#FFFFFF"><b>###BOARD_LAST_POST###</b></font></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td nowrap align="center"><strong>###BOARD_POSTS###</strong></td>
+		<td nowrap align="center"><strong>###BOARD_THREADS###</strong></td>
+		<td nowrap align="center"><strong>###BOARD_LAST_POST###</strong></td>
 	</tr>
 	<!-- ###CONTENT###  begin
 		This is the part of the template substituted with the list of categories and forums:
@@ -51,7 +51,7 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 			Template for the category title
 		-->
 			<tr bgcolor="#05437E">
-				<td colspan="5"><!-- ###LINK### begin --><b><font face="arial, helvetica" size="2" color="#FFFFFF">###CATEGORY_TITLE###</font></b><!-- ###LINK### end --><br><font face="arial, helvetica" size="1" color="#FFFFFF">###CATEGORY_DESCRIPTION###</font></td>
+				<td colspan="5"><!-- ###LINK### begin --><strong>###CATEGORY_TITLE###</strong><!-- ###LINK### end --><br>###CATEGORY_DESCRIPTION###</td>
 			</tr>
 		<!-- ###CATEGORY###  end -->
 		<!-- ###FORUM### begin
@@ -59,10 +59,10 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 		-->
 			<tr>
 				<td bgcolor="#CECAC3" align="center" valign="top"><IMG src="clear.gif" width=20 height=1 border="0"></td>
-				<td bgcolor="#CECAC3" valign="top"><font face="arial, helvetica" size="2"><b><!-- ###LINK### begin -->###FORUM_TITLE###<!-- ###LINK### end --></b></font><br><font face="verdana,arial,helvetica" size="1">###FORUM_DESCRIPTION###</font></td>
-				<td bgcolor="#CECAC3" align="center" valign="top" nowrap><font face="arial, helvetica" size="2">###FORUM_POSTS###</font></td>
-				<td bgcolor="#CECAC3" align="center" valign="top" nowrap><font face="arial, helvetica" size="2">###FORUM_THREADS###</font></td>
-				<td bgcolor="#CECAC3" valign="top" align="center"><!-- ###LINK_LAST_POST### begin --><font face="verdana,arial, helvetica" size="1" color="black">###LAST_POST_DATE### ###LAST_POST_TIME###<br>###LAST_POST_AUTHOR###</font><!-- ###LINK_LAST_POST### end --></td>
+				<td bgcolor="#CECAC3" valign="top"><strong><!-- ###LINK### begin -->###FORUM_TITLE###<!-- ###LINK### end --></strong><br>###FORUM_DESCRIPTION###</td>
+				<td bgcolor="#CECAC3" align="center" valign="top" nowrap>###FORUM_POSTS###</td>
+				<td bgcolor="#CECAC3" align="center" valign="top" nowrap>###FORUM_THREADS###</td>
+				<td bgcolor="#CECAC3" valign="top" align="center"><!-- ###LINK_LAST_POST### begin -->###LAST_POST_DATE### ###LAST_POST_TIME###<br>###LAST_POST_AUTHOR###<!-- ###LINK_LAST_POST### end --></td>
 			</tr>
 		<!-- ###FORUM### end-->
 		<!-- ###POST### begin
@@ -70,10 +70,10 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 		-->
 			<tr>
 				<td bgcolor="#E7E3DB" align="center" valign="top"></td>
-				<td bgcolor="#E7E3DB" valign="top"><!-- ###LINK### begin --><font face="verdana,arial, helvetica" size="1" color="black"><b>###POST_TITLE###</b></font><!-- ###LINK### end --><br><font face="verdana,arial,helvetica" size="1">###POST_CONTENT###</font></td>
-				<td bgcolor="#E7E3DB" align="center" valign="top" nowrap><font face="verdana,arial, helvetica" size="1">###POST_REPLIES###</font></td>
-				<td bgcolor="#E7E3DB" align="center" valign="top" nowrap><font face="verdana,arial, helvetica" size="1">&nbsp;</font></td>
-				<td bgcolor="#E7E3DB" valign="top" align="center"><font face="verdana,arial, helvetica" size="1">###POST_AGE### ###BOARD_AGO### </font><br><font face="arial, helvetica" size="1">###BOARD_BY### ###POST_AUTHOR###</font></td>
+				<td bgcolor="#E7E3DB" valign="top"><!-- ###LINK### begin --><strong>###POST_TITLE###</strong><!-- ###LINK### end --><br>###POST_CONTENT###</td>
+				<td bgcolor="#E7E3DB" align="center" valign="top" nowrap>###POST_REPLIES###</td>
+				<td bgcolor="#E7E3DB" align="center" valign="top" nowrap>&nbsp;</td>
+				<td bgcolor="#E7E3DB" valign="top" align="center">###POST_AGE### ###BOARD_AGO### <br>###BOARD_BY### ###POST_AUTHOR###</td>
 			</tr>
 		<!-- ###POST### end-->
 	<!-- ###CONTENT###  end -->
@@ -94,18 +94,18 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 <!-- ###TEMPLATE_FORUM### begin -->
 <table border="0" cellpadding="4" border="0" cellspacing="1" width="98%">
 	<tr bgcolor="#7C848C">
-		<td align="center" width="100%"><font face="verdana,arial" size="1" color="white"><b>###BOARD_SUBJECT###</b></font></td>
-		<td align="center" nowrap><font face="verdana,arial" size="1" color="white"><b>###BOARD_THREAD_STARTER###</b></font></td>
-		<td align="center"><font face="verdana,arial" size="1" color="white"><b>###BOARD_REPLIES###</b></font></td>
-		<td align="center" nowrap><font face="verdana,arial" size="1" color="white"><b>###BOARD_LAST_POST###</b></font></td>
+		<td align="center" width="100%"><strong>###BOARD_SUBJECT###</strong></td>
+		<td align="center" nowrap><strong>###BOARD_THREAD_STARTER###</strong></td>
+		<td align="center"><strong>###BOARD_REPLIES###</strong></td>
+		<td align="center" nowrap><strong>###BOARD_LAST_POST###</strong></td>
 	</tr>
 	<!-- ###CONTENT### begin -->
 	<!--###POST### begin -->
 		<tr>
-			<td bgcolor="#E7E3DB" valign="top"><font face="verdana,arial" size="1"><!-- ###LINK### begin --><b>###POST_TITLE###</b><!-- ###LINK### end --><br>###POST_CONTENT###</font></td>
-			<td bgcolor="#E7E3DB" align="center" valign="top"><font face="verdana,arial" size="1">###POST_AUTHOR###</font></td>
-			<td bgcolor="#E7E3DB" align="center" valign="top"><font face="verdana,arial" size="1">###POST_REPLIES###</font></td>
-			<td bgcolor="#E7E3DB" align="center" valign="top"><font face="verdana,arial" size="1"><!-- ###LINK_LAST_POST### begin -->###LAST_POST_AGE###<!-- ###LINK_LAST_POST### end --></font></td>
+			<td bgcolor="#E7E3DB" valign="top"><!-- ###LINK### begin --><strong>###POST_TITLE###</strong><!-- ###LINK### end --><br>###POST_CONTENT###</td>
+			<td bgcolor="#E7E3DB" align="center" valign="top">###POST_AUTHOR###</td>
+			<td bgcolor="#E7E3DB" align="center" valign="top">###POST_REPLIES###</td>
+			<td bgcolor="#E7E3DB" align="center" valign="top"><!-- ###LINK_LAST_POST### begin -->###LAST_POST_AGE###<!-- ###LINK_LAST_POST### end --></td>
 		</tr>
 	<!--###POST### end -->
 	<!-- ###CONTENT###  end -->
@@ -129,36 +129,36 @@ For the full list of markers/subparts, see board_template1.tmpl<br>
 -->
 <table width="98%" border="0" cellspacing="1" cellpadding="4">
 	<tr>
-		<td colspan=2><!-- ###LINK_BACK_TO_FORUM### begin --><font face="verdana,arial" size="1" color="black"><b>&lth; ###BOARD_BACK_TO_FORUM###</b></font><!-- ###LINK_BACK_TO_FORUM### end --></td>
+		<td colspan=2><!-- ###LINK_BACK_TO_FORUM### begin --><strong>&lth; ###BOARD_BACK_TO_FORUM###</strong><!-- ###LINK_BACK_TO_FORUM### end --></td>
 	</tr>
 	<tr bgcolor="#7C848C">
-		<td align="center" nowrap><font face="verdana,arial" size="1" color="white"><b>###BOARD_AUTHOR###:</b></font></td>
-		<td align="center" nowrap><font face="verdana,arial" size="1" color="white"><b>###BOARD_CONTENT###:</b></font></td>
+		<td align="center" nowrap><strong>###BOARD_AUTHOR###:</strong></td>
+		<td align="center" nowrap><strong>###BOARD_CONTENT###:</strong></td>
 	</tr>
 	<!-- ###CONTENT###  begin -->
 		<!--###POST### begin -->
 			<tr bgcolor="#E7E3DB">
-				<td nowrap valign="top"><font face="verdana,arial,helvetica" size="1">###POST_DATE### ###POST_TIME### &nbsp;&nbsp;</font></td>
-				<td width="80%"><font face="verdana,arial,helvetica" size="2"><b>###POST_TITLE###</b></font></td>
+				<td nowrap valign="top">###POST_DATE### ###POST_TIME### &nbsp;&nbsp;</td>
+				<td width="80%"><strong>###POST_TITLE###</strong></td>
 			</tr>
 			<tr bgcolor="#E7E3DB">
-				<td valign="top"><font face="verdana,arial,helvetica" size="1">###BOARD_AUTHOR###:<br><b><a href="mailto:###POST_AUTHOR_EMAIL###">###POST_AUTHOR###</a></b></font></td>
-				<td valign="top" width="80%"><font face="verdana,arial,helvetica" size="1">###POST_CONTENT###</font></td>
+				<td valign="top">###BOARD_AUTHOR###:<br><strong><a href="mailto:###POST_AUTHOR_EMAIL###">###POST_AUTHOR###</a></strong></td>
+				<td valign="top" width="80%">###POST_CONTENT###</td>
 			</tr>
 		<!--###POST### end -->
 		<!--###POST_1### begin -->
 			<tr bgcolor="#CECAC3">
-				<td nowrap valign="top"><font face="verdana,arial,helvetica" size="1">###POST_DATE### ###POST_TIME### &nbsp;&nbsp;</font></td>
-				<td width="80%"><font face="verdana,arial,helvetica" size="2"><b>###POST_TITLE###</b></font></td>
+				<td nowrap valign="top">###POST_DATE### ###POST_TIME### &nbsp;&nbsp;</td>
+				<td width="80%"><strong>###POST_TITLE###</strong></td>
 			</tr>
 			<tr bgcolor="#CECAC3">
-				<td valign="top"><font face="verdana,arial,helvetica" size="1">###BOARD_AUTHOR###:<br><b><a href="mailto:###POST_AUTHOR_EMAIL###">###POST_AUTHOR###</a></b></font></td>
-				<td valign="top" width="80%"><font face="verdana,arial,helvetica" size="1">###POST_CONTENT###</font></td>
+				<td valign="top">###BOARD_AUTHOR###:<br><strong><a href="mailto:###POST_AUTHOR_EMAIL###">###POST_AUTHOR###</a></strong></td>
+				<td valign="top" width="80%">###POST_CONTENT###</td>
 			</tr>
 		<!--###POST_1### end -->
 	<!-- ###CONTENT###  end -->
 	<tr>
-		<td colspan=2><!-- begin ###LINK_BACK_TO_FORUM### --><font face="verdana,arial" size="1" color="black"><b>&lt; ###BOARD_BACK_TO_FORUM###</b></font><!-- ###LINK_BACK_TO_FORUM### end --></td>
+		<td colspan=2><!-- begin ###LINK_BACK_TO_FORUM### --><strong>&lt; ###BOARD_BACK_TO_FORUM###</strong><!-- ###LINK_BACK_TO_FORUM### end --></td>
 	</tr>
 </table>
 <!-- ###TEMPLATE_THREAD### end -->

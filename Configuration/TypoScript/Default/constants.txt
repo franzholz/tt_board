@@ -12,7 +12,7 @@ plugin.tt_board {
     # cat=plugin.board//; type=integer; label= number of threads: number of topics which will be shown in the forum trees
   threadLimit = 30
 
-    # cat=plugin.board; type=boolean; label= Member of group: Comma separated list of FE groups which a user must belong to that the post forms are shown.
+    # cat=plugin.board; type=string; label= Member of group: Comma separated list of FE groups which a user must belong to that the post forms are shown.
   memberOfGroups = 1
 
     # cat=plugin.board; type=int+; label= Page Id of forum: Only set this if the BACKLINK does not work.
@@ -26,6 +26,9 @@ plugin.tt_board {
 
     # cat=plugin.board/spam; type=text; label= Spam words: Comma separated list of spam words. No message contaning one of these words will be stored.
   spamWords = mark-blog, erotik, penis, viagra, cialis, gogofacility, pornvideo, nudity, wifelover, mega-phentermine, orokz.info, yaporn.net
+
+    # cat=plugin.tx_agency//; type=string; label= Privacy Policy url: Page (id) where the privacy policy is shown. If you want to show a privacy policy checkbox and hints for not registered front end users. This is needed for compliance with DSGVO / GDPR .
+  PIDprivacyPolicy =
 }
 
 
@@ -34,11 +37,11 @@ plugin.tt_board_list {
   file.templateFile = EXT:tt_board/template/board_template1.tmpl
 
     # cat=plugin.board/typo; type=wrap; label= List-style, Wrap 1: This wrap is used in the template-file.
-  wrap1 = <font face="verdana" size=2 color=black> | </font>
+  wrap1 = 
     # cat=plugin.board/typo; type=wrap; label= List-style, Wrap 2: This wrap is used in the template-file.
-  wrap2 = <font face="verdana" size=1 color=black> | </font>
+  wrap2 = 
     # cat=plugin.board/typo; type=wrap; label= List-style, Wrap 3: This wrap is used in the template-file.
-  wrap3 = <font face="verdana" size=2 color=white> | </font>
+  wrap3 = 
 
     # cat=plugin.board/color; type=color; label= List-style, Color 1: This bgcolor is used in the template-file.
   color1 = #cae8f5
@@ -56,11 +59,11 @@ plugin.tt_board_tree {
   file.templateFile = EXT:tt_board/template/board_template2.tmpl
 
     # cat=plugin.board/typo; type=wrap; label= Tree-style, Wrap 1: This wrap is used in the template-file.
-  wrap1 = <font face="verdana" size=2 color=black> | </font>
+  wrap1 = 
     # cat=plugin.board/typo; type=wrap; label= Tree-style, Wrap 2: This wrap is used in the template-file.
-  wrap2 = <font face="verdana" size=1 color=black> | </font>
+  wrap2 = 
     # cat=plugin.board/typo; type=wrap; label= Tree-style, Wrap 3: This wrap is used in the template-file.
-  wrap3 = <font face="verdana" size=2 color=white> | </font>
+  wrap3 = 
 
     # cat=plugin.board/color; type=color; label= Tree-style, Color 1: This bgcolor is used in the template-file.
   color1 = #cae8f5
