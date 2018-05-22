@@ -74,6 +74,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $prefixId = $composite->getPrefixId();
         $typolinkConf = $composite->getTypolinkConf();
         $allowCaching = $composite->getAllowCaching();
+        $typolinkConf['useCacheHash'] = $allowCaching;
 
         $lConf = $conf['view_thread.'];
         $templateCode =

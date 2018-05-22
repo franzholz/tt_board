@@ -172,6 +172,8 @@ window.onload = addListeners;
 //     55.label =
 //     Privacy Policy:
 //     60.label =
+//     Privacy checkbox
+//     61.label =
 //    300.type = formtype_db=submit
 //    300.value = Post Reply
 //   }
@@ -312,69 +314,85 @@ window.onload = addListeners;
                             'type' => '*data[tt_board][NEW][' . Field::CAPTCHA . ']=input,20'
                         );
                     }
+                } else if (
+                    isset($lConf['dataArray.']['55.']) &&
+                    $lConf['dataArray.']['55.']['label'] == ''
+                ) {
+                    unset($lConf['dataArray.']['55.']);
                 }
 
-                if (!$feuserLoggedIn) {
-                    if (intval($conf['PIDprivacyPolicy'])) {
-                        $labelMap = array(
-                            'title' => 'privacy_policy.title',
-                            'acknowledgement' => 'privacy_policy.acknowledgement',
-                            'approval_required' => 'privacy_policy.approval_required',
-                            'acknowledged' => 'privacy_policy.acknowledged',
-                            'acknowledged_2' => 'privacy_policy.acknowledged_2',
-                            'hint' => 'privacy_policy.hint',
-                            'hint_1' => 'privacy_policy.hint_1'
-                        );
-
-                        foreach ($labelMap as $key => $languageKey) {
-                            $labels[$key] = $languageObj->getLL($languageKey);
-                        }
-                        $piVars = array();
-
-                        $pagePrivacy = intval($conf['PIDprivacyPolicy']);
-                        $privacyUrl = $local_cObj->getTypoLink_URL($pagePrivacy, $piVars);
-                        $privacyUrl = str_replace(array('[', ']'), array('%5B', '%5D'), $privacyUrl);
-
-                        $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>'. chr(13);
-
-                        $lConf['dataArray.']['60.'] = array(
-                            'label' => $labels['title'] . ':',
-                            'label.' =>
-                                array(
-                                    'wrap' =>
-                                    '<div class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' . 
-                                    $textLabelWrap .
-                                    $labels['acknowledged_2'] . '<br' . $xhtmlFix .'>' .
-                                    '<strong>' . $labels['hint'] . '</strong><br' . $xhtmlFix . '>' .
-                                    $labels['hint_1'] . '</div>'
-                                ),
-                            'type' => 'label',
-                            'value' =>  $labels['approval_required'],
-                        );
-                        if (!$_REQUEST['privacy_policy']) {
-                            $lConf['params.']['submit'] .=
-                                ($useXhtml ? ' disabled="disabled" ' : ' disabled ');
-                        }
-                            
-                        $lConf['dataArray.']['61.']['label'] = $labels['acknowledgement'];
-                        $lConf['dataArray.']['61.']['label.'] =
-                            array(
-                                'wrap' => 
-                                    '<span class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy_checkbox">' . 
-                                    $labels['acknowledged'] .
-                                    '</span>'
-                                );
-                        $privacyJavaScript =
-                            $this->getPrivacyJavaScript(
-                                $idPrefix . 'privacypolicy',
-                                'mailformformtypedb'
-                            );
-
-                        $GLOBALS['TSFE']->setJS(
-                            TT_BOARD_EXT . '-privacy_policy',
-                            $privacyJavaScript
-                        );
+                if ($feuserLoggedIn) {
+                    if (
+                        isset($lConf['dataArray.']['60.']) &&
+                        $lConf['dataArray.']['60.']['label'] == ''
+                    ) {
+                        unset($lConf['dataArray.']['60.']);
                     }
+                    if (
+                        isset($lConf['dataArray.']['61.']) &&
+                        $lConf['dataArray.']['61.']['label'] == ''
+                    ) {
+                        unset($lConf['dataArray.']['61.']);
+                    }
+                } else if (intval($conf['PIDprivacyPolicy'])) {
+                    $labelMap = array(
+                        'title' => 'privacy_policy.title',
+                        'acknowledgement' => 'privacy_policy.acknowledgement',
+                        'approval_required' => 'privacy_policy.approval_required',
+                        'acknowledged' => 'privacy_policy.acknowledged',
+                        'acknowledged_2' => 'privacy_policy.acknowledged_2',
+                        'hint' => 'privacy_policy.hint',
+                        'hint_1' => 'privacy_policy.hint_1'
+                    );
+
+                    foreach ($labelMap as $key => $languageKey) {
+                        $labels[$key] = $languageObj->getLL($languageKey);
+                    }
+                    $piVars = array();
+
+                    $pagePrivacy = intval($conf['PIDprivacyPolicy']);
+                    $privacyUrl = $local_cObj->getTypoLink_URL($pagePrivacy, $piVars);
+                    $privacyUrl = str_replace(array('[', ']'), array('%5B', '%5D'), $privacyUrl);
+
+                    $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>'. chr(13);
+
+                    $lConf['dataArray.']['60.'] = array(
+                        'label' => $labels['title'] . ':',
+                        'label.' =>
+                            array(
+                                'wrap' =>
+                                '<div class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' . 
+                                $textLabelWrap .
+                                $labels['acknowledged_2'] . '<br' . $xhtmlFix .'>' .
+                                '<strong>' . $labels['hint'] . '</strong><br' . $xhtmlFix . '>' .
+                                $labels['hint_1'] . '</div>'
+                            ),
+                        'type' => 'label',
+                        'value' =>  $labels['approval_required'],
+                    );
+                    if (!$_REQUEST['privacy_policy']) {
+                        $lConf['params.']['submit'] .=
+                            ($useXhtml ? ' disabled="disabled" ' : ' disabled ');
+                    }
+                        
+                    $lConf['dataArray.']['61.']['label'] = $labels['acknowledgement'];
+                    $lConf['dataArray.']['61.']['label.'] =
+                        array(
+                            'wrap' => 
+                                '<span class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy_checkbox">' . 
+                                $labels['acknowledged'] .
+                                '</span>'
+                            );
+                    $privacyJavaScript =
+                        $this->getPrivacyJavaScript(
+                            $idPrefix . 'privacypolicy',
+                            'mailformformtypedb'
+                        );
+
+                    $GLOBALS['TSFE']->setJS(
+                        TT_BOARD_EXT . '-privacy_policy',
+                        $privacyJavaScript
+                    );
                 }
 
                 if (count($notify)) {
