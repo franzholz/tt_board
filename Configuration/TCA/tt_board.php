@@ -1,5 +1,7 @@
 <?php
 
+$table = 'tt_board';
+
 // ******************************************************************
 // This is the standard Board table, tt_board
 // ******************************************************************
@@ -29,7 +31,7 @@ $result = array(
     ),
     'columns' => array (
         'subject' => array (
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board.subject',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.subject',
             'config' => array (
                 'type' => 'input',
                 'size' => '40',
@@ -39,7 +41,7 @@ $result = array(
             )
         ),
         'message' => array (
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board.message',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.message',
             'config' => array (
                 'type' => 'text',
                 'cols' => '40',
@@ -73,11 +75,11 @@ $result = array(
             )
         ),
         'parent' => array (
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board.parent',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.parent',
             'config' => array (
                 'type' => 'group',
                 'internal_type' => 'db',
-                    'allowed' => 'tt_board',
+                    'allowed' => $table,
                 'size' => '3',
                 'maxitems' => '1',
                 'minitems' => '0',
@@ -85,14 +87,14 @@ $result = array(
             )
         ),
         'notify_me' => array (
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board.notify_me',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.notify_me',
             'config' => array (
                 'type' => 'check'
             )
         ),
         'crdate' => array (		// This field is by default filled with creation date. See tt_board 'ctrl' section
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board.crdate',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.crdate',
             'config' => array (
                 'type' => 'input',
                 'size' => '10',
@@ -102,7 +104,7 @@ $result = array(
         ),
         'cr_ip' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board.cr_ip',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.cr_ip',
             'config' => array (
                 'type' => 'input',
                 'size' => '15',
@@ -111,7 +113,7 @@ $result = array(
         ),
         'reference' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board.reference',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.reference',
             'config' => array (
                 'type' => 'input',
                 'size' => '40',
