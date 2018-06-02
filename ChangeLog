@@ -1,3 +1,6 @@
+2018-06-02 Franz Holzinger <franz@ttproducts.de>
+    * move the Extension Manager methods addPiFlexFormValue and addPlugin from file ext_tables.php into Configuration/TCA/Overrides/tt_content.php
+
 2018-05-22 Franz Holzinger <franz@ttproducts.de>
     * bugfix for the privacy checkbox: No checkbox shall be visible for logged in front end users.
 
