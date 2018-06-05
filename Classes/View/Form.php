@@ -189,7 +189,10 @@ window.onload = addListeners;
                 );
 
             $modEmail = $conf['moderatorEmail'];
-            if (!$parent && isset($conf['postform_newThread.'])) {
+            if (
+                !$parent &&
+                isset($conf['postform_newThread.'])
+            ) {
                 $lConf = $conf['postform_newThread.'] ? $conf['postform_newThread.'] : $lConf;  // Special form for newThread posts...
 
                 $modEmail = $conf['moderatorEmail_newThread'] ? $conf['moderatorEmail_newThread'] : $modEmail;
@@ -321,20 +324,10 @@ window.onload = addListeners;
                     unset($lConf['dataArray.']['55.']);
                 }
 
-                if ($feuserLoggedIn) {
-                    if (
-                        isset($lConf['dataArray.']['60.']) &&
-                        $lConf['dataArray.']['60.']['label'] == ''
-                    ) {
-                        unset($lConf['dataArray.']['60.']);
-                    }
-                    if (
-                        isset($lConf['dataArray.']['61.']) &&
-                        $lConf['dataArray.']['61.']['label'] == ''
-                    ) {
-                        unset($lConf['dataArray.']['61.']);
-                    }
-                } else if (intval($conf['PIDprivacyPolicy'])) {
+                if (
+                    !$feuserLoggedIn &&
+                    intval($conf['PIDprivacyPolicy'])
+                ) {
                     $labelMap = array(
                         'title' => 'privacy_policy.title',
                         'acknowledgement' => 'privacy_policy.acknowledgement',
@@ -374,7 +367,7 @@ window.onload = addListeners;
                         $lConf['params.']['submit'] .=
                             ($useXhtml ? ' disabled="disabled" ' : ' disabled ');
                     }
-                        
+
                     $lConf['dataArray.']['61.']['label'] = $labels['acknowledgement'];
                     $lConf['dataArray.']['61.']['label.'] =
                         array(
@@ -393,6 +386,19 @@ window.onload = addListeners;
                         TT_BOARD_EXT . '-privacy_policy',
                         $privacyJavaScript
                     );
+                } else {
+                    if (
+                        isset($lConf['dataArray.']['60.']) &&
+                        $lConf['dataArray.']['60.']['label'] == ''
+                    ) {
+                        unset($lConf['dataArray.']['60.']);
+                    }
+                    if (
+                        isset($lConf['dataArray.']['61.']) &&
+                        $lConf['dataArray.']['61.']['label'] == ''
+                    ) {
+                        unset($lConf['dataArray.']['61.']);
+                    }
                 }
 
                 if (count($notify)) {

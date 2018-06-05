@@ -382,6 +382,3 @@ tt_board >
 tt_board = < plugin.tt_board_tree
 tt_board.displayCurrentRecord = 1
 
-tt_board_tree >
-tt_board_tree = < plugin.tt_board_tree
-tt_board_tree.displayCurrentRecord = 1

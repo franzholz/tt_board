@@ -12,7 +12,7 @@ plugin.tt_board {
     # cat=plugin.board//; type=integer; label= number of threads: number of topics which will be shown in the forum trees
   threadLimit = 30
 
-    # cat=plugin.board; type=string; label= Member of group: Comma separated list of FE groups which a user must belong to that the post forms are shown.
+    # cat=plugin.board; type=string; label= Member of group: Comma separated list of FE groups which a user must belong to, in order that the post forms are shown. Enter a 0 if you do not want to require that e front end user must be logged in.
   memberOfGroups = 1
 
     # cat=plugin.board; type=int+; label= Page Id of forum: Only set this if the BACKLINK does not work.

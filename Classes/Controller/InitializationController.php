@@ -112,7 +112,6 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
 
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
         $composite->setAllowCaching($allowCaching);
-
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
         $languageObj->init1(
             $this,
@@ -177,5 +176,4 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $composite->setTtBoardUid($tt_board_uid);
     }
 }
-
 
