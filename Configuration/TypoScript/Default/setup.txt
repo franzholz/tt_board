@@ -101,7 +101,7 @@ temp.tt_board.shared {
 # Name:
     30.label =
     30.type = *data[tt_board][NEW][author]=input,40
-# Email:
+# E-Mail:
     40.label =
     40.type = *data[tt_board][NEW][email]=input,40
 # Notify by reply:

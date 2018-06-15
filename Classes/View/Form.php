@@ -62,8 +62,6 @@ window.onload = addListeners;
         return $result;
     }
 
-    //         document.getElementById("' . $buttonId . '").disabled = !document.getElementById("' . $checkId . '").value;
-
     /**
     * Creates a post form for a forum
     */
@@ -84,6 +82,8 @@ window.onload = addListeners;
         $xhtmlFix = \JambageCom\Div2007\Utility\HtmlUtility::determineXhtmlFix();
         $useXhtml = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
         $idPrefix = 'mailform';
+        $table = 'tt_board';
+        $spamWord = '';
 
         if (
             $modelObj->isAllowed($conf['memberOfGroups'])
@@ -236,7 +236,7 @@ window.onload = addListeners;
                 if ($spamWord != '') {
                     $out =
                         sprintf(
-                            $languageObj->getLL(
+                            $languageObj->getLabel(
                                 'spam_detected'
                             ),
                             $spamWord
@@ -248,19 +248,19 @@ window.onload = addListeners;
                     );
                 }
                 $lConf['dataArray.']['9995.'] = array(
-                    'type' => '*data[tt_board][NEW][prefixid]=hidden',
+                    'type' => '*data[' . $table . '][NEW][prefixid]=hidden',
                     'value' => $composite->getPrefixId()
                 );
                 $lConf['dataArray.']['9996.'] = array(
-                    'type' => '*data[tt_board][NEW][reference]=hidden',
+                    'type' => '*data[' . $table . '][NEW][reference]=hidden',
                     'value' => $ref
                 );
                 $lConf['dataArray.']['9998.'] = array(
-                    'type' => '*data[tt_board][NEW][pid]=hidden',
+                    'type' => '*data[' . $table . '][NEW][pid]=hidden',
                     'value' => $pid
                 );
                 $lConf['dataArray.']['9999.'] = array(
-                    'type' => '*data[tt_board][NEW][parent]=hidden',
+                    'type' => '*data[' . $table . '][NEW][parent]=hidden',
                     'value' => $parent
                 );
 
@@ -279,14 +279,14 @@ window.onload = addListeners;
                         true
                     );
                     $textLabel =
-                        $languageObj->getLL(
+                        $languageObj->getLabel(
                             'captcha'
                         );
 
                     if ($wrongCaptcha) {
                         $textLabelWrap = '<strong>' .
                             sprintf(
-                                $languageObj->getLL(
+                                $languageObj->getLabel(
                                     'wrong_captcha'
                                 ),
                                 $word
@@ -314,7 +314,7 @@ window.onload = addListeners;
                                     $captchaMarker['###CAPTCHA_NOTICE###'] . '<br' . $xhtmlFix .'>' .
                                     $additionalText . '</span>'
                                 ),
-                            'type' => '*data[tt_board][NEW][' . Field::CAPTCHA . ']=input,20'
+                            'type' => '*data[' . $table . '][NEW][' . Field::CAPTCHA . ']=input,20'
                         );
                     }
                 } else if (
@@ -339,7 +339,7 @@ window.onload = addListeners;
                     );
 
                     foreach ($labelMap as $key => $languageKey) {
-                        $labels[$key] = $languageObj->getLL($languageKey);
+                        $labels[$key] = $languageObj->getLabel($languageKey);
                     }
                     $piVars = array();
 
@@ -430,22 +430,22 @@ window.onload = addListeners;
                     if (is_array($lConf['dataArray.'][$k . '.'])) {
                         if (
                             (
-                                !$languageObj->getLLkey() ||
-                                $languageObj->getLLkey() == 'en'
+                                !$languageObj->getLocalLangKey() ||
+                                $languageObj->getLocalLangKey() == 'en'
                             ) &&
                             !$lConf['dataArray.'][$k . '.'][$type] ||
 
                             (
-                                $languageObj->getLLkey() != 'en' &&
+                                $languageObj->getLocalLangKey() != 'en' &&
                                 (
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']) ||
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.']) ||
-                                    !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$languageObj->getLLkey() . '.'])
+                                    !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$languageObj->getLocalLangKey() . '.'])
                                 )
                             )
                         ) {
                             $lConf['dataArray.'][$k . '.'][$type] =
-                                $languageObj->getLL(
+                                $languageObj->getLabel(
                                     $theField
                                 );
 

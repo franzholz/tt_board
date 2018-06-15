@@ -48,8 +48,9 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 {
     static public function execute (TypoScriptFrontendDataController $pObj, $conf)
     {
+        $result = true;
         $table = 'tt_board';
-        $row = $pObj->newData[TT_BOARD_EXT]['NEW'];
+        $row = $pObj->newData[$table]['NEW'];
         $prefixId = $row['prefixid'];
         unset($row['prefixid']);
         $pid = intval($row['pid']);
@@ -73,7 +74,8 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         ) {
             if (is_array($row) && trim($row['message'])) {
                 do {
-                    $internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', 'captcha');
+                    $internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', Field::CAPTCHA);
+                    $captchaError = false;
 
                     if (
                         isset($row[Field::CAPTCHA]) &&
@@ -89,32 +91,41 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $conf['captcha']
                             )
                         ) {
-                            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
-                            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
-                            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row[Field::CAPTCHA];
+                            $captchaError = true;
                             break;
                         }
+                    } else if ($conf['captcha']) { // wrong captcha configuration or manipulation of the submit form
+                        $captchaError = true;                        
+                    }
+
+                    if ($captchaError) {
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
+                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row[Field::CAPTCHA];
+                        $result = false;
+                        break;
                     }
 
                     $spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
-                    $bSpamFound = false;
+                    $spamFound = false;
 
                     foreach ($row as $field => $value) {
                         if (!in_array($field, $internalFieldArray)) {
                             foreach ($spamArray as $k => $word) {
                                 if ($word && stripos($value, $word) !== false) {
-                                    $bSpamFound = true;
+                                    $spamFound = true;
+                                    $result = false;
                                     break;
                                 }
                             }
                         }
-                        if ($bSpamFound) {
+                        if ($spamFound) {
                             break;
                         }
                         $row[$field] = $value;
                     }
 
-                    if ($bSpamFound) {
+                    if ($spamFound) {
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['spam'] = true;
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $word;
@@ -135,7 +146,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         }
 
                             // Plain insert of record:
-                        $pObj->execNEWinsert('tt_board', $row);
+                        $pObj->execNEWinsert($table, $row);
                         $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
 
                             // Link to this thread
@@ -313,6 +324,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                         3,
                                         PREG_SPLIT_DELIM_CAPTURE
                                     );
+                                $fromEmail = '';
                                 if (count($senderArray) >= 4) {
                                     $fromEmail = $senderArray[2];
                                 } else {
@@ -346,7 +358,11 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             $messagePage->output();
         }
 
-        return true;
+        if ($result) {
+            // delete any formerly stored values
+            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT] = array();
+        }
+        return $result;
     }
 }
 

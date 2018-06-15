@@ -1,3 +1,6 @@
+2018-06-15 Franz Holzinger <franz@ttproducts.de>
+    * new base class: change the Localization class from \JambageCom\Div2007\Base\LocalisationBase to TranslationBase. Change the methods of the $languageObj object accordingly: loadLL => loadLocalLang, getLLkey => getLocalLangKey, getLL => getLabel
+
 2018-06-02 Franz Holzinger <franz@ttproducts.de>
     * move the Extension Manager methods addPiFlexFormValue and addPlugin from file ext_tables.php into Configuration/TCA/Overrides/tt_content.php
     * add information about DSGVO and GDPR to the manual

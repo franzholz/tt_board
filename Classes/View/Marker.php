@@ -198,14 +198,14 @@ class Marker
         foreach ($locallang['default'] as $k => $text) {
             if (strpos($k, 'board') === 0) {
                 $markerArray['###' . strtoupper($k) . '###'] =
-                    $languageObj->getLL(
+                    $languageObj->getLabel(
                         $k
                     );
             }
         }
 
         $markerArray['###BUTTON_SEARCH###'] =
-            $languageObj->getLL(
+            $languageObj->getLabel(
                 'button_search'
             );
     }

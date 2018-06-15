@@ -27,7 +27,7 @@ plugin.tt_board {
     # cat=plugin.board/spam; type=text; label= Spam words: Comma separated list of spam words. No message contaning one of these words will be stored.
   spamWords = mark-blog, erotik, penis, viagra, cialis, gogofacility, pornvideo, nudity, wifelover, mega-phentermine, orokz.info, yaporn.net
 
-    # cat=plugin.tx_agency//; type=string; label= Privacy Policy url: Page (id) where the privacy policy is shown. If you want to show a privacy policy checkbox and hints for not registered front end users. This is needed for compliance with DSGVO / GDPR .
+    # cat=plugin.board//; type=string; label= Privacy Policy url: Page (id) where the privacy policy is shown. If you want to show a privacy policy checkbox and hints for not registered front end users. This is needed for compliance with DSGVO / GDPR .
   PIDprivacyPolicy =
 }
 

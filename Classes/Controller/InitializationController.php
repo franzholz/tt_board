@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2018 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -113,14 +113,14 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
         $composite->setAllowCaching($allowCaching);
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
-        $languageObj->init1(
-            $this,
-            $cObj,
+        $languageObj->init(
+            TT_BOARD_EXT,
             $conf,
-            'Classes/RegisterPluginController.php'
+            DIV2007_LANGUAGE_SUBPATH
         );
-        $languageObj->loadLL(
-            'EXT:' . TT_BOARD_EXT . '/Resources/Private/Language/locallang.xlf'
+        $languageObj->loadLocalLang(
+            'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
+            false
         );
         $composite->setLanguageObj($languageObj);
         $markerObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Marker::class);
