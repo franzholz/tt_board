@@ -57,13 +57,22 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
         $local_cObj->setCurrentVal($pid);
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
-
         if (is_array($row)) {
             $email = $row['email'];
         }
         $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
         $modelObj->init();
         $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
+        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
+        $languageObj->init(
+            TT_BOARD_EXT,
+            $conf,
+            DIV2007_LANGUAGE_SUBPATH
+        );
+        $languageObj->loadLocalLang(
+            'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
+            false
+        );
 
         if (
             $allowed &&
@@ -188,7 +197,10 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         }
 
                             // Send post to Mailing list ...
-                        if ($conf['sendToMailingList'] && $conf['sendToMailingList.']['email']) {
+                        if (
+                            $conf['sendToMailingList'] &&
+                            $conf['sendToMailingList.']['email']
+                        ) {
                         /*
                             TypoScript for this section (was used for the TYPO3 mailing list.
                         FEData.tt_board.processScript {
@@ -212,7 +224,9 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                         'usergroup=' . intval($mConf['sendToFEgroup'])
                                     );
                                 $c = 0;
-                                while($feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+                                while(
+                                    $feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)
+                                ) {
                                     $c++;
                                     $emails .= $feRow['email'] . ',';
                                 }
@@ -348,13 +362,18 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             }
         } else {
             if ($allowed) {
-                $message = $email . ' is not a valid email address.';
+                $message = sprintf($languageObj->getLabel('error_email'), $email);
             } else {
-                $message = 'You do not have the permission to post into this forum!';
+                $message = $languageObj->getLabel('error_no_permission');
             }
 
-            $title = 'Access denied!';
-            $messagePage = GeneralUtility::makeInstance(ErrorpageMessage::class, $message, $title);
+            $title = $languageObj->getLabel('error_access_denied');
+            $messagePage =
+                GeneralUtility::makeInstance(
+                    ErrorpageMessage::class,
+                    $message,
+                    $title
+                );
             $messagePage->output();
         }
 

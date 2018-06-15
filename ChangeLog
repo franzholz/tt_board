@@ -1,4 +1,5 @@
 2018-06-15 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: add localization for the error result of the submit form.
     * new base class: change the Localization class from \JambageCom\Div2007\Base\LocalisationBase to TranslationBase. Change the methods of the $languageObj object accordingly: loadLL => loadLocalLang, getLLkey => getLocalLangKey, getLL => getLabel
 
 2018-06-02 Franz Holzinger <franz@ttproducts.de>
