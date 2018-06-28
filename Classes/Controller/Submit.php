@@ -63,16 +63,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
         $modelObj->init();
         $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
-        $languageObj->init(
-            TT_BOARD_EXT,
-            $conf,
-            DIV2007_LANGUAGE_SUBPATH
-        );
-        $languageObj->loadLocalLang(
-            'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
-            false
-        );
 
         if (
             $allowed &&
@@ -103,7 +93,8 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             $captchaError = true;
                             break;
                         }
-                    } else if ($conf['captcha']) { // wrong captcha configuration or manipulation of the submit form
+                    } else if ($conf['captcha']) {
+                            // There could be a wrong captcha configuration or manipulation of the submit form. This case must always lead to an error message.
                         $captchaError = true;                        
                     }
 
@@ -361,6 +352,17 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                 } while (1 == 0);	// only once
             }
         } else {
+            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
+            $languageObj->init(
+                TT_BOARD_EXT,
+                $conf,
+                DIV2007_LANGUAGE_SUBPATH
+            );
+            $languageObj->loadLocalLang(
+                'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
+                false
+            );
+
             if ($allowed) {
                 $message = sprintf($languageObj->getLabel('error_email'), $email);
             } else {

@@ -42,6 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\BrowserUtility;
 
 
 class Marker
@@ -130,7 +131,7 @@ class Marker
     )
     {
         $conf = $this->getConf();
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer(
+        $local_cObj = FrontendUtility::getContentObjectRenderer(
             $row,
             $modelObj->getTablename()
         );
@@ -212,7 +213,7 @@ class Marker
 
     public function getIconMarkers (&$markerArray, $iconConfig)
     {
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $local_cObj = FrontendUtility::getContentObjectRenderer();
 
         foreach ($iconConfig as $type => $renderType) {
             if (strpos($type, '.') !== false) {
@@ -281,7 +282,7 @@ class Marker
             isset($conf['emoticons.']['icon']) &&
             isset($conf['emoticons.']['icon.'])
         ) {
-            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+            $local_cObj = FrontendUtility::getContentObjectRenderer();
             $image = $conf['emoticons.']['icon.'];
             foreach ($conf['emoticons.']['substitute.'] as $key => $substitute) {
                 if (
@@ -389,7 +390,7 @@ class Marker
                     $begin_at + $limit;
             $addQueryString[$pointerName] = intval($next / $limit);
             $tempUrl =
-                FrontendUtility::linkTPKeepCtrlVars(
+                BrowserUtility::linkTPKeepCtrlVars(
                     $browseObj,
                     $cObj,
                     $prefixId,
@@ -407,7 +408,7 @@ class Marker
             $prev = ($begin_at - $limit < 0) ? 0 : $begin_at - $limit;
             $addQueryString[$pointerName] = intval($prev / $limit);
             $tempUrl =
-                FrontendUtility::linkTPKeepCtrlVars(
+                BrowserUtility::linkTPKeepCtrlVars(
                     $browseObj,
                     $cObj,
                     $prefixId,
@@ -429,7 +430,7 @@ class Marker
                 $wrappedSubpartArray['###LINK_BROWSE###'] = array('', '');
 
                 $markerArray['###BROWSE_LINKS###'] =
-                    FrontendUtility::listBrowser(
+                    BrowserUtility::render(
                         $browseObj,
                         $languageObj,
                         $cObj,
