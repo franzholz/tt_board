@@ -201,8 +201,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
             $this->outMessage($composite->getErrorMessage());
         } else if ($contentTmp == 'error') {
             $fileName = 'EXT:' . TT_BOARD_EXT . '/template/board_help.tmpl';
-            $helpTemplate = $composite->getCObj()->fileResource($fileName);
-
+            $absoluteFileName = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
+            $helpTemplate = file_get_contents($absoluteFileName);
             $newContent = \JambageCom\Div2007\Utility\ViewUtility::displayHelpPage(
                 $composite->getLanguageObj(),
                 $composite->getCObj(),

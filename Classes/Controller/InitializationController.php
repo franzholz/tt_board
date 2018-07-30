@@ -132,7 +132,8 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
 
         $globalMarkerArray = $markerObj->getGlobalMarkers($cObj);
             // template is read.
-        $orig_templateCode = $cObj->fileResource($conf['templateFile']);
+        $absoluteFileName = $GLOBALS['TSFE']->tmpl->getFileName($conf['templateFile']);
+        $orig_templateCode = file_get_contents($absoluteFileName);
 
             // Substitute Global Marker Array
         $orig_templateCode =
