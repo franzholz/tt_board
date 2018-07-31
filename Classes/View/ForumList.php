@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\View;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2018 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,6 +36,7 @@ namespace JambageCom\TtBoard\View;
  */
 
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
@@ -60,6 +61,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
         $languageObj = $composite->getLanguageObj();
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $allowCaching = $composite->getAllowCaching();
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
         $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
@@ -102,13 +104,25 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                     $conf['icon.']
                 );
 
-                $templateCode =
-                    $local_cObj->substituteMarkerArrayCached(
-                        $templateCode,
-                        $markerArray,
-                        $subpartMarkerArray,
-                        $wrappedSubpartContentArray
-                    );
+                if (
+                    version_compare(TYPO3_version, '8.7.0', '<')
+                ) {
+                    $templateCode =
+                        $local_cObj->substituteMarkerArrayCached(
+                            $templateCode,
+                            $markerArray,
+                            $subpartMarkerArray,
+                            $wrappedSubpartContentArray
+                        );
+                } else {
+                    $templateCode =
+                        $templateService->substituteMarkerArrayCached(
+                            $templateCode,
+                            $markerArray,
+                            $subpartMarkerArray,
+                            $wrappedSubpartContentArray
+                        );
+                }
 
                     // Getting the specific parts of the template
                 $categoryHeader =
@@ -192,14 +206,27 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             '</a>'
                         );
 
-                            // Substitute
-                        $subpartContent .=
-                            $local_cObj->substituteMarkerArrayCached(
-                                $out,
-                                $markerArray,
-                                array(),
-                                $wrappedSubpartContentArray
-                            );
+                        if (
+                            version_compare(TYPO3_version, '8.7.0', '<')
+                        ) {
+                                // Substitute
+                            $subpartContent .=
+                                $local_cObj->substituteMarkerArrayCached(
+                                    $out,
+                                    $markerArray,
+                                    array(),
+                                    $wrappedSubpartContentArray
+                                );
+                        } else {
+                                // Substitute
+                            $subpartContent .=
+                                $templateService->substituteMarkerArrayCached(
+                                    $out,
+                                    $markerArray,
+                                    array(),
+                                    $wrappedSubpartContentArray
+                                );
+                        }
                     }
 
                     if (count($forumHeader) && !$lConf['noForums']) {
@@ -325,14 +352,27 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     '</a>'
                                 );
 
-                                // Add result
-                            $subpartContent .=
-                                $forum_cObj->substituteMarkerArrayCached(
-                                    $out,
-                                    $markerArray,
-                                    array(),
-                                    $wrappedSubpartContentArray
-                                );
+                            if (
+                                version_compare(TYPO3_version, '8.7.0', '<')
+                            ) {
+                                    // Add result
+                                $subpartContent .=
+                                    $forum_cObj->substituteMarkerArrayCached(
+                                        $out,
+                                        $markerArray,
+                                        array(),
+                                        $wrappedSubpartContentArray
+                                    );
+                            } else {
+                                    // Add result
+                                $subpartContent .=
+                                    $templateService->substituteMarkerArrayCached(
+                                        $out,
+                                        $markerArray,
+                                        array(),
+                                        $wrappedSubpartContentArray
+                                    );
+                            }
 
                                 // Rendering the most recent posts
                             if (count($postHeader) && $lConf['numberOfRecentPosts']) {
@@ -437,13 +477,25 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             '</a>'
                                         );
 
-                                    $subpartContent .=
-                                        $forum_cObj->substituteMarkerArrayCached(
-                                            $out,
-                                            $markerArray,
-                                            array(),
-                                            $wrappedSubpartContentArray
-                                        );
+                                    if (
+                                        version_compare(TYPO3_version, '8.7.0', '<')
+                                    ) {
+                                        $subpartContent .=
+                                            $forum_cObj->substituteMarkerArrayCached(
+                                                $out,
+                                                $markerArray,
+                                                array(),
+                                                $wrappedSubpartContentArray
+                                            );
+                                    } else {
+                                        $subpartContent .=
+                                            $templateService->substituteMarkerArrayCached(
+                                                $out,
+                                                $markerArray,
+                                                array(),
+                                                $wrappedSubpartContentArray
+                                            );
+                                    }
                                 }
                             }
                         }
@@ -455,7 +507,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 
                     // Substitution:
                 $content .=
-                    $local_cObj->substituteSubpart(
+                    $templateService->substituteSubpart(
                         $templateCode,
                         '###CONTENT###',
                         $subpartContent

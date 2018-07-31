@@ -39,6 +39,7 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -134,13 +135,27 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             // template is read.
         $absoluteFileName = $GLOBALS['TSFE']->tmpl->getFileName($conf['templateFile']);
         $orig_templateCode = file_get_contents($absoluteFileName);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
-            // Substitute Global Marker Array
-        $orig_templateCode =
-            $cObj->substituteMarkerArray(
-                $orig_templateCode,
-                $globalMarkerArray
-            );
+        if (
+            version_compare(TYPO3_version, '8.7.0', '<')
+        ) {
+                // Substitute Global Marker Array
+            $orig_templateCode =
+                $cObj->substituteMarkerArray(
+                    $orig_templateCode,
+                    $globalMarkerArray
+                );
+            }
+        } else {
+                // Substitute Global Marker Array
+            $orig_templateCode =
+                $templateService->substituteMarkerArray(
+                    $orig_templateCode,
+                    $globalMarkerArray
+                );
+            }
+        }
         $composite->setOrigTemplateCode($orig_templateCode);
 
             // TypoLink.

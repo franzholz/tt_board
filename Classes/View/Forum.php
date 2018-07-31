@@ -40,6 +40,7 @@ namespace JambageCom\TtBoard\View;
  */
 
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
@@ -74,6 +75,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $prefixId = $composite->getPrefixId();
         $typolinkConf = $composite->getTypolinkConf();
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $continue = true;
         if ($theCode == 'THREAD_TREE') {
@@ -173,13 +175,25 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                         $GLOBALS['TSFE']->page['title'],
                         $lConf['forum_title_stdWrap.']
                     );
-                $templateCode =
-                    $local_cObj->substituteMarkerArrayCached(
-                        $templateCode,
-                        $markerArray,
-                        $subpartMarkerArray,
-                        $wrappedSubpartArray
-                    );
+                if (
+                    version_compare(TYPO3_version, '8.7.0', '<')
+                ) {
+                    $templateCode =
+                        $local_cObj->substituteMarkerArrayCached(
+                            $templateCode,
+                            $markerArray,
+                            $subpartMarkerArray,
+                            $wrappedSubpartArray
+                        );
+                } else {
+                    $templateCode =
+                        $templateService->substituteMarkerArrayCached(
+                            $templateCode,
+                            $markerArray,
+                            $subpartMarkerArray,
+                            $wrappedSubpartArray
+                        );
+                }
                 $postHeader =
                     $markerObj->getLayouts(
                         $templateCode,
@@ -327,14 +341,27 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             '</a>'
                         );
 
-                        // Substitute:
-                    $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
-                        $local_cObj->substituteMarkerArrayCached(
-                            $out,
-                            $markerArray,
-                            array(),
-                            $wrappedSubpartArray
-                        );
+                    if (
+                        version_compare(TYPO3_version, '8.7.0', '<')
+                    ) {
+                            // Substitute:
+                        $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
+                             $local_cObj->substituteMarkerArrayCached(
+                                $out,
+                                $markerArray,
+                                array(),
+                                $wrappedSubpartArray
+                            );
+                    } else {
+                            // Substitute:
+                        $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
+                            $templateService->substituteMarkerArrayCached(
+                                $out,
+                                $markerArray,
+                                array(),
+                                $wrappedSubpartArray
+                            );
+                    }
                 }
 
                 if (!$conf['tree']) {
@@ -360,11 +387,22 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
                 // Substitute CONTENT-subpart
                 $subpartContentArray['###CONTENT###'] = $subpartContent;
-                $newContent = $local_cObj->substituteMarkerArrayCached(
-                    $templateCode,
-                    $markerArray,
-                    $subpartContentArray
-                );
+
+                if (
+                    version_compare(TYPO3_version, '8.7.0', '<')
+                ) {
+                    $newContent = $local_cObj->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        $subpartContentArray
+                    );
+                } else {
+                    $newContent = $templateService->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        $subpartContentArray
+                    );
+                }
 
                 $content .= $newContent;
             } // if ($templateCode) {

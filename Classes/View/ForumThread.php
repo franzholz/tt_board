@@ -40,6 +40,7 @@ namespace JambageCom\TtBoard\View;
  */
 
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
@@ -75,6 +76,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $typolinkConf = $composite->getTypolinkConf();
         $allowCaching = $composite->getAllowCaching();
         $typolinkConf['useCacheHash'] = $allowCaching;
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $lConf = $conf['view_thread.'];
         $templateCode =
@@ -94,13 +96,26 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 $markerArray,
                 $languageObj
             );
-            $templateCode =
-                $local_cObj->substituteMarkerArrayCached(
-                    $templateCode,
-                    $markerArray,
-                    $subpartMarkerArray,
-                    $wrappedSubpartArray
-                );
+
+            if (
+                version_compare(TYPO3_version, '8.7.0', '<')
+            ) {
+                $templateCode =
+                    $local_cObj->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        $subpartMarkerArray,
+                        $wrappedSubpartArray
+                    );
+            } else {
+                $templateCode =
+                    $templateService->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        $subpartMarkerArray,
+                        $wrappedSubpartArray
+                    );
+            }
 
             $rootParent = $modelObj->getRootParent($uid, $ref);
             $theadRootUid = $uid;
@@ -216,14 +231,27 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 $subpartArray['###LINK_FIRST_POST###'] = '';
             }
 
-                // Substitute:
-            $templateCode =
-                $local_cObj->substituteMarkerArrayCached(
-                    $templateCode,
-                    $markerArray,
-                    $subpartArray,
-                    $wrappedSubpartArray
-                );
+            if (
+                version_compare(TYPO3_version, '8.7.0', '<')
+            ) {
+                    // Substitute:
+                $templateCode =
+                    $local_cObj->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        $subpartArray,
+                        $wrappedSubpartArray
+                    );
+            } else {
+                    // Substitute:
+                $templateCode =
+                    $templateService->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        $subpartArray,
+                        $wrappedSubpartArray
+                    );
+            }
 
                 // Getting subpart for items:
             $postHeader =
@@ -310,20 +338,33 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     }
                 }
 
-                    // Substitute:
-                $subpartContent .=
-                    $local_cObj->substituteMarkerArrayCached(
-                        $out,
-                        $markerArray,
-                        $subpartMarkerArray,
-                        $wrappedSubpartArray
-                    );
+                if (
+                    version_compare(TYPO3_version, '8.7.0', '<')
+                ) {
+                        // Substitute:
+                    $subpartContent .=
+                        $local_cObj->substituteMarkerArrayCached(
+                            $out,
+                            $markerArray,
+                            $subpartMarkerArray,
+                            $wrappedSubpartArray
+                        );
+                } else {
+                        // Substitute:
+                    $subpartContent .=
+                        $templateService->substituteMarkerArrayCached(
+                            $out,
+                            $markerArray,
+                            $subpartMarkerArray,
+                            $wrappedSubpartArray
+                        );
+                }
             }
 
             $GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
                 // Substitution:
             $content .=
-                $local_cObj->substituteSubpart(
+                $templateService->substituteSubpart(
                     $templateCode,
                     '###CONTENT###',
                     $subpartContent

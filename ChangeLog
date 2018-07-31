@@ -1,3 +1,6 @@
+2018-07-31 Franz Holzinger <franz@ttproducts.de>
+    * bugfix for TYPO3 9.x: replace deprecated method ContentObjectRenderer::substituteMarkerArrayCached by TYPO3\CMS\Core\Service\MarkerBasedTemplateService::substituteMarkerArrayCached
+
 2018-07-30 Franz Holzinger <franz@ttproducts.de>
     * bugfix for TYPO3 9.x: replace deprecated method ContentObjectRenderer::fileResource by $TSFE->tmpl->getFileName and file_get_contents. 
 
