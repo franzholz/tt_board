@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\View;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Franz Holzinger <franzt@ttproducts.de>
+*  (c) 2018 Franz Holzinger <franzt@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -38,6 +38,7 @@ namespace JambageCom\TtBoard\View;
  *
  */
 
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
@@ -240,11 +241,12 @@ class Marker
     */
     public function getLayouts ($templateCode, $alternativeLayouts, $marker)
     {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $out = array();
         for($a = 0; $a < $alternativeLayouts; $a++) {
             $m = '###' . $marker . ($a ? '_' . $a : '') . '###';
             if(strstr($templateCode, $m)) {
-                $out[] = $GLOBALS['TSFE']->cObj->getSubpart($templateCode, $m);
+                $out[] = $templateService->getSubpart($templateCode, $m);
             } else {
                 break;
             }
