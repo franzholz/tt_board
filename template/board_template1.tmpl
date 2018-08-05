@@ -10,17 +10,17 @@
 
 
 
-<br />
-<br />
-<br />
+<br>
+<br>
+<br>
 <h1>BOARD TEMPLATES</h1>
 <h2>EXAMPLE 1 - LIST style</h2>
 
 
 
-<br />
-<br />
-<br />
+<br>
+<br>
+<br>
 <pre>
 <strong>Global markers, as set up in TypoScript:</strong>
 These are substituted throughout the whole template.
@@ -35,9 +35,9 @@ GC3
 GC4
 </pre>
 
-<br /><br /><br /><br /><br /><br /><br /><br />
+<br><br><br><br><br><br><br><br>
 <h3>TEMPLATE_OVERVIEW</h3>
-<em>This is the template for the overview of categories and forums. -- Forum preview --</em><br />
+<em>This is the template for the overview of categories and forums. -- Forum preview --</em><br>
 <pre>
 
 // Category Markers:
@@ -78,8 +78,8 @@ POST_AGE
 // Post Subparts:
 LINK
 </pre>
-<br />
-<br />
+<br>
+<br>
 
 
 <!-- ###TEMPLATE_OVERVIEW### begin
@@ -108,10 +108,10 @@ LINK
 		-->
 			<tr>
 				<td bgcolor="###GC2###" align="center" valign="top"><img src="clear.gif" width=20 height=1 border="0"></td>
-				<td bgcolor="###GC2###" valign="top">###GW1B### <strong><!-- ###LINK### begin -->###FORUM_TITLE###<!-- ###LINK### end --></strong>###GW1E###<br />###GW2B### ###FORUM_DESCRIPTION### ###GW2E###</td>
+				<td bgcolor="###GC2###" valign="top">###GW1B### <strong><!-- ###LINK### begin -->###FORUM_TITLE###<!-- ###LINK### end --></strong>###GW1E###<br>###GW2B### ###FORUM_DESCRIPTION### ###GW2E###</td>
 				<td bgcolor="###GC1###" align="center" valign="top">###GW1B### ###FORUM_POSTS### ###GW1E###</td>
 				<td bgcolor="###GC2###" align="center" valign="top">###GW1B### ###FORUM_THREADS### ###GW1E###</td>
-				<td bgcolor="###GC1###" valign="top" align="center">###GW2B### <!-- ###LINK_LAST_POST### begin -->###BOARD_LAST_POST###!<!-- ###LINK_LAST_POST### end --> ###LAST_POST_DATE### ###LAST_POST_TIME###<br />###LAST_POST_AUTHOR### - ###LAST_POST_AGE### ###GW2E###</td>
+				<td bgcolor="###GC1###" valign="top" align="center">###GW2B### <!-- ###LINK_LAST_POST### begin -->###BOARD_LAST_POST###!<!-- ###LINK_LAST_POST### end --> ###LAST_POST_DATE### ###LAST_POST_TIME###<br>###LAST_POST_AUTHOR### - ###LAST_POST_AGE### ###GW2E###</td>
 			</tr>
 		<!-- ###FORUM### end-->
 		<!-- ###POST### begin
@@ -119,10 +119,10 @@ LINK
 		-->
 			<tr>
 				<td align="center" valign="top">NEW!</td>
-				<td valign="top"><!-- ###LINK### begin -->###GW1B### <strong>###POST_TITLE###</strong>###GW1E###<!-- ###LINK### end --><br />###GW2B### ###POST_CONTENT### ###GW2E###</td>
+				<td valign="top"><!-- ###LINK### begin -->###GW1B### <strong>###POST_TITLE###</strong>###GW1E###<!-- ###LINK### end --><br>###GW2B### ###POST_CONTENT### ###GW2E###</td>
 				<td align="center" valign="top">###GW1B### ###POST_REPLIES### ###GW1E###</td>
 				<td align="center" valign="top">###GW1B### &nbsp; ###GW1E###</td>
-				<td valign="top" align="center">###GW2B### ###POST_DATE###  ###POST_TIME###<br />###POST_AUTHOR### ###GW2E###</td>
+				<td valign="top" align="center">###GW2B### ###POST_DATE###  ###POST_TIME###<br>###POST_AUTHOR### ###GW2E###</td>
 			</tr>
 		<!-- ###POST### end-->
 	<!-- ###CONTENT###  end -->
@@ -136,9 +136,9 @@ LINK
 
 
 
-<br /><br /><br /><br /><hr><br /><br /><br />
+<br><br><br><br><hr><br><br><br>
 <h3>TEMPLATE_FORUM</h3>
-<em>Template for listing of items in a single forum.</em><br />
+<em>Template for listing of items in a single forum.</em><br>
 <pre>
 
 
@@ -164,8 +164,8 @@ LINK
 LINK_LAST_POST
 
 </pre>
-<br />
-<br />
+<br>
+<br>
 
 <!-- ###TEMPLATE_FORUM### begin
 	Template for listing of items in a single forum.
@@ -183,7 +183,7 @@ LINK_LAST_POST
 		<!--###POST### begin -->
 			<tr>
 				<td align="center" bgcolor="###GC2###" width="20"><img src="###PATH###res/icons/fe/thread.gif"></td>
-				<td colspan="4" bgcolor="###GC2###">###GW1B### <!--###LINK###-->###POST_TITLE###<!--###LINK###--><br />###GW1E###</td>
+				<td colspan="4" bgcolor="###GC2###">###GW1B### <!--###LINK###-->###POST_TITLE###<!--###LINK###--><br>###GW1E###</td>
 				<td align="center" bgcolor="###GC1###">###GW1B### ###POST_AUTHOR### ###GW1E###</td>
 				<td align="center" bgcolor="###GC2###">###GW1B### ###POST_REPLIES### ###GW1E###</td>
 				<td colspan="3" align="center" bgcolor="###GC2###" >###GW2B### <!-- ###LINK_LAST_POST### begin -->###BOARD_LAST_POST###<!-- ###LINK_LAST_POST### end --> ###LAST_POST_DATE### ###LAST_POST_TIME### ###BOARD_BY### ###LAST_POST_AUTHOR### - ###BOARD_AGE###: ###LAST_POST_AGE### ###GW2E###</td>
@@ -215,9 +215,9 @@ LINK_LAST_POST
 
 
 
-<br /><br /><br /><br /><hr><br /><br /><br />
+<br><br><br><br><hr><br><br><br>
 <h3>TEMPLATE_THREAD</h3>
-<em>Template for the listing of a the posts in a thread.</em><br />
+<em>Template for the listing of a the posts in a thread.</em><br>
 <pre>
 
 // General subparts
@@ -247,8 +247,8 @@ LINK_PREV_POST
 LINK_NEXT_POST
 
 </pre>
-<br />
-<br />
+<br>
+<br>
 
 
 <!-- ###TEMPLATE_THREAD### begin
@@ -267,7 +267,7 @@ LINK_NEXT_POST
 			</tr>
 			<tr bgcolor="###GC1###">
 				<td width="175" valign="top">
-					###GW1B### <strong>###POST_AUTHOR###</strong>###GW1E###<br />
+					###GW1B### <strong>###POST_AUTHOR###</strong>###GW1E###<br>
 				</td>
 				<td valign="top">
 					###GW1B### ###POST_CONTENT### ###GW1E###
@@ -281,7 +281,7 @@ LINK_NEXT_POST
 			</tr>
 			<tr bgcolor="###GC2###">
 				<td width="175" valign="top">
-					###GW1B### <strong>###POST_AUTHOR###</strong>###GW1E###<br />
+					###GW1B### <strong>###POST_AUTHOR###</strong>###GW1E###<br>
 				</td>
 				<td valign="top">
 					###GW1B### ###POST_CONTENT### ###GW1E###
