@@ -97,7 +97,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
             $wrappedSubpartArray = array();
 
             $templateCode =
-                $local_cObj->getSubpart(
+                $templateService->getSubpart(
                     $composite->getOrigTemplateCode(),
                     '###LINK_BROWSE###'
                 );
@@ -158,7 +158,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
             }
 
             $templateCode =
-                $local_cObj->getSubpart(
+                $templateService->getSubpart(
                     $composite->getOrigTemplateCode(),
                     '###TEMPLATE_FORUM###'
                 );

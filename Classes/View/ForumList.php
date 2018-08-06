@@ -82,7 +82,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 
             $GLOBALS['TSFE']->set_cache_timeout_default($lConf['cache_timeout'] ? intval($lConf['cache_timeout']) : 300);
             $templateCode =
-                $local_cObj->getSubpart(
+                $templateService->getSubpart(
                     $composite->getOrigTemplateCode(),
                     '###TEMPLATE_OVERVIEW###'
                 );

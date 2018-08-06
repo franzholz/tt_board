@@ -80,7 +80,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
 
         $lConf = $conf['view_thread.'];
         $templateCode =
-            $local_cObj->getSubpart(
+            $templateService->getSubpart(
                 $orig_templateCode,
                 '###TEMPLATE_THREAD###'
             );

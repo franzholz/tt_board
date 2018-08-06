@@ -1,4 +1,4 @@
-2018-03-08 Franz Holzinger <franz@ttproducts.de>
+2018-06-08 Franz Holzinger <franz@ttproducts.de>
     * bugfix for TYPO3 9.x: replace deprecated method ContentObjectRenderer::getSubpart by TYPO3\CMS\Core\Service\MarkerBasedTemplateService::getSubpart
 
 2018-07-31 Franz Holzinger <franz@ttproducts.de>
