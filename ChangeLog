@@ -1,6 +1,7 @@
 
 
 2018-08-08 Franz Holzinger <franz@ttproducts.de>
+    * adaptions to composer.json
     * move flexform_ds_pi_list.xml -> Configuration/FlexForms/flexform_ds_pi_list.xml
     * move flexform_ds_pi_tree.xml -> Configuration/FlexForms/flexform_ds_pi_tree.xml
     * move locallang.xlf -> Resources/Private/Language/locallang_be.xlf
