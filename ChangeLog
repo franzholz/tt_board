@@ -1,3 +1,8 @@
+
+
+2018-08-08 Franz Holzinger <franz@ttproducts.de>
+    * move locallang.xlf -> Resources/Private/Language/locallang_be.xlf
+
 2018-06-08 Franz Holzinger <franz@ttproducts.de>
     * bugfix for TYPO3 9.x: replace deprecated method ContentObjectRenderer::getSubpart by TYPO3\CMS\Core\Service\MarkerBasedTemplateService::getSubpart
 
