@@ -56,11 +56,10 @@ class WizardIcon
         foreach ($wizardArray as $type => $wizardConf) {
             $params = '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=' . $wizardConf['list_type'] . '&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM');
             $wizardItem = array(
-                'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.xlf:plugins_' . $type . '_title'),
-                'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . '/locallang.xlf:plugins_' . $type . '_description'),
+                'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_be.xlf:plugins_' . $type . '_title'),
+                'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_be.xlf:plugins_' . $type . '_description'),
                 'params' => $params
             );
-
             $iconIdentifier = 'extensions-tt_board-' . $type . '-wizard';
             $iconRegistry->registerIcon(
                 $iconIdentifier,
