@@ -146,7 +146,6 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
                     $orig_templateCode,
                     $globalMarkerArray
                 );
-            }
         } else {
                 // Substitute Global Marker Array
             $orig_templateCode =
@@ -154,7 +153,6 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
                     $orig_templateCode,
                     $globalMarkerArray
                 );
-            }
         }
         $composite->setOrigTemplateCode($orig_templateCode);
 
