@@ -8,19 +8,19 @@ $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
 $_EXTCONF = unserialize($_EXTCONF);    // unserializing the configuration so we can use it here:
 
 if (!defined ('TT_BOARD_EXT')) {
-    define('TT_BOARD_EXT', $_EXTKEY);
+    define('TT_BOARD_EXT', 'tt_board');
 }
 
 if (!defined ('PATH_BE_TTBOARD')) {
-    define('PATH_BE_TTBOARD', call_user_func($emClass . '::extPath', $_EXTKEY));
+    define('PATH_BE_TTBOARD', call_user_func($emClass . '::extPath', TT_BOARD_EXT));
 }
 
 if (!defined ('PATH_BE_TTBOARD_REL')) {
-    define('PATH_BE_TTBOARD_REL', call_user_func($emClass . '::extRelPath', $_EXTKEY));
+    define('PATH_BE_TTBOARD_REL', call_user_func($emClass . '::extRelPath', TT_BOARD_EXT));
 }
 
 if (!defined ('PATH_FE_TTBOARD_REL')) {
-    define('PATH_FE_TTBOARD_REL', call_user_func($emClass . '::siteRelPath', $_EXTKEY));
+    define('PATH_FE_TTBOARD_REL', call_user_func($emClass . '::siteRelPath', TT_BOARD_EXT));
 }
 
 if (!defined ('TT_BOARD_CSS_PREFIX')) {
@@ -28,10 +28,10 @@ if (!defined ('TT_BOARD_CSS_PREFIX')) {
 }
 
 if (isset($_EXTCONF) && is_array($_EXTCONF)) {
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY] = $_EXTCONF;
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = $_EXTCONF;
     if (isset($tmpArray) && is_array($tmpArray)) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY] =
-            array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY], $tmpArray);
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] =
+            array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT], $tmpArray);
     }
 }
 
@@ -54,9 +54,9 @@ tt_content.list.20.2 {
 
 call_user_func(
     $emClass . '::addTypoScript',
-    $_EXTKEY,
+    TT_BOARD_EXT,
     'setup', '
-    # Setting ' . $_EXTKEY . ' plugin TypoScript
+    # Setting ' . TT_BOARD_EXT . ' plugin TypoScript
     ' . $addLine . '
     ',
     43
@@ -73,18 +73,18 @@ tt_content.list.20.4 {
 
 call_user_func(
     $emClass . '::addTypoScript',
-    $_EXTKEY,
+    TT_BOARD_EXT,
     'setup', '
-# Setting ' . $_EXTKEY . ' plugin TypoScript
+# Setting ' . TT_BOARD_EXT . ' plugin TypoScript
 ' . $addLine . '
 ',
     43
 );
 
 // Configure captcha hooks
-if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'])) {
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'] = [];
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';
+if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'])) {
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'] = [];
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';
 }
 
