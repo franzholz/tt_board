@@ -17,7 +17,7 @@ $result = array(
         'enablecolumns' => array (
             'disabled' => 'hidden'
         ),
-        'title' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:tt_board',
+        'title' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:tt_board',
         'typeicon_column' => 'parent',
         'typeicons' => array (
             '0' => 'tt_faq_board_root.gif'
@@ -31,7 +31,7 @@ $result = array(
     ),
     'columns' => array (
         'subject' => array (
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.subject',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.subject',
             'config' => array (
                 'type' => 'input',
                 'size' => '40',
@@ -41,7 +41,7 @@ $result = array(
             )
         ),
         'message' => array (
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.message',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.message',
             'config' => array (
                 'type' => 'text',
                 'cols' => '40',
@@ -75,7 +75,7 @@ $result = array(
             )
         ),
         'parent' => array (
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.parent',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.parent',
             'config' => array (
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -87,14 +87,14 @@ $result = array(
             )
         ),
         'notify_me' => array (
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.notify_me',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.notify_me',
             'config' => array (
                 'type' => 'check'
             )
         ),
         'crdate' => array (		// This field is by default filled with creation date. See tt_board 'ctrl' section
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.crdate',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.crdate',
             'config' => array (
                 'type' => 'input',
                 'size' => '10',
@@ -104,7 +104,7 @@ $result = array(
         ),
         'cr_ip' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.cr_ip',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.cr_ip',
             'config' => array (
                 'type' => 'input',
                 'size' => '15',
@@ -113,13 +113,13 @@ $result = array(
         ),
         'reference' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_BOARD_EXT . '/locallang_tca.xlf:' . $table . '.reference',
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.reference',
             'config' => array (
                 'type' => 'input',
                 'size' => '40',
                 'max' => '40',
                 'eval' => 'null',
-                'default' => NULL,
+                'default' => null,
             )
         )
     ),

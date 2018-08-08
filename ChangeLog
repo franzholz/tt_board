@@ -1,6 +1,8 @@
 
 
 2018-08-08 Franz Holzinger <franz@ttproducts.de>
+    * move locallang_csh_ttboard.xlf -> Resources/Private/Language/locallang_csh_ttboard.xlf
+    * move locallang_tca.xlf -> Resources/Private/Language/locallang_tca.xlf
     * adaptions to composer.json
     * move flexform_ds_pi_list.xml -> Configuration/FlexForms/flexform_ds_pi_list.xml
     * move flexform_ds_pi_tree.xml -> Configuration/FlexForms/flexform_ds_pi_tree.xml
