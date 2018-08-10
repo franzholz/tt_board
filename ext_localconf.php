@@ -16,7 +16,7 @@ if (!defined ('PATH_BE_TTBOARD')) {
 }
 
 if (!defined ('PATH_FE_TTBOARD_REL')) {
-    define('PATH_FE_TTBOARD_REL', call_user_func($emClass . '::siteRelPath', TT_BOARD_EXT));
+    define('PATH_FE_TTBOARD_REL', \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(PATH_BE_TTBOARD));
 }
 
 if (!defined ('TT_BOARD_CSS_PREFIX')) {
