@@ -23,7 +23,7 @@ $result = array(
             '0' => 'tt_faq_board_root.gif'
         ),
         'useColumnsForDefaultValues' => 'parent',
-        'iconfile' => PATH_BE_TTBOARD_REL . 'ext_icon.gif',
+        'iconfile' => 'EXT:' . TT_BOARD_EXT . '/ext_icon.gif',
         'searchFields' => 'uid,author,email,subject,message,cr_ip',
     ),
     'interface' => array (

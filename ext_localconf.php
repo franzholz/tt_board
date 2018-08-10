@@ -15,10 +15,6 @@ if (!defined ('PATH_BE_TTBOARD')) {
     define('PATH_BE_TTBOARD', call_user_func($emClass . '::extPath', TT_BOARD_EXT));
 }
 
-if (!defined ('PATH_BE_TTBOARD_REL')) {
-    define('PATH_BE_TTBOARD_REL', call_user_func($emClass . '::extRelPath', TT_BOARD_EXT));
-}
-
 if (!defined ('PATH_FE_TTBOARD_REL')) {
     define('PATH_FE_TTBOARD_REL', call_user_func($emClass . '::siteRelPath', TT_BOARD_EXT));
 }

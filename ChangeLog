@@ -1,5 +1,9 @@
 
 
+2018-08-10 Franz Holzinger <franz@ttproducts.de>
+    * remove constant PATH_BE_TTBOARD_REL which is based on the TYPO3 9 deprecated method extRelPath.
+    * modify the ctrl iconfile TCA of tt_board with the extension name instead of a relative path
+
 2018-08-08 Franz Holzinger <franz@ttproducts.de>
     * move locallang_csh_ttboard.xlf -> Resources/Private/Language/locallang_csh_ttboard.xlf
     * move locallang_tca.xlf -> Resources/Private/Language/locallang_tca.xlf
