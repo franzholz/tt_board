@@ -88,7 +88,10 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $allowed = false;
 
-        if ($memberOfGroups) {
+        if (
+            $memberOfGroups != '' &&
+            $memberOfGroups != '{$plugin.tt_board.memberOfGroups}'
+        ) {
             if (is_array($GLOBALS['TSFE']->fe_user->user)) {
                 $requestGroupArray =
                     GeneralUtility::trimExplode(
