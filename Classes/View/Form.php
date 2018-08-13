@@ -84,6 +84,7 @@ window.onload = addListeners;
         $idPrefix = 'mailform';
         $table = 'tt_board';
         $spamWord = '';
+        $notify = array();
 
         if (
             $modelObj->isAllowed($conf['memberOfGroups'])
@@ -135,7 +136,6 @@ window.onload = addListeners;
                         $ref,
                         1
                     );
-                $notify = array();
 
                 foreach($wholeThread as $recordP) { // the last notification checkbox will be supercede the previous settings
 
@@ -401,7 +401,7 @@ window.onload = addListeners;
                     }
                 }
 
-                if (count($notify)) {
+                if (!empty($notify)) {
                     $lConf['dataArray.']['9997.'] = array(
                         'type' => 'notify_me=hidden',
                         'value' => htmlspecialchars(implode($notify, ','))
