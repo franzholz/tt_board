@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-08-10T07:36:10Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="author" approved="yes">
+				<source><![CDATA[Name:]]></source>
+				<target><![CDATA[Name:]]></target>
+			</trans-unit>
+			<trans-unit id="board_age" approved="yes">
+				<source><![CDATA[Age]]></source>
+				<target><![CDATA[Alter]]></target>
+			</trans-unit>
+			<trans-unit id="board_ago" approved="yes">
+				<source><![CDATA[Ago]]></source>
+				<target><![CDATA[Ago]]></target>
+			</trans-unit>
+			<trans-unit id="board_author" approved="yes">
+				<source><![CDATA[Author]]></source>
+				<target><![CDATA[autor]]></target>
+			</trans-unit>
+			<trans-unit id="board_back_to_forum" approved="yes">
+				<source><![CDATA[Back to Forum]]></source>
+				<target><![CDATA[Zurück zum Forum]]></target>
+			</trans-unit>
+			<trans-unit id="board_by" approved="yes">
+				<source><![CDATA[By]]></source>
+				<target><![CDATA[Von]]></target>
+			</trans-unit>
+			<trans-unit id="board_content" approved="yes">
+				<source><![CDATA[Content]]></source>
+				<target><![CDATA[Inhalt]]></target>
+			</trans-unit>
+			<trans-unit id="board_date" approved="yes">
+				<source><![CDATA[Date]]></source>
+				<target><![CDATA[Datum]]></target>
+			</trans-unit>
+			<trans-unit id="board_forum" approved="yes">
+				<source><![CDATA[Forum]]></source>
+				<target><![CDATA[Forum]]></target>
+			</trans-unit>
+			<trans-unit id="board_forum_list" approved="yes">
+				<source><![CDATA[Forum List]]></source>
+				<target><![CDATA[Forums Liste]]></target>
+			</trans-unit>
+			<trans-unit id="board_go_to_top" approved="yes">
+				<source><![CDATA[Go to Top]]></source>
+				<target><![CDATA[Nach oben]]></target>
+			</trans-unit>
+			<trans-unit id="board_last_post" approved="yes">
+				<source><![CDATA[Last Post]]></source>
+				<target><![CDATA[Letzter Beitrag]]></target>
+			</trans-unit>
+			<trans-unit id="board_next_message" approved="yes">
+				<source><![CDATA[Next Message]]></source>
+				<target><![CDATA[Nächste Nachricht]]></target>
+			</trans-unit>
+			<trans-unit id="board_next_topic" approved="yes">
+				<source><![CDATA[Next Topic]]></source>
+				<target><![CDATA[Nächstes Thema]]></target>
+			</trans-unit>
+			<trans-unit id="board_posts" approved="yes">
+				<source><![CDATA[Posts]]></source>
+				<target><![CDATA[Beitrag]]></target>
+			</trans-unit>
+			<trans-unit id="board_previous_message" approved="yes">
+				<source><![CDATA[Previous Message]]></source>
+				<target><![CDATA[Vorherige Nachricht]]></target>
+			</trans-unit>
+			<trans-unit id="board_previous_topic" approved="yes">
+				<source><![CDATA[Previous Topic]]></source>
+				<target><![CDATA[Vorheriges Thema]]></target>
+			</trans-unit>
+			<trans-unit id="board_replies" approved="yes">
+				<source><![CDATA[Replies]]></source>
+				<target><![CDATA[Antworten]]></target>
+			</trans-unit>
+			<trans-unit id="board_search" approved="yes">
+				<source><![CDATA[Searching]]></source>
+				<target><![CDATA[Suchen]]></target>
+			</trans-unit>
+			<trans-unit id="board_subject" approved="yes">
+				<source><![CDATA[Subject]]></source>
+				<target><![CDATA[Betreff]]></target>
+			</trans-unit>
+			<trans-unit id="board_thread_starter" approved="yes">
+				<source><![CDATA[Thread Starter]]></source>
+				<target><![CDATA[Themen-Starter]]></target>
+			</trans-unit>
+			<trans-unit id="board_threads" approved="yes">
+				<source><![CDATA[Threads]]></source>
+				<target><![CDATA[Themenstrang]]></target>
+			</trans-unit>
+			<trans-unit id="board_topics" approved="yes">
+				<source><![CDATA[Topics]]></source>
+				<target><![CDATA[Themen]]></target>
+			</trans-unit>
+			<trans-unit id="button_search" approved="yes">
+				<source><![CDATA[Search in the Board]]></source>
+				<target><![CDATA[Suche im Forum]]></target>
+			</trans-unit>
+			<trans-unit id="captcha" approved="yes">
+				<source><![CDATA[Captcha:]]></source>
+				<target><![CDATA[Captcha:]]></target>
+			</trans-unit>
+			<trans-unit id="email" approved="yes">
+				<source><![CDATA[Email:]]></source>
+				<target><![CDATA[E-Mail:]]></target>
+			</trans-unit>
+			<trans-unit id="error_access_denied" approved="yes">
+				<source><![CDATA[Access denied!]]></source>
+				<target><![CDATA[Zugang verweigert!]]></target>
+			</trans-unit>
+			<trans-unit id="error_email" approved="yes">
+				<source><![CDATA['%s' is not a valid email address!]]></source>
+				<target><![CDATA[%s' ist keine gültige E-Mail-Adresse!]]></target>
+			</trans-unit>
+			<trans-unit id="error_no_permission" approved="yes">
+				<source><![CDATA[You do not have the permission to post into this forum!]]></source>
+				<target><![CDATA[Sie haben nicht die Erlaubnis, in diesem Forum zu posten!]]></target>
+			</trans-unit>
+			<trans-unit id="members_only" approved="yes">
+				<source><![CDATA[Only logged in members are allowed to post on this forum.]]></source>
+				<target><![CDATA[Nur eingeloggte Mitglieder dürfen in diesem Forum posten.]]></target>
+			</trans-unit>
+			<trans-unit id="message" approved="yes">
+				<source><![CDATA[Message:]]></source>
+				<target><![CDATA[Nachricht:]]></target>
+			</trans-unit>
+			<trans-unit id="notify_me" approved="yes">
+				<source><![CDATA[Notify me<br>by reply:]]></source>
+				<target><![CDATA[Benachrichtigen Sie mich <br>bei einer Antwort:]]></target>
+			</trans-unit>
+			<trans-unit id="plugin" approved="yes">
+				<source><![CDATA[Message Board Plugin]]></source>
+				<target><![CDATA[Message Board Plugin]]></target>
+			</trans-unit>
+			<trans-unit id="post_new_reply" approved="yes">
+				<source><![CDATA[Post New Reply]]></source>
+				<target><![CDATA[Neue Antwort schreiben]]></target>
+			</trans-unit>
+			<trans-unit id="post_reply" approved="yes">
+				<source><![CDATA[Post Reply]]></source>
+				<target><![CDATA[Antwort posten]]></target>
+			</trans-unit>
+			<trans-unit id="spam_detected" approved="yes" xml:space="preserve">
+				<source><![CDATA[The spam word '%s' has been detected!]]></source>
+				<target><![CDATA[Das Spam-Wort '%s'  wurde erkannt!]]></target>
+			</trans-unit>
+			<trans-unit id="subject" approved="yes">
+				<source><![CDATA[Subject:]]></source>
+				<target><![CDATA[Betreff:]]></target>
+			</trans-unit>
+			<trans-unit id="wrong_captcha" approved="yes">
+				<source><![CDATA[Wrong captcha word '%s' entered!]]></source>
+				<target><![CDATA[Falsches Captcha-Wort '%s' eingegeben!]]></target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,4 +1,5 @@
 2018-08-27 Franz Holzinger <franz@ttproducts.de>
+    * add German language XLF files
     * support for TYPO3 9.3.x
     * workaround for a TYPO3 problem: {$plugin.tt_board.memberOfGroups} and 0 should mean empty
     * bugfix: wrong captcha did not lead to an error message
