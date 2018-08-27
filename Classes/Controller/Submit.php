@@ -91,7 +91,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             )
                         ) {
                             $captchaError = true;
-                            break;
                         }
                     } else if ($conf['captcha']) {
                             // There could be a wrong captcha configuration or manipulation of the submit form. This case must always lead to an error message.

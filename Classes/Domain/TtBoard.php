@@ -90,7 +90,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
 
         if (
             $memberOfGroups != '' &&
-            $memberOfGroups != '{$plugin.tt_board.memberOfGroups}'
+            $memberOfGroups != '{$plugin.tt_board.memberOfGroups}' &&
+            $memberOfGroups != '0'
         ) {
             if (is_array($GLOBALS['TSFE']->fe_user->user)) {
                 $requestGroupArray =
@@ -107,6 +108,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         } else {
             $allowed = true;
         }
+
         return $allowed;
     }
 

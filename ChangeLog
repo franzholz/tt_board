@@ -1,6 +1,7 @@
-2018-08-11 Franz Holzinger <franz@ttproducts.de>
+2018-08-27 Franz Holzinger <franz@ttproducts.de>
     * support for TYPO3 9.3.x
-    * workaround for a TYPO3 problem: {$plugin.tt_board.memberOfGroups} should mean empty
+    * workaround for a TYPO3 problem: {$plugin.tt_board.memberOfGroups} and 0 should mean empty
+    * bugfix: wrong captcha did not lead to an error message
 
 2018-08-10 Franz Holzinger <franz@ttproducts.de>
     * use \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(PATH_BE_TTBOARD) instead of call_user_func($emClass . ::siteRelPath, TT_BOARD_EXT) for the constant PATH_FE_TTBOARD_REL
