@@ -117,6 +117,24 @@
 			<trans-unit id="error_no_permission" xml:space="preserve">
 				<source>You do not have the permission to post into this forum!</source>
 			</trans-unit>
+			<trans-unit id="p_at" xml:space="preserve">
+				<source>at</source>
+			</trans-unit>
+			<trans-unit id="p_salutation" xml:space="preserve">
+				<source>Hello</source>
+			</trans-unit>
+			<trans-unit id="p_url_title" xml:space="preserve">
+				<source>This thread is located at</source>
+			</trans-unit>
+			<trans-unit id="p_text_snippet" xml:space="preserve">
+				<source>Text Snippet</source>
+			</trans-unit>
+			<trans-unit id="p_subject" xml:space="preserve">
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="p_content" xml:space="preserve">
+				<source>Content</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

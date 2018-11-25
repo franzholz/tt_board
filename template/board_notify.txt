@@ -1,16 +1,16 @@
-###AUTHOR###:  '###SUBJECT_PREFIX###' at '###HOST###'
-Hello,
+###AUTHOR###:  '###SUBJECT_PREFIX###' ###P_AT### '###HOST###'
+###P_SALUTATION###,
 
 ###AUTHOR### (###AUTHOR_EMAIL###) ###DID_WHAT### ###HOST###.
 
-This thread is located at:
+###P_URL_TITLE###:
 
 ###URL###
 
-Text Snippet:
+###P_TEXT_SNIPPET###:
 
 ~~~
-Subject: ###SUBJECT###
-Content:
+###P_SUBJECT###: ###SUBJECT###
+###P_CONTENT###:
 ###BODY###
 ~~~

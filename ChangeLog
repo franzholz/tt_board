@@ -3,6 +3,7 @@
     * one time upload of language files. These language files will not be added on Github.
 
 2018-11-25 Franz Holzinger <franz@ttproducts.de>
+    * Add a new label for each text entry in the file template/board_notify.txt
     * fix in composer.json: require shall use the namespace typo3-ter instead of jambagecom
 
 2018-09-16 Franz Holzinger <franz@ttproducts.de>

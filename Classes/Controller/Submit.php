@@ -84,7 +84,15 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         ) {
             if (is_array($row) && trim($row['message'])) {
                 do {
-                    $internalFieldArray = array('hidden', 'parent', 'pid', 'reference', 'doublePostCheck', Field::CAPTCHA);
+                    $internalFieldArray =
+                        array(
+                            'hidden',
+                            'parent',
+                            'pid',
+                            'reference',
+                            'doublePostCheck',
+                            Field::CAPTCHA
+                        );
                     $captchaError = false;
 
                     if (
@@ -290,6 +298,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 MailUtility::checkMXRecord($row['email'])
                             )
                         ) {
+                            $labelKeys = array('p_at', 'p_content', 'p_salutation', 'p_subject', 'p_text_snippet', 'p_url_title');
                             $markersArray = array();
                             $markersArray['###AUTHOR###'] = trim($row['author']);
                             $markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
@@ -297,6 +306,10 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             $markersArray['###HOST###'] = GeneralUtility::getIndpEnv('HTTP_HOST');
                             $markersArray['###URL###'] = $url;
 
+                            foreach ($labelKeys as $labelKey) {
+                                $markersArray['###' . strtoupper($labelKey) . '###'] = $languageObj->getLabel($labelKey);
+                            }
+    
                             if ($row['parent']) {		// If reply and not new thread:
                                 $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
                                 $markersArray['###DID_WHAT###'] = $conf['newReply.']['didWhat'];
