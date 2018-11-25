@@ -260,9 +260,10 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             }
 
                                 // Message
-                            $maillist_msg = chr(10) . chr(10) . $conf['newReply.']['subjectPrefix'] . chr(10) . $row['subject'] . chr(10) . chr(10) . $conf['newReply.']['message'] . chr(10) . $row['message'] . chr(10) . chr(10) . $conf['newReply.']['author'] . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
+                            $maillist_msg = chr(10) . chr(10) . $languageObj->getLabel('newReply.subjectPrefix') .
+                            chr(10) . $row['subject'] . chr(10) . chr(10) . $languageObj->getLabel('newReply.message') . chr(10) . $row['message'] . chr(10) . chr(10) . $languageObj->getLabel('newReply.author') . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
 
-                            $maillist_msg .= $conf['newReply.']['followThisLink'] . chr(10);
+                            $maillist_msg .= $languageObj->getLabel('newReply.followThisLink') . ':' . chr(10);
                             $maillist_msg .= $url;
 
                                 // Send
@@ -312,12 +313,12 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
     
                             if ($row['parent']) {		// If reply and not new thread:
                                 $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
-                                $markersArray['###DID_WHAT###'] = $conf['newReply.']['didWhat'];
-                                $markersArray['###SUBJECT_PREFIX###'] = $conf['newReply.']['subjectPrefix'];
+                                $markersArray['###DID_WHAT###'] = $languageObj->getLabel('newReply.didWhat');
+                                $markersArray['###SUBJECT_PREFIX###'] = $languageObj->getLabel('newReply.subjectPrefix');
                             } else {	// If new thread:
                                 $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
-                                $markersArray['###DID_WHAT###'] = $conf['newThread.']['didWhat'];
-                                $markersArray['###SUBJECT_PREFIX###'] = $conf['newThread.']['subjectPrefix'];
+                                $markersArray['###DID_WHAT###'] = $languageObj->getLabel('newThread.didWhat');
+                                $markersArray['###SUBJECT_PREFIX###'] = $languageObj->getLabel('newThread.subjectPrefix');
                             }
                             $markersArray['###SUBJECT###'] = strtoupper($row['subject']);
                             $markersArray['###BODY###'] = GeneralUtility::fixed_lgd_cs($row['message'], 1000);

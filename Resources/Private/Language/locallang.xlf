@@ -135,6 +135,27 @@
 			<trans-unit id="p_content" xml:space="preserve">
 				<source>Content</source>
 			</trans-unit>
+			<trans-unit id="newReply.author" xml:space="preserve">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="newReply.didWhat" xml:space="preserve">
+				<source>has just replied to a thread at</source>
+			</trans-unit>
+			<trans-unit id="newReply.followThisLink" xml:space="preserve">
+				<source>Follow this link</source>
+			</trans-unit>
+			<trans-unit id="newReply.message" xml:space="preserve">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="newReply.subjectPrefix" xml:space="preserve">
+				<source>Reply to post at</source>
+			</trans-unit>
+			<trans-unit id="newThread.didWhat" xml:space="preserve">
+				<source>has just created a new thread at</source>
+			</trans-unit>
+			<trans-unit id="newThread.subjectPrefix" xml:space="preserve">
+				<source>New thread</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
