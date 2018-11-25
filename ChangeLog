@@ -1,5 +1,9 @@
-2018-10-01 Franz Holzinger <franz@ttproducts.de>
+
+2018-12-01 Franz Holzinger <franz@ttproducts.de>
     * one time upload of language files. These language files will not be added on Github.
+
+2018-11-25 Franz Holzinger <franz@ttproducts.de>
+    * fix in composer.json: require shall use the namespace typo3-ter instead of jambagecom
 
 2018-09-16 Franz Holzinger <franz@ttproducts.de>
     * add new documentation in alpha state
