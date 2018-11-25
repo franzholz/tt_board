@@ -54,8 +54,19 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         $prefixId = $row['prefixid'];
         unset($row['prefixid']);
         $pid = intval($row['pid']);
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $local_cObj->setCurrentVal($pid);
+        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
+        $languageObj->init(
+            TT_BOARD_EXT,
+            $conf,
+            DIV2007_LANGUAGE_SUBPATH
+        );
+        $languageObj->loadLocalLang(
+            'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
+            false
+        );
+
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
         if (is_array($row)) {
             $email = $row['email'];
@@ -351,17 +362,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                 } while (1 == 0);	// only once
             }
         } else {
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
-            $languageObj->init(
-                TT_BOARD_EXT,
-                $conf,
-                DIV2007_LANGUAGE_SUBPATH
-            );
-            $languageObj->loadLocalLang(
-                'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
-                false
-            );
-
             if ($allowed) {
                 $message = sprintf($languageObj->getLabel('error_email'), $email);
             } else {

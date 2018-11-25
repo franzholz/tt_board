@@ -72,7 +72,7 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface
     {
         $this->dataModel = $dataModel;
 
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $joinConstants = array_keys($this->treeIcons);
 
         foreach ($joinConstants as $joinConstant) {

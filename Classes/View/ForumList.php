@@ -63,9 +63,10 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
         $allowCaching = $composite->getAllowCaching();
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
-        $forum_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer(array(), $modelObj->getTablename());
+        $forum_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $forum_cObj->start(array(), $modelObj->getTablename());
 
         if (!$composite->getTtBoardUid()) {
             $forumlist = 0;     // set to true if this is a list of forums and not categories + forums

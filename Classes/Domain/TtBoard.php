@@ -168,7 +168,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $whereRef = $this->getWhereRef($ref);
 
         if ($searchWord) {
-            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
             $where =
                 $local_cObj->searchWhere(
                     $searchWord,
@@ -410,7 +410,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         if ($searchWord) {
-            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
             $where =
                 $local_cObj->searchWhere(
                     $searchWord,

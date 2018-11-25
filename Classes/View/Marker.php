@@ -132,7 +132,9 @@ class Marker
     )
     {
         $conf = $this->getConf();
-        $local_cObj = FrontendUtility::getContentObjectRenderer(
+        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        
+        $local_cObj->start(
             $row,
             $modelObj->getTablename()
         );
@@ -214,7 +216,7 @@ class Marker
 
     public function getIconMarkers (&$markerArray, $iconConfig)
     {
-        $local_cObj = FrontendUtility::getContentObjectRenderer();
+        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 
         foreach ($iconConfig as $type => $renderType) {
             if (strpos($type, '.') !== false) {
@@ -284,7 +286,7 @@ class Marker
             isset($conf['emoticons.']['icon']) &&
             isset($conf['emoticons.']['icon.'])
         ) {
-            $local_cObj = FrontendUtility::getContentObjectRenderer();
+            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
             $image = $conf['emoticons.']['icon.'];
             foreach ($conf['emoticons.']['substitute.'] as $key => $substitute) {
                 if (

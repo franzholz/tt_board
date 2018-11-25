@@ -64,7 +64,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
     {
         $uid = $composite->getTtBoardUid();
 
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance('JambageCom\Div2007\Utility\ControlUtility');
         $recentPosts = array();
         $searchWord = $controlObj->readGP('sword', $prefixId);
