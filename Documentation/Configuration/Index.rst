@@ -23,8 +23,8 @@ TypoScript Reference
 
 You must either use the `plugin.tt_board_list` TypoScript prefix or the `plugin.tt_board_tree`. This depends if you want to configure the list or the tree plugins. In the reference only the `plugin.tt_board_list` is mentioned for simplification.
 
-Properties
-^^^^^^^^^^
+View Properties
+^^^^^^^^^^^^^^^
 
 .. container:: ts-properties
 
@@ -32,7 +32,7 @@ Properties
 	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
 	=========================== ===================================== ======================= ====================
 	templateFile _              :ref:`t3tsref:data-type-resource`     no                      :code:`<div>|</div>`
-	`pid\_list`_                :ref:`t3tsref:data-type-string`       yes                                          
+	pid\_list_                  :ref:`t3tsref:data-type-string`       yes                                          
 	PIDforum_                   :ref:`t3tsref:data-type-positive-integer`  no
 	PIDprivacyPolicy_           :ref:`t3tsref:data-type-positive-integer`  no
 	code_                       :ref:`t3tsref:data-type-string`       yes                                          
@@ -63,10 +63,8 @@ Properties
 
 
 
-
-
-Property details
-^^^^^^^^^^^^^^^^
+View Property Details
+^^^^^^^^^^^^^^^^^^^^^
 
 .. only:: html
 
@@ -393,7 +391,140 @@ Value for ###GC3### marker (Global colour 3)
 
 
 
-   
+
+
+
+Form Properties
+^^^^^^^^^^^^^^^
+
+  code= POSTFORM, POSTFORM_REPLY, POSTFORM_THREAD
+
+.. container:: ts-properties
+
+	=========================== ===================================== ======================= ======================
+	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
+	=========================== ===================================== ======================= ======================
+	postform_                   FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20                    
+	postform_newThread_         FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20
+	moderatorEmail_             :ref:`t3tsref:data-type-string`       no                                                     
+	moderatorEmail_newThread_   :ref:`t3tsref:data-type-string`       no                                                     
+	memberOfGroups_             :ref:`t3tsref:data-type-string`       no                                                     
+	=========================== ===================================== ======================= ======================
+
+
+
+Form Property Details
+^^^^^^^^^^^^^^^^^^^^^
+
+.. only:: html
+
+	.. contents::
+		:local:
+		:depth: 1
+
+
+.. _ts-plugin-tt-board-list-postform:
+
+postform
+""""""""
+
+Only the dataArray of this setting should be changed. You can add entries to the dataArray of the FORM cObject in order to change the view.
+
+Configuration of the form for posting replies and possibly also new threads. 
+Note, that two hidden-fields are forcibly added to the form: "parent" and "pid" (using .dataArray keys 9997-9999)!
+
+
+
+.. _ts-plugin-tt-board-list-postform_newThread:
+
+postform_newThread
+""""""""""""""""""
+
+This is the alternative configuration of the form for new threads. It defaults to postform_ .
+
+
+.. _ts-plugin-tt-board-list-moderatorEmail:
+
+moderatorEmail
+""""""""""""""
+
+If set, this email-address will receive a mail whenever a new reply is submitted.
+
+
+.. _ts-plugin-tt-board-list-moderatorEmail_newThread:
+
+moderatorEmail_newThread
+""""""""""""""""""""""""
+
+If set, this email-address will receive a mail when a new thread is created. If not set, defaults to moderatorEmail_ .
+
+
+.. _ts-plugin-tt-board-list-memberOfGroups:
+
+memberOfGroups
+""""""""""""""
+
+Comma separated list of FE groups which a user must belong to, so that the post forms are shown and the submission of a post is allowed.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Category List Properties
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+  code= LIST_CATEGORIES
+
+.. container:: ts-properties
+
+	============================ ==================================== ======================= ======================
+	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
+	============================ ==================================== ======================= ======================
+	noForums_                    :ref:`t3tsref:data-type-boolean`      no                      
+	numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
+	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
+	subtitle\_stdWrap_           :ref:`t3tsref:stdwrap`                yes      
+	count\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
+	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
+	forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
+	
+forum_posts_stdWrap
+forum_threads_stdWrap
+last_post_author_stdWrap
+post_title_stdWrap
+post_content_stdWrap
+post_replies_stdWrap
+post_author_stdWrap
+
++++++++++++
+	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
+	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
+	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
+	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
+	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
+	============================ ===================================== ======================= ======================
+
+
+
+Form Property Details
+^^^^^^^^^^^^^^^^^^^^^
+
+.. only:: html
+
+	.. contents::
+		:local:
+		:depth: 1
+
+
+.. _ts-plugin-tt-board-list-postform:
+
+postform
+""""""""
+
+Only the dataArray of this setting should be changed. You can add entries to the dataArray of the FORM cObject in order to change the view.
+
+
+
 
    
 .. _configuration-faq:
