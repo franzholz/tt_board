@@ -1,9 +1,7 @@
 <?php
-
 defined('TYPO3_MODE') or die('Access denied.');
 
 $table = 'tt_board';
-
 
 $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
 

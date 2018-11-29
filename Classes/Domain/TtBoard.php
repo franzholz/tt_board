@@ -71,7 +71,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         return $this->enableFields;
     }
 
-    static public function getWhereRef ($ref)
+    public function getWhereRef ($ref)
     {
         $result = '';
 
@@ -294,11 +294,11 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             $res =
                 $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     '*',
-                    'tt_board',
+                    $this->getTablename(),
                     $field . '=' .
                         $GLOBALS['TYPO3_DB']->fullQuoteStr(
                             $value,
-                            'tt_board'
+                            $this->getTablename()
                         ) .
                         $this->getEnableFields()
                 );
@@ -334,7 +334,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $res =
             $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',
-                'tt_board',
+                $this->getTablename(),
                 $where,
                 '',
                 $this->orderBy($type != 'next' ? '' : 'DESC')
@@ -366,7 +366,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             $res =
                 $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     '*',
-                    'tt_board',
+                    $this->getTablename(),
                     $whereUid . $whereRef . $this->getEnableFields()
                 );
 
@@ -454,7 +454,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             $res =
                 $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     '*',
-                    'tt_board',
+                    $this->getTablename(),
                     $where,
                     '',
                     $this->orderBy('DESC'),

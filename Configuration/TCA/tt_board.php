@@ -1,5 +1,4 @@
 <?php
-
 defined('TYPO3_MODE') or die('Access denied.');
 
 $table = 'tt_board';
