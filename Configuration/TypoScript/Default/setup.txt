@@ -9,8 +9,8 @@ FEData.tt_board {
       # "From" email header
     notify_from = TYPO3 forum <no_reply>
       # Notification message template, first line is subject.
-    newReply.msg = EXT:tt_board/template/board_notify.txt
-    newThread.msg = EXT:tt_board/template/board_notify.txt
+    newReply.msg = EXT:tt_board/Resources/Private/Templates/board_notify.txt
+    newThread.msg = EXT:tt_board/Resources/Private/Templates/board_notify.txt
 
     debug = 0
     captcha = {$plugin.tt_board.captcha}

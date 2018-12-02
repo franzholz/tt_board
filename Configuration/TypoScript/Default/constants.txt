@@ -33,8 +33,8 @@ plugin.tt_board {
 
 
 plugin.tt_board_list {
-    # cat=plugin.board/file; type=file[html,htm,tmpl,txt]; label= Template File, list style: This is a simple textfile where the board is defined with HTML-code. To see an example with explanations, take a look at EXT:tt_board/template/board_template1.tmpl which is the default.
-  file.templateFile = EXT:tt_board/template/board_template1.tmpl
+    # cat=plugin.board/file; type=file[html,htm,tmpl,txt]; label= Template File, list style: This is a simple textfile where the board is defined with HTML-code. To see an example with explanations, take a look at EXT:tt_board/Resources/Private/Templates/board_template1.tmpl which is the default.
+  file.templateFile = EXT:tt_board/Resources/Private/Templates/board_template1.tmpl
 
     # cat=plugin.board/typo; type=wrap; label= List-style, Wrap 1: This wrap is used in the template-file.
   wrap1 = 
@@ -55,8 +55,8 @@ plugin.tt_board_list {
 
 
 plugin.tt_board_tree {
-    # cat=plugin.board/file; type=file[html,htm,tmpl,txt]; label= Template File, tree style: This is a simple textfile where the board is defined with HTML-code. To see an example with explanations, take a look at EXT:tt_board/template/board_template2.tmpl which is the default.
-  file.templateFile = EXT:tt_board/template/board_template2.tmpl
+    # cat=plugin.board/file; type=file[html,htm,tmpl,txt]; label= Template File, tree style: This is a simple textfile where the board is defined with HTML-code. To see an example with explanations, take a look at EXT:tt_board/Resources/Private/Templates/board_template2.tmpl which is the default.
+  file.templateFile = EXT:tt_board/Resources/Private/Templates/board_template2.tmpl
 
     # cat=plugin.board/typo; type=wrap; label= Tree-style, Wrap 1: This wrap is used in the template-file.
   wrap1 = 

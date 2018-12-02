@@ -38,8 +38,7 @@ class WizardIcon
      */
     public function proc (array $wizardItems)
     {
-        /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-        $iconRegistry = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Imaging\\IconRegistry');
+        $iconRegistry = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
         $iconPath = 'Resources/Public/Icons/';
 
         $wizardArray = array(

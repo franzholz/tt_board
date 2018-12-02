@@ -63,7 +63,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
     )
     {
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $controlObj = GeneralUtility::makeInstance('JambageCom\Div2007\Utility\ControlUtility');
+        $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
         $recentPosts = array();
         $languageObj = $composite->getLanguageObj();
         $markerObj = $composite->getMarkerObj();
