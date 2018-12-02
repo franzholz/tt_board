@@ -1,4 +1,6 @@
 2018-12-02 Franz Holzinger <franz@ttproducts.de>
+    * move res/icons/fe/board_help1.gif -> Resources/Public/Icons/board_help1.gif
+    * move res/icons/fe/thread.gif -> Resources/Public/Icons/List/thread.gif
     * bugfix: Flexforms must consider the move language file tt_board/Resources/Private/Language/locallang_tca.xlf
 
 2018-11-29 Franz Holzinger <franz@ttproducts.de>
