@@ -1,3 +1,5 @@
+2018-12-02 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Flexforms must consider the move language file tt_board/Resources/Private/Language/locallang_tca.xlf
 
 2018-11-29 Franz Holzinger <franz@ttproducts.de>
     * one time upload of language files. These language files will not be added on Github.
