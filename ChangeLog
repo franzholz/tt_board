@@ -1,4 +1,9 @@
 2018-12-02 Franz Holzinger <franz@ttproducts.de>
+    * move template/board_help.tmpl -> Resources/Private/Templates/board_help.tmpl
+    * template/board_notify.txt     -> Resources/Private/Templates/board_notify.txt
+    * template/board_template1.tmpl -> Resources/Private/Templates/board_template1.tmpl
+    * template/board_template2.tmpl -> Resources/Private/Templates/board_template2.tmpl
+    * template/board_template3.tmpl -> Resources/Private/Templates/board_template3.tmpl
     * move res/icons/fe/board_help1.gif -> Resources/Public/Icons/board_help1.gif
     * move res/icons/fe/thread.gif -> Resources/Public/Icons/List/thread.gif
     * bugfix: Flexforms must consider the move language file tt_board/Resources/Private/Language/locallang_tca.xlf
