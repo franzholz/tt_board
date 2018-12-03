@@ -5,9 +5,9 @@ FEData.tt_board {
   processScript = JambageCom\TtBoard\Controller\Submit->execute
   processScript {
       # Enable notify
-    notify = 1
+    notify = {$plugin.tt_board.notify}
       # "From" email header
-    notify_from = TYPO3 forum <no_reply>
+    notify_from = {$plugin.tt_board.notificationEmail}
       # Notification message template, first line is subject.
     newReply.msg = EXT:tt_board/Resources/Private/Templates/board_notify.txt
     newThread.msg = EXT:tt_board/Resources/Private/Templates/board_notify.txt

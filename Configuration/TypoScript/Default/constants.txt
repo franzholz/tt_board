@@ -3,6 +3,12 @@ plugin.tt_board {
     # cat=plugin.board; type=string; label= Moderator email: This email address will get a mail every time somebody submits a message to the forum.
   moderatorEmail  =
 
+    # cat=plugin.board; type=string; label= Notification email: This email address will be used as the sender email address, every time somebody submits a message to the forum.
+  notificationEmail  = TYPO3 forum <no_reply@mytypo3forum.com>
+
+    # cat=plugin.board//; type=boolean; label= notification email: if checked then notification emails about entries in the forum are sent.
+  notify = 1
+
     # cat=plugin.board//; type=integer; label= number of recent posts: number of recent posts which will be shown in the forum lists
   numberOfRecentPosts = 3
 
