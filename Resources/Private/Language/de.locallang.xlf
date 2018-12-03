@@ -115,7 +115,11 @@
 			</trans-unit>
 			<trans-unit id="error_email" approved="yes">
 				<source><![CDATA['%s' is not a valid email address!]]></source>
-				<target><![CDATA[%s' ist keine gültige E-Mail-Adresse!]]></target>
+				<target><![CDATA['%s' ist keine gültige E-Mail-Adresse!]]></target>
+			</trans-unit>
+			<trans-unit id="error_no_email" approved="yes">
+				<source><![CDATA[You did not enter an email address!]]></source>
+				<target><![CDATA[Sie haben keine E-Mail-Adresse eingegeben!]]></target>
 			</trans-unit>
 			<trans-unit id="error_no_permission" approved="yes">
 				<source><![CDATA[You do not have the permission to post into this forum!]]></source>

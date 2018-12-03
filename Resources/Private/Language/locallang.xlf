@@ -114,6 +114,9 @@
 			<trans-unit id="error_email" xml:space="preserve">
 				<source>'%s' is not a valid email address!</source>
 			</trans-unit>
+			<trans-unit id="error_no_email" xml:space="preserve">
+				<source>You did not enter an email address!</source>
+			</trans-unit>
 			<trans-unit id="error_no_permission" xml:space="preserve">
 				<source>You do not have the permission to post into this forum!</source>
 			</trans-unit>

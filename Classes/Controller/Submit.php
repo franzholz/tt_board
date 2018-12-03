@@ -377,7 +377,11 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             }
         } else {
             if ($allowed) {
-                $message = sprintf($languageObj->getLabel('error_email'), $email);
+                if ($email) {
+                    $message = sprintf($languageObj->getLabel('error_email'), $email);
+                } else {
+                    $message = sprintf($languageObj->getLabel('error_no_email'), $email);
+                }
             } else {
                 $message = $languageObj->getLabel('error_no_permission');
             }
