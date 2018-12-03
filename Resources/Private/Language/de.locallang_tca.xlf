@@ -67,15 +67,15 @@
 			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.display_mode.5" approved="yes">
 				<source><![CDATA[Entry Form: General]]></source>
-				<target><![CDATA[Anmeldeformular: Allgemeines]]></target>
+				<target><![CDATA[Eingabeformular: Allgemeines]]></target>
 			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.display_mode.6" approved="yes">
 				<source><![CDATA[Entry Form: Reply]]></source>
-				<target><![CDATA[Anmeldeformular: Antwort]]></target>
+				<target><![CDATA[Eingabeformular: Antwort]]></target>
 			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.display_mode.7" approved="yes">
 				<source><![CDATA[Entry Form: New Thread]]></source>
-				<target><![CDATA[Anmeldeformular: Neues Thema]]></target>
+				<target><![CDATA[Eingabeformular: Neues Thema]]></target>
 			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.display_mode.8" approved="yes">
 				<source><![CDATA[Forum: Tree]]></source>
