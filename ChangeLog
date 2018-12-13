@@ -1,3 +1,7 @@
+2018-12-13 Franz Holzinger <franz@ttproducts.de>
+    * Add the information to the online Documentation that it is under construction.
+    * The full documentation is in the file manual.odt, formerly manual.sxw
+
 2018-12-03 Franz Holzinger <franz@ttproducts.de>
     * add new constants: notificationEmail and notify
     * add a different error message when no email address has been entered

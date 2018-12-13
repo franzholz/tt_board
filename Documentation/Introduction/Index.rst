@@ -3,6 +3,12 @@
 
 .. _introduction:
 
+Attention
+=========
+
+This manual is under construction.
+Use the former manual in the folder doc of tt_board: manual.odt
+
 Introduction
 ============
 
@@ -12,6 +18,9 @@ Introduction
 What does it do?
 ----------------
 
+This is a forum and commenting system in list and tree view.
+
+...
 This chapter should give a brief overview of the extension. What does it do? What problems does it solve?
 Who is interested in this? Basically, this section includes everything people need to know to decide whether they
 should go on with this extension or not.
