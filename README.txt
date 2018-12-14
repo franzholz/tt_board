@@ -4,4 +4,6 @@ You must have set this in the constants
 
     PAGE_TARGET = _top
 
+The full documentation is still only in the file doc/manual.odt !
+
 
