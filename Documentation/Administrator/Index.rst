@@ -8,6 +8,12 @@ Administrator Manual
 
 **Important**
 
+You must have set this in the constants
+
+.. code-block:: typoscript
+
+    PAGE_TARGET = _top
+
 Some of the TypoScript settings do not function via the constants field, but must be entered in the setup field. Only those settings which can be found using the Constants Editor or in the file Configuration/TypoScript/Default/constants.txt are valid constants. You must include the “Message Board Setup” into your “include static from extensions” of your TYPO3 template setup. The “Message Board CSS styles“ are not required.
 
 Use the flexforms in the plugin entry form to configure the plugin functionality.

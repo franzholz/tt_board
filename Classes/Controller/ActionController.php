@@ -213,7 +213,6 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
             );
             $composite->setErrorMessage('');
         }
-
         $content .= $newContent;
 
         return true;

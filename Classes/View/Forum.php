@@ -63,7 +63,6 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
     )
     {
         $uid = $composite->getTtBoardUid();
-
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
         $recentPosts = array();
@@ -175,6 +174,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                         $GLOBALS['TSFE']->page['title'],
                         $lConf['forum_title_stdWrap.']
                     );
+
                 if (
                     version_compare(TYPO3_version, '8.7.0', '<')
                 ) {
@@ -194,6 +194,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $wrappedSubpartArray
                         );
                 }
+
                 $postHeader =
                     $markerObj->getLayouts(
                         $templateCode,

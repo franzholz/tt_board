@@ -27,6 +27,9 @@
 			<trans-unit id="notify_me" xml:space="preserve">
 				<source>Notify me&lt;br&gt;by reply:</source>
 			</trans-unit>
+			<trans-unit id="post_new" xml:space="preserve">
+				<source>New Post</source>
+			</trans-unit>
 			<trans-unit id="post_reply" xml:space="preserve">
 				<source>Post Reply</source>
 			</trans-unit>

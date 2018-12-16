@@ -1,3 +1,6 @@
+2018-12-16 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Do not write "post new replay" at the bottom for a new post. Use the text "new post" instead.
+
 2018-12-13 Franz Holzinger <franz@ttproducts.de>
     * Add the information to the online Documentation that it is under construction.
     * The full documentation is in the file manual.odt, formerly manual.sxw

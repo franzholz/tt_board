@@ -189,6 +189,7 @@ window.onload = addListeners;
                 );
 
             $modEmail = $conf['moderatorEmail'];
+
             if (
                 !$parent &&
                 isset($conf['postform_newThread.'])
@@ -196,7 +197,7 @@ window.onload = addListeners;
                 $lConf = $conf['postform_newThread.'] ? $conf['postform_newThread.'] : $lConf;  // Special form for newThread posts...
 
                 $modEmail = $conf['moderatorEmail_newThread'] ? $conf['moderatorEmail_newThread'] : $modEmail;
-                $setupArray['300'] = 'post_new_reply';
+                $setupArray['300'] = 'post_new';
             }
 
             if ($modEmail) {

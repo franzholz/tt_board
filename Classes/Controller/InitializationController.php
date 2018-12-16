@@ -135,7 +135,6 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             // template is read.
         $absoluteFileName = $GLOBALS['TSFE']->tmpl->getFileName($conf['templateFile']);
         $orig_templateCode = file_get_contents($absoluteFileName);
-        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         if (
             version_compare(TYPO3_version, '8.7.0', '<')
@@ -147,6 +146,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
                     $globalMarkerArray
                 );
         } else {
+            $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
                 // Substitute Global Marker Array
             $orig_templateCode =
                 $templateService->substituteMarkerArray(
@@ -154,6 +154,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
                     $globalMarkerArray
                 );
         }
+
         $composite->setOrigTemplateCode($orig_templateCode);
 
             // TypoLink.

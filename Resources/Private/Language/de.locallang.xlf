@@ -141,6 +141,10 @@
 				<source><![CDATA[Message Board Plugin]]></source>
 				<target><![CDATA[Message Board Plugin]]></target>
 			</trans-unit>
+			<trans-unit id="post_new" approved="yes">
+				<source><![CDATA[New Post]]></source>
+				<target><![CDATA[Neuer Eintrag]]></target>
+			</trans-unit>
 			<trans-unit id="post_new_reply" approved="yes">
 				<source><![CDATA[Post New Reply]]></source>
 				<target><![CDATA[Neue Antwort schreiben]]></target>

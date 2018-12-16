@@ -80,7 +80,7 @@ class Marker
         $markerArray = array();
         $conf = $this->getConf();
 
-            // globally substituted markers, fonts and colors.
+        // globally substituted markers, fonts and colors.
         $splitMark = md5(microtime());
         for ($i = 1; $i <= 3; ++$i) {
             list(
