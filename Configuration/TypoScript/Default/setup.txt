@@ -362,7 +362,6 @@ plugin.tt_board_tree {
   list_threads.thread_limit = {$plugin.tt_board.threadLimit}
 
   thread_tree < .list_threads
-  _CSS_DEFAULT_STYLE < temp.tt_board.css._CSS_DEFAULT_STYLE
 }
 
 ## This enables the record item to display board tree items
