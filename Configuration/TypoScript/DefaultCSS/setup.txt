@@ -1,5 +1,5 @@
 ###
-# This is the default CSS Styles for the tt_board standard templates
+# These are the default CSS Styles for the tt_board standard templates
 ##
 
 temp.tt_board.css {
@@ -10,23 +10,29 @@ temp.tt_board.css {
   font-size: 1em;
 }
 
+.tx-ttboard-catlistheader-forum-single {
+  font-family: Tahoma,Verdana,sans-serif;
+  font-size: 1em;
+  background: #adaeb5;
+}
+
 .tx-ttboard-overview {
-width: 100%;
+  width: 100%;
 }
 
 .tx-ttboard-overview a:link {
-color: #283a44;
-text-decoration: underline;
+  color: #283a44;
+  text-decoration: underline;
 }
 
 .tx-ttboard-overview a:hover {
-color: #6f081d;
-text-decoration: none;
+  color: #6f081d;
+  text-decoration: none;
 }
 
 .tx-ttboard-overview a:active, .tt_board_overview a:visited {
-color: #283a44;
-text-decoration: none;
+  color: #283a44;
+  text-decoration: none;
 }
 
 .tx-ttboard-tree-rows {
@@ -55,13 +61,6 @@ text-decoration: none;
   text-decoration: none;
 }
 
-
-.tx-ttboard-catlistheader-forum-single {
-  font-family: Tahoma,Verdana,sans-serif;
-  font-size: 1em;
-  background: #adaeb5;
-}
-
 .tx-ttboard-tree-row-forum {
   font-family: Tahoma,Verdana,sans-serif;
   font-size: 12px;
@@ -73,19 +72,19 @@ text-decoration: none;
   color:#6f081d;
 }
 
-
 .tx-ttboard-list-cell-header-forum {
   padding: 5px;
   font-weight: bold;
   white-space: nowrap;
   text-align: center;
-  }
+}
+
 .tx-ttboard-tree-cell-header-forum {
   padding: 5px;
   font-weight: bold;
   white-space: nowrap;
   text-align: left;
-  }
+}
 
 .tx-ttboard-tree-cell-header-forum-single {
   padding: 5px;
@@ -107,17 +106,19 @@ text-decoration: none;
   padding: 5px;
   font-weight: bold;
   text-align: left;
- }
+}
 
 .tx-ttboard-list-cell-replies, .tx-ttboard-list-cell-discussions {
   padding: 5px;
   white-space: nowrap;
   text-align: center;
-  }
+}
+
 .tx-ttboard-list-cell-last {
   padding: 5px;
   text-align: center;
-  }
+}
+
 .tx-ttboard-tree-abstand {
   padding: 15px;
 }
@@ -127,24 +128,8 @@ text-decoration: none;
   font-size: 12px;
   font-weight: bold;
   text-align: center;
-  }
-
-#boardSearchSubmitId {
-  background-color:#F4F4F4;
-  border:1px solid #BDBDBD;
-  font-family:Tahoma,Verdana,sans-serif;
-  font-size:11px;
-  height:20px;
-  line-height:15px;
-  margin-top:10px;
-  padding:0px;
-  width:90px;
 }
 
-.tx-ttboard-border-forum {
-  border:1px solid #BDBDBD;
-  padding: 3px;
-  }
 .tx-ttboard-list-cell-header-forum {
   padding: 5px;
   font-weight: bold;
@@ -166,25 +151,31 @@ text-decoration: none;
   font-weight: bold;
   text-align: left;
 }
+
 .tx-ttboard-list-cell-title {
   padding: 5px;
   font-weight: bold;
   text-align: left;
 }
+
 .tx-ttboard-list-cell-replies, .tx-ttboard-list-cell-discussions {
   padding: 5px;
   white-space: nowrap;
   text-align: center;
 }
+
 .tx-ttboard-list-cell-last {
   padding: 5px;
   text-align: center;
 }
+
 .tx-ttboard-tree-abstand {
   padding: 15px;
 }
+
 .tx-ttboard-link-to-forum-message {
 }
+
 .tx-ttboard-link-back-to-forum {
 }
 
@@ -207,12 +198,11 @@ text-decoration: none;
 }
 
 #mailform {
-margin-left: 2.5em;
-margin-top: 1em;
+  margin-left: 2.5em;
+  margin-top: 1em;
 }
 
    # end of _CSS_DEFAULT_STYLE:
    )
-
 }
 

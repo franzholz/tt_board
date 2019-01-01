@@ -1,5 +1,6 @@
 
 2019-01-01 Franz Holzinger <franz@ttproducts.de>
+    * bugfix in default CSS setup: remove duplicate #boardSearchSubmitId
     * bugfix: Do not integrate the default CSS style twice.
                _CSS_DEFAULT_STYLE < TEMP.TT_BOARD.CSS._CSS_DEFAULT_STYLE
 
