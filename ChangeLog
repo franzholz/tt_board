@@ -1,4 +1,7 @@
 
+2019-01-03 Franz Holzinger <franz@ttproducts.de>
+    * bugfix in getCurrentPost: a valid uid parameter must have been provided
+
 2019-01-01 Franz Holzinger <franz@ttproducts.de>
     * bugfix in default CSS setup: remove duplicate #boardSearchSubmitId
     * bugfix: Do not integrate the default CSS style twice.

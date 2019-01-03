@@ -89,7 +89,7 @@ window.onload = addListeners;
         if (
             $modelObj->isAllowed($conf['memberOfGroups'])
         ) {
-            $parent = 0;        // This is the parent item for the form. If this ends up being is set, then the form is a reply and not a new post.
+            $parent = 0;        // This is the parent item for the form. If this is not set, then the form is a reply and not a new post.
             $nofity = array();
             $feuserLoggedIn = false;
             if (
@@ -124,30 +124,32 @@ window.onload = addListeners;
                         );
                 }
 
-                if (
-                    !$conf['tree']
-                ) {
-                    $parent = $row['uid'];
-                }
+                if (is_array($row)) {
+                    if (
+                        !$conf['tree']
+                    ) {
+                        $parent = $row['uid'];
+                    }
 
-                $wholeThread =
-                    $modelObj->getSingleThread(
-                        $row['uid'],
-                        $ref,
-                        1
-                    );
+                    $wholeThread =
+                        $modelObj->getSingleThread(
+                            $row['uid'],
+                            $ref,
+                            1
+                        );
 
-                foreach($wholeThread as $recordP) { // the last notification checkbox will be supercede the previous settings
+                    foreach($wholeThread as $recordP) { // the last notification checkbox will be supercede the previous settings
 
-                    if ($recordP['email']) {
+                        if ($recordP['email']) {
 
-                        $index = md5(trim(strtolower($recordP['email'])));
+                            $index = md5(trim(strtolower($recordP['email'])));
 
-                        if ($recordP['notify_me']) {
-                            $notify[$index] = trim($recordP['email']);
-                        } else if (!$recordP['notify_me']) {
-                            if (isset($notify[$index])) {
-                                unset($notify[$index]);
+                            if ($recordP['notify_me']) {
+                                $notify[$index] = trim($recordP['email']);
+                            } else if (!$recordP['notify_me']) {
+                                if (isset($notify[$index])) {
+                                    unset($notify[$index]);
+                                }
                             }
                         }
                     }
@@ -166,7 +168,7 @@ window.onload = addListeners;
 //     30.type = *data[tt_board][NEW][author]=input,40
 //     40.label = Email:
 //     40.type = *data[tt_board][NEW][email]=input,40
-//     50.label = Notify me<BR>by reply:
+//     50.label = Notify me<br>by reply:
 //     50.type = data[tt_board][NEW][notify_me]=check
 //     Captcha:
 //     55.label =
@@ -311,8 +313,8 @@ window.onload = addListeners;
                                     'wrap' =>
                                     '<span class="'. TT_BOARD_CSS_PREFIX . 'captcha">|' . 
                                     $textLabelWrap .
-                                    $captchaMarker['###CAPTCHA_IMAGE###'] . '<br' . $xhtmlFix .'>' .
-                                    $captchaMarker['###CAPTCHA_NOTICE###'] . '<br' . $xhtmlFix .'>' .
+                                    $captchaMarker['###CAPTCHA_IMAGE###']  . '<br' . $xhtmlFix . '>' .
+                                    $captchaMarker['###CAPTCHA_NOTICE###'] . '<br' . $xhtmlFix . '>' .
                                     $additionalText . '</span>'
                                 ),
                             'type' => '*data[' . $table . '][NEW][' . Field::CAPTCHA . ']=input,20'
@@ -348,7 +350,7 @@ window.onload = addListeners;
                     $privacyUrl = $local_cObj->getTypoLink_URL($pagePrivacy, $piVars);
                     $privacyUrl = str_replace(array('[', ']'), array('%5B', '%5D'), $privacyUrl);
 
-                    $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>'. chr(13);
+                    $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>' . chr(13);
 
                     $lConf['dataArray.']['60.'] = array(
                         'label' => $labels['title'] . ':',
@@ -357,7 +359,7 @@ window.onload = addListeners;
                                 'wrap' =>
                                 '<div class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' . 
                                 $textLabelWrap .
-                                $labels['acknowledged_2'] . '<br' . $xhtmlFix .'>' .
+                                $labels['acknowledged_2'] . '<br' . $xhtmlFix . '>' .
                                 '<strong>' . $labels['hint'] . '</strong><br' . $xhtmlFix . '>' .
                                 $labels['hint_1'] . '</div>'
                             ),

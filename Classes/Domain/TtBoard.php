@@ -233,17 +233,25 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     */
     public function getCurrentPost ($uid, $ref)
     {
-        $whereRef = $this->getWhereRef($ref);
-        $where = 'uid=' . $uid . $whereRef . $this->getEnableFields();
+        $result = false;
+        if ($uid || $ref != '') {
+            $whereUid = '1=1';
+            if ($uid) {
+                $whereUid = 'uid=' . intval($uid);
+            }
+            $whereRef = $this->getWhereRef($ref);
+            $where = $whereUid . $whereRef . $this->getEnableFields();
 
-        $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-            '*',
-            $this->getTablename(),
-            $where,
-            '',
-            $this->orderBy('DESC')
-        );
-        return $row;
+            $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+                '*',
+                $this->getTablename(),
+                $where,
+                '',
+                $this->orderBy('DESC')
+            );
+            $result = $row;
+        }
+        return $result;
     }
 
     /**
@@ -427,6 +435,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                     $this->orderBy('DESC'),
                     $limitString
                 );
+
             $set = array();
             while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 $rootRow = $this->getRootParent($row['uid']);
