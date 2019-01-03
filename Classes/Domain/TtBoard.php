@@ -235,10 +235,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $result = false;
         if ($uid || $ref != '') {
-            $whereUid = '1=1';
-            if ($uid) {
-                $whereUid = 'uid=' . intval($uid);
-            }
+            $whereUid = 'uid=' . intval($uid);
             $whereRef = $this->getWhereRef($ref);
             $where = $whereUid . $whereRef . $this->getEnableFields();
 
