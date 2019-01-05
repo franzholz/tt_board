@@ -235,7 +235,10 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $result = false;
         if ($uid || $ref != '') {
-            $whereUid = 'uid=' . intval($uid);
+            $whereUid = '1=1';
+            if ($uid) {
+                $whereUid = 'uid=' . intval($uid);
+            }
             $whereRef = $this->getWhereRef($ref);
             $where = $whereUid . $whereRef . $this->getEnableFields();
 
@@ -286,16 +289,21 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     public function getRootParent ($uid, $ref = '', $limit = 99, $calllevel = 0)
     {
         $result = false;
+        $error = false;
 
         if ($uid) {
             $field = 'uid';
             $value = $uid;
-        } else {
+        } else if ($ref != '') {
             $field = 'reference';
             $value = $ref;
+        } else {
+            return false;
         }
 
-        if ($limit > 0) {
+        if (
+            $limit > 0
+        ) {
             $res =
                 $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     '*',
@@ -317,10 +325,14 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                             $limit - 1,
                             $calllevel + 1
                         );
+
                     if ($tmpRow) {
                         $result = $tmpRow;
                     }
-                } else if ($calllevel > 0) {
+                } else if (
+                    $calllevel > 0 ||
+                    $ref != ''
+                ) {
                     $result = $row;
                 }
             }
