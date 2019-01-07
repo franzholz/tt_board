@@ -942,6 +942,7 @@ Or set this to captcha and install captcha.
 
 
 Example:
+Constants
 
 .. code-block:: typoscript
 

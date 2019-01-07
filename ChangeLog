@@ -1,3 +1,6 @@
+2019-01-07 Franz Holzinger <franz@ttproducts.de>
+    * integration the manual.odt tutorial into the documentation
+
 2019-01-05 Franz Holzinger <franz@ttproducts.de>
     * undo last bugfix in getCurrentPost: a valid uid parameter must not have been provided if a reference parameter is used
     * bugfix: getRootParent can give back the first row if a reference parameter has been given. The first record for a reference always gives the root parent.

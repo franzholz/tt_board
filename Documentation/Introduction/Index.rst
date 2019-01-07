@@ -6,8 +6,11 @@
 Attention
 =========
 
-This manual is under construction.
-Use the former manual in the folder doc of tt_board: manual.odt
+.. important::
+
+    This manual is under construction.
+    Use the former manual in the folder doc of tt_board: manual.odt
+
 
 Introduction
 ============
@@ -19,18 +22,7 @@ What does it do?
 ----------------
 
 This is a forum and commenting system in list and tree view.
-
-...
-This chapter should give a brief overview of the extension. What does it do? What problems does it solve?
-Who is interested in this? Basically, this section includes everything people need to know to decide whether they
-should go on with this extension or not.
-
-.. important::
-
-   Please don't forget to repeat your extension's version number in the
-   :file:`Settings.yml` file, in the :code:`release` property. It will be
-   automatically picked up on the cover page by the :code:`|release|`
-   substitution.
+It is the oldest forum/message board extension in TYPO3. It is not aimed at competing with those board products which features a lot community like features with user profiles. However a front end user login may be used to limit read/write access by simply access-restricting the very board elements and pages used for display and submission of data. Use this extension in combination with a front end user registration extension.
 
 
 .. _screenshots:
@@ -38,13 +30,32 @@ should go on with this extension or not.
 Screenshots
 -----------
 
-This chapter should help people figure how the extension works. Remove it
-if not relevant.
-
-.. figure:: ../Images/IntroductionPackage.png
+List type forum:
+^^^^^^^^^^^^^^^^
+.. figure:: ../Images/Introduction/ListType.png
    :width: 500px
-   :alt: Introduction Package
+   :alt: list type forum
 
-   Introduction Package just after installation (caption of the image)
+   The forum topics and entries are listed in a table format.
 
-   How the Frontend of the Introduction Package looks like just after installation (legend of the image)
+Tree type forum:
+^^^^^^^^^^^^^^^^
+.. figure:: ../Images/Introduction/TreeType.png
+   :width: 500px
+   :alt: tree type forum
+
+   The forum topics and entries are listed in a tree format with a plus symbol.
+
+
+Requirements:
+-------------
+PHP 5.5, TYPO3 7.6, extension div2007 1.10.6 and extension tslib_fetce 0.4.0 are the minimum requirements.
+
+
+Support:
+--------
+You can get support and installation service for this extension at https://jambage.com/kontakt/forum/forum.html .
+
+
+
+
