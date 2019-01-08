@@ -1,5 +1,9 @@
+2019-01-08 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: If a tree configuration exists then it must be used for each tree plugin.
+
 2019-01-07 Franz Holzinger <franz@ttproducts.de>
     * integration the manual.odt tutorial into the documentation
+    * bugfix: notification email addresses must be passed by session data and not inside of a hidden field
 
 2019-01-05 Franz Holzinger <franz@ttproducts.de>
     * undo last bugfix in getCurrentPost: a valid uid parameter must not have been provided if a reference parameter is used

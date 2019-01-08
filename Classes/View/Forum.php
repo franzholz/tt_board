@@ -77,12 +77,14 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $continue = true;
-        if ($theCode == 'THREAD_TREE') {
 
+        if ($theCode == 'THREAD_TREE') {
             if (!$uid && $ref == '') {
                 $continue = false;
             }
+        }
 
+        if ($conf['tree']) {
             $lConf = $conf['thread_tree.'];
         } else {
             $lConf = $conf['list_threads.'];
