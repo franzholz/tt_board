@@ -36,6 +36,12 @@
 			<trans-unit id="post_new_reply" xml:space="preserve">
 				<source>Post New Reply</source>
 			</trans-unit>
+			<trans-unit id="post.fillSubjectPrefix" xml:space="preserve">
+				<source>Re: </source>
+			</trans-unit>
+			<trans-unit id="post.thanks" xml:space="preserve">
+				<source>Many thanks for your contribution. Click again on the heading forum to read your contribution.</source>
+			</trans-unit>
 			<trans-unit id="board_age" xml:space="preserve">
 				<source>Age</source>
 			</trans-unit>

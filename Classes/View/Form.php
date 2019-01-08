@@ -87,6 +87,20 @@ window.onload = addListeners;
         $notify = array();
 
         if (
+            isset($GLOBALS['TSFE']->applicationData) &&
+            is_array($GLOBALS['TSFE']->applicationData) &&
+            isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
+            is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
+            !isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']) &&
+            isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row']) &&
+            is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'])
+        ) {
+            $content = $languageObj->getLabel(
+                'post.thanks'
+            );
+        }
+
+        if (
             $modelObj->isAllowed($conf['memberOfGroups'])
         ) {
             $parent = 0;        // This is the parent item for the form. If this is not set, then the form is a reply and not a new post.
@@ -404,13 +418,6 @@ window.onload = addListeners;
                     }
                 }
 
-                if (!empty($notify)) {
-                    $lConf['dataArray.']['9997.'] = array(
-                        'type' => 'notify_me=hidden',
-                        'value' => htmlspecialchars(implode($notify, ','))
-                    );
-                }
-
                 if (
                     $feuserLoggedIn
                 ) {
@@ -453,10 +460,22 @@ window.onload = addListeners;
                                 );
 
                             if (
-                                ($type == 'label') &&
-                                isset($origRow[$theField])
+                                ($type == 'label')
                             ) {
-                                $lConf['dataArray.'][$k . '.']['value'] = $origRow[$theField];
+                                if (isset($origRow[$theField])) {
+                                    $lConf['dataArray.'][$k . '.']['value'] = $origRow[$theField];
+                                } else if (
+                                    $theField == 'subject' &&
+                                    $conf['fillSubject'] &&
+                                    isset($row[$theField])
+                                ) {
+                                    $fillSubjectPrefix = 
+                                        $languageObj->getLabel(
+                                            'post.fillSubjectPrefix'
+                                        );
+
+                                    $lConf['dataArray.'][$k . '.']['value'] = $fillSubjectPrefix . $row[$theField];
+                                }
                             }
                         }
                     }
@@ -481,6 +500,16 @@ window.onload = addListeners;
                 $out = $local_cObj->cObjGetSingle('FORM', $lConf);
                 $content .= $out;
             }
+        }
+
+                // delete any formerly stored values
+        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT] = array();
+
+        if (!empty($notify)) {
+            $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
+            $sessionData = array();
+            $sessionData['notify_me'] = $notify;
+            $session->setSessionData($sessionData);
         }
 
         return $content;

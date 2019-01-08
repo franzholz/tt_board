@@ -35,6 +35,9 @@ plugin.tt_board {
 
     # cat=plugin.board//; type=string; label= Privacy Policy url: Page (id) where the privacy policy is shown. If you want to show a privacy policy checkbox and hints for not registered front end users. This is needed for compliance with DSGVO / GDPR .
   PIDprivacyPolicy =
+
+    # cat=plugin.board//; type=boolean; label= fill in subject: if checked then subject of an answer post is automatically filled in from the first entry.
+  fillSubject = 0
 }
 
 

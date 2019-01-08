@@ -48,9 +48,16 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 {
     static public function execute (TypoScriptFrontendDataController $pObj, $conf)
     {
+        $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
+        $sessionData = $session->getSessionData();
+
         $result = true;
         $table = 'tt_board';
         $row = $pObj->newData[$table]['NEW'];
+
+        // store the least entered row in order to allow a special output in the frontend
+        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
+
         $prefixId = $row['prefixid'];
         unset($row['prefixid']);
         $pid = intval($row['pid']);
@@ -118,7 +125,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 
                     if ($captchaError) {
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row[Field::CAPTCHA];
                         $result = false;
                         break;
@@ -132,7 +138,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             foreach ($spamArray as $k => $word) {
                                 if ($word && stripos($value, $word) !== false) {
                                     $spamFound = true;
-                                    $result = false;
                                     break;
                                 }
                             }
@@ -145,8 +150,8 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 
                     if ($spamFound) {
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['spam'] = true;
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
                         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $word;
+                        $result = false;
                         break;
                     } else {
                         $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
@@ -288,7 +293,13 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         }
 
                         // Notify me...
-                        $notify = GeneralUtility::_POST('notify_me');
+                        $notify = false;
+                        
+                        if (
+                            isset($sessionData['notify_me'])
+                        ) {
+                            $notify = implode(',', $sessionData['notify_me']);
+                        }
 
                         if (
                             $notify &&
@@ -396,10 +407,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             $messagePage->output();
         }
 
-        if ($result) {
-            // delete any formerly stored values
-            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT] = array();
-        }
         return $result;
     }
 }

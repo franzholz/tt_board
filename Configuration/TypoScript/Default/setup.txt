@@ -9,7 +9,7 @@ FEData.tt_board {
       # "From" email header
     notify_from = {$plugin.tt_board.notificationEmail}
       # Notification message template, first line is subject.
-    newReply.msg = EXT:tt_board/Resources/Private/Templates/board_notify.txt
+    newReply.msg =  EXT:tt_board/Resources/Private/Templates/board_notify.txt
     newThread.msg = EXT:tt_board/Resources/Private/Templates/board_notify.txt
 
     debug = 0
@@ -48,6 +48,7 @@ temp.tt_board.shared {
   memberOfGroups = {$plugin.tt_board.memberOfGroups}
   captcha = {$plugin.tt_board.captcha}
   PIDprivacyPolicy = {$plugin.tt_board.PIDprivacyPolicy}
+  fillSubject = {$plugin.tt_board.fillSubject}
 
   date_stdWrap.strftime = %e-%m-%y
   time_stdWrap.strftime = %H:%M:%S

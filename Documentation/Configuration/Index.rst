@@ -433,7 +433,7 @@ postform
 Only the dataArray of this setting should be changed. You can add entries to the dataArray of the FORM cObject in order to change the view.
 
 Configuration of the form for posting replies and possibly also new threads. 
-Note, that two hidden-fields are forcibly added to the form: "parent" and "pid" (using .dataArray keys 9997-9999)!
+Note, that two hidden-fields are forcibly added to the form: "parent" and "pid" (using .dataArray keys 9998-9999)!
 
 
 

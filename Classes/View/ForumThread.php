@@ -118,13 +118,13 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
             }
 
             $rootParent = $modelObj->getRootParent($uid, $ref);
-            $theadRootUid = $uid;
+            $threadRootUid = $uid;
             $crdate = 0;
             if (
                 is_array($rootParent) &&
                 $rootParent['uid']
             ) {
-                $theadRootUid = $rootParent['uid'];
+                $threadRootUid = $rootParent['uid'];
                 $crdate = $rootParent['crdate'];
             } else {
                 $row =
@@ -132,13 +132,15 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                         $uid,
                         $ref
                     );
+
                 if (
                     is_array($row)
                 ) {
                     $crdate = $row['crdate'];
                 }
             }
-            $wholeThread = $modelObj->getSingleThread($theadRootUid, $ref, 1);
+
+            $wholeThread = $modelObj->getSingleThread($threadRootUid, $ref, 1);
 
             if (is_object($treeView)) {
                 $treeView->addTreeIcons($wholeThread);
@@ -154,6 +156,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
             } else {
                 $recentPosts = $wholeThread;
             }
+
             $thread = array();
             $thread['next'] = $modelObj->getThreadRoot($pid_list, $crdate);
             $thread['previous'] = $modelObj->getThreadRoot($pid_list, $crdate, 'prev');

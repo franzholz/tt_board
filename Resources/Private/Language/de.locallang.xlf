@@ -9,6 +9,10 @@
 				<source><![CDATA[Name:]]></source>
 				<target><![CDATA[Name:]]></target>
 			</trans-unit>
+			<trans-unit id="post.thanks" xml:space="preserve">
+				<source><![CDATA[Many thanks for your contribution. Click again on the heading forum to read your contribution.]]></source>
+				<target><![CDATA[Vielen Dank für Ihren Beitrag. Klicken Sie erneut auf die Rubrik Forum, um Ihren Beitrag zu lesen.]]></target>
+			</trans-unit>
 			<trans-unit id="board_age" approved="yes">
 				<source><![CDATA[Age]]></source>
 				<target><![CDATA[Alter]]></target>
