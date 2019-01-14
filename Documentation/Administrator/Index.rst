@@ -116,7 +116,7 @@ Privacy Policy
 
 
 You must set the constant :code:`PIDprivacyPolicy` to the page id which shows your DSGVO or GDPR information. This is a legal requirement. You must use a front end registration extension to register the users. They must already have agreed to your privacy policy. 
-If you use the forum without logged in front end users, then a privacy policy checkbox will appear in the forum entry form. You can overwrite the default texts by the _LOCAL_LANG setup. 
+If you use the forum without logged in front end users, then a privacy policy checkbox will appear in the forum entry form. You can overwrite the default texts by the :code:`_LOCAL_LANG` setup. 
 
 
 Example Setup
@@ -137,7 +137,7 @@ Example Setup
     }
 
 
-You must alternatively use :code:`plugin.tt_board_tree` for the tree type forum.
+You must alternatively use :code:`plugin.tt_board_tree` for the tree type forum. :code:`plugin.tt_board_list` is only used for the list type forum.
 
 
 .. figure:: ../Images/AdministratorManual/PrivacyPolicy.png
@@ -145,7 +145,7 @@ You must alternatively use :code:`plugin.tt_board_tree` for the tree type forum.
 
    Override the language texts for the Privacy Policy
 
-   You should use TypoScript to write your own language texts for anything.
+   You should use TypoScript to write your own language texts instead of these defaults for anything.
 
 
 

@@ -116,7 +116,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
         $languageObj->init(
             TT_BOARD_EXT,
-            $conf,
+            $conf['_LOCAL_LANG.'],
             DIV2007_LANGUAGE_SUBPATH
         );
         $languageObj->loadLocalLang(

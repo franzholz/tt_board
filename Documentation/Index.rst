@@ -25,7 +25,7 @@ Message board, twin mode
 		forum,message,board
 
 	:Copyright:
-		2018
+		2019
 
 	:Author:
 		Franz Holzinger

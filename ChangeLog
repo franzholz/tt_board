@@ -1,4 +1,10 @@
+2019-01-14 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: the init method of the base class TranslationBase for the Localization class must be initialized with $conf['_LOCAL_LANG.'] because the language parts are only inside of this setup.
+
 2019-01-08 Franz Holzinger <franz@ttproducts.de>
+    * new feature: Set fillSubject in order to fill in the subject field of the entry form with the subject of the first post. The text post.fillSubjectPrefix will be used as a prefix.
+    * new feature: Add a post thanks message at the beginning of the entry form.
+    * data protection: Pass the email addresses inside of a TYPO3 session.
     * bugfix: If a tree configuration exists then it must be used for each tree plugin.
 
 2019-01-07 Franz Holzinger <franz@ttproducts.de>
