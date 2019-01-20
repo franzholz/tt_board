@@ -118,7 +118,7 @@ LINK
 			Template for the display of latest posts of a forum
 		-->
 			<tr>
-				<td align="center" valign="top">NEW!</td>
+				<td align="center" valign="top">###BOARD_NEW###!</td>
 				<td valign="top"><!-- ###LINK### begin -->###GW1B### <strong>###POST_TITLE###</strong>###GW1E###<!-- ###LINK### end --><br>###GW2B### ###POST_CONTENT### ###GW2E###</td>
 				<td align="center" valign="top">###GW1B### ###POST_REPLIES### ###GW1E###</td>
 				<td align="center" valign="top">###GW1B### &nbsp; ###GW1E###</td>
@@ -193,7 +193,7 @@ LINK_LAST_POST
 	<tr bgcolor="###GC1###">
   	<td colspan="10">
     <form action="###FORM_URL###" method="POST" name="tt-board-search">
-  	###GW1B###<strong>Suchen: </strong>###GW1E###<input type="text" name="###SEARCH_NAME###" value="###SEARCH_WORD###">	<input type="submit" id="boardSearchSubmitId" value="###BUTTON_SEARCH###">
+  	###GW1B###<strong>###BOARD_SEARCH###: </strong>###GW1E###<input type="text" name="###SEARCH_NAME###" value="###SEARCH_WORD###">	<input type="submit" id="boardSearchSubmitId" value="###BUTTON_SEARCH###">
   	</form>
     </td>
 	</tr>
@@ -286,7 +286,7 @@ LINK_NEXT_POST
 		<!--###POST_1### end -->
 	<!-- ###CONTENT###  end -->
 	<tr>
-		<td colspan=2><!--###LINK_BACK_TO_FORUM###-->###GW2B### <strong>&lt; BACK TO FORUM</strong> ###GW2E###<!--###LINK_BACK_TO_FORUM###--></td>
+		<td colspan=2><!--###LINK_BACK_TO_FORUM###-->###GW2B### <strong>&lt; ###BOARD_BACK_TO_FORUM###</strong> ###GW2E###<!--###LINK_BACK_TO_FORUM###--></td>
 	</tr>
 </table>
 <!-- ###TEMPLATE_THREAD### end -->

@@ -101,6 +101,10 @@
 				<source><![CDATA[Topics]]></source>
 				<target><![CDATA[Themen]]></target>
 			</trans-unit>
+			<trans-unit id="board_new" approved="yes">
+				<source><![CDATA[NEW]]></source>
+				<target><![CDATA[NEU]]></target>
+			</trans-unit>
 			<trans-unit id="button_search" approved="yes">
 				<source><![CDATA[Search in the Board]]></source>
 				<target><![CDATA[Suche im Forum]]></target>

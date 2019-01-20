@@ -108,6 +108,9 @@
 			<trans-unit id="board_topics" xml:space="preserve">
 				<source>Topics</source>
 			</trans-unit>
+			<trans-unit id="board_new" xml:space="preserve">
+				<source>NEW</source>
+			</trans-unit>
 			<trans-unit id="button_search" xml:space="preserve">
 				<source>Search in the Board</source>
 			</trans-unit>
