@@ -98,7 +98,6 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());
-
         switch($theCode) {
             case 'LIST_CATEGORIES':
             case 'LIST_FORUMS':
@@ -214,7 +213,6 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
             $composite->setErrorMessage('');
         }
         $content .= $newContent;
-
         return true;
     }
 }

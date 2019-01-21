@@ -23,7 +23,7 @@
 			</trans-unit>
 			<trans-unit id="board_author" approved="yes">
 				<source><![CDATA[Author]]></source>
-				<target><![CDATA[autor]]></target>
+				<target><![CDATA[Autor]]></target>
 			</trans-unit>
 			<trans-unit id="board_back_to_forum" approved="yes">
 				<source><![CDATA[Back to Forum]]></source>

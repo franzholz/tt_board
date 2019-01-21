@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') or die('Access denied.');
+defined('TYPO3_MODE') || die('Access denied.');
 
 $table = 'tt_content';
 
@@ -32,7 +32,4 @@ $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist']['4'] = 'pi_flexform
     'list_type',
     TT_BOARD_EXT
 );
-
-
-
 

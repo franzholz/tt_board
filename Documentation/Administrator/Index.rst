@@ -125,7 +125,7 @@ Example Setup
 .. code-block:: typoscript
 
     plugin.tt_board_list {
-        _LOCAL_LANG {
+        _LOCAL_LANG.default {
             privacy_policy.title = PRIVACY AGREEMENT
             privacy_policy.acknowledgement = The GDPR is applied.
             privacy_policy.approval_required = You must approve it.

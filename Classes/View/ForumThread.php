@@ -79,10 +79,11 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $lConf = $conf['view_thread.'];
+        $subpart = '###TEMPLATE_THREAD###';
         $templateCode =
             $templateService->getSubpart(
                 $orig_templateCode,
-                '###TEMPLATE_THREAD###'
+                $subpart
             );
 
         if ($templateCode) {

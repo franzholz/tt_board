@@ -31,7 +31,7 @@
 		###AUTHOR###
 
 	:E-Mail:
-		author@example.com
+		franz@ttproducts.de
 
 	:Lizenz:
 		Dieses Dokument wird unter der Open Publication License, siehe

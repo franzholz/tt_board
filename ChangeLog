@@ -1,3 +1,7 @@
+
+2019-21-14 Franz Holzinger <franz@ttproducts.de>
+    * bugfix in the manual: The _LOCAL_LANG override must also use the language key or default.
+
 2019-01-14 Franz Holzinger <franz@ttproducts.de>
     * bugfix: the init method of the base class TranslationBase for the Localization class must be initialized with $conf['_LOCAL_LANG.'] because the language parts are only inside of this setup.
 

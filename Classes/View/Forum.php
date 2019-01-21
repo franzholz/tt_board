@@ -97,17 +97,17 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
             $subpartMarkerArray = array();
             $wrappedSubpartArray = array();
 
-            $templateCode =
-                $templateService->getSubpart(
-                    $composite->getOrigTemplateCode(),
-                    '###LINK_BROWSE###'
-                );
-
             $browserConf = '';
             if (
                 isset($lConf['browser']) &&
                 $lConf['browser'] == 'div2007'
             ) {
+                $templateCode =
+                    $templateService->getSubpart(
+                        $composite->getOrigTemplateCode(),
+                        '###LINK_BROWSE###'
+                    );
+
                 if ($templateCode) {
                     $browserConf = array();
                     if (isset($lConf['browser.'])) {
@@ -158,6 +158,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                 );
             }
 
+            $subpart = '###TEMPLATE_FORUM###';
             $templateCode =
                 $templateService->getSubpart(
                     $composite->getOrigTemplateCode(),
