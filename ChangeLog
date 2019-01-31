@@ -1,5 +1,7 @@
+2019-01-31 Franz Holzinger <franz@ttproducts.de>
+    * modify composer.json: use jambagecom instead of typo3-ter
 
-2019-21-14 Franz Holzinger <franz@ttproducts.de>
+2019-01-21 Franz Holzinger <franz@ttproducts.de>
     * bugfix in the manual: The _LOCAL_LANG override must also use the language key or default.
 
 2019-01-14 Franz Holzinger <franz@ttproducts.de>
