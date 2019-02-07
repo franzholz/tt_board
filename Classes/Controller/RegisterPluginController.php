@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2018 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2019 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -75,8 +75,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     {
         $this->conf = $conf;
         $codeArray = $this->getCodeArray($conf);
-        // Save the original flexform in case if we need it later as USER_INT
-        $this->cObj->data['_original_pi_flexform'] = $this->cObj->data['pi_flexform'];
+        $allowCaching = $conf['allowCaching'] ? 1 : 0;
 
         foreach ($codeArray as $k => $theCode) {
             $theCode = (string) strtoupper(trim($theCode));
@@ -88,7 +87,6 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
                 continue;
             }
             $setupCode = $conf['userFunc.'][$theCode];
-
             $setup = $conf['userFunc.'][$theCode . '.'];
             $newConf = $conf;
 
@@ -98,8 +96,16 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
             );
             unset($newConf['userFunc.']);
 
+            $contentObjectType = $setup['10'];
+            if (
+                !$allowCaching &&
+                !strpos($contentObjectType, '_INT')
+            ) {
+                $contentObjectType .= '_INT';
+            }
+
             $newSetup = array();
-            $newSetup['10'] = $setup['10'];
+            $newSetup['10'] = $contentObjectType;
             $newSetup['10.'] = $newConf;
             $content .=
                 $this->cObj->cObjGetSingle(
@@ -107,7 +113,6 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
                     $newSetup
                 );
         }
-
         return $content;
     }
 

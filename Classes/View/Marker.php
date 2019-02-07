@@ -127,9 +127,10 @@ class Marker
     public function getRowMarkerArray (
         &$markerArray,
         $modelObj,
-        $row,
+        array $row,
         $markerKey,
-        $lConf
+        array $tagArray,
+        array $lConf
     )
     {
         $conf = $this->getConf();
@@ -140,60 +141,87 @@ class Marker
             $modelObj->getTablename()
         );
 
-            // Markers
-        $markerArray['###POST_THREAD_CODE###'] =
-            $local_cObj->stdWrap(
-                $row['treeIcons'],
-                $lConf['post_thread_code_stdWrap.']
-            );
-        $markerArray['###POST_TITLE###'] =
-            $local_cObj->stdWrap(
-                $this->formatStr(
-                    $row['subject']
-                ),
-                $lConf['post_title_stdWrap.']
-            );
-        $markerArray['###POST_CONTENT###'] =
-            $this->substituteEmoticons(
+        if (isset($tagArray['POST_THREAD_CODE'])) {
+                // Markers
+            $markerArray['###POST_THREAD_CODE###'] =
+                $local_cObj->stdWrap(
+                    $row['treeIcons'],
+                    $lConf['post_thread_code_stdWrap.']
+                );
+        }
+
+        if (isset($tagArray['POST_TITLE'])) {
+            $markerArray['###POST_TITLE###'] =
                 $local_cObj->stdWrap(
                     $this->formatStr(
-                        $row['message']),
-                        $lConf['post_content_stdWrap.']
-                    )
-            );
-        $markerArray['###POST_REPLIES###'] =
-            $local_cObj->stdWrap(
-                $modelObj->getNumReplies(
-                    $row['pid'],
-                    $row['uid']
-                ),
-                $lConf['post_replies_stdWrap.']
-            );
-        $markerArray['###POST_AUTHOR###'] =
-            $local_cObj->stdWrap(
-                $this->formatStr(
-                    $row['author']
-                ),
-                $lConf['post_author_stdWrap.']
-            );
-        $markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
+                        $row['subject']
+                    ),
+                    $lConf['post_title_stdWrap.']
+                );
+        }
+
+        if (isset($tagArray['POST_CONTENT'])) {
+            $markerArray['###POST_CONTENT###'] =
+                $this->substituteEmoticons(
+                    $local_cObj->stdWrap(
+                        $this->formatStr(
+                            $row['message']),
+                            $lConf['post_content_stdWrap.']
+                        )
+                );
+        }
+
+        if (isset($tagArray['POST_REPLIES'])) {
+            $markerArray['###POST_REPLIES###'] =
+                $local_cObj->stdWrap(
+                    $modelObj->getNumReplies(
+                        $row['pid'],
+                        $row['uid']
+                    ),
+                    $lConf['post_replies_stdWrap.']
+                );
+        }
+
+        if (isset($tagArray['POST_AUTHOR'])) {
+            $markerArray['###POST_AUTHOR###'] =
+                $local_cObj->stdWrap(
+                    $this->formatStr(
+                        $row['author']
+                    ),
+                    $lConf['post_author_stdWrap.']
+                );
+        }
+
+        if (isset($tagArray['POST_AUTHOR_EMAIL'])) {
+            $markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
+        }
+
         $recentDate =
             $modelObj->recentDate($row);
-        $markerArray['###POST_DATE###'] =
-            $local_cObj->stdWrap(
-                $recentDate,
-                $conf['date_stdWrap.']
-            );
-        $markerArray['###POST_TIME###'] =
-            $local_cObj->stdWrap(
-                $recentDate,
-                $conf['time_stdWrap.']
-            );
-        $markerArray['###POST_AGE###'] =
-            $local_cObj->stdWrap(
-                $recentDate,
-                $conf['age_stdWrap.']
-            );
+
+        if (isset($tagArray['POST_DATE'])) {
+            $markerArray['###POST_DATE###'] =
+                $local_cObj->stdWrap(
+                    $recentDate,
+                    $conf['date_stdWrap.']
+                );
+        }
+
+        if (isset($tagArray['POST_TIME'])) {
+            $markerArray['###POST_TIME###'] =
+                $local_cObj->stdWrap(
+                    $recentDate,
+                    $conf['time_stdWrap.']
+                );
+        }
+
+        if (isset($tagArray['POST_AGE'])) {
+            $markerArray['###POST_AGE###'] =
+                $local_cObj->stdWrap(
+                    $recentDate,
+                    $conf['age_stdWrap.']
+                );
+        }
     }
 
     public function getColumnMarkers (&$markerArray, $languageObj)

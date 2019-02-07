@@ -119,6 +119,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             $conf['_LOCAL_LANG.'],
             DIV2007_LANGUAGE_SUBPATH
         );
+
         $languageObj->loadLocalLang(
             'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
             false

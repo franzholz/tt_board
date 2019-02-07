@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2019 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -64,32 +64,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         return $msg;
     }
 
-    /**
-     * Converts the plugin to USER_INT if it is not USER_INT already. After
-     * calling this function the plugin should return if the function returns
-     * true. The content will be ignored and the plugin will be called again
-     * later as USER_INT.
-     *
-     * @return boolean true if the plugin should return immediately
-     */
-    protected function convertToUserInt (
-        ContentObjectRenderer &$cObj
-    )
-    {
-        $result = false;
-        if (
-            $cObj->getUserObjectType() == ContentObjectRenderer::OBJECTTYPE_USER
-        ) {
-            $cObj->convertToUserIntObject();
-            $cObj->data['pi_flexform'] = $cObj->data['_original_pi_flexform'];
-            unset($cObj->data['_original_pi_flexform']);
-            $result = true;
-        }
-        return $result;
-    }
-
     public function processCode (
-        ContentObjectRenderer &$cObj,
+        ContentObjectRenderer $cObj,
         $theCode,
         &$content,
         Composite $composite
@@ -98,6 +74,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         $conf = $composite->getConf();
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : array());
+        
         switch($theCode) {
             case 'LIST_CATEGORIES':
             case 'LIST_FORUMS':
@@ -137,15 +114,6 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
             break;
             case 'FORUM':
             case 'THREAD_TREE':
-                if (
-                    !$composite->getAllowCaching() &&
-                    $this->convertToUserInt($cObj)
-                ) {
-                    $composite->setCObj($cObj);
-                    $content = '';
-                    return false;
-                }
-
                 $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
                 $treeView = null;
 

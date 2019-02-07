@@ -252,6 +252,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
                 $c_post = 0;
                 $subpartArray = array();
+                $tagArray = \JambageCom\Div2007\Utility\MarkerUtility::getTags($templateCode);
 
                 foreach ($recentPosts as $recentPost) {
                     $out = $postHeader[$c_post % count($postHeader)];
@@ -272,6 +273,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                         $modelObj,
                         $recentPost,
                         'POST',
+                        $tagArray,
                         $lConf
                     );
 

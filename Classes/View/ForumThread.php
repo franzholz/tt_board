@@ -172,7 +172,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
             $markerArray['###FORUM_TITLE###'] =
                 $local_cObj->stdWrap(
                     $GLOBALS['TSFE']->page['title'],
-                    $lConf['forum_title_stdWrap.']
+                    $conf['forum_title_stdWrap.']
                 );
 
                 // Link back to forum
@@ -266,6 +266,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 );
             $c_post = 0;
             $indexedTitle = '';
+                $tagArray = \JambageCom\Div2007\Utility\MarkerUtility::getTags($templateCode);
 
             foreach ($recentPosts as $recentPost) {
                 $out = $postHeader[$c_post % count($postHeader)];
@@ -287,7 +288,8 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $modelObj,
                     $recentPost,
                     'POST',
-                    $lConf
+                    $tagArray,
+                    $conf
                 );
 
                     // Link to the post
