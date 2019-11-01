@@ -21,64 +21,69 @@ if (!defined ('TT_BOARD_CSS_PREFIX')) {
     define('TT_BOARD_CSS_PREFIX', 'tx-ttboard-');
 }
 
-if (isset($_EXTCONF) && is_array($_EXTCONF)) {
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = $_EXTCONF;
-    if (isset($tmpArray) && is_array($tmpArray)) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] =
-            array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT], $tmpArray);
+call_user_func(function () {
+
+    if (isset($_EXTCONF) && is_array($_EXTCONF)) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = $_EXTCONF;
+        if (isset($tmpArray) && is_array($tmpArray)) {
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] =
+                array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT], $tmpArray);
+        }
     }
-}
 
-if (TYPO3_MODE == 'BE') {
-    // replace the output of the former CODE field with the flexform
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] =
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
-        'JambageCom\\TtBoard\\Hooks\\CmsBackend->pmDrawItem';
+    if (TYPO3_MODE == 'BE') {
+        // replace the output of the former CODE field with the flexform
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] =
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
+            'JambageCom\\TtBoard\\Hooks\\CmsBackend->pmDrawItem';
 
-    call_user_func($emClass . '::addUserTSConfig', 'options.saveDocNew.tt_board=1');
-}
+        call_user_func($emClass . '::addUserTSConfig', 'options.saveDocNew.tt_board=1');
+    }
 
-    // add missing setup for the tt_content "list_type = 2" which is used by the tt_board tree view forum
-$addLine = trim('
-tt_content.list.20.2 = CASE
-tt_content.list.20.2 {
-    key.field = layout
-    0 = < plugin.tt_board_tree
-}');
+        // add missing setup for the tt_content "list_type = 2" which is used by the tt_board tree view forum
+    $addLine = trim('
+    tt_content.list.20.2 = CASE
+    tt_content.list.20.2 {
+        key.field = layout
+        0 = < plugin.tt_board_tree
+    }');
 
-call_user_func(
-    $emClass . '::addTypoScript',
-    TT_BOARD_EXT,
-    'setup', '
+    call_user_func(
+        $emClass . '::addTypoScript',
+        TT_BOARD_EXT,
+        'setup', '
+        # Setting ' . TT_BOARD_EXT . ' plugin TypoScript
+        ' . $addLine . '
+        ',
+        43
+    );
+
+        // add missing setup for the tt_content "list_type = 4" which is used by the tt_board list view forum
+    $addLine = trim('
+    tt_content.list.20.4 = CASE
+    tt_content.list.20.4 {
+        key.field = layout
+        0 = < plugin.tt_board_list
+        1 = < plugin.tt_board_tree
+    }');
+
+    call_user_func(
+        $emClass . '::addTypoScript',
+        TT_BOARD_EXT,
+        'setup', '
     # Setting ' . TT_BOARD_EXT . ' plugin TypoScript
     ' . $addLine . '
     ',
-    43
-);
+        43
+    );
 
-    // add missing setup for the tt_content "list_type = 4" which is used by the tt_board list view forum
-$addLine = trim('
-tt_content.list.20.4 = CASE
-tt_content.list.20.4 {
-    key.field = layout
-    0 = < plugin.tt_board_list
-    1 = < plugin.tt_board_tree
-}');
+    // Configure captcha hooks
+    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'])) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'] = [];
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';
+    }
 
-call_user_func(
-    $emClass . '::addTypoScript',
-    TT_BOARD_EXT,
-    'setup', '
-# Setting ' . TT_BOARD_EXT . ' plugin TypoScript
-' . $addLine . '
-',
-    43
-);
+});
 
-// Configure captcha hooks
-if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'])) {
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'] = [];
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';
-}
 
