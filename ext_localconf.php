@@ -22,13 +22,36 @@ if (!defined ('TT_BOARD_CSS_PREFIX')) {
 }
 
 call_user_func(function () {
+    $extensionConfiguration = array();
 
-    if (isset($_EXTCONF) && is_array($_EXTCONF)) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = $_EXTCONF;
+    if (
+        defined('TYPO3_version') &&
+        version_compare(TYPO3_version, '9.0.0', '>=')
+    ) {
+        $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        )->get(TT_BOARD_EXT);
+    } else if (isset($_EXTCONF)) {
+        $extensionConfiguration = unserialize($_EXTCONF);    // unserializing the configuration so we can use it here:
+    }
+
+    if (
+        isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]) &&
+        is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT])
+    ) {
+        $tmpArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT];
+    } else if (isset($tmpArray)) {
+        unset($tmpArray);
+    }
+
+    if (isset($extensionConfiguration) && is_array($extensionConfiguration)) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = $extensionConfiguration;
         if (isset($tmpArray) && is_array($tmpArray)) {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] =
                 array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT], $tmpArray);
         }
+    } else if (!isset($tmpArray)) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = array();
     }
 
     if (TYPO3_MODE == 'BE') {
@@ -83,7 +106,6 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';
     }
-
 });
 
 
