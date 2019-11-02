@@ -1,4 +1,5 @@
 2019-11-02 Franz Holzinger <franz@ttproducts.de>
+    * add alias files tt_board_list for JambageCom\TtBoard\Controller\ListPluginController and tt_board_tree for JambageCom\TtBoard\Controller\TreePluginController
     * add responsive template file list_message_board.html
 
 2019-02-07 Franz Holzinger <franz@ttproducts.de>

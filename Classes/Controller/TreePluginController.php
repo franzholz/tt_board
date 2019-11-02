@@ -48,3 +48,6 @@ class TreePluginController extends RegisterPluginController
     public $list_type = '2';
 }
 
+
+class_alias('JambageCom\TtBoard\Controller\TreePluginController', 'tt_board_tree');
+
