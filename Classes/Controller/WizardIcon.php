@@ -59,7 +59,7 @@ class WizardIcon
                 'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_be.xlf:plugins_' . $type . '_description'),
                 'params' => $params
             );
-            $iconIdentifier = 'extensions-tt_board-' . $type . '-wizard';
+            $iconIdentifier = 'extensions-' . TT_BOARD_EXT . '-' . $type . '-wizard';
             $iconRegistry->registerIcon(
                 $iconIdentifier,
                 'TYPO3\\CMS\\Core\\Imaging\\IconProvider\\BitmapIconProvider',
