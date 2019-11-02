@@ -1,3 +1,5 @@
+2019-11-02 Franz Holzinger <franz@ttproducts.de>
+    * add responsive template file list_message_board.html
 
 2019-02-07 Franz Holzinger <franz@ttproducts.de>
     * restructure: Move the USER to USER_INT conversion when no cache is used from ActionController to RegisterPuginController

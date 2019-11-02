@@ -1,0 +1,66 @@
+
+.boxMain > div {
+  flex: auto;
+  flex-direction: row;
+  background-color: #f1f1f1;
+  margin: 1px;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.boxList1,
+.boxList2 {
+  flex: 1;
+  display: flex;
+  overflow: auto;  
+
+  text-align: left;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.tableHeaders {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* .test { */
+/*
+div[class^='test'] {
+  background: green;
+}
+*/
+
+div[class*='divLabelColumn'] {
+  align-items: center;
+  background-color: CadetBlue;
+}
+
+div[class^='viewHeader'] > div {
+  background-color: LightBlue;
+  border-color: blue;
+  overflow:hidden;
+}
+
+div[class*='divValueLastPostTitle'] {
+    font-weight: bold;
+    background-color: cyan;
+}
+
+div[class^='viewColumnForumTitle'] {
+  flex: 1;
+}
+
+div[class^='viewColumnThreadStarter'] {
+  flex: 0 0 140px;
+}
+
+div[class^='viewColumnReply'] {
+  flex: 0 0 70px;
+}
+
+div[class^='viewColumnLastPost'] {
+  flex: 0 0 140px;
+}
+

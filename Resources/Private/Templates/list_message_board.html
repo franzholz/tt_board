@@ -1,0 +1,515 @@
+<html>
+<head>
+    <title>List Message Board Template</title>
+</head>
+
+<body>
+
+
+
+
+
+
+<br>
+<br>
+<br>
+<h1>BOARD TEMPLATES</h1>
+<h2>EXAMPLE 1 - LIST style</h2>
+
+
+
+<br>
+<br>
+<br>
+<pre>
+<strong>Responsive Template where no global markers for styling are used.</strong>
+The design must be completely defined inside of the CSS file.
+
+GW1B / GW1E
+GW2B / GW2E
+GW3B / GW3E
+
+GC1
+GC2
+GC3
+GC4
+</pre>
+
+<br><br><br><br><br><br><br><br>
+<h3>TEMPLATE_OVERVIEW</h3>
+<em>This is the template for the overview of categories and forums. -- Forum preview --</em><br>
+<pre>
+
+// Category Markers:
+CATEGORY_TITLE
+CATEGORY_DESCRIPTION
+CATEGORY_FORUMNUMBER
+
+// Category subparts:
+LINK
+
+
+// Forum Markers:
+FORUM_POSTS
+FORUM_THREADS
+FORUM_TITLE
+FORUM_DESCRIPTION
+
+LAST_POST_DATE,
+LAST_POST_TIME
+LAST_POST_AUTHOR
+LAST_POST_AGE
+
+// Forum subparts:
+LINK
+LINK_LAST_POST
+
+
+// Post Markers:
+POST_TITLE  // include link
+POST_CONTENT
+POST_REPLIES
+POST_AUTHOR
+
+POST_DATE,
+POST_TIME
+POST_AGE
+
+// Post Subparts:
+LINK
+</pre>
+<br>
+<br>
+
+
+<!-- ###TEMPLATE_OVERVIEW### begin
+    This is the template for the overview of categories and forums.
+-->
+
+<div class="overview">
+  <div class="boxMain">
+    <div class="tableHeaders">
+        <div class="viewColumnForum">
+            <div class="viewLabelHeader viewHeaderForum">
+                <div class="viewLabel divLabelColumnForum">
+                    ###BOARD_FORUM###
+                </div>
+            </div>
+        </div>
+
+        <div class="viewColumnPost">
+            <div class="viewLabelHeader viewHeaderPost">
+                <div class="viewLabel divLabelColumnPost">
+                    ###BOARD_POSTS###
+                </div>
+            </div>
+        </div>
+
+        <div class="viewColumnThread">
+            <div class="viewLabelHeader viewHeaderThread">
+                <div class="viewLabel divLabelColumnThread">
+                    ###BOARD_THREADS###
+                </div>
+            </div>
+        </div>
+
+        <div class="viewColumnLastPost">
+            <div class="viewLabelHeader viewHeaderLastPost">
+                <div class="viewLabel divLabelColumnLastPost">
+                    ###BOARD_LAST_POST###
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ###CONTENT###  begin
+    This is the part of the template substituted with the list of categories and forums:
+    -->
+        <!-- ###CATEGORY### begin
+            Template for the category title
+        -->
+    <div class="boxCategoryHeader">
+        <div class="viewLabelValue viewRowTitle">
+            <div class="viewValue divValueTitle">
+                <!-- ###LINK### begin -->###CATEGORY_TITLE###<!-- ###LINK### end -->
+            </div>
+        </div>
+    </div>
+
+        <!-- ###CATEGORY###  end -->
+        <!-- ###FORUM### begin
+            Template for the display of forum information
+        -->
+        <div class="boxList1">
+            <div class="viewColumnForum">
+                <div class="viewLabelValue viewRowTitle">
+                    <div class="viewValue divValueTitle">
+                        <!-- ###LINK### begin -->###FORUM_TITLE###<!-- ###LINK### end -->
+                    </div>
+                </div>
+                <div class="viewLabelValue viewRowDescription">
+                    <div class="viewValue divValueDescription">
+                        <!-- ###LINK### begin -->###FORUM_DESCRIPTION###<!-- ###LINK### end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="viewColumnPost">
+                <div class="viewLabelValue viewRowPost">
+                    <div class="viewValue divValuePost">
+                        <!-- ###LINK### begin -->###FORUM_POSTS###<!-- ###LINK### end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="viewColumnThread">
+                <div class="viewLabelValue viewRowThread">
+                    <div class="viewValue divValueThread">
+                        <!-- ###LINK### begin -->###FORUM_THREADS###<!-- ###LINK### end -->
+                    </div>
+                </div>
+            </div>
+                
+            <div class="viewColumnLastPost">
+                <div class="viewLabelValue viewRowLastPost">
+                    <div class="viewValue divValueLastPost">
+                        <!-- ###LINK_LAST_POST### begin -->###BOARD_LAST_POST###!<!-- ###LINK_LAST_POST### end -->
+                    </div>
+                    <div class="viewValue divValueLastPostDate">
+                        ###LAST_POST_DATE###
+                    </div>
+                    <div class="viewValue divValueLastPostTime">
+                        ###LAST_POST_TIME###
+                    </div>
+                    <div class="viewValue divValueLastPostAuthor">
+                        ###LAST_POST_AUTHOR###
+                    </div>
+                    <div class="viewValue divValueLastPostAge">
+                        ###LAST_POST_AGE###
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ###FORUM### end-->
+        <!-- ###POST### begin
+            Template for the display of latest posts of a forum
+        -->
+      <div class="boxList">
+        <div class="boxList2">
+            <div class="viewColumnForum">
+                <div class="viewLabelConstant viewRowNew">
+                    <div class="viewValue divValueNew">
+                        NEW!
+                    </div>
+                </div>
+            </div>
+            <div class="viewColumnPost">
+                <div class="viewLabelValue viewRowTitle">
+                    <div class="viewValue divValueTitle">
+                        <!-- ###LINK### begin -->###POST_TITLE###<!-- ###LINK### end -->
+                    </div>
+                </div>
+            </div>
+            <div class="viewColumnThread">
+                <div class="viewLabelValue viewRowContent">
+                    <div class="viewValue divValueContent">
+                        ###POST_CONTENT###
+                    </div>
+                </div>
+            </div>
+            <div class="viewColumnLastPost">
+                <div class="viewLabelValue viewRowPostReply">
+                    <div class="viewValue divValuePostReply">
+                        ###POST_REPLIES###
+                    </div>
+                    <div class="viewValue divValuePostReplyDate">
+                        ###POST_DATE###
+                    </div>
+                    <div class="viewValue divValuePostReplyTime">
+                        ###POST_TIME###
+                    </div>
+                    <div class="viewValue divValuePostReplyAuthor">
+                        ###POST_AUTHOR###
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+        <!-- ###POST### end-->
+    <!-- ###CONTENT###  end -->
+
+
+  </div>
+</div>
+<!-- ###TEMPLATE_OVERVIEW### end -->
+
+
+
+
+
+
+
+
+<br><br><br><br><hr><br><br><br>
+<h3>TEMPLATE_FORUM</h3>
+<em>Template for listing of items in a single forum.</em><br>
+<pre>
+
+
+// Post Markers
+POST_THREAD_CODE
+POST_TITLE
+POST_CONTENT
+POST_REPLIES
+POST_AUTHOR
+
+POST_DATE
+POST_TIME
+POST_AGE
+
+LAST_POST_DATE
+LAST_POST_TIME
+LAST_POST_AUTHOR
+LAST_POST_AGE
+
+
+// Post Subparts
+LINK
+LINK_LAST_POST
+
+</pre>
+<br>
+<br>
+
+<!-- ###TEMPLATE_FORUM### begin
+	Template for listing of items in a single forum.
+-->
+
+<div class="pagebrowser_list">
+<!-- ###LINK_PREV### --><span class="linkPrevious">&laquo; ###LIST_PREV_PAGE###</span><!-- ###LINK_PREV### -->
+<!-- ###LINK_BROWSE### begin -->[ ###BROWSE_LINKS### ]<!-- ###LINK_BROWSE### end-->
+<!-- ###LINK_NEXT### --><span class="linkNext">###LIST_NEXT_PAGE###&raquo;</span><!-- ###LINK_NEXT### -->
+</div>
+
+
+<div class="boxMain">
+
+    <div class="tableHeaders">
+        <div class="viewColumnForumTitle">
+            <div class="viewLabelHeader viewHeaderForumTitle">
+                <div class="viewLabel divLabelColumnForumTitle">
+                    ###FORUM_TITLE###
+                </div>
+            </div>
+        </div>
+        <div class="viewColumnThreadStarter">
+            <div class="viewLabelHeader viewHeaderAuthor">
+                <div class="viewLabel divLabelColumnAuthor">
+                    ###BOARD_THREAD_STARTER###
+                </div>
+            </div>
+        </div>
+        <div class="viewColumnReply">
+            <div class="viewLabelHeader viewHeaderReply">
+                <div class="viewLabel divLabelColumnReply">
+                    ###BOARD_REPLIES###
+                </div>
+            </div>
+        </div>
+        <div class="viewColumnLastPost">
+            <div class="viewLabelHeader viewHeaderLastPost">
+                <div class="viewLabel divLabelColumnLastPost">
+                    ###BOARD_LAST_POST###
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ###CONTENT### begin -->
+        <!--###POST### begin -->
+        <div class="boxList1">
+            <div class="viewColumnForumTitle">
+                <div class="viewLabelValue viewRowTitle">
+                    <div class="viewValue divValueTitle">
+                        <!--###LINK###-->###POST_TITLE###<!--###LINK###-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="viewColumnThreadStarter">
+                <div class="viewLabelValue viewRowAuthor">
+                    <div class="viewValue divValueAuthor">
+                        <!--###LINK###-->###POST_AUTHOR###<!--###LINK###-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="viewColumnReply">
+                <div class="viewLabelValue viewRowReply">
+                    <div class="viewValue divValueReply">
+                        <!--###LINK###-->###POST_REPLIES###<!--###LINK###-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="viewColumnLastPost">
+                <div class="viewLabelValue viewRowLastPost">
+                    <div class="viewValue divValueLastPost">
+                    <!-- ###LINK_LAST_POST### begin -->###BOARD_LAST_POST###<!-- ###LINK_LAST_POST### end -->
+                    </div>
+                    <div class="viewValue divValueLastPostDate">
+                        ###LAST_POST_DATE###
+                    </div>
+                    <div class="viewValue divValueLastPostTime">
+                        ###LAST_POST_TIME###
+                    </div>
+                    <div class="viewValue divValueLastPostAuthor">
+                        ###LAST_POST_AUTHOR###
+                    </div>
+                    <div class="viewValue divValueLastPostAge">
+                        <span class="lastPostAge">###BOARD_AGE###:</span>###LAST_POST_AGE###
+                    </div>
+                </div>
+            </div>
+      </div>
+        
+        <!--###POST### end -->
+    <!-- ###CONTENT###  end -->
+
+    <form name="tt-board-search" method="post" action="###FORM_URL###">
+    <div class="boxForm">
+        <div class="viewLabel divLabelSearch">
+            ###BOARD_SEARCH###:
+        </div>
+        <div class="viewInput divInputSubmit">
+            <input type="text" name="###SEARCH_NAME###" value="###SEARCH_WORD###">
+            <input type="submit" id="boardSearchSubmitId" value="###BUTTON_SEARCH###">
+        </div>
+    </div>
+    </form>
+
+</div>
+<!-- ###TEMPLATE_FORUM### end -->
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br><hr><br><br><br>
+<h3>TEMPLATE_THREAD</h3>
+<em>Template for the listing of a the posts in a thread.</em><br>
+<pre>
+
+// General subparts
+LINK_BACK_TO_FORUM
+LINK_FIRST_POST
+LINK_PREV_THREAD
+LINK_NEXT_THREAD
+
+// General markers
+FORUM_TITLE
+
+// Post Markers
+POST_THREAD_CODE
+POST_TITLE
+POST_CONTENT
+POST_REPLIES
+POST_AUTHOR
+POST_AUTHOR_EMAIL
+
+POST_DATE,
+POST_TIME
+POST_AGE
+
+// Post subparts
+LINK
+LINK_PREV_POST
+LINK_NEXT_POST
+
+</pre>
+<br>
+<br>
+
+
+<!-- ###TEMPLATE_THREAD### begin
+    Template for the listing of a the posts in a thread.
+-->
+<div class="boxMain">
+
+    <div class="tableHeaders">
+        <div class="viewColumnForum">
+            <div class="viewLabelHeader viewHeaderAuthor">
+                <div class="viewLabel divLabelColumnAuthor">
+                    ###BOARD_AUTHOR###
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ###CONTENT###  begin -->
+        <!--###POST### begin -->
+        <div class="boxList1">
+            <div class="viewLabelValue viewRowLastPost">
+                <div class="viewValue divValueLastPostDate">
+                    ###POST_DATE###
+                </div>
+                <div class="viewValue divValueLastPostTime">
+                    ###POST_TIME###
+                </div>
+                <div class="viewValue divValueLastPostTitle">
+                    ###POST_TITLE###
+                </div>
+                <div class="viewValue divValueLastPostAuthor">
+                    ###POST_AUTHOR###
+                </div>
+                <div class="viewValue divValueLastPostContent">
+                    ###POST_CONTENT###
+                </div>
+            </div>
+        </div>
+        <!--###POST### end -->
+        <!--###POST_1### begin -->
+        <div class="boxList2">
+
+            <div class="viewLabelValue viewRowPost">
+                <div class="viewValue divValuePostDate">
+                    ###POST_DATE###
+                </div>
+                <div class="viewValue divValuePostTime">
+                    ###POST_TIME###
+                </div>
+                <div class="viewValue divValuePostTitle">
+                    ###POST_TITLE###
+                </div>
+                <div class="viewValue divValuePostAuthor">
+                    ###POST_AUTHOR###
+                </div>
+                <div class="viewValue divValuePostContent">
+                    ###POST_CONTENT###
+                </div>
+            </div>
+        </div>
+
+        <!--###POST_1### end -->
+    <!-- ###CONTENT###  end -->
+
+<div class="link_list">
+<!--###LINK_BACK_TO_FORUM###--><span class="linkBack">&lt; BACK TO FORUM</span><!--###LINK_BACK_TO_FORUM###-->
+</div>
+</div>
+<!-- ###TEMPLATE_THREAD### end -->
+
+
+
+
+
+</body>
+</html>
