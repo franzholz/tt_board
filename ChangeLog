@@ -1,3 +1,7 @@
+2019-12-18 Franz Holzinger <franz@ttproducts.de>
+    * fix issue #5: tt_board 1.10.15 works under TYPO3 9.5
+    * compatibility for TYPO3 9 breaking 82803: $TYPO3_CONF_VARS['FE']['content_doktypes'] has been removed in TYPO3 9
+        
 2019-11-02 Franz Holzinger <franz@ttproducts.de>
     * adapt composer.json to current needs
     * add alias files tt_board_list for JambageCom\TtBoard\Controller\ListPluginController and tt_board_tree for JambageCom\TtBoard\Controller\TreePluginController

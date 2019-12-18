@@ -24,9 +24,9 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "typo3/cms-core": ">=7.6.0,<9.4.0",
+    "typo3/cms-core": ">=7.6.0,<=9.5.99",
     "jambagecom/div2007": ">=1.10.15",
-    "jambagecom/tslib-fetce": ">=0.4.0,<=0.9.0"
+    "jambagecom/tslib-fetce": ">=0.4.5,<=0.9.0"
   },
   "autoload": {
     "psr-4": {

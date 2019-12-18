@@ -125,6 +125,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $pageRows = array();
         foreach($thePids as $pid) {
             $menuRows = $GLOBALS['TSFE']->sys_page->getMenu($pid);
+
                 // avoid the insertion of duplicate page rows
             foreach ($menuRows as $menuRow) {
                 $uid = $menuRow['uid'];
@@ -137,6 +138,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             // Exclude pages not of doktype 'Standard' or 'Advanced'
         foreach($pageRows as $pageRow) {
             if (
+                !isset($GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes']) || // removed since TYPO3 9.5
                 GeneralUtility::inList(
                     $GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes'],
                     $pageRow['doktype']

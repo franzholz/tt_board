@@ -76,7 +76,6 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $this->conf = $conf;
         $codeArray = $this->getCodeArray($conf);
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
-
         foreach ($codeArray as $k => $theCode) {
             $theCode = (string) strtoupper(trim($theCode));
 

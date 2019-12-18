@@ -67,8 +67,8 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $prefixId
     )
     {
-        if (!ExtensionManagementUtility::isLoaded(DIV2007_EXT)) {
-            $content = 'Error in Board Extension(' . TT_BOARD_EXT . '): Extension ' . DIV2007_EXT . ' has not been loaded.';
+        if (!ExtensionManagementUtility::isLoaded('div2007')) {
+            $content = 'Error in Board Extension(' . TT_BOARD_EXT . '): Extension div2007 has not been loaded.';
             return false;
         }
 
@@ -103,14 +103,12 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $tmp = trim($cObj->stdWrap($conf['pid_list'], $conf['pid_list.']));
         $pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] : $tmp);
         $pid_list = ($pid_list ? $pid_list : $GLOBALS['TSFE']->id);
-
         $composite->setPidList($pid_list);
 
         // page where to go usually
         $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : ($pid ? $pid : $GLOBALS['TSFE']->id));
 
         $composite->setPid($pid);
-
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
         $composite->setAllowCaching($allowCaching);
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
@@ -155,7 +153,6 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
                     $globalMarkerArray
                 );
         }
-
         $composite->setOrigTemplateCode($orig_templateCode);
 
             // TypoLink.
