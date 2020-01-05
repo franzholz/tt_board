@@ -52,14 +52,14 @@ plugin.tt_board_list {
     # cat=plugin.board/typo; type=wrap; label= List-style, Wrap 3: This wrap is used in the template-file.
   wrap3 = 
 
-    # cat=plugin.board/color; type=color; label= List-style, Color 1: This bgcolor is used in the template-file.
+    # cat=plugin.board/color; type=color; label= List-style, Color 1: This bgcolor is marker ###GC4### used in the template-file.
   color1 = #cae8f5
-    # cat=plugin.board/color; type=color; label= List-style, Color 2: This bgcolor is used in the template-file.
+    # cat=plugin.board/color; type=color; label= List-style, Color 2: This bgcolor is marker ###GC4### used in the template-file.
   color2 = #ddff33
-    # cat=plugin.board/color; type=color; label= List-style, Color 3: This bgcolor is used in the template-file.
+    # cat=plugin.board/color; type=color; label= List-style, Color 3: This bgcolor is marker ###GC4### used in the template-file.
   color3 = #22FF4E
-    # cat=plugin.board/color; type=color; label= List-style, Color 4: This bgcolor is used in the template-file.
-  color4 = #333366
+    # cat=plugin.board/color; type=color; label= List-style, Color 4: This bgcolor is marker ###GC4### used in the template-file.
+  color4 = #d5d5ed
 }
 
 
@@ -81,5 +81,5 @@ plugin.tt_board_tree {
     # cat=plugin.board/color; type=color; label= Tree-style, Color 3: This bgcolor is used in the template-file.
   color3 = #22FF4E
     # cat=plugin.board/color; type=color; label= Tree-style, Color 4: This bgcolor is used in the template-file.
-  color4 = #333366
+  color4 = #d5d5ed
 }
