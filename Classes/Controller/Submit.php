@@ -36,9 +36,10 @@ namespace JambageCom\TtBoard\Controller;
  */
 
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
 
 use JambageCom\TslibFetce\Controller\TypoScriptFrontendDataController;
 use JambageCom\Div2007\Utility\MailUtility;
@@ -169,8 +170,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         }
 
                             // Plain insert of record:
-                        $pObj->execNEWinsert($table, $row);
-                        $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
+                        $newId = $pObj->execNEWinsert($table, $row);
 
                             // Link to this thread
                         $linkParams = array();
@@ -231,20 +231,29 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 
                             // If there is a FE-user group defined, then send notifiers to all FE-members of this group
                             if ($mConf['sendToFEgroup']) {
-                                $res =
-                                    $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                                        '*',
-                                        'fe_users',
-                                        'usergroup=' . intval($mConf['sendToFEgroup'])
-                                    );
+                                $sendToFEgroup = intval($mConf['sendToFEgroup']);
+                                $feUserTable = 'fe_users';
+                                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($feUserTable);
+                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+
+                                $statement =
+                                    $queryBuilder
+                                        ->select('*')
+                                        ->from($feUserTable)
+                                        ->orWhere(
+                                            $queryBuilder->expr()->eq('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup, \PDO::PARAM_STR)),
+                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup . ',%', \PDO::PARAM_STR)),
+                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup, \PDO::PARAM_STR)),
+                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup . ',%', \PDO::PARAM_STR))
+                                        )
+                                        ->execute();
                                 $c = 0;
                                 while(
-                                    $feRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)
+                                    $feRow = $statement->fetch()
                                 ) {
                                     $c++;
                                     $emails .= $feRow['email'] . ',';
                                 }
-                                $GLOBALS['TYPO3_DB']->sql_free_result($res);
                                 $maillist_recip = substr($emails, 0, -1);
                                 // else, send to sendToMailingList.email
                             } else {
@@ -256,9 +265,19 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 
                                 //  Subject
                             if ($row['parent']) {	// RE:
-                                $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_board', 'uid=' . intval($row['parent']));
-                                $parentRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-                                $GLOBALS['TYPO3_DB']->sql_free_result($res);
+                                $ttBoardTable = 'tt_board';
+                                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($ttBoardTable);
+                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+
+                                $statement =
+                                    $queryBuilder
+                                        ->select('*')
+                                        ->from($ttBoardTable)
+                                        ->where(
+                                            $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], \PDO::PARAM_INT))
+                                        )
+                                        ->execute();
+                                $parentRow = $statement->fetch();
                                 $maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
                             } else {	// New:
                                 $maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']) . ' [#' . $newId . ']';

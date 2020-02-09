@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Domain;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2020 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,9 +38,12 @@ namespace JambageCom\TtBoard\Domain;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtBoard\Constants\TreeMark;
+use JambageCom\TtBoard\Domain\QueryParameter;
 
 
 class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
@@ -61,6 +64,12 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         return $this->tablename;
     }
 
+    public function getQueryBuilder ()
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->getTablename());
+        return $queryBuilder;
+    }
+
     public function setEnableFields ($value)
     {
         $this->enableFields = $value;
@@ -71,12 +80,25 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         return $this->enableFields;
     }
 
+    /**
+     * Returns the reference to an external table to which the forum belongs
+    *  @return	QueryParameter ... $andWhereEqualsArray array of QueryParameter
+     */
     public function getWhereRef ($ref)
     {
-        $result = '';
+        $result = null;
 
         if ($ref != '') {
-            $result = ' AND reference=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($ref, $this->getTablename());
+            $result =
+                GeneralUtility::makeInstance(
+                    QueryParameter::class,
+                    QueryParameter::CLAUSE_AND_WHERE,
+                    $this->getTablename(),
+                    'reference',
+                    $ref, 
+                    \PDO::PARAM_STR,
+                    QueryParameter::COMP_EQUAL
+                );
         }
         return $result;
     }
@@ -151,23 +173,108 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-    * Returns number of post in a forum.
-    */
-    public function getNumPosts ($pid, $where = '')
+     * Returns number of post in a forum.
+     * @param string ... $pidList comma separated list of page ids.
+     * @param array  ... $andWhereEqualsArray array of QueryParameter for equation comparisons
+     */
+    public function getNumPosts ($pidList, array $queryParameters = [])
     {
-        $where = 'pid IN (' . $pid . ')' . $where . $this->getEnableFields();
-        $result = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows('*', $this->getTablename(), $where);
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+
+        $field = 'pid';
+        if ($queryParameter->tablename != '') {
+            $field = $queryParameter->tablename . '.' . $field;
+        }
+
+        $queryBuilder
+            ->count('*')
+            ->from($this->getTablename())
+            ->where(
+                $queryBuilder->expr()->in(
+                    $field,
+                    $queryBuilder->createNamedParameter(
+                        $pageIds,
+                        Connection::PARAM_INT_ARRAY
+                    )
+                )
+            );
+
+        $whereCount = 0;
+        foreach ($queryParameters as $queryParameter) {
+            if (empty($queryParameter)) {
+                continue;
+            }
+
+            if (
+                !is_object($queryParameter) ||
+                !$queryParameter instanceof QueryParameter
+            ) {
+                throw new \RuntimeException(TT_BOARD_EXT . ': wrong query parameter type "' . get_class($queryParameter) . '"');
+            }
+
+            switch ($queryParameter->clause) {
+                case QueryParameter::CLAUSE_AND_WHERE:
+
+                        $parameter =
+                            $queryBuilder->createNamedParameter(
+                                $queryParameter->value,
+                                $queryParameter->type
+                            );
+                        $expression = '';
+
+                        switch ($queryParameter->comparator) {
+                            case QueryParameter::COMP_EQUAL:
+                                $field = $queryParameter->field;
+                                if ($queryParameter->tablename != '') {
+                                    $field = $queryParameter->tablename . '.' . $field;
+                                }
+                                $expression = $queryBuilder->expr()->eq(
+                                    $field,
+                                    $parameter
+                                );
+                                break;
+                            default:
+                                throw new \RuntimeException(TT_BOARD_EXT . ': wrong comparator in parameter field "' . $queryParameter->field . '"');
+                            break;
+                        }
+
+                        if ($whereCount) {
+                            $queryBuilder->andWhere(
+                                $expression
+                            );
+                        } else {
+                            $whereCount++;
+                            $queryBuilder->where(
+                                $expression
+                            );
+                        }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $result =
+            $queryBuilder
+                ->execute()
+                ->fetchColumn(0);
 
         return $result;
     }
 
     /**
     * Returns number of threads.
-    */
+     * @param string   ... $pid page id
+    *  @param array    ... $andWhereEqualsArray array of QueryParameter
+     */
     public function getNumThreads ($pid, $ref = '', $searchWord = 0)
     {
         $count = 0;
         $whereRef = $this->getWhereRef($ref);
+        $queryParameters = [];
+        $queryParameters[] = $whereRef;
 
         if ($searchWord) {
             $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
@@ -177,9 +284,20 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                     $this->searchFieldList,
                     $this->getTablename()
                 );
-            $count = $this->getNumPosts ($pid, $whereRef . $where);
+            $count = $this->getNumPosts($pid, $whereRef . $where);
         } else {
-            $count = $this->getNumPosts ($pid, ' AND parent=0' . $whereRef);
+            $queryParameter =
+                GeneralUtility::makeInstance(
+                    QueryParameter::class,
+                    QueryParameter::CLAUSE_AND_WHERE,
+                    $this->getTablename(),
+                    'parent', 
+                    0,
+                    \PDO::PARAM_INT,
+                    QueryParameter::COMP_EQUAL
+                );
+            $queryParameters[] = $queryParameter;
+            $count = $this->getNumPosts($pid, $queryParameters);
         }
 
         return $count;
@@ -190,7 +308,18 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     */
     public function getNumReplies ($pid, $uid)
     {
-        $count = $this->getNumPosts ($pid, ' AND parent=' . intval($uid));
+        $queryParameters = [];
+        $queryParameter =
+            GeneralUtility::makeInstance(
+                QueryParameter::class,
+                QueryParameter::CLAUSE_AND_WHERE,
+                $this->getTablename(),
+                'parent',
+                intval($uid), \PDO::PARAM_INT,
+                QueryParameter::COMP_EQUAL
+            );
+        $queryParameters[] = $queryParameter;
+        $count = $this->getNumPosts($pid, $queryParameters);
 
         return $count;
     }

@@ -1,3 +1,8 @@
+
+2020-02-09 Franz Holzinger <franz@ttproducts.de>
+    * new feature part 1: transform database queries into the querybuilder format based on Doctrine
+    * bugfix: The submit function and its sendToFEgroup features to send emails based on the membership to a special FE group must do a string like comparison query on the usergroup field of fe_users, because a FE user can be a member of serveral user groups at the same time.
+
 2019-12-18 Franz Holzinger <franz@ttproducts.de>
     * fix issue #5: tt_board 1.10.15 works under TYPO3 9.5
     * compatibility for TYPO3 9 breaking 82803: $TYPO3_CONF_VARS['FE']['content_doktypes'] has been removed in TYPO3 9
