@@ -28,8 +28,8 @@ call_user_func(function () {
         $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
         )->get(TT_BOARD_EXT);
-    } else if (isset($_EXTCONF)) {
-        $extensionConfiguration = unserialize($_EXTCONF);    // unserializing the configuration so we can use it here:
+    } else {
+        $extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][TT_BOARD_EXT]);
     }
 
     if (

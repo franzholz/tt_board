@@ -1,3 +1,6 @@
+2020-02-14 Franz Holzinger <franz@ttproducts.de>
+    * bugfix for TYPO3 8.7: variable $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_board'] must be used instead of $_EXTCONF
+
 2019-12-18 Franz Holzinger <franz@ttproducts.de>
     * fix issue #5: tt_board 1.10.15 works under TYPO3 9.5
     * compatibility for TYPO3 9 breaking 82803: $TYPO3_CONF_VARS['FE']['content_doktypes'] has been removed in TYPO3 9
