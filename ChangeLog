@@ -1,3 +1,5 @@
+2020-02-14 Franz Holzinger <franz@ttproducts.de>
+    * bugfix for TYPO3 8.7: variable $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_board'] must be used instead of $_EXTCONF
 
 2020-02-09 Franz Holzinger <franz@ttproducts.de>
     * new feature part 1: transform database queries into the querybuilder format based on Doctrine
