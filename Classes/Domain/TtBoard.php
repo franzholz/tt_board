@@ -11,7 +11,7 @@ namespace JambageCom\TtBoard\Domain;
 *  This script is part of the TYPO3 project. The TYPO3 project is
 *  free software; you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
+// *  the Free Software Foundation; either version 2 of the License, or
 *  (at your option) any later version.
 *
 *  The GNU General Public License can be found at
@@ -284,6 +284,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                     $this->searchFieldList,
                     $this->getTablename()
                 );
+            // TODO $where
             $count = $this->getNumPosts($pid, $whereRef . $where);
         } else {
             $queryParameter =
@@ -327,36 +328,84 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     /**
     * Returns last post.
     */
-    public function getLastPost ($pid)
+    public function getLastPost ($pidList)
     {
-        $where = 'pid IN (' . $pid . ')' . $this->getEnableFields();
-        $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-            '*',
-            $this->getTablename(),
-            $where,
-            '',
-            $this->orderBy('DESC')
-        );
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $field = 'pid';
 
-        return $row;
+        $result = $queryBuilder
+            ->select('*')
+            ->from($this->getTablename())
+            ->where(
+                $queryBuilder->expr()->in(
+                    $field,
+                    $queryBuilder->createNamedParameter(
+                        $pageIds,
+                        Connection::PARAM_INT_ARRAY
+                    )
+                )
+            )
+            ->orderBy('DESC')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchAll();
+
+        return $result;
     }
 
     /**
     * Returns last post in thread.
     */
-    public function getLastPostInThread ($pid, $uid, $ref)
+    public function getLastPostInThread ($pidList, $uid, $ref)
     {
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);    
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $field = 'pid';
         $whereRef = $this->getWhereRef($ref);
-        $where = 'pid IN (' . $pid . ') AND parent=' . intval($uid) . $whereRef . $this->getEnableFields();
 
-        $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-            '*',
-            $this->getTablename(),
-            $where,
-            '',
-            $this->orderBy('DESC')
-        );
-        return $row;
+        $result = $queryBuilder
+            ->select('*')
+            ->from($this->getTablename())
+            ->where(
+                $queryBuilder->expr()->in(
+                    $field,
+                    $queryBuilder->createNamedParameter(
+                        $pageIds,
+                        Connection::PARAM_INT_ARRAY
+                    )
+                )
+            )
+            ->andWhere(
+                $queryBuilder->expr()->eq(
+                    'parent',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
+            );
+
+        if (!empty($whereRef)) {
+            $field = $whereRef->field;
+            if ($whereRef->tablename != '') {
+                $field = $whereRef->tablename . '.' . $field;
+            }
+            $expression = $queryBuilder->expr()->eq(
+                $field,
+                $parameter
+            );
+            $queryBuilder->andWhere(
+                $expression
+            );
+        }
+
+        $result = $queryBuilder
+            ->orderBy('crdate', 'DESC')
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchAll();
+
+        return $result;
     }
 
     /**
