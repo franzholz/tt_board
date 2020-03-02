@@ -40,7 +40,9 @@ namespace JambageCom\TtBoard\Domain;
 
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 use JambageCom\TtBoard\Constants\TreeMark;
 use JambageCom\TtBoard\Domain\QueryParameter;
@@ -101,6 +103,65 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 );
         }
         return $result;
+    }
+
+    public function addQueryParameter (
+        QueryBuilder &$queryBuilder,
+        &$whereCount,
+        QueryParameter $queryParameter
+    ) {
+        if (empty($queryParameter) || !is_int($whereCount)) {
+            return false;
+        }
+
+        $field = $queryParameter->field;
+        if ($queryParameter->tablename != '') {
+            $field = $queryParameter->tablename . '.' . $field;
+        }
+        $parameter =
+            $queryBuilder->createNamedParameter(
+                $queryParameter->value,
+                $queryParameter->type
+            );
+
+        switch ($queryParameter->clause) {
+            case QueryParameter::CLAUSE_AND_WHERE:
+
+                $expression = '';
+
+                switch ($queryParameter->comparator) {
+                    case QueryParameter::COMP_EQUAL:
+                        $field = $queryParameter->field;
+                        if ($queryParameter->tablename != '') {
+                            $field = $queryParameter->tablename . '.' . $field;
+                        }
+                        $expression = $queryBuilder->expr()->eq(
+                            $field,
+                            $parameter
+                        );
+                        break;
+                    default:
+                        throw new \RuntimeException(TT_BOARD_EXT . ': wrong comparator in parameter field "' . $queryParameter->field . '"');
+                    break;
+                }
+
+                if ($whereCount > 0) {
+                    $queryBuilder->andWhere(
+                        $expression
+                    );
+                } else {
+                    $queryBuilder->where(
+                        $expression
+                    );
+                }
+                $whereCount++;
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
     }
 
     /**
@@ -181,12 +242,11 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class)
+        );
 
-        $field = 'pid';
-        if ($queryParameter->tablename != '') {
-            $field = $queryParameter->tablename . '.' . $field;
-        }
+        $field = $this->getTablename() . '.pid';
 
         $queryBuilder
             ->count('*')
@@ -201,58 +261,10 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 )
             );
 
-        $whereCount = 0;
+        $whereCount = 1;
         foreach ($queryParameters as $queryParameter) {
-            if (empty($queryParameter)) {
-                continue;
-            }
-
-            if (
-                !is_object($queryParameter) ||
-                !$queryParameter instanceof QueryParameter
-            ) {
-                throw new \RuntimeException(TT_BOARD_EXT . ': wrong query parameter type "' . get_class($queryParameter) . '"');
-            }
-
-            switch ($queryParameter->clause) {
-                case QueryParameter::CLAUSE_AND_WHERE:
-
-                        $parameter =
-                            $queryBuilder->createNamedParameter(
-                                $queryParameter->value,
-                                $queryParameter->type
-                            );
-                        $expression = '';
-
-                        switch ($queryParameter->comparator) {
-                            case QueryParameter::COMP_EQUAL:
-                                $field = $queryParameter->field;
-                                if ($queryParameter->tablename != '') {
-                                    $field = $queryParameter->tablename . '.' . $field;
-                                }
-                                $expression = $queryBuilder->expr()->eq(
-                                    $field,
-                                    $parameter
-                                );
-                                break;
-                            default:
-                                throw new \RuntimeException(TT_BOARD_EXT . ': wrong comparator in parameter field "' . $queryParameter->field . '"');
-                            break;
-                        }
-
-                        if ($whereCount) {
-                            $queryBuilder->andWhere(
-                                $expression
-                            );
-                        } else {
-                            $whereCount++;
-                            $queryBuilder->where(
-                                $expression
-                            );
-                        }
-                    break;
-                default:
-                    break;
+            if (!empty($queryParameter)) {
+                $this->addQueryParameter($queryBuilder, $whereCount, $queryParameter);
             }
         }
 
@@ -347,11 +359,10 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                     )
                 )
             )
-            ->orderBy('DESC')
+            ->orderBy('crdate', 'DESC')
             ->setMaxResults(1)
             ->execute()
             ->fetchAll();
-
         return $result;
     }
 
@@ -363,10 +374,10 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $pageIds =  GeneralUtility::intExplode(',', $pidList, true);    
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
-        $field = 'pid';
-        $whereRef = $this->getWhereRef($ref);
 
-        $result = $queryBuilder
+        $field = 'pid';
+
+        $queryBuilder
             ->select('*')
             ->from($this->getTablename())
             ->where(
@@ -385,18 +396,10 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 )
             );
 
+        $whereRef = $this->getWhereRef($ref);
+        $whereCount = 2;
         if (!empty($whereRef)) {
-            $field = $whereRef->field;
-            if ($whereRef->tablename != '') {
-                $field = $whereRef->tablename . '.' . $field;
-            }
-            $expression = $queryBuilder->expr()->eq(
-                $field,
-                $parameter
-            );
-            $queryBuilder->andWhere(
-                $expression
-            );
+            $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
         }
 
         $result = $queryBuilder
@@ -409,27 +412,42 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-    * Returns last post in thread.
+    * Returns current post in thread.
     */
     public function getCurrentPost ($uid, $ref)
     {
         $result = false;
         if ($uid || $ref != '') {
-            $whereUid = '1=1';
-            if ($uid) {
-                $whereUid = 'uid=' . intval($uid);
-            }
-            $whereRef = $this->getWhereRef($ref);
-            $where = $whereUid . $whereRef . $this->getEnableFields();
+            $queryBuilder = $this->getQueryBuilder();
+            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+            $whereCount = 0;
 
-            $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-                '*',
-                $this->getTablename(),
-                $where,
-                '',
-                $this->orderBy('DESC')
-            );
-            $result = $row;
+            $queryBuilder
+                ->select('*')
+                ->from($this->getTablename());
+            
+            if ($uid) {            
+                $queryBuilder->where(
+                    $queryBuilder->expr()->eq(
+                        $this->getTablename() . '.uid',
+                        $queryBuilder->createNamedParameter(
+                            $uid,
+                            \PDO::PARAM_INT
+                        )
+                    )
+                );
+                $whereCount++;
+            }
+
+            $whereRef = $this->getWhereRef($ref);
+            if (!empty($whereRef)) {
+                $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
+            }
+
+            $result = $queryBuilder
+                ->setMaxResults(1)
+                ->execute()
+                ->fetchAll();
         }
         return $result;
     }
@@ -439,26 +457,42 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     *
     * Returns an array with records
     */
-    public function getMostRecentPosts ($pid, $number, $days = 300)
+    public function getMostRecentPosts ($pidList, $number, $days = 300)
     {
-        $timeWhere = '';
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+
+        $field = 'pid';
+        $queryBuilder
+            ->select('*')
+            ->from($this->getTablename())
+            ->where(
+                $queryBuilder->expr()->in(
+                    $field,
+                    $queryBuilder->createNamedParameter(
+                        $pageIds,
+                        Connection::PARAM_INT_ARRAY
+                    )
+                )
+            );
 
         if ($days) {
-            $temptime = time() - 86400 * intval(trim($days));
-            $timeWhere = ' AND crdate >= ' . $temptime;
+            $seconds = time() - 86400 * intval(trim($days));
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->gte(
+                    'crdate',
+                    $queryBuilder->createNamedParameter($seconds, \PDO::PARAM_INT)
+                )
+            );
         }
 
-        $where = 'pid IN (' . $pid . ')' . $timeWhere . $this->getEnableFields();
-
-        $result =
-            $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-                '*',
-                $this->getTablename(),
-                $where,
-                '',
-                $this->orderBy('DESC'),
-                $number
-            );
+        $result = $queryBuilder
+            ->orderBy('crdate', 'DESC')
+            ->setMaxResults($number)
+            ->execute()
+            ->fetchAll();
 
         return $result;
     }
