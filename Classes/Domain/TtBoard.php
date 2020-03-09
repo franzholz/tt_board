@@ -371,7 +371,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     */
     public function getLastPostInThread ($pidList, $uid, $ref)
     {
-        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);    
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
 
@@ -504,13 +505,17 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $result = false;
         $error = false;
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
 
         if ($uid) {
             $field = 'uid';
             $value = $uid;
+            $type = \PDO::PARAM_INT;
         } else if ($ref != '') {
             $field = 'reference';
             $value = $ref;
+            $type = \PDO::PARAM_STR;
         } else {
             return false;
         }
@@ -518,19 +523,20 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         if (
             $limit > 0
         ) {
-            $res =
-                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    '*',
-                    $this->getTablename(),
-                    $field . '=' .
-                        $GLOBALS['TYPO3_DB']->fullQuoteStr(
-                            $value,
-                            $this->getTablename()
-                        ) .
-                        $this->getEnableFields()
-                );
+            $row = $queryBuilder
+                ->select('*')
+                ->from($this->getTablename())
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        $field,
+                        $queryBuilder->createNamedParameter($uid, $type)
+                    )
+                )
+                ->setMaxResults(1)
+                ->execute()
+                ->fetchAll();
 
-            if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            if (!empty($row) && is_array($row)) {
                 if ($row['parent']) {
                     $tmpRow =
                         $this->getRootParent(
@@ -550,7 +556,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                     $result = $row;
                 }
             }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
         }
         return $result;
     }
@@ -558,20 +563,66 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     /**
     * Returns next or prev thread in a tree
     */
-    public function getThreadRoot ($pid, $crdate, $type = 'next')
+    public function getThreadRoot ($pidList, $crdate, $type = 'next')
     {
-        $datePart = ' AND crdate' . ($type != 'next' ? '>' : '<') . intval($crdate);
-        $where = 'pid IN (' . $pid . ') AND parent=0' . $datePart . $this->getEnableFields();
-        $res =
-            $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                '*',
-                $this->getTablename(),
-                $where,
-                '',
-                $this->orderBy($type != 'next' ? '' : 'DESC')
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $crdate = intval($crdate);
+
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+
+        $field = 'pid';
+        $queryBuilder
+            ->select('*')
+            ->from($this->getTablename())
+            ->where(
+                $queryBuilder->expr()->in(
+                    $field,
+                    $queryBuilder->createNamedParameter(
+                        $pageIds,
+                        Connection::PARAM_INT_ARRAY
+                    )
+                )
             );
-        $result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
+            
+        if ($type != 'next') {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->gt(
+                    'crdate',
+                    $queryBuilder->createNamedParameter(
+                        $crdate,
+                        \PDO::PARAM_INT
+                    )
+                )
+            );
+        } else {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->lt(
+                    'crdate',
+                    $queryBuilder->createNamedParameter(
+                        $crdate,
+                        \PDO::PARAM_INT
+                    )
+                )
+            );
+        }
+        
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->eq(
+                'parent',
+                $queryBuilder->createNamedParameter(
+                    0,
+                    \PDO::PARAM_INT
+                )
+            )
+        );
+
+        $result = $queryBuilder
+            ->orderBy('crdate', ($type != 'next' ? '' : 'DESC'))
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchAll();
+
         return $result;
     }
 
@@ -785,9 +836,16 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     /**
     * Returns ORDER BY field
     */
-    static public function orderBy ($desc = '')
+    static public function orderBy ($desc = '', $stringFormat = true)
     {
-        $result = 'crdate ' . $desc;
+        $result = [];
+        $result[] = 'crdate ';
+        if (in_array($desc, array('ASC', 'DESC'))) {
+            $result[] = $desc;
+        }
+        if ($stringFormat) {
+            $result = implode(' ', $result);
+        }
         return $result;
     }
 
