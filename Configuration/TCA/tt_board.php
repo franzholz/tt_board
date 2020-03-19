@@ -52,7 +52,7 @@ $result = array(
             )
         ),
         'author' => array (
-            'label' => 'LLL:EXT:lang/locallang_general.php:LGL.author',
+            'label' => DIV2007_LANGUAGE_LGL . 'author',
             'config' => array (
                 'type' => 'input',
                 'size' => '40',
@@ -61,7 +61,7 @@ $result = array(
             )
         ),
         'email' => array (
-            'label' => 'LLL:EXT:lang/locallang_general.php:LGL.email',
+            'label'  => DIV2007_LANGUAGE_LGL . 'email',
             'config' => array (
                 'type' => 'input',
                 'size' => '40',
@@ -70,7 +70,7 @@ $result = array(
             )
         ),
         'hidden' => array (
-            'label' => 'LLL:EXT:lang/locallang_general.php:LGL.hidden',
+            'label'  => DIV2007_LANGUAGE_LGL . 'hidden',
             'config' => array (
                 'type' => 'check'
             )
