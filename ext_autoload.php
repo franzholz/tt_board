@@ -17,7 +17,7 @@ return array(
     'JambageCom\\TtBoard\\Domain\\TtBoard' => $extensionPath . 'Classes/Domain/TtBoard.php',
     'JambageCom\\TtBoard\\View\\Forum' => $extensionPath . 'Classes/View/Forum.php',
     'JambageCom\\TtBoard\\View\\Marker' => $extensionPath . 'Classes/View/Marker.php',
-    'JambageCom\\TtBoard\\View\\Tree => $extensionPath . 'Classes/View/Tree.php'
+    'JambageCom\\TtBoard\\View\\Tree' => $extensionPath . 'Classes/View/Tree.php'
 );
 
 

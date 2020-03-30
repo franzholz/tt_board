@@ -109,7 +109,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         QueryBuilder &$queryBuilder,
         &$whereCount,
         QueryParameter $queryParameter
-    ) {
+    )
+    {
         if (empty($queryParameter) || !is_int($whereCount)) {
             return false;
         }
@@ -238,8 +239,9 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
      * Returns number of post in a forum.
      * @param string ... $pidList comma separated list of page ids.
      * @param array  ... $andWhereEqualsArray array of QueryParameter for equation comparisons
+     * @param where ... $where 
      */
-    public function getNumPosts ($pidList, array $queryParameters = [])
+    public function getNumPosts ($pidList, array $queryParameters = [], QueryBuilder $where = null)
     {
         $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
@@ -269,6 +271,10 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             }
         }
 
+        if (is_object($where) && !empty($where)) {
+            $queryBuilder->andWhere($where);
+        }
+
         $result =
             $queryBuilder
                 ->execute()
@@ -282,23 +288,20 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
      * @param string   ... $pid page id
     *  @param array    ... $andWhereEqualsArray array of QueryParameter
      */
-    public function getNumThreads ($pid, $ref = '', $searchWord = 0)
+    public function getNumThreads ($pid, $ref = '', $searchWords = 0)
     {
         $count = 0;
         $whereRef = $this->getWhereRef($ref);
         $queryParameters = [];
         $queryParameters[] = $whereRef;
 
-        if ($searchWord) {
-            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-            $where =
-                $local_cObj->searchWhere(
-                    $searchWord,
-                    $this->searchFieldList,
-                    $this->getTablename()
-                );
-            // TODO $where
-            $count = $this->getNumPosts($pid, $whereRef . $where);
+        if ($searchWords) {
+            $where = \JambageCom\Div2007\Database\QueryBuilderApi::searchWhere(
+                $searchWords,
+                $this->searchFieldList,
+                $this->getTablename()
+            );
+            $count = $this->getNumPosts($pid, $queryParameters, $where);
         } else {
             $queryParameter =
                 GeneralUtility::makeInstance(
@@ -369,7 +372,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         if (is_array($rows)) {
             $result = $rows['0'];
         }
-
         return $result;
     }
 
@@ -411,7 +413,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
         }
 
-        $result = $queryBuilder
+        $rows = $queryBuilder
             ->orderBy('crdate', 'DESC')
             ->setMaxResults(1)
             ->execute()
@@ -726,14 +728,18 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     * Returns an array with threads
     */
     public function getThreads (
-        $pid,
+        $pidList,
         $ref,
         $descend = 0,
         $limit = 100,
         $offset = 0,
-        $searchWord = 0
+        $searchWords = 0
     )
     {
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+
         $outArray = array();
         $whereRef = $this->getWhereRef($ref);
         $limitString = '';
@@ -743,28 +749,43 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 $limitString = intval($offset) . ',' . $limitString;
             }
         }
+        $field = 'pid';
+        $queryBuilder
+            ->select('*')
+            ->from($this->getTablename())
+            ->where(
+                $queryBuilder->expr()->in(
+                    $field,
+                    $queryBuilder->createNamedParameter(
+                        $pageIds,
+                        Connection::PARAM_INT_ARRAY
+                    )
+                )
+            );
+        $whereCount = 1;
+        if (!empty($whereRef)) {
+            $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
+        }
 
-        if ($searchWord) {
-            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-            $where =
-                $local_cObj->searchWhere(
-                    $searchWord,
-                    $this->searchFieldList,
-                    $this->getTablename()
-                );
-            $where = 'pid IN (' . $pid . ')' . $whereRef . $where . $this->getEnableFields();
-            $res =
-                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    '*',
-                    $this->getTablename(),
-                    $where,
-                    '',
-                    $this->orderBy('DESC'),
-                    $limitString
-                );
+        if ($searchWords) {
+            $where = \JambageCom\Div2007\Database\QueryBuilderApi::searchWhere(
+                $searchWords,
+                $this->searchFieldList,
+                $this->getTablename()
+            );
+
+            if (is_object($where) && !empty($where)) {
+                $queryBuilder->andWhere($where);
+                $whereCount++;
+            }
+
+            $statement = $queryBuilder
+                ->orderBy('crdate', 'DESC')
+                ->setMaxResults($limitString)
+                ->execute();
 
             $set = array();
-            while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            while ($row = $statement->fetch()) {
                 $rootRow = $this->getRootParent($row['uid']);
                 if (!$rootRow) {
                     $rootRow = $row;
@@ -784,19 +805,26 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                     }
                 }
             }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
         } else {
-            $where = 'pid IN (' . $pid . ') AND parent=0' . $whereRef . $this->getEnableFields();
-            $res =
-                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    '*',
-                    $this->getTablename(),
-                    $where,
-                    '',
-                    $this->orderBy('DESC'),
-                    $limitString
-                );
-            while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            $field = 'parent';
+            $parent = 0;
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->eq(
+                    'parent',
+                    $queryBuilder->createNamedParameter($parent, \PDO::PARAM_INT)
+                )
+            );
+            
+            if ($descend) {
+                $queryBuilder->orderBy('crdate', 'DESC');
+            } else {
+                $queryBuilder->orderBy('crdate');
+            }
+            $statement = $queryBuilder
+                ->setMaxResults($limitString)
+                ->execute();
+
+            while ($row = $statement->fetch()) {
                 $outArray[$row['uid']] = $row;
 
                 if ($descend) {
@@ -808,7 +836,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                     );
                 }
             }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
         }
         return $outArray;
     }
@@ -819,27 +846,55 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     public function getRecordTree (
         &$theRows,
         $parent,
-        $pid,
+        $pidList,
         $ref,
         $treeMarks = ''
     )
     {
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+
         if ($treeMarks != '') {
             $treeMarks .= ',';
         }
         $whereRef = $this->getWhereRef($ref);
-        $where = 'pid=' . intval($pid) . ' AND parent=' . intval($parent) . $whereRef . $this->getEnableFields();
-
-        $res =
-            $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                '*',
-                $this->getTablename(),
-                $where,
-                '',
-                $this->orderBy()
+        
+        $field = 'pid';
+        $queryBuilder
+            ->count('*')
+            ->from($this->getTablename())
+            ->where(
+                $queryBuilder->expr()->in(
+                    $field,
+                    $queryBuilder->createNamedParameter(
+                        $pageIds,
+                        Connection::PARAM_INT_ARRAY
+                    )
+                )
+            )
+            ->andWhere(
+                $queryBuilder->expr()->eq(
+                    'parent',
+                    $queryBuilder->createNamedParameter($parent, \PDO::PARAM_INT)
+                )
             );
-        $counter = 0;
-        $numberRows = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+
+        $whereCount = 1;
+        if (!empty($whereRef)) {
+            $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
+        }
+
+        $numberRows = $counter = 0;
+        $numberRows = $queryBuilder
+            ->execute()
+            ->fetchColumn(0);
+
+        $queryBuilder
+            ->select('*');
+        $statement = $queryBuilder
+            ->orderBy('crdate', 'DESC')
+            ->execute();
         $prevUid = end(array_keys($theRows));
 
         if ($theRows[$prevUid]['treeMarks'] != '') {
@@ -853,7 +908,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 TreeMark::END
             );
 
-        while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+        while ($row = $statement->fetch()) {
             $counter++;
             $uid = $row['uid'];
 
@@ -883,7 +938,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             );
             $prevUid = $uid;
         }
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
     }
 
     /**

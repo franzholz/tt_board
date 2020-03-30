@@ -9,7 +9,7 @@ $EM_CONF[$_EXTKEY] = array(
     'description' => 'Simple threaded (tree) or list message board (forum).',
     'category' => 'plugin',
     'version' => '1.11.0',
-    'state' => 'beta',
+    'state' => 'stable',
     'uploadfolder' => 0,
     'createDirs' => '',
     'clearcacheonload' => 1,
@@ -26,7 +26,6 @@ $EM_CONF[$_EXTKEY] = array(
         'conflicts' => array(
         ),
         'suggests' => array(
-            'typo3db_legacy' => '1.0.0-1.1.99',
         ),
     ),
 );

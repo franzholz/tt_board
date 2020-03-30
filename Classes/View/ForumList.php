@@ -264,7 +264,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $lConf['forum_description_stdWrap.']
                                 );
 
-                            $pid = (
+                            $pidList = (
                                 isset($contentRow) &&
                                 is_array($contentRow) &&
                                 $contentRow['pages'] ?
@@ -274,12 +274,12 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 
                             $markerArray['###FORUM_POSTS###'] =
                                 $forum_cObj->stdWrap(
-                                    $modelObj->getNumPosts($pid),
+                                    $modelObj->getNumPosts($pidList),
                                     $lConf['forum_posts_stdWrap.']
                                 );
                             $markerArray['###FORUM_THREADS###'] =
                                 $forum_cObj->stdWrap(
-                                    $modelObj->getNumThreads($pid),
+                                    $modelObj->getNumThreads($pidList),
                                     $lConf['forum_threads_stdWrap.']
                                 );
 
@@ -300,7 +300,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 );
 
                                 // LAST POST:
-                            $lastPostInfo = $modelObj->getLastPost($pid);
+                            $lastPostInfo = $modelObj->getLastPost($pidList);
                             $forum_cObj->start($lastPostInfo);
 
                             if ($lastPostInfo) {
