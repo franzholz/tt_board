@@ -2,7 +2,6 @@
 defined('TYPO3_MODE') || die('Access denied.');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_board');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords('tt_board');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
     'tt_board',
     'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_csh_ttboard.xlf'
