@@ -25,7 +25,7 @@ $result = [
         ],
         'useColumnsForDefaultValues' => 'parent',
         'iconfile' => 'EXT:' . TT_BOARD_EXT . '/ext_icon.gif',
-        'searchFields' => 'uid,author,email,subject,message,cr_ip',
+        'searchFields' => 'uid,author,city,email,subject,message,cr_ip',
     ],
     'interface' => [
         'showRecordFieldList' => 'subject,author,city,email,message'
@@ -58,6 +58,18 @@ $result = [
                 'size' => '40',
                 'eval' => 'trim',
                 'max' => '80'
+            ]
+        ],
+        'city' => [
+            'label'  => DIV2007_LANGUAGE_LGL . 'city',
+            'config' => [
+                'type' => 'input',
+                'size' => 20,
+                'eval' => 'trim',
+                'max' => 255,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'email' => [
@@ -125,7 +137,7 @@ $result = [
         ]
     ],
     'types' => [
-        '0' => ['showitem' => 'hidden;;;;1-1-1, crdate, subject;;;;3-3-3, message, author, email, parent;;;;5-5-5, notify_me, cr_ip, reference']
+        '0' => ['showitem' => 'hidden;;;;1-1-1, crdate, subject;;;;3-3-3, message, author, city, email, parent;;;;5-5-5, notify_me, cr_ip, reference']
     ]
 ];
 

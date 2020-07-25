@@ -10,6 +10,7 @@ CREATE TABLE tt_board (
   hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
   author varchar(80) DEFAULT '' NOT NULL,
   email varchar(80) DEFAULT '' NOT NULL,
+  city varchar(255) DEFAULT '' NOT NULL,
   subject tinytext,
   message text,
   parent int(10) unsigned DEFAULT '0' NOT NULL,
