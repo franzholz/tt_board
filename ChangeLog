@@ -1,5 +1,8 @@
+2020-07-25 Franz Holzinger <franz@ttproducts.de>
+    * add new field city
+
 2020-05-02 Franz Holzinger <franz@ttproducts.de>
-    * compatibility TYPO3 9.5: move \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords() into the file Overrides/tt_board.php 
+    * compatibility TYPO3 9.5: move \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords() into the file Overrides/tt_board.php
 
 2020-03-30 Franz Holzinger <franz@ttproducts.de>
     * new feature part 2: transform database queries into the querybuilder format based on Doctrine
