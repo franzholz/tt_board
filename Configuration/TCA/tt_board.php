@@ -137,7 +137,7 @@ $result = [
         ]
     ],
     'types' => [
-        '0' => ['showitem' => 'hidden;;;;1-1-1, crdate, subject;;;;3-3-3, message, author, city, email, parent;;;;5-5-5, notify_me, cr_ip, reference']
+        '0' => ['showitem' => 'hidden, crdate, subject, message, author, city, email, parent, notify_me, cr_ip, reference']
     ]
 ];
 
