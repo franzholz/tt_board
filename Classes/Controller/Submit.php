@@ -333,6 +333,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             $markersArray = array();
                             $markersArray['###AUTHOR###'] = trim($row['author']);
                             $markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
+                            $markersArray['###AUTHOR_CITY###'] = trim($row['city']);
                             $markersArray['###CR_IP###'] = $row['cr_ip'];
                             $markersArray['###HOST###'] = GeneralUtility::getIndpEnv('HTTP_HOST');
                             $markersArray['###URL###'] = $url;

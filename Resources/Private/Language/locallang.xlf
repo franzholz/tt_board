@@ -18,6 +18,9 @@
 			<trans-unit id="author" xml:space="preserve">
 				<source>Name:</source>
 			</trans-unit>
+			<trans-unit id="city" xml:space="preserve">
+				<source>City:</source>
+			</trans-unit>
 			<trans-unit id="email" xml:space="preserve">
 				<source>Email:</source>
 			</trans-unit>
@@ -50,6 +53,9 @@
 			</trans-unit>
 			<trans-unit id="board_author" xml:space="preserve">
 				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="board_city" xml:space="preserve">
+				<source>City</source>
 			</trans-unit>
 			<trans-unit id="board_back_to_forum" xml:space="preserve">
 				<source>Back to Forum</source>
@@ -152,6 +158,9 @@
 			</trans-unit>
 			<trans-unit id="newReply.author" xml:space="preserve">
 				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="newReply.city" xml:space="preserve">
+				<source>City</source>
 			</trans-unit>
 			<trans-unit id="newReply.didWhat" xml:space="preserve">
 				<source>has just replied to a thread at</source>

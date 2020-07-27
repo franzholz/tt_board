@@ -306,6 +306,11 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             if ($lastPostInfo) {
                                 $markerArray['###LAST_POST_AUTHOR###'] =
                                     $forum_cObj->stdWrap($markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
+                                $markerArray['###LAST_POST_CITY###'] =
+                                    $local_cObj->stdWrap(
+                                        $markerObj->formatStr($lastPostInfo['city']),
+                                        $lConf['last_post_city_stdWrap.']
+                                    );
                                 $markerArray['###LAST_POST_DATE###'] =
                                     $forum_cObj->stdWrap(
                                         $modelObj->recentDate(
@@ -327,6 +332,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     );
                             } else {
                                 $markerArray['###LAST_POST_AUTHOR###'] = '';
+                                $markerArray['###LAST_POST_CITY###'] = '';
                                 $markerArray['###LAST_POST_DATE###'] = '';
                                 $markerArray['###LAST_POST_TIME###'] = '';
                                 $markerArray['###LAST_POST_AGE###'] = '';

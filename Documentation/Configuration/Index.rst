@@ -511,11 +511,13 @@ Category List Properties
 	forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
 	forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
 	forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes      
-	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`               yes      
+	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
+	last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes      
 	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes      
 	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
 	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
 	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
+	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes      
 	cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
 	============================ ===================================== ======================= ======================
 
@@ -620,6 +622,14 @@ last_post_author_stdWrap
 :typoscript:`plugin.tt_board_list.last_post_author_stdWrap =` :ref:`t3tsref:stdwrap`
 
 
+.. _ts-plugin-tt-board-list-lastPostCityStdWrap:
+
+last_post_city_stdWrap
+""""""""""""""""""""""""
+
+:typoscript:`plugin.tt_board_list.last_post_city_stdWrap =` :ref:`t3tsref:stdwrap`
+
+
 .. _ts-plugin-tt-board-list-postTitleStdWrap:
 
 post_title_stdWrap
@@ -650,6 +660,14 @@ post_author_stdWrap
 """""""""""""""""""
 
 :typoscript:`plugin.tt_board_list.post_author_stdWrap =` :ref:`t3tsref:stdwrap`
+
+
+.. _ts-plugin-tt-board-list-postCityStdWrap:
+
+post_city_stdWrap
+"""""""""""""""""""
+
+:typoscript:`plugin.tt_board_list.post_city_stdWrap =` :ref:`t3tsref:stdwrap`
 
 
 .. _ts-plugin-tt-board-list-cacheTimeout:
@@ -683,10 +701,12 @@ Forum List Properties
 	forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
 	forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes      
 	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
+	last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes      
 	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes      
 	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
 	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
 	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
+	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes      
 	cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
 	============================ ====================================  ======================= ======================
 
@@ -712,6 +732,7 @@ Thread View Properties
 	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
 	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
 	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
+	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes      
 	============================ ==================================== ======================= ======================
 
 
@@ -730,7 +751,7 @@ If set, the items are displayed for themselves. Else the whole thread is normall
 Thread List Properties
 ^^^^^^^^^^^^^^^^^^^^^^
 
-  code= THREAD_TREE
+  code = THREAD_TREE
 
   "Forum: Tree"
   The following properties are all prepended `list_threads` or `thread_tree`.
@@ -747,6 +768,7 @@ Thread List Properties
 	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
 	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
 	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
+	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes      
 	thread\_limit_               :ref:`t3tsref:data-type-integer`      no                      50
 	============================ ===================================== ======================= ======================
 

@@ -27,6 +27,7 @@ FEData.tt_board {
     subject = 1
     message = 1
     author = 1
+    city = 1
     email = 1
     parent = 1
     notify_me = 1
@@ -360,6 +361,8 @@ plugin.tt_board_tree {
   list_threads.post_title_stdWrap.crop = 80 | ...
   list_threads.post_author_stdWrap.wrap = 
   list_threads.post_author_stdWrap.crop = 20 | ...
+  list_threads.post_city_stdWrap.wrap = 
+  list_threads.post_city_stdWrap.crop = 12 | ...
   list_threads.thread_limit = {$plugin.tt_board.threadLimit}
 
   thread_tree < .list_threads

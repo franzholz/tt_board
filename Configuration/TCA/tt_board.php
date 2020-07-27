@@ -66,10 +66,7 @@ $result = [
                 'type' => 'input',
                 'size' => 20,
                 'eval' => 'trim',
-                'max' => 255,
-                'behaviour' => [
-                    'allowLanguageSynchronization' => true,
-                ],
+                'max' => 255
             ]
         ],
         'email' => [

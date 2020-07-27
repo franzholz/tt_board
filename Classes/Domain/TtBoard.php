@@ -66,10 +66,13 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         return $this->tablename;
     }
 
+    /**
+     * @return QueryBuilder
+     */
     public function getQueryBuilder ()
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->getTablename());
-        return $queryBuilder;
+        $result = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->getTablename());
+        return $result;
     }
 
     public function setEnableFields ($value)

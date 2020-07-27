@@ -192,6 +192,16 @@ class Marker
                 );
         }
 
+        if (isset($tagArray['POST_CITY'])) {
+            $markerArray['###POST_CITY###'] =
+                $local_cObj->stdWrap(
+                    $this->formatStr(
+                        $row['city']
+                    ),
+                    $lConf['post_city_stdWrap.']
+                );
+        }
+
         if (isset($tagArray['POST_AUTHOR_EMAIL'])) {
             $markerArray['###POST_AUTHOR_EMAIL###'] = $recentPost['email'];
         }

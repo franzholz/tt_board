@@ -330,6 +330,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $markerObj->formatStr($lastPostInfo['author']),
                             $lConf['last_post_author_stdWrap.']
                         );
+                    $markerArray['###LAST_POST_CITY###'] =
+                        $local_cObj->stdWrap(
+                            $markerObj->formatStr($lastPostInfo['city']),
+                            $lConf['last_post_city_stdWrap.']
+                        );
 
                         // Link to the last post
                     $linkParams[$prefixId . '[uid]'] = $lastPostInfo['uid'];
