@@ -112,6 +112,16 @@ $result = [
                 'eval' => 'datetime'
             ]
         ],
+        'tstamp' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.tstamp',
+            'config' => [
+                'type' => 'input',
+                'size' => '10',
+                'max' => '20',
+                'eval' => 'datetime'
+            ]
+        ],
         'cr_ip' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.cr_ip',
@@ -134,7 +144,7 @@ $result = [
         ]
     ],
     'types' => [
-        '0' => ['showitem' => 'hidden, crdate, subject, message, author, city, email, parent, notify_me, cr_ip, reference']
+        '0' => ['showitem' => 'hidden, crdate, tstamp, subject, message, author, city, email, parent, notify_me, cr_ip, reference']
     ]
 ];
 

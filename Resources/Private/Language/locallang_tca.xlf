@@ -27,6 +27,9 @@
 			<trans-unit id="tt_board.crdate" xml:space="preserve">
 				<source>Date/Time:</source>
 			</trans-unit>
+			<trans-unit id="tt_board.tstamp" xml:space="preserve">
+				<source>Timestamp:</source>
+			</trans-unit>
 			<trans-unit id="tt_board.cr_ip" xml:space="preserve">
 				<source>Sender IP address</source>
 			</trans-unit>

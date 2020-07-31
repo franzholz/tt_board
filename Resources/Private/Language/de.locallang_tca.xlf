@@ -25,6 +25,10 @@
 				<source><![CDATA[Date/Time:]]></source>
 				<target><![CDATA[Datum/Zeit:]]></target>
 			</trans-unit>
+			<trans-unit id="tt_board.tstamp" approved="yes">
+				<source><![CDATA[Timestamp:]]></source>
+				<target><![CDATA[Zeitstempel:]]></target>
+			</trans-unit>
 			<trans-unit id="tt_board.message" approved="yes">
 				<source><![CDATA[Message:]]></source>
 				<target><![CDATA[Nachricht:]]></target>
