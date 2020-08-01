@@ -135,10 +135,8 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     $addQueryString['sword'] = $searchWord;
                     $useCache = false;
                 }
-
                 $begin_at = intval($controlObj->readGP($pointerName, $prefixId)) * $limit;
                 $piVars = $controlObj->readGP('', $prefixId);
-
                 $markerObj->getBrowserMarkers(
                     $markerArray,
                     $subpartMarkerArray,
@@ -233,7 +231,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $ref,
                             1
                         );
-                } else {
+                } else {    
                     $recentPosts =
                         $modelObj->getThreads(
                             $composite->getPidList(),
@@ -246,6 +244,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $controlObj->readGP('sword', $prefixId)
                         );
                 }
+
                 if (is_object($treeView)) {
                     $treeView->addTreeIcons($recentPosts);
                 }

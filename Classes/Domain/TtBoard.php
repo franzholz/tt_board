@@ -748,10 +748,9 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $limitString = '';
         if ($limit) {
             $limitString = intval($limit);
-            if ($offset) {
-                $limitString = intval($offset) . ',' . $limitString;
-            }
         }
+
+        $offset = intval($offset);
         $field = 'pid';
         $queryBuilder
             ->select('*')
@@ -783,8 +782,17 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             }
 
             $statement = $queryBuilder
-                ->orderBy('crdate', 'DESC')
-                ->setMaxResults($limitString)
+                ->orderBy('crdate', 'DESC');
+                
+            if ($offset) {
+                $queryBuilder
+                    ->setFirstResult($offset);
+            }
+            if ($limitString) {
+                $queryBuilder
+                    ->setMaxResults($limitString);
+            }
+            $statement = $queryBuilder
                 ->execute();
 
             $set = array();
@@ -823,8 +831,15 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             } else {
                 $queryBuilder->orderBy('crdate');
             }
+            if ($offset) {
+                $queryBuilder
+                    ->setFirstResult($offset);
+            }
+            if ($limitString) {
+                $queryBuilder
+                    ->setMaxResults($limitString);
+            }
             $statement = $queryBuilder
-                ->setMaxResults($limitString)
                 ->execute();
 
             while ($row = $statement->fetch()) {

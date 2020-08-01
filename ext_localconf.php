@@ -19,7 +19,7 @@ call_user_func(function () {
         define('TT_BOARD_CSS_PREFIX', 'tx-ttboard-');
     }
 
-    $extensionConfiguration = array();
+    $extensionConfiguration = [];
 
     if (
         defined('TYPO3_version') &&
@@ -48,7 +48,7 @@ call_user_func(function () {
                 array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT], $tmpArray);
         }
     } else if (!isset($tmpArray)) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = array();
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = [];
     }
 
     if (TYPO3_MODE == 'BE') {

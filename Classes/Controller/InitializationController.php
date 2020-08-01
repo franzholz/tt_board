@@ -66,7 +66,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $uid,
         $prefixId
     )
-    {
+    {    
         if (!ExtensionManagementUtility::isLoaded('div2007')) {
             $content = 'Error in Board Extension(' . TT_BOARD_EXT . '): Extension div2007 has not been loaded.';
             return false;
@@ -129,7 +129,6 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
         $modelObj->init();
         $composite->setModelObj($modelObj);
-
         $globalMarkerArray = $markerObj->getGlobalMarkers($cObj);
             // template is read.
         $absoluteFileName = $GLOBALS['TSFE']->tmpl->getFileName($conf['templateFile']);
@@ -184,7 +183,6 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             $config['code'] = 'FORUM';
             $tt_board_uid = $cObj->data['uid'];
         }
-
         $composite->setConfig($config);
         $composite->setTtBoardUid($tt_board_uid);
     }

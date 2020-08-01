@@ -1,3 +1,7 @@
+2020-08-01 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: OFFSET requires to call the method setFirstResult of the Querybuilder.
+    * improvement: Add a key for the double post check
+
 2020-07-31 Franz Holzinger <franz@ttproducts.de>
     * add the field tstamp to the TCA
     * add the page browser header to the ###TEMPLATE_FORUM### subpart of the template file board_template2.html 

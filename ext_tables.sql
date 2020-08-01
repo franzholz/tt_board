@@ -21,5 +21,6 @@ CREATE TABLE tt_board (
 
   PRIMARY KEY (uid),
   KEY parent (pid),
-  KEY parent_select (pid,parent)
+  KEY parent_select (pid,parent),
+  KEY postcheck (doublePostCheck)
 );
