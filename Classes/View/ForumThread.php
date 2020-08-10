@@ -64,7 +64,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
     {
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
-        $recentPosts = array();
+        $recentPosts = [];
         $languageObj = $composite->getLanguageObj();
         $markerObj = $composite->getMarkerObj();
         $modelObj = $composite->getModelObj();
@@ -89,8 +89,8 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         if ($templateCode) {
 
                 // Clear
-            $subpartMarkerArray = array();
-            $wrappedSubpartArray = array();
+            $subpartMarkerArray = [];
+            $wrappedSubpartArray = [];
 
                 // Getting the specific parts of the template
             $markerObj->getColumnMarkers(
@@ -158,15 +158,15 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 $recentPosts = $wholeThread;
             }
 
-            $thread = array();
+            $thread = [];
             $thread['next'] = $modelObj->getThreadRoot($pid_list, $crdate);
             $thread['previous'] = $modelObj->getThreadRoot($pid_list, $crdate, 'prev');
             $subpartContent = '';
 
                 // Clear
-            $markerArray = array();
-            $subpartArray = array();
-            $wrappedSubpartArray = array();
+            $markerArray = [];
+            $subpartArray = [];
+            $wrappedSubpartArray = [];
 
                 // Getting the specific parts of the template
             $markerArray['###FORUM_TITLE###'] =
@@ -279,9 +279,9 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 }
 
                     // Clear
-                $markerArray = array();
-                $subpartMarkerArray = array();
-                $wrappedSubpartArray = array();
+                $markerArray = [];
+                $subpartMarkerArray = [];
+                $wrappedSubpartArray = [];
 
                 $markerObj->getRowMarkerArray(
                     $markerArray,

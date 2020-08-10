@@ -207,9 +207,9 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     */
     static public function getPagesInPage ($pid_list)
     {
-        $result = array();
+        $result = [];
         $thePids = GeneralUtility::intExplode(',', $pid_list);
-        $pageRows = array();
+        $pageRows = [];
         foreach($thePids as $pid) {
             $menuRows = $GLOBALS['TSFE']->sys_page->getMenu($pid);
 
@@ -672,7 +672,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $result = false;
         $row = null;
-        $outArray = array();
+        $outArray = [];
         if ($uid) {
             $hash = md5($uid . '|' . $ref . '|' . $descend);
             if ($this->cache_thread[$hash]) {
@@ -743,7 +743,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
         $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
 
-        $outArray = array();
+        $outArray = [];
         $whereRef = $this->getWhereRef($ref);
         $limitString = '';
         if ($limit) {
@@ -795,7 +795,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             $statement = $queryBuilder
                 ->execute();
 
-            $set = array();
+            $set = [];
             while ($row = $statement->fetch()) {
                 $rootRow = $this->getRootParent($row['uid']);
                 if (!$rootRow) {

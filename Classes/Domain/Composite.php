@@ -48,19 +48,19 @@ class Composite implements \TYPO3\CMS\Core\SingletonInterface {
     protected $prefixId;
     protected $alternativeLayouts = '';
     protected $allowCaching = '';
-    protected $conf = array();
-    protected $config = array();
+    protected $conf = [];
+    protected $config = [];
     protected $pid_list;           // list of page ids
 
     protected $tt_board_uid = '';
     protected $pid = '';
     protected $orig_templateCode = '';
-    protected $typolink_conf = array();
+    protected $typolink_conf = [];
 
-    protected $errorMessage;
-    protected $languageObj;
-    protected $markerObj;
-    protected $modelObj;
+    protected $errorMessage = '';
+    protected $languageObj = null;
+    protected $markerObj = null;
+    protected $modelObj = null;
 
 
     public function setCObj ($value)

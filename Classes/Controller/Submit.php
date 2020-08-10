@@ -93,14 +93,14 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             if (is_array($row) && trim($row['message'])) {
                 do {
                     $internalFieldArray =
-                        array(
+                        [
                             'hidden',
                             'parent',
                             'pid',
                             'reference',
                             'doublePostCheck',
                             Field::CAPTCHA
-                        );
+                        ];
                     $captchaError = false;
 
                     if (
@@ -173,7 +173,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         $newId = $pObj->execNEWinsert($table, $row);
 
                             // Link to this thread
-                        $linkParams = array();
+                        $linkParams = [];
                         if ($GLOBALS['TSFE']->type) {
                             $linkParams['type'] = $GLOBALS['TSFE']->type;
                         }
@@ -184,10 +184,10 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $pid,
                                 $linkParams,
                                 '',
-                                array(
+                                [
                                     'useCacheHash' => $allowCaching,
                                     'forceAbsoluteUrl' => 1
-                                )
+                                ]
                             );
 
                         $pObj->clear_cacheCmd($pid);
@@ -329,8 +329,8 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 MailUtility::checkMXRecord($row['email'])
                             )
                         ) {
-                            $labelKeys = array('p_at', 'p_content', 'p_salutation', 'p_subject', 'p_text_snippet', 'p_url_title');
-                            $markersArray = array();
+                            $labelKeys = ['p_at', 'p_content', 'p_salutation', 'p_subject', 'p_text_snippet', 'p_url_title'];
+                            $markersArray = [];
                             $markersArray['###AUTHOR###'] = trim($row['author']);
                             $markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
                             $markersArray['###AUTHOR_CITY###'] = trim($row['city']);
@@ -358,7 +358,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $msg = str_replace($marker, $markContent, $msg);
                             }
 
-                            $headers = array();
+                            $headers = [];
                             if ($conf['notify_from']) {
                                 $headers[] = 'FROM: ' . $conf['notify_from'];
                             }

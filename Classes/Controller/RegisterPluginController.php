@@ -65,7 +65,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      *
      * @var array
      */
-    public $conf = array();
+    public $conf = [];
 
 
     /**
@@ -103,7 +103,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
                 $contentObjectType .= '_INT';
             }
 
-            $newSetup = array();
+            $newSetup = [];
             $newSetup['10'] = $contentObjectType;
             $newSetup['10.'] = $newConf;
             $content .=
@@ -115,15 +115,15 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         return $content;
     }
 
-    public function init ($content, $conf)
+    public function init (&$content, $conf)
     {
         $initialization = GeneralUtility::makeInstance(
             \JambageCom\TtBoard\Controller\InitializationController::class
         );
         $initialization->init(
             $composite,
-            $this->cObj,
             $content,
+            $this->cObj,
             $conf,
             $this->piVars['uid'],
             $this->prefixId
@@ -142,7 +142,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
     public function getCodeArray ($conf)
     {
-        $config = array();
+        $config = [];
 
         $this->cObj->data['pi_flexform'] =
             GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
@@ -163,7 +163,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
             1
         );
         if (!count($codeArray)) {
-            $codeArray = array('');
+            $codeArray = [''];
         }
         return ($codeArray);
     }

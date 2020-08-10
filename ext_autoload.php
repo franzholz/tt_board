@@ -3,7 +3,7 @@ $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
 
 $key = 'tt_board';
 $extensionPath = call_user_func($emClass . '::extPath', $key, $script);
-return array(
+return [
     'JambageCom\\TtBoard\\Api\\Localization' => $extensionPath . 'Classes/Api/Localization.php',
     'JambageCom\\TtBoard\\Constants\\TreeMark' => $extensionPath . 'Classes/Constants/TreeMark.php',
     'JambageCom\\TtBoard\\Controller\\ActionController' => $extensionPath . 'Classes/Controller/ActionController.php',
@@ -18,6 +18,6 @@ return array(
     'JambageCom\\TtBoard\\View\\Forum' => $extensionPath . 'Classes/View/Forum.php',
     'JambageCom\\TtBoard\\View\\Marker' => $extensionPath . 'Classes/View/Marker.php',
     'JambageCom\\TtBoard\\View\\Tree' => $extensionPath . 'Classes/View/Tree.php'
-);
+];
 
 

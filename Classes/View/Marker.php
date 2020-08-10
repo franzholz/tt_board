@@ -77,7 +77,7 @@ class Marker
     */
     public function getGlobalMarkers ($cObj)
     {
-        $markerArray = array();
+        $markerArray = [];
         $conf = $this->getConf();
 
         // globally substituted markers, fonts and colors.
@@ -283,7 +283,7 @@ class Marker
     public function getLayouts ($templateCode, $alternativeLayouts, $marker)
     {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
-        $out = array();
+        $out = [];
         for($a = 0; $a < $alternativeLayouts; $a++) {
             $m = '###' . $marker . ($a ? '_' . $a : '') . '###';
             if(strstr($templateCode, $m)) {
@@ -372,13 +372,13 @@ class Marker
         }
 
         $pagefloat = 0;
-        $imageArray = array();
-        $imageActiveArray = array();
+        $imageArray = [];
+        $imageActiveArray = [];
         $browseObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Base\BrowserBase::class);
         $browseObj->init(
             $conf,
             $piVars,
-            array(),
+            [],
             false,  // no autocache used yet
             false, // USER obj
             $recordCount,

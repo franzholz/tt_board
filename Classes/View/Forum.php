@@ -65,7 +65,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
         $uid = $composite->getTtBoardUid();
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
-        $recentPosts = array();
+        $recentPosts = [];
         $searchWord = $controlObj->readGP('sword', $prefixId);
         $pointerName = 'pointer';
 
@@ -94,8 +94,8 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
         if ($continue) {
                 // Clear
-            $subpartMarkerArray = array();
-            $wrappedSubpartArray = array();
+            $subpartMarkerArray = [];
+            $wrappedSubpartArray = [];
 
             $browserConf = '';
             if (
@@ -109,13 +109,13 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     );
 
                 if ($templateCode) {
-                    $browserConf = array();
+                    $browserConf = [];
                     if (isset($lConf['browser.'])) {
                         $browserConf = $lConf['browser.'];
                     }
                 }
 
-                $addQueryString = array();
+                $addQueryString = [];
                 $recordCount = 0;
                 $more = 0;
                 $useCache = true;
@@ -250,7 +250,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                 }
 
                 $c_post = 0;
-                $subpartArray = array();
+                $subpartArray = [];
                 $tagArray = \JambageCom\Div2007\Utility\MarkerUtility::getTags($templateCode);
 
                 foreach ($recentPosts as $recentPost) {
@@ -263,8 +263,8 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     $local_cObj->start($recentPost);
 
                         // Clear
-                    $markerArray = array();
-                    $wrappedSubpartArray = array();
+                    $markerArray = [];
+                    $wrappedSubpartArray = [];
 
                         // Markers
                     $markerObj->getRowMarkerArray(
@@ -359,7 +359,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                              $local_cObj->substituteMarkerArrayCached(
                                 $out,
                                 $markerArray,
-                                array(),
+                                [],
                                 $wrappedSubpartArray
                             );
                     } else {
@@ -368,7 +368,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $templateService->substituteMarkerArrayCached(
                                 $out,
                                 $markerArray,
-                                array(),
+                                [],
                                 $wrappedSubpartArray
                             );
                     }
@@ -379,8 +379,8 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                 }
 
                     // Substitution:
-                $markerArray = array();
-                $subpartContentArray = array();
+                $markerArray = [];
+                $subpartContentArray = [];
                 $markerArray['###SEARCH_NAME###'] = $prefixId . '[sword]';
 
                     // Fill in array

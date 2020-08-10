@@ -41,31 +41,31 @@ class WizardIcon
         $iconRegistry = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
         $iconPath = 'Resources/Public/Icons/';
 
-        $wizardArray = array(
-            'tree' => array(
+        $wizardArray = [
+            'tree' => [
                     'list_type' => 2,
                     'wizard_icon' => 'forum.gif'
-                ),
-            'list' => array(
+                ],
+            'list' => [
                     'list_type' => 4,
                     'wizard_icon' => 'message_board.gif'
-                )
-        );
+                ]
+        ];
 
         foreach ($wizardArray as $type => $wizardConf) {
             $params = '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=' . $wizardConf['list_type'] . '&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM');
-            $wizardItem = array(
+            $wizardItem = [
                 'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_be.xlf:plugins_' . $type . '_title'),
                 'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_be.xlf:plugins_' . $type . '_description'),
                 'params' => $params
-            );
+            ];
             $iconIdentifier = 'extensions-' . TT_BOARD_EXT . '-' . $type . '-wizard';
             $iconRegistry->registerIcon(
                 $iconIdentifier,
                 'TYPO3\\CMS\\Core\\Imaging\\IconProvider\\BitmapIconProvider',
-                array(
+                [
                     'source' => 'EXT:' . TT_BOARD_EXT . '/' . $iconPath . $wizardConf['wizard_icon'],
-                )
+                ]
             );
             $wizardItem['iconIdentifier'] = $iconIdentifier;
             $wizardItems['plugins_ttboard_' . $type] = $wizardItem;

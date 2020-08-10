@@ -84,7 +84,7 @@ window.onload = addListeners;
         $idPrefix = 'mailform';
         $table = 'tt_board';
         $spamWord = '';
-        $notify = array();
+        $notify = [];
 
         if (
             isset($GLOBALS['TSFE']->applicationData) &&
@@ -104,7 +104,7 @@ window.onload = addListeners;
             $modelObj->isAllowed($conf['memberOfGroups'])
         ) {
             $parent = 0;        // This is the parent item for the form. If this is not set, then the form is a reply and not a new post.
-            $nofity = array();
+            $nofity = [];
             $feuserLoggedIn = false;
             if (
                 is_array($GLOBALS['TSFE']->fe_user->user) &&
@@ -228,7 +228,7 @@ window.onload = addListeners;
                 ($theCode == 'POSTFORM_REPLY' && $parent) ||
                 ($theCode == 'POSTFORM_THREAD' && !$parent)
             ) {
-                $origRow = array();
+                $origRow = [];
                 $wrongCaptcha = false;
                 if (
                     isset($GLOBALS['TSFE']->applicationData) &&
@@ -289,7 +289,7 @@ window.onload = addListeners;
                         )
                     )
                 ) {
-                    $captchaMarker = array();
+                    $captchaMarker = [];
                     $textLabelWrap = '';
                     $markerFilled = $captcha->addGlobalMarkers(
                         $captchaMarker,
@@ -358,7 +358,7 @@ window.onload = addListeners;
                     foreach ($labelMap as $key => $languageKey) {
                         $labels[$key] = $languageObj->getLabel($languageKey);
                     }
-                    $piVars = array();
+                    $piVars = [];
 
                     $pagePrivacy = intval($conf['PIDprivacyPolicy']);
                     $privacyUrl = $local_cObj->getTypoLink_URL($pagePrivacy, $piVars);
@@ -503,11 +503,11 @@ window.onload = addListeners;
         }
 
                 // delete any formerly stored values
-        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT] = array();
+        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT] = [];
 
         if (!empty($notify)) {
             $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
-            $sessionData = array();
+            $sessionData = [];
             $sessionData['notify_me'] = $notify;
             $session->setSessionData($sessionData);
         }

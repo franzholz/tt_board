@@ -47,23 +47,23 @@ use JambageCom\TtBoard\Constants\TreeMark;
 class Tree implements \TYPO3\CMS\Core\SingletonInterface
 {
     private $dataModel;
-    protected $treeIcons = array(
+    protected $treeIcons = [
         TreeMark::THREAD => '+',
         TreeMark::END => '-',
         TreeMark::JOIN_BOTTOM => '\\-',
         TreeMark::JOIN => '|-',
         TreeMark::LINE => '|&nbsp;',
         TreeMark::BLANK => '&nbsp;&nbsp;'
-    );
+    ];
 
-   protected $convertIconTypes = array(
+   protected $convertIconTypes = [
         TreeMark::THREAD => 'thread',
         TreeMark::END => 'end',
         TreeMark::JOIN_BOTTOM => 'joinBottom',
         TreeMark::JOIN => 'join',
         TreeMark::LINE => 'line',
         TreeMark::BLANK => 'blank'
-    );
+    ];
 
     public function __construct (
         \JambageCom\TtBoard\Domain\TtBoard $dataModel,

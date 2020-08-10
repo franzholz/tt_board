@@ -66,7 +66,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
         $forum_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $forum_cObj->start(array(), $modelObj->getTablename());
+        $forum_cObj->start([], $modelObj->getTablename());
 
         if (!$composite->getTtBoardUid()) {
             $forumlist = 0;     // set to true if this is a list of forums and not categories + forums
@@ -90,8 +90,8 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 
             if ($templateCode) {
                     // Clear
-                $subpartMarkerArray = array();
-                $wrappedSubpartContentArray = array();
+                $subpartMarkerArray = [];
+                $wrappedSubpartContentArray = [];
 
                     // Getting the specific parts of the template
                 $markerObj->getColumnMarkers(
@@ -167,8 +167,8 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                         $local_cObj->start($catData);
 
                             // Clear
-                        $markerArray = array();
-                        $wrappedSubpartContentArray = array();
+                        $markerArray = [];
+                        $wrappedSubpartContentArray = [];
 
                             // Markers
                         $markerArray['###CATEGORY_TITLE###'] =
@@ -215,7 +215,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 $local_cObj->substituteMarkerArrayCached(
                                     $out,
                                     $markerArray,
-                                    array(),
+                                    [],
                                     $wrappedSubpartContentArray
                                 );
                         } else {
@@ -224,7 +224,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 $templateService->substituteMarkerArrayCached(
                                     $out,
                                     $markerArray,
-                                    array(),
+                                    [],
                                     $wrappedSubpartContentArray
                                 );
                         }
@@ -244,8 +244,8 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             $forum_cObj->start($forumData);
 
                                 // Clear
-                            $markerArray = array();
-                            $wrappedSubpartContentArray = array();
+                            $markerArray = [];
+                            $wrappedSubpartContentArray = [];
 
                                 // Markers
                             $markerArray['###FORUM_TITLE###'] =
@@ -367,7 +367,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $forum_cObj->substituteMarkerArrayCached(
                                         $out,
                                         $markerArray,
-                                        array(),
+                                        [],
                                         $wrappedSubpartContentArray
                                     );
                             } else {
@@ -376,7 +376,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $templateService->substituteMarkerArrayCached(
                                         $out,
                                         $markerArray,
-                                        array(),
+                                        [],
                                         $wrappedSubpartContentArray
                                     );
                             }
@@ -397,8 +397,8 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $forum_cObj->start($recentPost);
 
                                         // Clear:
-                                    $markerArray = array();
-                                    $wrappedSubpartContentArray = array();
+                                    $markerArray = [];
+                                    $wrappedSubpartContentArray = [];
 
                                         // markers:
                                     $markerArray['###POST_TITLE###'] =
@@ -491,7 +491,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             $forum_cObj->substituteMarkerArrayCached(
                                                 $out,
                                                 $markerArray,
-                                                array(),
+                                                [],
                                                 $wrappedSubpartContentArray
                                             );
                                     } else {
@@ -499,7 +499,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             $templateService->substituteMarkerArrayCached(
                                                 $out,
                                                 $markerArray,
-                                                array(),
+                                                [],
                                                 $wrappedSubpartContentArray
                                             );
                                     }

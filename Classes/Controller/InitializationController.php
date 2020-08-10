@@ -29,7 +29,7 @@ namespace JambageCom\TtBoard\Controller;
 ***************************************************************/
 /**
  *
- * Function library for a forum/board in tree or list style
+ * initialization method
  *
  * TypoScript config:
  * - See static_template 'plugin.tt_board_tree' and plugin.tt_board_list
@@ -60,8 +60,8 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
     */
     public function init (
         &$composite,
+        &$content,
         ContentObjectRenderer $cObj,
-        $content,
         array $conf,
         $uid,
         $prefixId
@@ -72,7 +72,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             return false;
         }
 
-        $config = array();
+        $config = [];
         $composite = GeneralUtility::makeInstance(Composite::class);
 
         // *************************************
@@ -159,7 +159,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $typolink_conf['parameter.']['current'] = 1;
         if (isset($conf['linkParams']) && is_array($conf['linkParams'])) {
             $additionalParams = $typolink_conf['additionalParams'];
-            $linkParamArray = array();
+            $linkParamArray = [];
             foreach ($conf['linkParams'] as $k => $v) {
                 $linkParamArray[] = $k . '=' . $v;
             }
