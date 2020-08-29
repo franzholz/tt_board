@@ -5,10 +5,8 @@ if (!defined ('TT_BOARD_EXT')) {
     define('TT_BOARD_EXT', 'tt_board');
 }
 
+call_user_func(function () {
 
-if (
-    TYPO3_MODE == 'BE'
-) {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
         TT_BOARD_EXT,
         'Configuration/TypoScript/DefaultCSS/',
@@ -20,5 +18,4 @@ if (
         'Configuration/TypoScript/Default/',
         'Message Board Setup'
     );
-}
-
+});

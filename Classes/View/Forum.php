@@ -277,9 +277,9 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     );
 
                         // Link to the post
-                    $overrulePIvars = array(
+                    $overrulePIvars = [
                         'uid' => ($recentPost['uid'])
-                    );
+                    ];
 
                     $linkParams[$prefixId . '[uid]'] = $recentPost['uid'];
                     $url =
@@ -288,13 +288,13 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $pid,
                             $linkParams,
                             '',
-                            array('useCacheHash' => $composite->getAllowCaching())
+                            ['useCacheHash' => $composite->getAllowCaching()]
                     );
                     $wrappedSubpartArray['###LINK###'] =
-                        array(
+                        [
                             '<a href="' . htmlspecialchars($url)  . '">',
                             '</a>'
-                    );
+                        ];
 
                         // Last post processing:
                     $lastPostInfo =
@@ -343,13 +343,13 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $pid,
                             $linkParams,
                             '',
-                            array('useCacheHash' => $composite->getAllowCaching())
+                            ['useCacheHash' => $composite->getAllowCaching()]
                         );
                     $wrappedSubpartArray['###LINK_LAST_POST###'] =
-                        array(
+                        [
                             '<a href="' .  htmlspecialchars($url) . '">',
                             '</a>'
-                        );
+                        ];
 
                     if (
                         version_compare(TYPO3_version, '8.7.0', '<')

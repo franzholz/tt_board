@@ -103,9 +103,10 @@ window.onload = addListeners;
         if (
             $modelObj->isAllowed($conf['memberOfGroups'])
         ) {
-            $parent = 0;        // This is the parent item for the form. If this is not set, then the form is a reply and not a new post.
+            $parent = 0;        // This is the parent item for the form. If this is set, then the form is a reply and not a new post.
             $nofity = [];
             $feuserLoggedIn = false;
+
             if (
                 is_array($GLOBALS['TSFE']->fe_user->user) &&
                 (
@@ -149,10 +150,11 @@ window.onload = addListeners;
                         $modelObj->getSingleThread(
                             $row['uid'],
                             $ref,
-                            1
+                            1,
+                            false
                         );
 
-                    foreach($wholeThread as $recordP) { // the last notification checkbox will be supercede the previous settings
+                    foreach($wholeThread as $recordP) { // the last notification checkbox will be superceded by the previous settings
 
                         if ($recordP['email']) {
 
@@ -195,14 +197,14 @@ window.onload = addListeners;
 //   }
 
             $setupArray =
-                array(
+                [
                     '10' => 'subject',
                     '20' => 'message',
                     '30' => 'author',
                     '40' => 'email',
                     '50' => 'notify_me',
                     '300' => 'post_reply'
-                );
+                ];
 
             $modEmail = $conf['moderatorEmail'];
 
@@ -258,28 +260,28 @@ window.onload = addListeners;
                             ),
                             $spamWord
                         );
-                    $lConf['dataArray.']['1.'] = array(
+                    $lConf['dataArray.']['1.'] = [
                         'label' => 'ERROR !',
                         'type' => 'label',
                         'value' => $out,
-                    );
+                    ];
                 }
-                $lConf['dataArray.']['9995.'] = array(
+                $lConf['dataArray.']['9995.'] = [
                     'type' => '*data[' . $table . '][NEW][prefixid]=hidden',
                     'value' => $composite->getPrefixId()
-                );
-                $lConf['dataArray.']['9996.'] = array(
+                ];
+                $lConf['dataArray.']['9996.'] = [
                     'type' => '*data[' . $table . '][NEW][reference]=hidden',
                     'value' => $ref
-                );
-                $lConf['dataArray.']['9998.'] = array(
+                ];
+                $lConf['dataArray.']['9998.'] = [
                     'type' => '*data[' . $table . '][NEW][pid]=hidden',
                     'value' => $pid
-                );
-                $lConf['dataArray.']['9999.'] = array(
+                ];
+                $lConf['dataArray.']['9999.'] = [
                     'type' => '*data[' . $table . '][NEW][parent]=hidden',
                     'value' => $parent
-                );
+                ];
 
                 if (
                     is_object(
@@ -320,19 +322,19 @@ window.onload = addListeners;
                                 $captchaMarker['###CAPTCHA_CANT_READ###'] . '<br' . $xhtmlFix . '>' .
                                 $captchaMarker['###CAPTCHA_ACCESSIBLE###'];
                         }
-                        $lConf['dataArray.']['55.'] = array(
+                        $lConf['dataArray.']['55.'] = [
                             'label' => $textLabel,
                             'label.' =>
-                                array(
+                                [
                                     'wrap' =>
                                     '<span class="'. TT_BOARD_CSS_PREFIX . 'captcha">|' . 
                                     $textLabelWrap .
                                     $captchaMarker['###CAPTCHA_IMAGE###']  . '<br' . $xhtmlFix . '>' .
                                     $captchaMarker['###CAPTCHA_NOTICE###'] . '<br' . $xhtmlFix . '>' .
                                     $additionalText . '</span>'
-                                ),
+                                ],
                             'type' => '*data[' . $table . '][NEW][' . Field::CAPTCHA . ']=input,20'
-                        );
+                        ];
                     }
                 } else if (
                     isset($lConf['dataArray.']['55.']) &&
@@ -345,7 +347,7 @@ window.onload = addListeners;
                     !$feuserLoggedIn &&
                     intval($conf['PIDprivacyPolicy'])
                 ) {
-                    $labelMap = array(
+                    $labelMap = [
                         'title' => 'privacy_policy.title',
                         'acknowledgement' => 'privacy_policy.acknowledgement',
                         'approval_required' => 'privacy_policy.approval_required',
@@ -353,7 +355,7 @@ window.onload = addListeners;
                         'acknowledged_2' => 'privacy_policy.acknowledged_2',
                         'hint' => 'privacy_policy.hint',
                         'hint_1' => 'privacy_policy.hint_1'
-                    );
+                    ];
 
                     foreach ($labelMap as $key => $languageKey) {
                         $labels[$key] = $languageObj->getLabel($languageKey);
@@ -362,24 +364,25 @@ window.onload = addListeners;
 
                     $pagePrivacy = intval($conf['PIDprivacyPolicy']);
                     $privacyUrl = $local_cObj->getTypoLink_URL($pagePrivacy, $piVars);
-                    $privacyUrl = str_replace(array('[', ']'), array('%5B', '%5D'), $privacyUrl);
+                    $privacyUrl = str_replace(['[', ']'], ['%5B', '%5D'], $privacyUrl);
 
                     $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>' . chr(13);
 
-                    $lConf['dataArray.']['60.'] = array(
+                    $lConf['dataArray.']['60.'] = [
                         'label' => $labels['title'] . ':',
                         'label.' =>
-                            array(
+                            [
                                 'wrap' =>
                                 '<div class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' . 
                                 $textLabelWrap .
                                 $labels['acknowledged_2'] . '<br' . $xhtmlFix . '>' .
                                 '<strong>' . $labels['hint'] . '</strong><br' . $xhtmlFix . '>' .
                                 $labels['hint_1'] . '</div>'
-                            ),
+                            ],
                         'type' => 'label',
                         'value' =>  $labels['approval_required'],
-                    );
+                    ];
+
                     if (!$_REQUEST['privacy_policy']) {
                         $lConf['params.']['submit'] .=
                             ($useXhtml ? ' disabled="disabled" ' : ' disabled ');
@@ -387,12 +390,12 @@ window.onload = addListeners;
 
                     $lConf['dataArray.']['61.']['label'] = $labels['acknowledgement'];
                     $lConf['dataArray.']['61.']['label.'] =
-                        array(
+                        [
                             'wrap' => 
                                 '<span class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy_checkbox">' . 
                                 $labels['acknowledged'] .
                                 '</span>'
-                            );
+                        ];
                     $privacyJavaScript =
                         $this->getPrivacyJavaScript(
                             $idPrefix . 'privacypolicy',
@@ -492,7 +495,7 @@ window.onload = addListeners;
                             $GLOBALS['TSFE']->id,
                             $linkParams,
                             '',
-                            array('useCacheHash' => false)
+                            ['useCacheHash' => true]
                         );
                     $lConf['type'] = $url;
                 }

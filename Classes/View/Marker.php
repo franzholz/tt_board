@@ -470,7 +470,7 @@ class Marker
         if ($recordCount > $limit) { // there is more than one page, so let's browse
 
             if (is_array($browserConf)) {
-                $wrappedSubpartArray['###LINK_BROWSE###'] = array('', '');
+                $wrappedSubpartArray['###LINK_BROWSE###'] = ['', ''];
 
                 $markerArray['###BROWSE_LINKS###'] =
                     BrowserUtility::render(

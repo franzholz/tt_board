@@ -199,13 +199,14 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 $catData['uid'],
                                 $linkParams,
                                 '',
-                                array('useCacheHash' => $allowCaching)
+                                ['useCacheHash' => $allowCaching]
                             );
 
                         $wrappedSubpartContentArray['###LINK###'] =
-                            array('<a href="' . htmlspecialchars($pageLink) . '">',
-                            '</a>'
-                        );
+                            [
+                                '<a href="' . htmlspecialchars($pageLink) . '">',
+                                '</a>'
+                            ];
 
                         if (
                             version_compare(TYPO3_version, '8.7.0', '<')
@@ -290,14 +291,14 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $forumData['uid'],
                                     $linkParams,
                                     '',
-                                    array('useCacheHash' => $allowCaching)
+                                    ['useCacheHash' => $allowCaching]
                                 );
 
                             $wrappedSubpartContentArray['###LINK###'] =
-                                array(
+                                [
                                     '<a href="' . htmlspecialchars($pageLink) . '">',
                                     '</a>'
-                                );
+                                ];
 
                                 // LAST POST:
                             $lastPostInfo = $modelObj->getLastPost($pidList);
@@ -342,7 +343,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             $overrulePIvars =
                                 array_merge(
                                     $linkParams,
-                                    array('uid' => $lastPostInfo['uid'])
+                                    ['uid' => $lastPostInfo['uid']]
                                 );
                             $pageLink =
                                 FrontendUtility::getTypoLink_URL(
@@ -350,14 +351,14 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $contentRow['pid'],
                                     $overrulePIvars,
                                     '',
-                                    array('useCacheHash' => $allowCaching)
+                                    ['useCacheHash' => $allowCaching]
                                 );
 
                             $wrappedSubpartContentArray['###LINK_LAST_POST###'] =
-                                array(
+                                [
                                     '<a href="' . htmlspecialchars($pageLink) . '">',
                                     '</a>'
-                                );
+                                ];
 
                             if (
                                 version_compare(TYPO3_version, '8.7.0', '<')
@@ -467,7 +468,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $overrulePIvars =
                                         array_merge(
                                             $linkParams,
-                                            array('uid' => $recentPost['uid'])
+                                            ['uid' => $recentPost['uid']]
                                         );
                                     $pageLink =
                                         FrontendUtility::getTypoLink_URL(
@@ -475,14 +476,14 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             $recentPost['pid'],
                                             $overrulePIvars,
                                             '',
-                                            array('useCacheHash' => $allowCaching)
+                                            ['useCacheHash' => $allowCaching]
                                         );
 
                                     $wrappedSubpartContentArray['###LINK###'] =
-                                        array(
+                                        [
                                             '<a href="' . htmlspecialchars($pageLink) . '">',
                                             '</a>'
-                                        );
+                                        ];
 
                                     if (
                                         version_compare(TYPO3_version, '8.7.0', '<')

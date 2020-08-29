@@ -1,3 +1,9 @@
+
+2020-08-29 Franz Holzinger <franz@ttproducts.de>
+    * bufix: order the records from getRecordTree by crdate
+    * bugfix: The link in the Forum input form must include the cHash parameter. Otherwise a cache problem will occur and not show the forum overview list over all threads but it will remain in the single thread list.
+    * bugfix: the static template must not be there only in the backend, but also in the frontend
+
 2020-08-01 Franz Holzinger <franz@ttproducts.de>
     * bugfix: OFFSET requires to call the method setFirstResult of the Querybuilder.
     * improvement: Add a key for the double post check

@@ -134,24 +134,13 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $absoluteFileName = $GLOBALS['TSFE']->tmpl->getFileName($conf['templateFile']);
         $orig_templateCode = file_get_contents($absoluteFileName);
 
-        if (
-            version_compare(TYPO3_version, '8.7.0', '<')
-        ) {
-                // Substitute Global Marker Array
-            $orig_templateCode =
-                $cObj->substituteMarkerArray(
-                    $orig_templateCode,
-                    $globalMarkerArray
-                );
-        } else {
-            $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
-                // Substitute Global Marker Array
-            $orig_templateCode =
-                $templateService->substituteMarkerArray(
-                    $orig_templateCode,
-                    $globalMarkerArray
-                );
-        }
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+            // Substitute Global Marker Array
+        $orig_templateCode =
+            $templateService->substituteMarkerArray(
+                $orig_templateCode,
+                $globalMarkerArray
+            );
         $composite->setOrigTemplateCode($orig_templateCode);
 
             // TypoLink.

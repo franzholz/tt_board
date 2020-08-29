@@ -182,7 +182,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $typolinkConf
                 );
 
-            $destinations = array('prev' /* previous */, 'next');
+            $destinations = ['prev' /* previous */, 'next'];
             foreach ($destinations as $destination) {
                 $destinationUid = 0;
                 if (
@@ -201,15 +201,15 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                             $pid,
                             $linkParams,
                             '',
-                            array(
+                            [
                                 'useCacheHash' => $allowCaching
-                            )
+                            ]
                         );
                     $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_THREAD###'] =
-                        array(
+                        [
                             '<a href="' . htmlspecialchars($url) . '">',
                             '</a>'
-                        );
+                        ];
                 } else {
                     $subpartArray['###LINK_' . strtoupper($destination) . '_THREAD###'] = '';
                 }
@@ -223,14 +223,14 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $pid,
                     $linkParams,
                     '',
-                    array('useCacheHash' => $allowCaching)
+                    ['useCacheHash' => $allowCaching]
                 );
 
                 $wrappedSubpartArray['###LINK_FIRST_POST###'] =
-                    array(
+                    [
                         '<a href="' . htmlspecialchars($url) . '">',
                         '</a>'
-                    );
+                    ];
             } else {
                 $subpartArray['###LINK_FIRST_POST###'] = '';
             }
@@ -300,14 +300,14 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                         $pid,
                         $linkParams,
                         '',
-                        array('useCacheHash' => $allowCaching)
+                        ['useCacheHash' => $allowCaching]
                     );
 
                 $wrappedSubpartArray['###LINK###'] =
-                    array(
+                    [
                         '<a href="' . htmlspecialchars($url) . '">',
                         '</a>'
-                    );
+                    ];
 
                 foreach ($destinations as $destination) {
 
@@ -331,14 +331,14 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                                 $pid,
                                 $linkParams,
                                 '',
-                                array('useCacheHash' => $allowCaching)
+                                ['useCacheHash' => $allowCaching]
                             );
 
                         $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_POST###'] =
-                            array(
+                            [
                                 '<a href="' .  htmlspecialchars($url) . '">',
                                 '</a>'
-                            );
+                            ];
                     } else {
                         $subpartMarkerArray['###LINK_' . strtoupper($destination) . '_POST###'] = '';
                     }

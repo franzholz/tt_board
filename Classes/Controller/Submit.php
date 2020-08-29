@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2018 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2020 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is

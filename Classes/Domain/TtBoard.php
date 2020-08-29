@@ -667,7 +667,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     public function getSingleThread (
         $uid,
         $ref,
-        $descend = 0
+        $descend = 0,
+        $recentAtLast = false
     )
     {
         $result = false;
@@ -719,7 +720,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                         $outArray,
                         $row['uid'],
                         $row['pid'],
-                        $ref
+                        $ref,
+                        $recentAtLast
                     );
                 }
             }
@@ -736,7 +738,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $descend = 0,
         $limit = 100,
         $offset = 0,
-        $searchWords = 0
+        $searchWords = 0,
+        $recentAtLast = true
     )
     {
         $queryBuilder = $this->getQueryBuilder();
@@ -811,7 +814,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                             $outArray,
                             $rootRow['uid'],
                             $rootRow['pid'],
-                            $ref
+                            $ref,
+                            $recentAtLast
                         );
                     }
                 }
@@ -850,7 +854,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                         $outArray,
                         $row['uid'],
                         $row['pid'],
-                        $ref
+                        $ref,
+                        $recentAtLast
                     );
                 }
             }
@@ -866,6 +871,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $parent,
         $pidList,
         $ref,
+        $recentAtLast = true,
         $treeMarks = ''
     )
     {
@@ -911,7 +917,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $queryBuilder
             ->select('*');
         $statement = $queryBuilder
-            ->orderBy('crdate', 'DESC')
+            ->orderBy('crdate')
             ->execute();
         $prevUid = end(array_keys($theRows));
 
@@ -946,12 +952,14 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             $theRows[$prevUid]['nextUid'] = $uid;
             $row['prevUid'] = $theRows[$prevUid]['uid'];
             $theRows[$uid] = $row;
+            
                 // get the branch
             $this->getRecordTree(
                 $theRows,
                 $uid,
                 $row['pid'],
                 $ref,
+                $recentAtLast,
                 $treeMarks . ($numberRows == $counter ? TreeMark::BLANK : TreeMark::LINE)
             );
             $prevUid = $uid;
@@ -965,7 +973,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $result = [];
         $result[] = 'crdate ';
-        if (in_array($desc, array('ASC', 'DESC'))) {
+        if (in_array($desc, ['ASC', 'DESC'])) {
             $result[] = $desc;
         }
         if ($stringFormat) {
