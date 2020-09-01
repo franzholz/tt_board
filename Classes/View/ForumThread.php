@@ -98,25 +98,13 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 $languageObj
             );
 
-            if (
-                version_compare(TYPO3_version, '8.7.0', '<')
-            ) {
-                $templateCode =
-                    $local_cObj->substituteMarkerArrayCached(
-                        $templateCode,
-                        $markerArray,
-                        $subpartMarkerArray,
-                        $wrappedSubpartArray
-                    );
-            } else {
-                $templateCode =
-                    $templateService->substituteMarkerArrayCached(
-                        $templateCode,
-                        $markerArray,
-                        $subpartMarkerArray,
-                        $wrappedSubpartArray
-                    );
-            }
+            $templateCode =
+                $templateService->substituteMarkerArrayCached(
+                    $templateCode,
+                    $markerArray,
+                    $subpartMarkerArray,
+                    $wrappedSubpartArray
+                );
 
             $rootParent = $modelObj->getRootParent($uid, $ref);
             $threadRootUid = $uid;
@@ -235,27 +223,14 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 $subpartArray['###LINK_FIRST_POST###'] = '';
             }
 
-            if (
-                version_compare(TYPO3_version, '8.7.0', '<')
-            ) {
-                    // Substitute:
-                $templateCode =
-                    $local_cObj->substituteMarkerArrayCached(
-                        $templateCode,
-                        $markerArray,
-                        $subpartArray,
-                        $wrappedSubpartArray
-                    );
-            } else {
-                    // Substitute:
-                $templateCode =
-                    $templateService->substituteMarkerArrayCached(
-                        $templateCode,
-                        $markerArray,
-                        $subpartArray,
-                        $wrappedSubpartArray
-                    );
-            }
+                // Substitute:
+            $templateCode =
+                $templateService->substituteMarkerArrayCached(
+                    $templateCode,
+                    $markerArray,
+                    $subpartArray,
+                    $wrappedSubpartArray
+                );
 
                 // Getting subpart for items:
             $postHeader =
@@ -344,27 +319,14 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     }
                 }
 
-                if (
-                    version_compare(TYPO3_version, '8.7.0', '<')
-                ) {
-                        // Substitute:
-                    $subpartContent .=
-                        $local_cObj->substituteMarkerArrayCached(
-                            $out,
-                            $markerArray,
-                            $subpartMarkerArray,
-                            $wrappedSubpartArray
-                        );
-                } else {
-                        // Substitute:
-                    $subpartContent .=
-                        $templateService->substituteMarkerArrayCached(
-                            $out,
-                            $markerArray,
-                            $subpartMarkerArray,
-                            $wrappedSubpartArray
-                        );
-                }
+                    // Substitute:
+                $subpartContent .=
+                    $templateService->substituteMarkerArrayCached(
+                        $out,
+                        $markerArray,
+                        $subpartMarkerArray,
+                        $wrappedSubpartArray
+                    );
             }
 
             $GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;

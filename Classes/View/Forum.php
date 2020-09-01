@@ -176,25 +176,13 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                         $lConf['forum_title_stdWrap.']
                     );
 
-                if (
-                    version_compare(TYPO3_version, '8.7.0', '<')
-                ) {
-                    $templateCode =
-                        $local_cObj->substituteMarkerArrayCached(
-                            $templateCode,
-                            $markerArray,
-                            $subpartMarkerArray,
-                            $wrappedSubpartArray
-                        );
-                } else {
-                    $templateCode =
-                        $templateService->substituteMarkerArrayCached(
-                            $templateCode,
-                            $markerArray,
-                            $subpartMarkerArray,
-                            $wrappedSubpartArray
-                        );
-                }
+                $templateCode =
+                    $templateService->substituteMarkerArrayCached(
+                        $templateCode,
+                        $markerArray,
+                        $subpartMarkerArray,
+                        $wrappedSubpartArray
+                    );
 
                 $postHeader =
                     $markerObj->getLayouts(
@@ -351,27 +339,14 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             '</a>'
                         ];
 
-                    if (
-                        version_compare(TYPO3_version, '8.7.0', '<')
-                    ) {
-                            // Substitute:
-                        $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
-                             $local_cObj->substituteMarkerArrayCached(
-                                $out,
-                                $markerArray,
-                                [],
-                                $wrappedSubpartArray
-                            );
-                    } else {
-                            // Substitute:
-                        $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
-                            $templateService->substituteMarkerArrayCached(
-                                $out,
-                                $markerArray,
-                                [],
-                                $wrappedSubpartArray
-                            );
-                    }
+                        // Substitute:
+                    $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
+                        $templateService->substituteMarkerArrayCached(
+                            $out,
+                            $markerArray,
+                            [],
+                            $wrappedSubpartArray
+                        );
                 }
 
                 if (!$conf['tree']) {
@@ -398,21 +373,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                 // Substitute CONTENT-subpart
                 $subpartContentArray['###CONTENT###'] = $subpartContent;
 
-                if (
-                    version_compare(TYPO3_version, '8.7.0', '<')
-                ) {
-                    $newContent = $local_cObj->substituteMarkerArrayCached(
-                        $templateCode,
-                        $markerArray,
-                        $subpartContentArray
-                    );
-                } else {
-                    $newContent = $templateService->substituteMarkerArrayCached(
-                        $templateCode,
-                        $markerArray,
-                        $subpartContentArray
-                    );
-                }
+                $newContent = $templateService->substituteMarkerArrayCached(
+                    $templateCode,
+                    $markerArray,
+                    $subpartContentArray
+                );
 
                 $content .= $newContent;
             } // if ($templateCode) {

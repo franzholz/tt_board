@@ -1,4 +1,7 @@
 
+2020-09-01 Franz Holzinger <franz@ttproducts.de>
+    * TYPO3 8.7 is the minimum requirement
+
 2020-08-29 Franz Holzinger <franz@ttproducts.de>
     * bufix: order the records from getRecordTree by crdate
     * bugfix: The link in the Forum input form must include the cHash parameter. Otherwise a cache problem will occur and not show the forum overview list over all threads but it will remain in the single thread list.
