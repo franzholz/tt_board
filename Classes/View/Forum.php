@@ -229,7 +229,8 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                                 $lConf['thread_limit'] :
                                 '50',
                             $begin_at,
-                            $controlObj->readGP('sword', $prefixId)
+                            $controlObj->readGP('sword', $prefixId),
+                            false
                         );
                 }
 

@@ -129,7 +129,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 }
             }
 
-            $wholeThread = $modelObj->getSingleThread($threadRootUid, $ref, 1);
+            $wholeThread = $modelObj->getSingleThread($threadRootUid, $ref, 1, true);
 
             if (is_object($treeView)) {
                 $treeView->addTreeIcons($wholeThread);

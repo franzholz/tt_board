@@ -668,7 +668,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $uid,
         $ref,
         $descend = 0,
-        $recentAtLast = false
+        $recentAtEnd = false
     )
     {
         $result = false;
@@ -721,7 +721,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                         $row['uid'],
                         $row['pid'],
                         $ref,
-                        $recentAtLast
+                        $recentAtEnd
                     );
                 }
             }
@@ -739,7 +739,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $limit = 100,
         $offset = 0,
         $searchWords = 0,
-        $recentAtLast = true
+        $recentAtEnd = true
     )
     {
         $queryBuilder = $this->getQueryBuilder();
@@ -815,7 +815,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                             $rootRow['uid'],
                             $rootRow['pid'],
                             $ref,
-                            $recentAtLast
+                            $recentAtEnd
                         );
                     }
                 }
@@ -830,11 +830,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 )
             );
             
-            if ($descend) {
-                $queryBuilder->orderBy('crdate', 'DESC');
-            } else {
-                $queryBuilder->orderBy('crdate');
-            }
+            $queryBuilder->orderBy('crdate', ($recentAtEnd ? 'ASC' : 'DESC'));
+
             if ($offset) {
                 $queryBuilder
                     ->setFirstResult($offset);
@@ -855,7 +852,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                         $row['uid'],
                         $row['pid'],
                         $ref,
-                        $recentAtLast
+                        $recentAtEnd
                     );
                 }
             }
@@ -871,7 +868,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $parent,
         $pidList,
         $ref,
-        $recentAtLast = true,
+        $recentAtEnd = true,
         $treeMarks = ''
     )
     {
@@ -917,7 +914,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $queryBuilder
             ->select('*');
         $statement = $queryBuilder
-            ->orderBy('crdate')
+            ->orderBy('crdate', ($recentAtEnd ? 'ASC' : 'DESC'))
             ->execute();
         $prevUid = end(array_keys($theRows));
 
@@ -959,7 +956,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 $uid,
                 $row['pid'],
                 $ref,
-                $recentAtLast,
+                $recentAtEnd,
                 $treeMarks . ($numberRows == $counter ? TreeMark::BLANK : TreeMark::LINE)
             );
             $prevUid = $uid;

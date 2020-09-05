@@ -1,4 +1,7 @@
 
+2020-09-05 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: add new parameter $recentAtEnd to method TtBoard::getSingleThread which is tru if the recent records shall be shown at the end of the list.
+
 2020-09-01 Franz Holzinger <franz@ttproducts.de>
     * TYPO3 8.7 is the minimum requirement
 
