@@ -36,8 +36,8 @@ namespace JambageCom\TtBoard\Controller;
  */
 
 
+use TYPO3\CMS\Core\Controller\ErrorPageController;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Messaging\ErrorpageMessage;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -49,6 +49,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 {
     static public function execute (TypoScriptFrontendDataController $pObj, $conf)
     {
+        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
         $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
         $sessionData = $session->getSessionData();
 
@@ -74,7 +75,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
             false
         );
-
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
         if (is_array($row)) {
             $email = $row['email'];
@@ -155,7 +155,14 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         $result = false;
                         break;
                     } else {
-                        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
+                        $excludeArray = [];
+
+                        if (version_compare(TYPO3_version, '10.0.0', '>=')) {
+                            $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'];
+                        } else if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'])) {
+                            $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
+                        }
+
                         if (
                             !GeneralUtility::inList(
                                 $excludeArray[$table],
@@ -191,10 +198,11 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             );
 
                         $pObj->clear_cacheCmd($pid);
-                        $GLOBALS['TSFE']->clearPageCacheContent_pidList($pid);
+                       
+                        \JambageCom\Div2007\Utility\SystemUtility::clearPageCacheContent_pidList($pid);
                         if ($pid != $GLOBALS['TSFE']->id) {
                             $pObj->clear_cacheCmd($GLOBALS['TSFE']->id);
-                            $GLOBALS['TSFE']->clearPageCacheContent_pidList(
+                            \JambageCom\Div2007\Utility\SystemUtility::clearPageCacheContent_pidList(
                                 $GLOBALS['TSFE']->id
                             );
                         }
@@ -343,11 +351,13 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             }
     
                             if ($row['parent']) {		// If reply and not new thread:
-                                $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newReply.']['msg']));
+                                $absoluteFileName = $sanitizer->sanitize($conf['newReply.']['msg']);
+                                $msg = GeneralUtility::getUrl($absoluteFileName);
                                 $markersArray['###DID_WHAT###'] = $languageObj->getLabel('newReply.didWhat');
                                 $markersArray['###SUBJECT_PREFIX###'] = $languageObj->getLabel('newReply.subjectPrefix');
                             } else {	// If new thread:
-                                $msg = GeneralUtility::getUrl($GLOBALS['TSFE']->tmpl->getFileName($conf['newThread.']['msg']));
+                                $absoluteFileName = $sanitizer->sanitize($conf['newThread.']['msg']);
+                                $msg = GeneralUtility::getUrl($absoluteFileName);
                                 $markersArray['###DID_WHAT###'] = $languageObj->getLabel('newThread.didWhat');
                                 $markersArray['###SUBJECT_PREFIX###'] = $languageObj->getLabel('newThread.subjectPrefix');
                             }
@@ -418,13 +428,17 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             }
 
             $title = $languageObj->getLabel('error_access_denied');
-            $messagePage =
+            $errorController =
                 GeneralUtility::makeInstance(
-                    ErrorpageMessage::class,
-                    $message,
-                    $title
+                    ErrorPageController::class
                 );
-            $messagePage->output();
+            $content = GeneralUtility::makeInstance(ErrorPageController::class)->errorAction(
+                $title,
+                $message
+            );
+            $sessionData = [];
+            $sessionData['error'] = $content;
+            $session->setSessionData($sessionData);
         }
 
         return $result;

@@ -165,10 +165,9 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
 
                 // Link back to forum
             $local_cObj->setCurrentVal($pid);
+            $separator = md5(microtime());
             $wrappedSubpartArray['###LINK_BACK_TO_FORUM###'] =
-                $local_cObj->typolinkWrap(
-                    $typolinkConf
-                );
+                explode($separator, $local_cObj->typoLink($separator, $typolinkConf));
 
             $destinations = ['prev' /* previous */, 'next'];
             foreach ($destinations as $destination) {

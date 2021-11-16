@@ -131,7 +131,8 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $composite->setModelObj($modelObj);
         $globalMarkerArray = $markerObj->getGlobalMarkers($cObj);
             // template is read.
-        $absoluteFileName = $GLOBALS['TSFE']->tmpl->getFileName($conf['templateFile']);
+        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+        $absoluteFileName = $sanitizer->sanitize($conf['templateFile']);
         $orig_templateCode = file_get_contents($absoluteFileName);
 
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);

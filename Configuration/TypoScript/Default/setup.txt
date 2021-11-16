@@ -109,6 +109,7 @@ temp.tt_board.shared {
   }
   postform.no_cache = 1
   postform.dontXssFieldNames = captcha
+  postform.dontMd5FieldNames = 1
 
   postform_newThread < .postform
   postform_newThread.dataArray.300.value = Post New Thread
