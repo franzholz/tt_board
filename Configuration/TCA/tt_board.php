@@ -27,9 +27,6 @@ $result = [
         'iconfile' => 'EXT:' . TT_BOARD_EXT . '/ext_icon.gif',
         'searchFields' => 'uid,author,city,email,subject,message,cr_ip',
     ],
-    'interface' => [
-        'showRecordFieldList' => 'subject,author,city,email,message'
-    ],
     'columns' => [
         'subject' => [
             'label' => 'LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_tca.xlf:' . $table . '.subject',
@@ -156,6 +153,12 @@ $result = [
         '0' => ['showitem' => 'hidden, crdate, tstamp, subject, message, author, city, email, parent, notify_me, cr_ip, reference']
     ]
 ];
+
+if (version_compare(TYPO3_version, '10.0.0', '<')) {
+    $result['interface'] = [
+        'showRecordFieldList' => 'subject,author,city,email,message'
+    ];
+}
 
 return $result;
 

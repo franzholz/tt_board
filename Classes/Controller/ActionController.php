@@ -168,7 +168,8 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
             $this->outMessage($composite->getErrorMessage());
         } else if ($contentTmp == 'error') {
             $fileName = 'EXT:' . TT_BOARD_EXT . '/template/board_help.tmpl';
-            $absoluteFileName = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
+            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+            $absoluteFileName = $sanitizer->sanitize($fileName);
             $helpTemplate = file_get_contents($absoluteFileName);
             $newContent = \JambageCom\Div2007\Utility\ViewUtility::displayHelpPage(
                 $composite->getLanguageObj(),

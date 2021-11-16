@@ -74,6 +74,9 @@ window.onload = addListeners;
     )
     {
         $content = '';
+        $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
+        $currentSessionData = $session->getSessionData();
+        $sessionData = [];
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $languageObj = $composite->getLanguageObj();
@@ -509,11 +512,9 @@ window.onload = addListeners;
         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT] = [];
 
         if (!empty($notify)) {
-            $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
-            $sessionData = [];
             $sessionData['notify_me'] = $notify;
-            $session->setSessionData($sessionData);
         }
+        $session->setSessionData($sessionData);
 
         return $content;
     }
