@@ -21,16 +21,9 @@ call_user_func(function () {
 
     $extensionConfiguration = [];
 
-    if (
-        defined('TYPO3_version') &&
-        version_compare(TYPO3_version, '9.0.0', '>=')
-    ) {
-        $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-        )->get(TT_BOARD_EXT);
-    } else {
-        $extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][TT_BOARD_EXT]);
-    }
+    $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+    )->get(TT_BOARD_EXT);
 
     if (
         isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]) &&
@@ -55,7 +48,7 @@ call_user_func(function () {
         // replace the output of the former CODE field with the flexform
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] =
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
-            'JambageCom\\TtBoard\\Hooks\\CmsBackend->pmDrawItem';
+            \JambageCom\TtBoard\Hooks\CmsBackend::class . '->pmDrawItem';
 
          \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_board=1');
     }

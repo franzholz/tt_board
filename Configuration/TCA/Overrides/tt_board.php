@@ -3,8 +3,13 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 call_user_func(function () {
     $table = 'tt_board';
+    $excludeArray = [];
 
-    $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
+    if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'])) {
+        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
+    } else {
+        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'];
+    }
 
     if (
         isset($excludeArray) &&

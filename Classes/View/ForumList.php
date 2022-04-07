@@ -424,8 +424,8 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $temp_conf['useCacheHash'] = $allowCaching;
                                     $temp_conf['no_cache'] = !$allowCaching;
 
-                                    $wrappedSubpartContentArray['###LINK###'] =
-                                        $forum_cObj->typolinkWrap($temp_conf);
+                                    $separator = md5(microtime());
+                                    $wrappedSubpartContentArray['###LINK###'] = explode($separator, $forum_cObj->typoLink($separator, $temp_conf));
 
                                     $overrulePIvars =
                                         array_merge(

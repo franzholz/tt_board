@@ -373,13 +373,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
                 // Substitute CONTENT-subpart
                 $subpartContentArray['###CONTENT###'] = $subpartContent;
-
                 $newContent = $templateService->substituteMarkerArrayCached(
                     $templateCode,
                     $markerArray,
                     $subpartContentArray
                 );
-
                 $content .= $newContent;
             } // if ($templateCode) {
         } // if($continue) {
@@ -387,4 +385,3 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
         return $content;
     } // printView
 }
-
