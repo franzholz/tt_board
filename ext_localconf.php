@@ -89,7 +89,10 @@ call_user_func(function () {
     );
 
     // Configure captcha hooks
-    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'])) {
+    if (
+        !isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha']) ||
+        !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'])
+    ) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'] = [];
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';

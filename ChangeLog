@@ -1,9 +1,8 @@
+2022-04-07 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 11.5 and PHP 8
 
 2021-11-17 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 10.4: use \TYPO3\CMS\Frontend\Resource\FilePathSanitizer
-
-2021-02-19 Franz Holzinger <franz@ttproducts.de>
-    * compatibility TYPO3 10.4: replace 
 
 2020-09-05 Franz Holzinger <franz@ttproducts.de>
     * bugfix: add new parameter $recentAtEnd to method TtBoard::getSingleThread which is tru if the recent records shall be shown at the end of the list.
