@@ -405,10 +405,20 @@ window.onload = addListeners;
                             'mailformformtypedb'
                         );
 
-                    $GLOBALS['TSFE']->setJS(
-                        TT_BOARD_EXT . '-privacy_policy',
-                        $privacyJavaScript
-                    );
+                    if (
+                        version_compare(TYPO3_version, '10.0.0', '>=')
+                    ) {
+                        GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class)
+                            ->addInlineJavaScript(
+                                TT_BOARD_EXT . '-privacy_policy',
+                                $privacyJavaScript
+                            );
+                    } else {
+                        $GLOBALS['TSFE']->setJS(
+                            TT_BOARD_EXT . '-privacy_policy',
+                            $privacyJavaScript
+                        );
+                    }
                 } else {
                     if (
                         isset($lConf['dataArray.']['60.']) &&

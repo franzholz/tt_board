@@ -7,7 +7,7 @@ call_user_func(function () {
 
     if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'])) {
         $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
-    } else {
+    } else if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'])) {
         $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'];
     }
 
@@ -16,6 +16,8 @@ call_user_func(function () {
         is_array($excludeArray) &&
         isset($excludeArray[$table])
     ) {
+        $excludeArray[$table] =
+            \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludeArray[$table]);
         \JambageCom\Div2007\Utility\TcaUtility::removeField(
             $GLOBALS['TCA'][$table],
             $excludeArray[$table]

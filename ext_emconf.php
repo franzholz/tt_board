@@ -8,7 +8,7 @@ $EM_CONF[$_EXTKEY] = [
     'title' => 'Message board, twin mode',
     'description' => 'Simple threaded (tree) or list message board (forum).',
     'category' => 'plugin',
-    'version' => '1.11.3',
+    'version' => '1.11.4',
     'state' => 'stable',
     'uploadfolder' => 0,
     'createDirs' => '',
@@ -18,10 +18,10 @@ $EM_CONF[$_EXTKEY] = [
     'author_company' => 'jambage.com',
     'constraints' => [
         'depends' => [
-            'php' => '7.3.1-7.4.99',
-            'typo3' => '9.5.0-10.4.99',
+            'php' => '7.4.0-8.1.99',
+            'typo3' => '9.5.0-11.5.99',
             'div2007' => '1.12.0-0.0.0',
-            'tslib_fetce' => '0.5.4-0.9.0',
+            'tslib_fetce' => '0.5.1-0.9.0',
         ],
         'conflicts' => [
         ],

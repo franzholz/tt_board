@@ -146,7 +146,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         if ($spamFound) {
                             break;
                         }
-                        $row[$field] = $value;
                     }
 
                     if ($spamFound) {
@@ -196,10 +195,9 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                     'forceAbsoluteUrl' => 1
                                 ]
                             );
-
                         $pObj->clear_cacheCmd($pid);
-                       
                         \JambageCom\Div2007\Utility\SystemUtility::clearPageCacheContent_pidList($pid);
+
                         if ($pid != $GLOBALS['TSFE']->id) {
                             $pObj->clear_cacheCmd($GLOBALS['TSFE']->id);
                             \JambageCom\Div2007\Utility\SystemUtility::clearPageCacheContent_pidList(
@@ -268,19 +266,18 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $maillist_recip = $mConf['email'];
                             }
 
-                            $maillist_header='From: ' . $mConf['namePrefix'] . $row['author'] . ' <' . $mConf['reply'] . '>' . chr(10);
+                            $maillist_header = 'From: ' . $mConf['namePrefix'] . $row['author'] . ' <' . $mConf['reply'] . '>' . chr(10);
                             $maillist_header .= 'Reply-To: ' . $mConf['reply'];
 
                                 //  Subject
                             if ($row['parent']) {	// RE:
-                                $ttBoardTable = 'tt_board';
-                                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($ttBoardTable);
+                                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
                                 $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
 
                                 $statement =
                                     $queryBuilder
                                         ->select('*')
-                                        ->from($ttBoardTable)
+                                        ->from($table)
                                         ->where(
                                             $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], \PDO::PARAM_INT))
                                         )
