@@ -6,6 +6,8 @@
 ChangeLog
 =========
 
+For the recent changes: See the file :file:`ChangeLog`.
+
 * 9.6.2018 DSGVO, GDPR
 * 26.7.2017 Ready for TYPO3 8.x
 * 8.9.2016 Ready for TYPO3 7.6.10
@@ -17,5 +19,4 @@ ChangeLog
 * 25.11.2006 Store the IP addresses for every post. This could be used with your firewalls to prevent unwanted visitors
 * 11.11.2006 11:11 Protection against spam words
 * 3.09.2006 Use the flexforms now. Reenter every plugin and choose the appropriate flexform texts instead of the former code fields.
-* 21.08.2006 ownership taken over by Franz Holzinger. Extra frontend plugin for the board's tree view using the same codes and different template files. It uses now static template files. The CSS template must be used if you use CSS styled content, which is the default for TYPO3 4.0.
-
+* 21.08.2006 ownership taken over by Franz Holzinger.

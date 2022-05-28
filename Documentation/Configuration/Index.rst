@@ -80,7 +80,7 @@ templateFile
 
 :typoscript:`plugin.tt_board_list.templateFile =` :ref:`t3tsref:data-type-resource`
 
-The template-file. | See example in 'template/board_template1.tmpl'
+The template-file. | See example in :file:`Resources/Private/Templates/board_template1.tmpl`.
 
 
 .. _ts-plugin-tt-board-list-pidList:
