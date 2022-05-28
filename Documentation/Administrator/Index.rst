@@ -17,7 +17,11 @@ Prerequisites
 
     PAGE_TARGET = _top
 
-Some of the TypoScript settings do not function via the constants field, but must be entered in the setup field. Only those settings which can be found using the Constants Editor or in the file Configuration/TypoScript/Default/constants.txt are valid constants. You must include the “Message Board Setup” into your “include static from extensions” of your TYPO3 template setup. The “Message Board CSS styles“ are not required. They provide default CSS styles for the forum.
+Some of the TypoScript settings do not function via the constants field, but must be entered in the 
+setup field. Only those settings which can be found using the Constants Editor or in the file 
+:file:`Configuration/TypoScript/Default/constants.txt` are valid constants. You must 
+include the “Message Board Setup” into your “include static from extensions” of your TYPO3 template 
+setup. The “Message Board CSS styles“ are not required. They provide default CSS styles for the forum.
 
 Use the flexforms in the plugin entry form to configure the plugin functionality.
 
@@ -96,7 +100,7 @@ Example Constants
     }
 
 
-Collect the IP addresses of the users which sent too many spams and protect your whole website by putting those IP addresses into your .htaccess file. Or insert it inside of the Directory clauses of an apache config file. See http://www.javascriptkit.com/howto/htaccess5.shtml
+Collect the IP addresses of the users which sent too many spams and protect your whole website by putting those IP addresses into your :file:`.htaccess` file. Or insert it inside of the Directory clauses of an apache config file. See http://www.javascriptkit.com/howto/htaccess5.shtml
 
 
 Example .htaccess
