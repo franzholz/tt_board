@@ -330,7 +330,7 @@ window.onload = addListeners;
                             'label.' =>
                                 [
                                     'wrap' =>
-                                    '<span class="'. TT_BOARD_CSS_PREFIX . 'captcha">|' . 
+                                    '<span class="' . TT_BOARD_CSS_PREFIX . 'captcha">|' . 
                                     $textLabelWrap .
                                     $captchaMarker['###CAPTCHA_IMAGE###']  . '<br' . $xhtmlFix . '>' .
                                     $captchaMarker['###CAPTCHA_NOTICE###'] . '<br' . $xhtmlFix . '>' .
