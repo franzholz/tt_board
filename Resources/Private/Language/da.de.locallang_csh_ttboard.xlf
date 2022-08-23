@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" target-language="da" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_csh_ttboard.xlf" date="2018-08-10T07:45:29Z">
+    <header>
+      <generator>LFEditor</generator>
+    </header>
+    <body>
+      <trans-unit id=".description">
+        <source><![CDATA[Built-in discussion board.]]></source>
+        <target state="needs-translation"><![CDATA[Built-in discussion board.]]></target>
+      </trans-unit>
+      <trans-unit id=".details">
+        <source><![CDATA[This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.]]></source>
+        <target state="needs-translation"><![CDATA[This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.]]></target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso">
+        <source><![CDATA[tt_content:list_type]]></source>
+        <target state="needs-translation"><![CDATA[tt_content:list_type]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

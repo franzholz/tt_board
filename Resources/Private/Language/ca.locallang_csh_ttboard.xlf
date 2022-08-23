@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_csh_ttboard.xlf" date="2016-11-16T09:39:34Z" product-name="tt_board" target-language="de">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_csh_ttboard.xlf" date="2016-11-16T09:39:34Z" product-name="tt_board" target-language="ca">
     <header/>
     <body>
       <trans-unit id=".description">
         <source>Built-in discussion board.</source>
-        <target state="translated">Eingebautes Diskussionsforum.</target>
+        <target state="needs-translation">Built-in discussion board.</target>
       </trans-unit>
       <trans-unit id=".details">
         <source>This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.</source>
-        <target state="translated">Diese Tabelle wird von dem standardmäßig verfügbaren TypoScript-Diskussionsforum/Liste verwendet. Alle Einträge gehen in diese Tabelle und Sie können die Foren über das Backend verwalten.</target>
+        <target state="needs-translation">This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.</target>
       </trans-unit>
       <trans-unit id="_.seeAlso">
         <source>tt_content:list_type</source>

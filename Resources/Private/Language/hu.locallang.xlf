@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang.xlf" date="2016-11-16T09:40:24Z" product-name="tt_board" target-language="de">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang.xlf" date="2016-11-16T09:40:24Z" product-name="tt_board" target-language="hu">
     <header/>
     <body>
       <trans-unit id="plugin">
@@ -9,15 +9,15 @@
       </trans-unit>
       <trans-unit id="members_only">
         <source>Only logged in members are allowed to post on this forum.</source>
-        <target state="translated">Nur eingeloggte Mitglieder dürfen in diesem Forum posten.</target>
+        <target state="needs-translation">Only logged in members are allowed to post on this forum.</target>
       </trans-unit>
       <trans-unit id="subject">
         <source>Subject:</source>
-        <target state="translated">Betreff:</target>
+        <target state="needs-translation">Subject:</target>
       </trans-unit>
       <trans-unit id="message">
         <source>Message:</source>
-        <target state="translated">Nachricht:</target>
+        <target state="needs-translation">Message:</target>
       </trans-unit>
       <trans-unit id="author">
         <source>Name:</source>
@@ -29,7 +29,7 @@
       </trans-unit>
       <trans-unit id="email">
         <source>Email:</source>
-        <target state="translated">E-Mail:</target>
+        <target state="needs-translation">Email:</target>
       </trans-unit>
       <trans-unit id="captcha">
         <source>Captcha:</source>
@@ -37,19 +37,19 @@
       </trans-unit>
       <trans-unit id="notify_me">
         <source>Notify me&lt;br&gt;by reply:</source>
-        <target state="translated">Benachrichtigen Sie mich &lt;br&gt;bei einer Antwort:</target>
+        <target state="needs-translation">Notify me&lt;br&gt;by reply:</target>
       </trans-unit>
       <trans-unit id="post_new">
         <source>New Post</source>
-        <target state="translated">Neuer Eintrag</target>
+        <target state="needs-translation">New Post</target>
       </trans-unit>
       <trans-unit id="post_reply">
         <source>Post Reply</source>
-        <target state="translated">Antwort posten</target>
+        <target state="needs-translation">Post Reply</target>
       </trans-unit>
       <trans-unit id="post_new_reply">
         <source>Post New Reply</source>
-        <target state="translated">Neue Antwort schreiben</target>
+        <target state="needs-translation">Post New Reply</target>
       </trans-unit>
       <trans-unit id="post.fillSubjectPrefix">
         <source>Re: </source>
@@ -57,11 +57,11 @@
       </trans-unit>
       <trans-unit id="post.thanks">
         <source>Many thanks for your contribution. Click again on the heading forum to read your contribution.</source>
-        <target state="translated">Vielen Dank für Ihren Beitrag. Klicken Sie erneut auf die Rubrik Forum, um Ihren Beitrag zu lesen.</target>
+        <target state="needs-translation">Many thanks for your contribution. Click again on the heading forum to read your contribution.</target>
       </trans-unit>
       <trans-unit id="board_age">
         <source>Age</source>
-        <target state="translated">Alter</target>
+        <target state="needs-translation">Age</target>
       </trans-unit>
       <trans-unit id="board_ago">
         <source>Ago</source>
@@ -69,27 +69,27 @@
       </trans-unit>
       <trans-unit id="board_author">
         <source>Author</source>
-        <target state="translated">Autor</target>
+        <target state="needs-translation">Author</target>
       </trans-unit>
       <trans-unit id="board_city">
         <source>City</source>
-        <target state="translated">Stadt</target>
+        <target state="needs-translation">City</target>
       </trans-unit>
       <trans-unit id="board_back_to_forum">
         <source>Back to Forum</source>
-        <target state="translated">Zurück zum Forum</target>
+        <target state="needs-translation">Back to Forum</target>
       </trans-unit>
       <trans-unit id="board_by">
         <source>By</source>
-        <target state="translated">Von</target>
+        <target state="needs-translation">By</target>
       </trans-unit>
       <trans-unit id="board_content">
         <source>Content</source>
-        <target state="translated">Inhalt</target>
+        <target state="needs-translation">Content</target>
       </trans-unit>
       <trans-unit id="board_date">
         <source>Date</source>
-        <target state="translated">Datum</target>
+        <target state="needs-translation">Date</target>
       </trans-unit>
       <trans-unit id="board_forum">
         <source>Forum</source>
@@ -97,91 +97,91 @@
       </trans-unit>
       <trans-unit id="board_forum_list">
         <source>Forum List</source>
-        <target state="translated">Forums Liste</target>
+        <target state="needs-translation">Forum List</target>
       </trans-unit>
       <trans-unit id="board_go_to_top">
         <source>Go to Top</source>
-        <target state="translated">Nach oben</target>
+        <target state="needs-translation">Go to Top</target>
       </trans-unit>
       <trans-unit id="board_last_post">
         <source>Last Post</source>
-        <target state="translated">Letzter Beitrag</target>
+        <target state="needs-translation">Last Post</target>
       </trans-unit>
       <trans-unit id="board_next_message">
         <source>Next Message</source>
-        <target state="translated">Nächste Nachricht</target>
+        <target state="needs-translation">Next Message</target>
       </trans-unit>
       <trans-unit id="board_next_topic">
         <source>Next Topic</source>
-        <target state="translated">Nächstes Thema</target>
+        <target state="needs-translation">Next Topic</target>
       </trans-unit>
       <trans-unit id="board_posts">
         <source>Posts</source>
-        <target state="translated">Beitrag</target>
+        <target state="needs-translation">Posts</target>
       </trans-unit>
       <trans-unit id="board_previous_message">
         <source>Previous Message</source>
-        <target state="translated">Vorherige Nachricht</target>
+        <target state="needs-translation">Previous Message</target>
       </trans-unit>
       <trans-unit id="board_previous_topic">
         <source>Previous Topic</source>
-        <target state="translated">Vorheriges Thema</target>
+        <target state="needs-translation">Previous Topic</target>
       </trans-unit>
       <trans-unit id="board_replies">
         <source>Replies</source>
-        <target state="translated">Antworten</target>
+        <target state="needs-translation">Replies</target>
       </trans-unit>
       <trans-unit id="board_search">
         <source>Searching</source>
-        <target state="translated">Suchen</target>
+        <target state="needs-translation">Searching</target>
       </trans-unit>
       <trans-unit id="board_subject">
         <source>Subject</source>
-        <target state="translated">Betreff</target>
+        <target state="needs-translation">Subject</target>
       </trans-unit>
       <trans-unit id="board_threads">
         <source>Threads</source>
-        <target state="translated">Themenstrang</target>
+        <target state="needs-translation">Threads</target>
       </trans-unit>
       <trans-unit id="board_thread_starter">
         <source>Thread Starter</source>
-        <target state="translated">Themen-Starter</target>
+        <target state="needs-translation">Thread Starter</target>
       </trans-unit>
       <trans-unit id="board_topics">
         <source>Topics</source>
-        <target state="translated">Themen</target>
+        <target state="needs-translation">Topics</target>
       </trans-unit>
       <trans-unit id="board_new">
         <source>NEW</source>
-        <target state="translated">NEU</target>
+        <target state="needs-translation">NEW</target>
       </trans-unit>
       <trans-unit id="button_search">
         <source>Search in the Board</source>
-        <target state="translated">Suche im Forum</target>
+        <target state="needs-translation">Search in the Board</target>
       </trans-unit>
       <trans-unit id="spam_detected">
         <source>The spam word '%s' has been detected!</source>
-        <target state="translated">Das Spam-Wort '%s'  wurde erkannt!</target>
+        <target state="needs-translation">The spam word '%s' has been detected!</target>
       </trans-unit>
       <trans-unit id="wrong_captcha">
         <source>Wrong captcha word '%s' entered!</source>
-        <target state="translated">Falsches Captcha-Wort '%s' eingegeben!</target>
+        <target state="needs-translation">Wrong captcha word '%s' entered!</target>
       </trans-unit>
       <trans-unit id="error_access_denied">
         <source>Access denied!</source>
-        <target state="translated">Zugang verweigert!</target>
+        <target state="needs-translation">Access denied!</target>
       </trans-unit>
       <trans-unit id="error_email">
         <source>'%s' is not a valid email address!</source>
-        <target state="translated">'%s' ist keine gültige E-Mail-Adresse!</target>
+        <target state="needs-translation">'%s' is not a valid email address!</target>
       </trans-unit>
       <trans-unit id="error_no_email">
         <source>You did not enter an email address!</source>
-        <target state="translated">Sie haben keine E-Mail-Adresse eingegeben!</target>
+        <target state="needs-translation">You did not enter an email address!</target>
       </trans-unit>
       <trans-unit id="error_no_permission">
         <source>You do not have the permission to post into this forum!</source>
-        <target state="translated">Sie haben nicht die Erlaubnis, in diesem Forum zu posten!</target>
+        <target state="needs-translation">You do not have the permission to post into this forum!</target>
       </trans-unit>
       <trans-unit id="p_at">
         <source>at</source>
