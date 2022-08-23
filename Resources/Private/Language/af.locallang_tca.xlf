@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board" target-language="af">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board" target-language="af">
     <header/>
     <body>
       <trans-unit id="pi_list">
