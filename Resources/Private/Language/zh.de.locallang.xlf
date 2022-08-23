@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" target-language="zh-TW" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang.xlf" date="2018-08-10T07:36:10Z">
+    <header>
+      <generator>LFEditor</generator>
+    </header>
+    <body>
+      <trans-unit id="author">
+        <source><![CDATA[Name:]]></source>
+        <target state="needs-translation"><![CDATA[Name:]]></target>
+      </trans-unit>
+      <trans-unit id="post.thanks" xml:space="preserve">
+				<source><![CDATA[Many thanks for your contribution. Click again on the heading forum to read your contribution.]]></source>
+				<target state="needs-translation"><![CDATA[Many thanks for your contribution. Click again on the heading forum to read your contribution.]]></target>
+			</trans-unit>
+      <trans-unit id="board_age">
+        <source><![CDATA[Age]]></source>
+        <target state="needs-translation"><![CDATA[Age]]></target>
+      </trans-unit>
+      <trans-unit id="board_ago">
+        <source><![CDATA[Ago]]></source>
+        <target state="needs-translation"><![CDATA[Ago]]></target>
+      </trans-unit>
+      <trans-unit id="board_author">
+        <source><![CDATA[Author]]></source>
+        <target state="needs-translation"><![CDATA[Author]]></target>
+      </trans-unit>
+      <trans-unit id="board_city">
+        <source><![CDATA[City]]></source>
+        <target state="needs-translation"><![CDATA[City]]></target>
+      </trans-unit>
+      <trans-unit id="board_back_to_forum">
+        <source><![CDATA[Back to Forum]]></source>
+        <target state="needs-translation"><![CDATA[Back to Forum]]></target>
+      </trans-unit>
+      <trans-unit id="board_by">
+        <source><![CDATA[By]]></source>
+        <target state="needs-translation"><![CDATA[By]]></target>
+      </trans-unit>
+      <trans-unit id="board_content">
+        <source><![CDATA[Content]]></source>
+        <target state="needs-translation"><![CDATA[Content]]></target>
+      </trans-unit>
+      <trans-unit id="board_date">
+        <source><![CDATA[Date]]></source>
+        <target state="needs-translation"><![CDATA[Date]]></target>
+      </trans-unit>
+      <trans-unit id="board_forum">
+        <source><![CDATA[Forum]]></source>
+        <target state="needs-translation"><![CDATA[Forum]]></target>
+      </trans-unit>
+      <trans-unit id="board_forum_list">
+        <source><![CDATA[Forum List]]></source>
+        <target state="needs-translation"><![CDATA[Forum List]]></target>
+      </trans-unit>
+      <trans-unit id="board_go_to_top">
+        <source><![CDATA[Go to Top]]></source>
+        <target state="needs-translation"><![CDATA[Go to Top]]></target>
+      </trans-unit>
+      <trans-unit id="board_last_post">
+        <source><![CDATA[Last Post]]></source>
+        <target state="needs-translation"><![CDATA[Last Post]]></target>
+      </trans-unit>
+      <trans-unit id="board_next_message">
+        <source><![CDATA[Next Message]]></source>
+        <target state="needs-translation"><![CDATA[Next Message]]></target>
+      </trans-unit>
+      <trans-unit id="board_next_topic">
+        <source><![CDATA[Next Topic]]></source>
+        <target state="needs-translation"><![CDATA[Next Topic]]></target>
+      </trans-unit>
+      <trans-unit id="board_posts">
+        <source><![CDATA[Posts]]></source>
+        <target state="needs-translation"><![CDATA[Posts]]></target>
+      </trans-unit>
+      <trans-unit id="board_previous_message">
+        <source><![CDATA[Previous Message]]></source>
+        <target state="needs-translation"><![CDATA[Previous Message]]></target>
+      </trans-unit>
+      <trans-unit id="board_previous_topic">
+        <source><![CDATA[Previous Topic]]></source>
+        <target state="needs-translation"><![CDATA[Previous Topic]]></target>
+      </trans-unit>
+      <trans-unit id="board_replies">
+        <source><![CDATA[Replies]]></source>
+        <target state="needs-translation"><![CDATA[Replies]]></target>
+      </trans-unit>
+      <trans-unit id="board_search">
+        <source><![CDATA[Searching]]></source>
+        <target state="needs-translation"><![CDATA[Searching]]></target>
+      </trans-unit>
+      <trans-unit id="board_subject">
+        <source><![CDATA[Subject]]></source>
+        <target state="needs-translation"><![CDATA[Subject]]></target>
+      </trans-unit>
+      <trans-unit id="board_thread_starter">
+        <source><![CDATA[Thread Starter]]></source>
+        <target state="needs-translation"><![CDATA[Thread Starter]]></target>
+      </trans-unit>
+      <trans-unit id="board_threads">
+        <source><![CDATA[Threads]]></source>
+        <target state="needs-translation"><![CDATA[Threads]]></target>
+      </trans-unit>
+      <trans-unit id="board_topics">
+        <source><![CDATA[Topics]]></source>
+        <target state="needs-translation"><![CDATA[Topics]]></target>
+      </trans-unit>
+      <trans-unit id="board_new">
+        <source><![CDATA[NEW]]></source>
+        <target state="needs-translation"><![CDATA[NEW]]></target>
+      </trans-unit>
+      <trans-unit id="button_search">
+        <source><![CDATA[Search in the Board]]></source>
+        <target state="needs-translation"><![CDATA[Search in the Board]]></target>
+      </trans-unit>
+      <trans-unit id="captcha">
+        <source><![CDATA[Captcha:]]></source>
+        <target state="needs-translation"><![CDATA[Captcha:]]></target>
+      </trans-unit>
+      <trans-unit id="email">
+        <source><![CDATA[Email:]]></source>
+        <target state="needs-translation"><![CDATA[Email:]]></target>
+      </trans-unit>
+      <trans-unit id="error_access_denied">
+        <source><![CDATA[Access denied!]]></source>
+        <target state="needs-translation"><![CDATA[Access denied!]]></target>
+      </trans-unit>
+      <trans-unit id="error_email">
+        <source><![CDATA['%s' is not a valid email address!]]></source>
+        <target state="needs-translation"><![CDATA['%s' is not a valid email address!]]></target>
+      </trans-unit>
+      <trans-unit id="error_no_email">
+        <source><![CDATA[You did not enter an email address!]]></source>
+        <target state="needs-translation"><![CDATA[You did not enter an email address!]]></target>
+      </trans-unit>
+      <trans-unit id="error_no_permission">
+        <source><![CDATA[You do not have the permission to post into this forum!]]></source>
+        <target state="needs-translation"><![CDATA[You do not have the permission to post into this forum!]]></target>
+      </trans-unit>
+      <trans-unit id="members_only">
+        <source><![CDATA[Only logged in members are allowed to post on this forum.]]></source>
+        <target state="needs-translation"><![CDATA[Only logged in members are allowed to post on this forum.]]></target>
+      </trans-unit>
+      <trans-unit id="message">
+        <source><![CDATA[Message:]]></source>
+        <target state="needs-translation"><![CDATA[Message:]]></target>
+      </trans-unit>
+      <trans-unit id="notify_me">
+        <source><![CDATA[Notify me<br>by reply:]]></source>
+        <target state="needs-translation"><![CDATA[Notify me<br>by reply:]]></target>
+      </trans-unit>
+      <trans-unit id="plugin">
+        <source><![CDATA[Message Board Plugin]]></source>
+        <target state="needs-translation"><![CDATA[Message Board Plugin]]></target>
+      </trans-unit>
+      <trans-unit id="post_new">
+        <source><![CDATA[New Post]]></source>
+        <target state="needs-translation"><![CDATA[New Post]]></target>
+      </trans-unit>
+      <trans-unit id="post_new_reply">
+        <source><![CDATA[Post New Reply]]></source>
+        <target state="needs-translation"><![CDATA[Post New Reply]]></target>
+      </trans-unit>
+      <trans-unit id="post_reply">
+        <source><![CDATA[Post Reply]]></source>
+        <target state="needs-translation"><![CDATA[Post Reply]]></target>
+      </trans-unit>
+      <trans-unit id="spam_detected" xml:space="preserve">
+				<source><![CDATA[The spam word '%s' has been detected!]]></source>
+				<target state="needs-translation"><![CDATA[The spam word '%s' has been detected!]]></target>
+			</trans-unit>
+      <trans-unit id="subject">
+        <source><![CDATA[Subject:]]></source>
+        <target state="needs-translation"><![CDATA[Subject:]]></target>
+      </trans-unit>
+      <trans-unit id="wrong_captcha">
+        <source><![CDATA[Wrong captcha word '%s' entered!]]></source>
+        <target state="needs-translation"><![CDATA[Wrong captcha word '%s' entered!]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
