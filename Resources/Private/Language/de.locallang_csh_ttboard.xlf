@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-08-10T07:45:29Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_csh_ttboard.xlf" date="2018-08-10T07:45:29Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
-			<trans-unit id=".description" approved="yes">
+			<trans-unit id=".description">
 				<source><![CDATA[Built-in discussion board.]]></source>
 				<target><![CDATA[Eingebautes Diskussionsforum.]]></target>
 			</trans-unit>
-			<trans-unit id=".details" approved="yes">
+			<trans-unit id=".details">
 				<source><![CDATA[This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.]]></source>
 				<target><![CDATA[Diese Tabelle wird von dem standardmäßig verfügbaren TypoScript-Diskussionsforum/Liste verwendet. Alle Einträge gehen in diese Tabelle und Sie können die Foren über das Backend verwalten.]]></target>
 			</trans-unit>
-			<trans-unit id="_.seeAlso" approved="yes">
+			<trans-unit id="_.seeAlso">
 				<source><![CDATA[tt_content:list_type]]></source>
 				<target><![CDATA[tt_content:list_type]]></target>
 			</trans-unit>

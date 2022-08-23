@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-08-10T07:44:17Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_tca.xlf" date="2018-08-10T07:44:17Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
-			<trans-unit id="pi_list" approved="yes">
+			<trans-unit id="pi_list">
 				<source><![CDATA[Board, List]]></source>
 				<target><![CDATA[Forum, Liste]]></target>
 			</trans-unit>
-			<trans-unit id="pi_tree" approved="yes">
+			<trans-unit id="pi_tree">
 				<source><![CDATA[Board, Tree]]></source>
 				<target><![CDATA[Forum, Baumansicht]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board" approved="yes">
+			<trans-unit id="tt_board">
 				<source><![CDATA[Board]]></source>
 				<target><![CDATA[Forum]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board.cr_ip" approved="yes">
+			<trans-unit id="tt_board.cr_ip">
 				<source><![CDATA[Sender IP address]]></source>
 				<target><![CDATA[Absender-IP-Adresse]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board.crdate" approved="yes">
+			<trans-unit id="tt_board.crdate">
 				<source><![CDATA[Date/Time:]]></source>
 				<target><![CDATA[Datum/Zeit:]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board.tstamp" approved="yes">
+			<trans-unit id="tt_board.tstamp">
 				<source><![CDATA[Timestamp:]]></source>
 				<target><![CDATA[Zeitstempel:]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board.message" approved="yes">
+			<trans-unit id="tt_board.message">
 				<source><![CDATA[Message:]]></source>
 				<target><![CDATA[Nachricht:]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board.notify_me" approved="yes">
+			<trans-unit id="tt_board.notify_me">
 				<source><![CDATA[Notify by email:]]></source>
 				<target><![CDATA[Benachrichtigung per E-Mail:]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board.parent" approved="yes">
+			<trans-unit id="tt_board.parent">
 				<source><![CDATA[Parent:]]></source>
 				<target><![CDATA[Übergeordnet:]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board.reference" approved="yes">
+			<trans-unit id="tt_board.reference">
 				<source><![CDATA[Reference to record in another extension]]></source>
 				<target><![CDATA[Verweis auf Datensatz in einer anderen Erweiterung]]></target>
 			</trans-unit>
-			<trans-unit id="tt_board.subject" approved="yes">
+			<trans-unit id="tt_board.subject">
 				<source><![CDATA[Subject:]]></source>
 				<target><![CDATA[Betreff:]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode">
 				<source><![CDATA[Display mode]]></source>
 				<target><![CDATA[Anzeigemodus]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.1" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode.1">
 				<source><![CDATA[General: Help]]></source>
 				<target><![CDATA[Allgemein: Hilfe]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.2" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode.2">
 				<source><![CDATA[Category, Forum: List]]></source>
 				<target><![CDATA[Kategorie, Forum: Liste]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.3" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode.3">
 				<source><![CDATA[Forum: List]]></source>
 				<target><![CDATA[Forum: Liste]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.4" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode.4">
 				<source><![CDATA[Forum: Single]]></source>
 				<target><![CDATA[Forum Einzelansicht]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.5" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode.5">
 				<source><![CDATA[Entry Form: General]]></source>
 				<target><![CDATA[Eingabeformular: Allgemeines]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.6" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode.6">
 				<source><![CDATA[Entry Form: Reply]]></source>
 				<target><![CDATA[Eingabeformular: Antwort]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.7" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode.7">
 				<source><![CDATA[Entry Form: New Thread]]></source>
 				<target><![CDATA[Eingabeformular: Neues Thema]]></target>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.8" approved="yes">
+			<trans-unit id="tt_content.pi_flexform.display_mode.8">
 				<source><![CDATA[Forum: Tree]]></source>
 				<target><![CDATA[Forum: Baumansicht]]></target>
 			</trans-unit>

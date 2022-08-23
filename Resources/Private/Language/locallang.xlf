@@ -1,183 +1,183 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-11-16T09:40:24Z" product-name="tt_board">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang.xlf" date="2016-11-16T09:40:24Z" product-name="tt_board">
 		<header/>
 		<body>
-			<trans-unit id="plugin" xml:space="preserve">
+			<trans-unit id="plugin">
 				<source>Message Board Plugin</source>
 			</trans-unit>
-			<trans-unit id="members_only" xml:space="preserve">
+			<trans-unit id="members_only">
 				<source>Only logged in members are allowed to post on this forum.</source>
 			</trans-unit>
-			<trans-unit id="subject" xml:space="preserve">
+			<trans-unit id="subject">
 				<source>Subject:</source>
 			</trans-unit>
-			<trans-unit id="message" xml:space="preserve">
+			<trans-unit id="message">
 				<source>Message:</source>
 			</trans-unit>
-			<trans-unit id="author" xml:space="preserve">
+			<trans-unit id="author">
 				<source>Name:</source>
 			</trans-unit>
-			<trans-unit id="city" xml:space="preserve">
+			<trans-unit id="city">
 				<source>City:</source>
 			</trans-unit>
-			<trans-unit id="email" xml:space="preserve">
+			<trans-unit id="email">
 				<source>Email:</source>
 			</trans-unit>
-			<trans-unit id="captcha" xml:space="preserve">
+			<trans-unit id="captcha">
 				<source>Captcha:</source>
 			</trans-unit>
-			<trans-unit id="notify_me" xml:space="preserve">
+			<trans-unit id="notify_me">
 				<source>Notify me&lt;br&gt;by reply:</source>
 			</trans-unit>
-			<trans-unit id="post_new" xml:space="preserve">
+			<trans-unit id="post_new">
 				<source>New Post</source>
 			</trans-unit>
-			<trans-unit id="post_reply" xml:space="preserve">
+			<trans-unit id="post_reply">
 				<source>Post Reply</source>
 			</trans-unit>
-			<trans-unit id="post_new_reply" xml:space="preserve">
+			<trans-unit id="post_new_reply">
 				<source>Post New Reply</source>
 			</trans-unit>
-			<trans-unit id="post.fillSubjectPrefix" xml:space="preserve">
+			<trans-unit id="post.fillSubjectPrefix">
 				<source>Re: </source>
 			</trans-unit>
-			<trans-unit id="post.thanks" xml:space="preserve">
+			<trans-unit id="post.thanks">
 				<source>Many thanks for your contribution. Click again on the heading forum to read your contribution.</source>
 			</trans-unit>
-			<trans-unit id="board_age" xml:space="preserve">
+			<trans-unit id="board_age">
 				<source>Age</source>
 			</trans-unit>
-			<trans-unit id="board_ago" xml:space="preserve">
+			<trans-unit id="board_ago">
 				<source>Ago</source>
 			</trans-unit>
-			<trans-unit id="board_author" xml:space="preserve">
+			<trans-unit id="board_author">
 				<source>Author</source>
 			</trans-unit>
-			<trans-unit id="board_city" xml:space="preserve">
+			<trans-unit id="board_city">
 				<source>City</source>
 			</trans-unit>
-			<trans-unit id="board_back_to_forum" xml:space="preserve">
+			<trans-unit id="board_back_to_forum">
 				<source>Back to Forum</source>
 			</trans-unit>
-			<trans-unit id="board_by" xml:space="preserve">
+			<trans-unit id="board_by">
 				<source>By</source>
 			</trans-unit>
-			<trans-unit id="board_content" xml:space="preserve">
+			<trans-unit id="board_content">
 				<source>Content</source>
 			</trans-unit>
-			<trans-unit id="board_date" xml:space="preserve">
+			<trans-unit id="board_date">
 				<source>Date</source>
 			</trans-unit>
-			<trans-unit id="board_forum" xml:space="preserve">
+			<trans-unit id="board_forum">
 				<source>Forum</source>
 			</trans-unit>
-			<trans-unit id="board_forum_list" xml:space="preserve">
+			<trans-unit id="board_forum_list">
 				<source>Forum List</source>
 			</trans-unit>
-			<trans-unit id="board_go_to_top" xml:space="preserve">
+			<trans-unit id="board_go_to_top">
 				<source>Go to Top</source>
 			</trans-unit>
-			<trans-unit id="board_last_post" xml:space="preserve">
+			<trans-unit id="board_last_post">
 				<source>Last Post</source>
 			</trans-unit>
-			<trans-unit id="board_next_message" xml:space="preserve">
+			<trans-unit id="board_next_message">
 				<source>Next Message</source>
 			</trans-unit>
-			<trans-unit id="board_next_topic" xml:space="preserve">
+			<trans-unit id="board_next_topic">
 				<source>Next Topic</source>
 			</trans-unit>
-			<trans-unit id="board_posts" xml:space="preserve">
+			<trans-unit id="board_posts">
 				<source>Posts</source>
 			</trans-unit>
-			<trans-unit id="board_previous_message" xml:space="preserve">
+			<trans-unit id="board_previous_message">
 				<source>Previous Message</source>
 			</trans-unit>
-			<trans-unit id="board_previous_topic" xml:space="preserve">
+			<trans-unit id="board_previous_topic">
 				<source>Previous Topic</source>
 			</trans-unit>
-			<trans-unit id="board_replies" xml:space="preserve">
+			<trans-unit id="board_replies">
 				<source>Replies</source>
 			</trans-unit>
-			<trans-unit id="board_search" xml:space="preserve">
+			<trans-unit id="board_search">
 				<source>Searching</source>
 			</trans-unit>
-			<trans-unit id="board_subject" xml:space="preserve">
+			<trans-unit id="board_subject">
 				<source>Subject</source>
 			</trans-unit>
-			<trans-unit id="board_threads" xml:space="preserve">
+			<trans-unit id="board_threads">
 				<source>Threads</source>
 			</trans-unit>
-			<trans-unit id="board_thread_starter" xml:space="preserve">
+			<trans-unit id="board_thread_starter">
 				<source>Thread Starter</source>
 			</trans-unit>
-			<trans-unit id="board_topics" xml:space="preserve">
+			<trans-unit id="board_topics">
 				<source>Topics</source>
 			</trans-unit>
-			<trans-unit id="board_new" xml:space="preserve">
+			<trans-unit id="board_new">
 				<source>NEW</source>
 			</trans-unit>
-			<trans-unit id="button_search" xml:space="preserve">
+			<trans-unit id="button_search">
 				<source>Search in the Board</source>
 			</trans-unit>
-			<trans-unit id="spam_detected" xml:space="preserve">
+			<trans-unit id="spam_detected">
 				<source>The spam word '%s' has been detected!</source>
 			</trans-unit>
-			<trans-unit id="wrong_captcha" xml:space="preserve">
+			<trans-unit id="wrong_captcha">
 				<source>Wrong captcha word '%s' entered!</source>
 			</trans-unit>
-			<trans-unit id="error_access_denied" xml:space="preserve">
+			<trans-unit id="error_access_denied">
 				<source>Access denied!</source>
 			</trans-unit>
-			<trans-unit id="error_email" xml:space="preserve">
+			<trans-unit id="error_email">
 				<source>'%s' is not a valid email address!</source>
 			</trans-unit>
-			<trans-unit id="error_no_email" xml:space="preserve">
+			<trans-unit id="error_no_email">
 				<source>You did not enter an email address!</source>
 			</trans-unit>
-			<trans-unit id="error_no_permission" xml:space="preserve">
+			<trans-unit id="error_no_permission">
 				<source>You do not have the permission to post into this forum!</source>
 			</trans-unit>
-			<trans-unit id="p_at" xml:space="preserve">
+			<trans-unit id="p_at">
 				<source>at</source>
 			</trans-unit>
-			<trans-unit id="p_salutation" xml:space="preserve">
+			<trans-unit id="p_salutation">
 				<source>Hello</source>
 			</trans-unit>
-			<trans-unit id="p_url_title" xml:space="preserve">
+			<trans-unit id="p_url_title">
 				<source>This thread is located at</source>
 			</trans-unit>
-			<trans-unit id="p_text_snippet" xml:space="preserve">
+			<trans-unit id="p_text_snippet">
 				<source>Text Snippet</source>
 			</trans-unit>
-			<trans-unit id="p_subject" xml:space="preserve">
+			<trans-unit id="p_subject">
 				<source>Subject</source>
 			</trans-unit>
-			<trans-unit id="p_content" xml:space="preserve">
+			<trans-unit id="p_content">
 				<source>Content</source>
 			</trans-unit>
-			<trans-unit id="newReply.author" xml:space="preserve">
+			<trans-unit id="newReply.author">
 				<source>Author</source>
 			</trans-unit>
-			<trans-unit id="newReply.city" xml:space="preserve">
+			<trans-unit id="newReply.city">
 				<source>City</source>
 			</trans-unit>
-			<trans-unit id="newReply.didWhat" xml:space="preserve">
+			<trans-unit id="newReply.didWhat">
 				<source>has just replied to a thread at</source>
 			</trans-unit>
-			<trans-unit id="newReply.followThisLink" xml:space="preserve">
+			<trans-unit id="newReply.followThisLink">
 				<source>Follow this link</source>
 			</trans-unit>
-			<trans-unit id="newReply.message" xml:space="preserve">
+			<trans-unit id="newReply.message">
 				<source>Message</source>
 			</trans-unit>
-			<trans-unit id="newReply.subjectPrefix" xml:space="preserve">
+			<trans-unit id="newReply.subjectPrefix">
 				<source>Reply to post at</source>
 			</trans-unit>
-			<trans-unit id="newThread.didWhat" xml:space="preserve">
+			<trans-unit id="newThread.didWhat">
 				<source>has just created a new thread at</source>
 			</trans-unit>
-			<trans-unit id="newThread.subjectPrefix" xml:space="preserve">
+			<trans-unit id="newThread.subjectPrefix">
 				<source>New thread</source>
 			</trans-unit>
 		</body>
