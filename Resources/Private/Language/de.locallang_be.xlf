@@ -1,26 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_be.xlf" date="2018-08-10T07:47:21Z">
-		<header>
-			<generator>LFEditor</generator>
-		</header>
-		<body>
-			<trans-unit id="plugins_list_description">
-				<source><![CDATA[Adds a message board ('list'-style forum) to the page.]]></source>
-				<target><![CDATA[Fügt der Seite ein Message Board (Listen-Struktur Forum) hinzu.]]></target>
-			</trans-unit>
-			<trans-unit id="plugins_list_title">
-				<source><![CDATA[Message board]]></source>
-				<target><![CDATA[Message Board]]></target>
-			</trans-unit>
-			<trans-unit id="plugins_tree_description">
-				<source><![CDATA[Add a threaded discussion forum ('tree'-style forum) to the page.]]></source>
-				<target><![CDATA[Fügen Sie der Seite ein Diskussionsforum (Baum-Struktur Forum) hinzu.]]></target>
-			</trans-unit>
-			<trans-unit id="plugins_tree_title">
-				<source><![CDATA[Discussion forum]]></source>
-				<target><![CDATA[Diskussionsforum]]></target>
-			</trans-unit>
-		</body>
-	</file>
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_be.xlf" date="2016-11-16T09:40:01Z" product-name="tt_board" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="plugins_list_title">
+        <source>Message board</source>
+        <target state="translated">Message Board</target>
+      </trans-unit>
+      <trans-unit id="plugins_list_description">
+        <source>Adds a message board ('list'-style forum) to the page.</source>
+        <target state="translated">Fügt der Seite ein Message Board (Listen-Struktur Forum) hinzu.</target>
+      </trans-unit>
+      <trans-unit id="plugins_tree_title">
+        <source>Discussion forum</source>
+        <target state="translated">Diskussionsforum</target>
+      </trans-unit>
+      <trans-unit id="plugins_tree_description">
+        <source>Add a threaded discussion forum ('tree'-style forum) to the page.</source>
+        <target state="translated">Fügen Sie der Seite ein Diskussionsforum (Baum-Struktur Forum) hinzu.</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
