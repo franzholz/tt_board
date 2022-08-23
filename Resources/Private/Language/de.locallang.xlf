@@ -1,182 +1,244 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang.xlf" date="2018-08-10T07:36:10Z">
-		<header>
-			<generator>LFEditor</generator>
-		</header>
-		<body>
-			<trans-unit id="author">
-				<source><![CDATA[Name:]]></source>
-				<target><![CDATA[Name:]]></target>
-			</trans-unit>
-			<trans-unit id="post.thanks" xml:space="preserve">
-				<source><![CDATA[Many thanks for your contribution. Click again on the heading forum to read your contribution.]]></source>
-				<target><![CDATA[Vielen Dank für Ihren Beitrag. Klicken Sie erneut auf die Rubrik Forum, um Ihren Beitrag zu lesen.]]></target>
-			</trans-unit>
-			<trans-unit id="board_age">
-				<source><![CDATA[Age]]></source>
-				<target><![CDATA[Alter]]></target>
-			</trans-unit>
-			<trans-unit id="board_ago">
-				<source><![CDATA[Ago]]></source>
-				<target><![CDATA[Ago]]></target>
-			</trans-unit>
-			<trans-unit id="board_author">
-				<source><![CDATA[Author]]></source>
-				<target><![CDATA[Autor]]></target>
-			</trans-unit>
-			<trans-unit id="board_city">
-				<source><![CDATA[City]]></source>
-				<target><![CDATA[Stadt]]></target>
-			</trans-unit>
-			<trans-unit id="board_back_to_forum">
-				<source><![CDATA[Back to Forum]]></source>
-				<target><![CDATA[Zurück zum Forum]]></target>
-			</trans-unit>
-			<trans-unit id="board_by">
-				<source><![CDATA[By]]></source>
-				<target><![CDATA[Von]]></target>
-			</trans-unit>
-			<trans-unit id="board_content">
-				<source><![CDATA[Content]]></source>
-				<target><![CDATA[Inhalt]]></target>
-			</trans-unit>
-			<trans-unit id="board_date">
-				<source><![CDATA[Date]]></source>
-				<target><![CDATA[Datum]]></target>
-			</trans-unit>
-			<trans-unit id="board_forum">
-				<source><![CDATA[Forum]]></source>
-				<target><![CDATA[Forum]]></target>
-			</trans-unit>
-			<trans-unit id="board_forum_list">
-				<source><![CDATA[Forum List]]></source>
-				<target><![CDATA[Forums Liste]]></target>
-			</trans-unit>
-			<trans-unit id="board_go_to_top">
-				<source><![CDATA[Go to Top]]></source>
-				<target><![CDATA[Nach oben]]></target>
-			</trans-unit>
-			<trans-unit id="board_last_post">
-				<source><![CDATA[Last Post]]></source>
-				<target><![CDATA[Letzter Beitrag]]></target>
-			</trans-unit>
-			<trans-unit id="board_next_message">
-				<source><![CDATA[Next Message]]></source>
-				<target><![CDATA[Nächste Nachricht]]></target>
-			</trans-unit>
-			<trans-unit id="board_next_topic">
-				<source><![CDATA[Next Topic]]></source>
-				<target><![CDATA[Nächstes Thema]]></target>
-			</trans-unit>
-			<trans-unit id="board_posts">
-				<source><![CDATA[Posts]]></source>
-				<target><![CDATA[Beitrag]]></target>
-			</trans-unit>
-			<trans-unit id="board_previous_message">
-				<source><![CDATA[Previous Message]]></source>
-				<target><![CDATA[Vorherige Nachricht]]></target>
-			</trans-unit>
-			<trans-unit id="board_previous_topic">
-				<source><![CDATA[Previous Topic]]></source>
-				<target><![CDATA[Vorheriges Thema]]></target>
-			</trans-unit>
-			<trans-unit id="board_replies">
-				<source><![CDATA[Replies]]></source>
-				<target><![CDATA[Antworten]]></target>
-			</trans-unit>
-			<trans-unit id="board_search">
-				<source><![CDATA[Searching]]></source>
-				<target><![CDATA[Suchen]]></target>
-			</trans-unit>
-			<trans-unit id="board_subject">
-				<source><![CDATA[Subject]]></source>
-				<target><![CDATA[Betreff]]></target>
-			</trans-unit>
-			<trans-unit id="board_thread_starter">
-				<source><![CDATA[Thread Starter]]></source>
-				<target><![CDATA[Themen-Starter]]></target>
-			</trans-unit>
-			<trans-unit id="board_threads">
-				<source><![CDATA[Threads]]></source>
-				<target><![CDATA[Themenstrang]]></target>
-			</trans-unit>
-			<trans-unit id="board_topics">
-				<source><![CDATA[Topics]]></source>
-				<target><![CDATA[Themen]]></target>
-			</trans-unit>
-			<trans-unit id="board_new">
-				<source><![CDATA[NEW]]></source>
-				<target><![CDATA[NEU]]></target>
-			</trans-unit>
-			<trans-unit id="button_search">
-				<source><![CDATA[Search in the Board]]></source>
-				<target><![CDATA[Suche im Forum]]></target>
-			</trans-unit>
-			<trans-unit id="captcha">
-				<source><![CDATA[Captcha:]]></source>
-				<target><![CDATA[Captcha:]]></target>
-			</trans-unit>
-			<trans-unit id="email">
-				<source><![CDATA[Email:]]></source>
-				<target><![CDATA[E-Mail:]]></target>
-			</trans-unit>
-			<trans-unit id="error_access_denied">
-				<source><![CDATA[Access denied!]]></source>
-				<target><![CDATA[Zugang verweigert!]]></target>
-			</trans-unit>
-			<trans-unit id="error_email">
-				<source><![CDATA['%s' is not a valid email address!]]></source>
-				<target><![CDATA['%s' ist keine gültige E-Mail-Adresse!]]></target>
-			</trans-unit>
-			<trans-unit id="error_no_email">
-				<source><![CDATA[You did not enter an email address!]]></source>
-				<target><![CDATA[Sie haben keine E-Mail-Adresse eingegeben!]]></target>
-			</trans-unit>
-			<trans-unit id="error_no_permission">
-				<source><![CDATA[You do not have the permission to post into this forum!]]></source>
-				<target><![CDATA[Sie haben nicht die Erlaubnis, in diesem Forum zu posten!]]></target>
-			</trans-unit>
-			<trans-unit id="members_only">
-				<source><![CDATA[Only logged in members are allowed to post on this forum.]]></source>
-				<target><![CDATA[Nur eingeloggte Mitglieder dürfen in diesem Forum posten.]]></target>
-			</trans-unit>
-			<trans-unit id="message">
-				<source><![CDATA[Message:]]></source>
-				<target><![CDATA[Nachricht:]]></target>
-			</trans-unit>
-			<trans-unit id="notify_me">
-				<source><![CDATA[Notify me<br>by reply:]]></source>
-				<target><![CDATA[Benachrichtigen Sie mich <br>bei einer Antwort:]]></target>
-			</trans-unit>
-			<trans-unit id="plugin">
-				<source><![CDATA[Message Board Plugin]]></source>
-				<target><![CDATA[Message Board Plugin]]></target>
-			</trans-unit>
-			<trans-unit id="post_new">
-				<source><![CDATA[New Post]]></source>
-				<target><![CDATA[Neuer Eintrag]]></target>
-			</trans-unit>
-			<trans-unit id="post_new_reply">
-				<source><![CDATA[Post New Reply]]></source>
-				<target><![CDATA[Neue Antwort schreiben]]></target>
-			</trans-unit>
-			<trans-unit id="post_reply">
-				<source><![CDATA[Post Reply]]></source>
-				<target><![CDATA[Antwort posten]]></target>
-			</trans-unit>
-			<trans-unit id="spam_detected" xml:space="preserve">
-				<source><![CDATA[The spam word '%s' has been detected!]]></source>
-				<target><![CDATA[Das Spam-Wort '%s'  wurde erkannt!]]></target>
-			</trans-unit>
-			<trans-unit id="subject">
-				<source><![CDATA[Subject:]]></source>
-				<target><![CDATA[Betreff:]]></target>
-			</trans-unit>
-			<trans-unit id="wrong_captcha">
-				<source><![CDATA[Wrong captcha word '%s' entered!]]></source>
-				<target><![CDATA[Falsches Captcha-Wort '%s' eingegeben!]]></target>
-			</trans-unit>
-		</body>
-	</file>
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang.xlf" date="2016-11-16T09:40:24Z" product-name="tt_board" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="plugin">
+        <source>Message Board Plugin</source>
+        <target state="needs-translation">Message Board Plugin</target>
+      </trans-unit>
+      <trans-unit id="members_only">
+        <source>Only logged in members are allowed to post on this forum.</source>
+        <target state="translated">Nur eingeloggte Mitglieder dürfen in diesem Forum posten.</target>
+      </trans-unit>
+      <trans-unit id="subject">
+        <source>Subject:</source>
+        <target state="translated">Betreff:</target>
+      </trans-unit>
+      <trans-unit id="message">
+        <source>Message:</source>
+        <target state="translated">Nachricht:</target>
+      </trans-unit>
+      <trans-unit id="author">
+        <source>Name:</source>
+        <target state="needs-translation">Name:</target>
+      </trans-unit>
+      <trans-unit id="city">
+        <source>City:</source>
+        <target state="needs-translation">City:</target>
+      </trans-unit>
+      <trans-unit id="email">
+        <source>Email:</source>
+        <target state="translated">E-Mail:</target>
+      </trans-unit>
+      <trans-unit id="captcha">
+        <source>Captcha:</source>
+        <target state="needs-translation">Captcha:</target>
+      </trans-unit>
+      <trans-unit id="notify_me">
+        <source>Notify me&lt;br&gt;by reply:</source>
+        <target state="translated">Benachrichtigen Sie mich &lt;br&gt;bei einer Antwort:</target>
+      </trans-unit>
+      <trans-unit id="post_new">
+        <source>New Post</source>
+        <target state="translated">Neuer Eintrag</target>
+      </trans-unit>
+      <trans-unit id="post_reply">
+        <source>Post Reply</source>
+        <target state="translated">Antwort posten</target>
+      </trans-unit>
+      <trans-unit id="post_new_reply">
+        <source>Post New Reply</source>
+        <target state="translated">Neue Antwort schreiben</target>
+      </trans-unit>
+      <trans-unit id="post.fillSubjectPrefix">
+        <source>Re: </source>
+        <target state="needs-translation">Re: </target>
+      </trans-unit>
+      <trans-unit id="post.thanks">
+        <source>Many thanks for your contribution. Click again on the heading forum to read your contribution.</source>
+        <target state="translated">Vielen Dank für Ihren Beitrag. Klicken Sie erneut auf die Rubrik Forum, um Ihren Beitrag zu lesen.</target>
+      </trans-unit>
+      <trans-unit id="board_age">
+        <source>Age</source>
+        <target state="translated">Alter</target>
+      </trans-unit>
+      <trans-unit id="board_ago">
+        <source>Ago</source>
+        <target state="needs-translation">Ago</target>
+      </trans-unit>
+      <trans-unit id="board_author">
+        <source>Author</source>
+        <target state="translated">Autor</target>
+      </trans-unit>
+      <trans-unit id="board_city">
+        <source>City</source>
+        <target state="translated">Stadt</target>
+      </trans-unit>
+      <trans-unit id="board_back_to_forum">
+        <source>Back to Forum</source>
+        <target state="translated">Zurück zum Forum</target>
+      </trans-unit>
+      <trans-unit id="board_by">
+        <source>By</source>
+        <target state="translated">Von</target>
+      </trans-unit>
+      <trans-unit id="board_content">
+        <source>Content</source>
+        <target state="translated">Inhalt</target>
+      </trans-unit>
+      <trans-unit id="board_date">
+        <source>Date</source>
+        <target state="translated">Datum</target>
+      </trans-unit>
+      <trans-unit id="board_forum">
+        <source>Forum</source>
+        <target state="needs-translation">Forum</target>
+      </trans-unit>
+      <trans-unit id="board_forum_list">
+        <source>Forum List</source>
+        <target state="translated">Forums Liste</target>
+      </trans-unit>
+      <trans-unit id="board_go_to_top">
+        <source>Go to Top</source>
+        <target state="translated">Nach oben</target>
+      </trans-unit>
+      <trans-unit id="board_last_post">
+        <source>Last Post</source>
+        <target state="translated">Letzter Beitrag</target>
+      </trans-unit>
+      <trans-unit id="board_next_message">
+        <source>Next Message</source>
+        <target state="translated">Nächste Nachricht</target>
+      </trans-unit>
+      <trans-unit id="board_next_topic">
+        <source>Next Topic</source>
+        <target state="translated">Nächstes Thema</target>
+      </trans-unit>
+      <trans-unit id="board_posts">
+        <source>Posts</source>
+        <target state="translated">Beitrag</target>
+      </trans-unit>
+      <trans-unit id="board_previous_message">
+        <source>Previous Message</source>
+        <target state="translated">Vorherige Nachricht</target>
+      </trans-unit>
+      <trans-unit id="board_previous_topic">
+        <source>Previous Topic</source>
+        <target state="translated">Vorheriges Thema</target>
+      </trans-unit>
+      <trans-unit id="board_replies">
+        <source>Replies</source>
+        <target state="translated">Antworten</target>
+      </trans-unit>
+      <trans-unit id="board_search">
+        <source>Searching</source>
+        <target state="translated">Suchen</target>
+      </trans-unit>
+      <trans-unit id="board_subject">
+        <source>Subject</source>
+        <target state="translated">Betreff</target>
+      </trans-unit>
+      <trans-unit id="board_threads">
+        <source>Threads</source>
+        <target state="translated">Themenstrang</target>
+      </trans-unit>
+      <trans-unit id="board_thread_starter">
+        <source>Thread Starter</source>
+        <target state="translated">Themen-Starter</target>
+      </trans-unit>
+      <trans-unit id="board_topics">
+        <source>Topics</source>
+        <target state="translated">Themen</target>
+      </trans-unit>
+      <trans-unit id="board_new">
+        <source>NEW</source>
+        <target state="translated">NEU</target>
+      </trans-unit>
+      <trans-unit id="button_search">
+        <source>Search in the Board</source>
+        <target state="translated">Suche im Forum</target>
+      </trans-unit>
+      <trans-unit id="spam_detected">
+        <source>The spam word '%s' has been detected!</source>
+        <target state="translated">Das Spam-Wort '%s'  wurde erkannt!</target>
+      </trans-unit>
+      <trans-unit id="wrong_captcha">
+        <source>Wrong captcha word '%s' entered!</source>
+        <target state="translated">Falsches Captcha-Wort '%s' eingegeben!</target>
+      </trans-unit>
+      <trans-unit id="error_access_denied">
+        <source>Access denied!</source>
+        <target state="translated">Zugang verweigert!</target>
+      </trans-unit>
+      <trans-unit id="error_email">
+        <source>'%s' is not a valid email address!</source>
+        <target state="translated">'%s' ist keine gültige E-Mail-Adresse!</target>
+      </trans-unit>
+      <trans-unit id="error_no_email">
+        <source>You did not enter an email address!</source>
+        <target state="translated">Sie haben keine E-Mail-Adresse eingegeben!</target>
+      </trans-unit>
+      <trans-unit id="error_no_permission">
+        <source>You do not have the permission to post into this forum!</source>
+        <target state="translated">Sie haben nicht die Erlaubnis, in diesem Forum zu posten!</target>
+      </trans-unit>
+      <trans-unit id="p_at">
+        <source>at</source>
+        <target state="needs-translation">at</target>
+      </trans-unit>
+      <trans-unit id="p_salutation">
+        <source>Hello</source>
+        <target state="needs-translation">Hello</target>
+      </trans-unit>
+      <trans-unit id="p_url_title">
+        <source>This thread is located at</source>
+        <target state="needs-translation">This thread is located at</target>
+      </trans-unit>
+      <trans-unit id="p_text_snippet">
+        <source>Text Snippet</source>
+        <target state="needs-translation">Text Snippet</target>
+      </trans-unit>
+      <trans-unit id="p_subject">
+        <source>Subject</source>
+        <target state="needs-translation">Subject</target>
+      </trans-unit>
+      <trans-unit id="p_content">
+        <source>Content</source>
+        <target state="needs-translation">Content</target>
+      </trans-unit>
+      <trans-unit id="newReply.author">
+        <source>Author</source>
+        <target state="needs-translation">Author</target>
+      </trans-unit>
+      <trans-unit id="newReply.city">
+        <source>City</source>
+        <target state="needs-translation">City</target>
+      </trans-unit>
+      <trans-unit id="newReply.didWhat">
+        <source>has just replied to a thread at</source>
+        <target state="needs-translation">has just replied to a thread at</target>
+      </trans-unit>
+      <trans-unit id="newReply.followThisLink">
+        <source>Follow this link</source>
+        <target state="needs-translation">Follow this link</target>
+      </trans-unit>
+      <trans-unit id="newReply.message">
+        <source>Message</source>
+        <target state="needs-translation">Message</target>
+      </trans-unit>
+      <trans-unit id="newReply.subjectPrefix">
+        <source>Reply to post at</source>
+        <target state="needs-translation">Reply to post at</target>
+      </trans-unit>
+      <trans-unit id="newThread.didWhat">
+        <source>has just created a new thread at</source>
+        <target state="needs-translation">has just created a new thread at</target>
+      </trans-unit>
+      <trans-unit id="newThread.subjectPrefix">
+        <source>New thread</source>
+        <target state="needs-translation">New thread</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
