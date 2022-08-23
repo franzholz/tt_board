@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" target-language="de" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_tca.xlf" date="2018-08-10T07:44:17Z">
+    <header>
+      <generator>LFEditor</generator>
+    </header>
+    <body>
+      <trans-unit id="pi_list">
+        <source><![CDATA[Board, List]]></source>
+        <target state="needs-translation"><![CDATA[Board, List]]></target>
+      </trans-unit>
+      <trans-unit id="pi_tree">
+        <source><![CDATA[Board, Tree]]></source>
+        <target state="needs-translation"><![CDATA[Board, Tree]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board">
+        <source><![CDATA[Board]]></source>
+        <target state="needs-translation"><![CDATA[Board]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board.cr_ip">
+        <source><![CDATA[Sender IP address]]></source>
+        <target state="needs-translation"><![CDATA[Sender IP address]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board.crdate">
+        <source><![CDATA[Date/Time:]]></source>
+        <target state="needs-translation"><![CDATA[Date/Time:]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board.tstamp">
+        <source><![CDATA[Timestamp:]]></source>
+        <target state="needs-translation"><![CDATA[Timestamp:]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board.message">
+        <source><![CDATA[Message:]]></source>
+        <target state="needs-translation"><![CDATA[Message:]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board.notify_me">
+        <source><![CDATA[Notify by email:]]></source>
+        <target state="needs-translation"><![CDATA[Notify by email:]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board.parent">
+        <source><![CDATA[Parent:]]></source>
+        <target state="needs-translation"><![CDATA[Parent:]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board.reference">
+        <source><![CDATA[Reference to record in another extension]]></source>
+        <target state="needs-translation"><![CDATA[Reference to record in another extension]]></target>
+      </trans-unit>
+      <trans-unit id="tt_board.subject">
+        <source><![CDATA[Subject:]]></source>
+        <target state="needs-translation"><![CDATA[Subject:]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode">
+        <source><![CDATA[Display mode]]></source>
+        <target state="needs-translation"><![CDATA[Display mode]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.1">
+        <source><![CDATA[General: Help]]></source>
+        <target state="needs-translation"><![CDATA[General: Help]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.2">
+        <source><![CDATA[Category, Forum: List]]></source>
+        <target state="needs-translation"><![CDATA[Category, Forum: List]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.3">
+        <source><![CDATA[Forum: List]]></source>
+        <target state="needs-translation"><![CDATA[Forum: List]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.4">
+        <source><![CDATA[Forum: Single]]></source>
+        <target state="needs-translation"><![CDATA[Forum: Single]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.5">
+        <source><![CDATA[Entry Form: General]]></source>
+        <target state="needs-translation"><![CDATA[Entry Form: General]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.6">
+        <source><![CDATA[Entry Form: Reply]]></source>
+        <target state="needs-translation"><![CDATA[Entry Form: Reply]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.7">
+        <source><![CDATA[Entry Form: New Thread]]></source>
+        <target state="needs-translation"><![CDATA[Entry Form: New Thread]]></target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.8">
+        <source><![CDATA[Forum: Tree]]></source>
+        <target state="needs-translation"><![CDATA[Forum: Tree]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
