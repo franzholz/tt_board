@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-11-16T09:40:14Z" product-name="tt_board">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board">
 		<header/>
 		<body>
-			<trans-unit id="pi_list" xml:space="preserve">
+			<trans-unit id="pi_list">
 				<source>Board, List</source>
 			</trans-unit>
-			<trans-unit id="pi_tree" xml:space="preserve">
+			<trans-unit id="pi_tree">
 				<source>Board, Tree</source>
 			</trans-unit>
-			<trans-unit id="tt_board" xml:space="preserve">
+			<trans-unit id="tt_board">
 				<source>Board</source>
 			</trans-unit>
-			<trans-unit id="tt_board.subject" xml:space="preserve">
+			<trans-unit id="tt_board.subject">
 				<source>Subject:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.message" xml:space="preserve">
+			<trans-unit id="tt_board.message">
 				<source>Message:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.parent" xml:space="preserve">
+			<trans-unit id="tt_board.parent">
 				<source>Parent:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.notify_me" xml:space="preserve">
+			<trans-unit id="tt_board.notify_me">
 				<source>Notify by email:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.crdate" xml:space="preserve">
+			<trans-unit id="tt_board.crdate">
 				<source>Date/Time:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.tstamp" xml:space="preserve">
+			<trans-unit id="tt_board.tstamp">
 				<source>Timestamp:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.cr_ip" xml:space="preserve">
+			<trans-unit id="tt_board.cr_ip">
 				<source>Sender IP address</source>
 			</trans-unit>
-			<trans-unit id="tt_board.reference" xml:space="preserve">
+			<trans-unit id="tt_board.reference">
 				<source>Reference to record in another extension</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode">
 				<source>Display mode</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.1" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode.1">
 				<source>General: Help</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.2" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode.2">
 				<source>Category, Forum: List</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.3" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode.3">
 				<source>Forum: List</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.4" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode.4">
 				<source>Forum: Single</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.5" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode.5">
 				<source>Entry Form: General</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.6" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode.6">
 				<source>Entry Form: Reply</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.7" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode.7">
 				<source>Entry Form: New Thread</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.8" xml:space="preserve">
+			<trans-unit id="tt_content.pi_flexform.display_mode.8">
 				<source>Forum: Tree</source>
 			</trans-unit>
 		</body>
