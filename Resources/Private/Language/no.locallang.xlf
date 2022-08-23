@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/Modules/locallang.xlf" date="2016-11-16T09:40:24Z" product-name="tt_board" target-language="no">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang.xlf" date="2016-11-16T09:40:24Z" product-name="tt_board" target-language="no">
     <header/>
     <body>
       <trans-unit id="plugin">
