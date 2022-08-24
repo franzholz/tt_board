@@ -5,19 +5,19 @@
     <body>
       <trans-unit id="plugins_list_title">
         <source>Message board</source>
-        <target state="needs-translation">Message board</target>
+        <target state="translated">Message Board</target>
       </trans-unit>
       <trans-unit id="plugins_list_description">
         <source>Adds a message board ('list'-style forum) to the page.</source>
-        <target state="needs-translation">Adds a message board ('list'-style forum) to the page.</target>
+        <target state="translated">Fügt der Seite ein Message Board (Listen-Struktur Forum) hinzu.</target>
       </trans-unit>
       <trans-unit id="plugins_tree_title">
         <source>Discussion forum</source>
-        <target state="needs-translation">Discussion forum</target>
+        <target state="translated">Diskussionsforum</target>
       </trans-unit>
       <trans-unit id="plugins_tree_description">
         <source>Add a threaded discussion forum ('tree'-style forum) to the page.</source>
-        <target state="needs-translation">Add a threaded discussion forum ('tree'-style forum) to the page.</target>
+        <target state="translated">Fügen Sie der Seite ein Diskussionsforum (Baum-Struktur Forum) hinzu.</target>
       </trans-unit>
     </body>
   </file>
