@@ -5,19 +5,19 @@
     <body>
       <trans-unit id="pi_list">
         <source>Board, List</source>
-        <target state="needs-translation">Board, List</target>
+        <target state="translated">Forum "message"</target>
       </trans-unit>
       <trans-unit id="pi_tree">
         <source>Board, Tree</source>
-        <target state="needs-translation">Board, Tree</target>
+        <target state="translated">Forum "discution"</target>
       </trans-unit>
       <trans-unit id="tt_board">
         <source>Board</source>
-        <target state="needs-translation">Board</target>
+        <target state="translated">Forum</target>
       </trans-unit>
       <trans-unit id="tt_board.subject">
         <source>Subject:</source>
-        <target state="needs-translation">Subject:</target>
+        <target state="translated">Sujet:</target>
       </trans-unit>
       <trans-unit id="tt_board.message">
         <source>Message:</source>
@@ -29,11 +29,11 @@
       </trans-unit>
       <trans-unit id="tt_board.notify_me">
         <source>Notify by email:</source>
-        <target state="needs-translation">Notify by email:</target>
+        <target state="translated">Avertir par e-mail:</target>
       </trans-unit>
       <trans-unit id="tt_board.crdate">
         <source>Date/Time:</source>
-        <target state="needs-translation">Date/Time:</target>
+        <target state="translated">Date/Heure:</target>
       </trans-unit>
       <trans-unit id="tt_board.tstamp">
         <source>Timestamp:</source>
