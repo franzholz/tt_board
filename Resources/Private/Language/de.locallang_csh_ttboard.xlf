@@ -5,11 +5,11 @@
     <body>
       <trans-unit id=".description">
         <source>Built-in discussion board.</source>
-        <target state="needs-translation">Built-in discussion board.</target>
+        <target state="translated">Eingebautes Diskussionsforum.</target>
       </trans-unit>
       <trans-unit id=".details">
         <source>This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.</source>
-        <target state="needs-translation">This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.</target>
+        <target state="translated">Diese Tabelle wird von dem standardmäßig verfügbaren TypoScript-Diskussionsforum/Liste verwendet. Alle Einträge gehen in diese Tabelle und Sie können die Foren über das Backend verwalten.</target>
       </trans-unit>
       <trans-unit id="_.seeAlso">
         <source>tt_content:list_type</source>
