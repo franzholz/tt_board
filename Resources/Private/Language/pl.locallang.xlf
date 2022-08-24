@@ -5,23 +5,23 @@
     <body>
       <trans-unit id="plugin">
         <source>Message Board Plugin</source>
-        <target state="needs-translation">Message Board Plugin</target>
+        <target state="translated">Forum Plugin</target>
       </trans-unit>
       <trans-unit id="members_only">
         <source>Only logged in members are allowed to post on this forum.</source>
-        <target state="needs-translation">Only logged in members are allowed to post on this forum.</target>
+        <target state="translated">Jedynie zalogowani użytkownicy mogą dodawać posty na tym forum.</target>
       </trans-unit>
       <trans-unit id="subject">
         <source>Subject:</source>
-        <target state="needs-translation">Subject:</target>
+        <target state="translated">Temat:</target>
       </trans-unit>
       <trans-unit id="message">
         <source>Message:</source>
-        <target state="needs-translation">Message:</target>
+        <target state="translated">Wiadomość:</target>
       </trans-unit>
       <trans-unit id="author">
         <source>Name:</source>
-        <target state="needs-translation">Name:</target>
+        <target state="translated">Nazwa:</target>
       </trans-unit>
       <trans-unit id="city">
         <source>City:</source>
@@ -37,7 +37,7 @@
       </trans-unit>
       <trans-unit id="notify_me">
         <source>Notify me&lt;br&gt;by reply:</source>
-        <target state="needs-translation">Notify me&lt;br&gt;by reply:</target>
+        <target state="translated">Powiadom mnie&lt;br /&gt;o odpowiedzi:</target>
       </trans-unit>
       <trans-unit id="post_new">
         <source>New Post</source>
@@ -45,11 +45,11 @@
       </trans-unit>
       <trans-unit id="post_reply">
         <source>Post Reply</source>
-        <target state="needs-translation">Post Reply</target>
+        <target state="translated">Odpowiedz:</target>
       </trans-unit>
       <trans-unit id="post_new_reply">
         <source>Post New Reply</source>
-        <target state="needs-translation">Post New Reply</target>
+        <target state="translated">Nowa odpowiedź:</target>
       </trans-unit>
       <trans-unit id="post.fillSubjectPrefix">
         <source>Re: </source>
@@ -61,15 +61,15 @@
       </trans-unit>
       <trans-unit id="board_age">
         <source>Age</source>
-        <target state="needs-translation">Age</target>
+        <target state="translated">wiek</target>
       </trans-unit>
       <trans-unit id="board_ago">
         <source>Ago</source>
-        <target state="needs-translation">Ago</target>
+        <target state="translated">temu</target>
       </trans-unit>
       <trans-unit id="board_author">
         <source>Author</source>
-        <target state="needs-translation">Author</target>
+        <target state="translated">autor</target>
       </trans-unit>
       <trans-unit id="board_city">
         <source>City</source>
@@ -77,79 +77,79 @@
       </trans-unit>
       <trans-unit id="board_back_to_forum">
         <source>Back to Forum</source>
-        <target state="needs-translation">Back to Forum</target>
+        <target state="translated">Wróć do forum</target>
       </trans-unit>
       <trans-unit id="board_by">
         <source>By</source>
-        <target state="needs-translation">By</target>
+        <target state="translated">przez</target>
       </trans-unit>
       <trans-unit id="board_content">
         <source>Content</source>
-        <target state="needs-translation">Content</target>
+        <target state="translated">Zawartość</target>
       </trans-unit>
       <trans-unit id="board_date">
         <source>Date</source>
-        <target state="needs-translation">Date</target>
+        <target state="translated">data</target>
       </trans-unit>
       <trans-unit id="board_forum">
         <source>Forum</source>
-        <target state="needs-translation">Forum</target>
+        <target state="translated">forum</target>
       </trans-unit>
       <trans-unit id="board_forum_list">
         <source>Forum List</source>
-        <target state="needs-translation">Forum List</target>
+        <target state="translated">Lista Forum</target>
       </trans-unit>
       <trans-unit id="board_go_to_top">
         <source>Go to Top</source>
-        <target state="needs-translation">Go to Top</target>
+        <target state="translated">Idź do góry</target>
       </trans-unit>
       <trans-unit id="board_last_post">
         <source>Last Post</source>
-        <target state="needs-translation">Last Post</target>
+        <target state="translated">Ostatni post</target>
       </trans-unit>
       <trans-unit id="board_next_message">
         <source>Next Message</source>
-        <target state="needs-translation">Next Message</target>
+        <target state="translated">Następna wiadomość</target>
       </trans-unit>
       <trans-unit id="board_next_topic">
         <source>Next Topic</source>
-        <target state="needs-translation">Next Topic</target>
+        <target state="translated">Następny temat</target>
       </trans-unit>
       <trans-unit id="board_posts">
         <source>Posts</source>
-        <target state="needs-translation">Posts</target>
+        <target state="translated">Posty</target>
       </trans-unit>
       <trans-unit id="board_previous_message">
         <source>Previous Message</source>
-        <target state="needs-translation">Previous Message</target>
+        <target state="translated">Poprzednie wiadomości</target>
       </trans-unit>
       <trans-unit id="board_previous_topic">
         <source>Previous Topic</source>
-        <target state="needs-translation">Previous Topic</target>
+        <target state="translated">Poprzedni temat</target>
       </trans-unit>
       <trans-unit id="board_replies">
         <source>Replies</source>
-        <target state="needs-translation">Replies</target>
+        <target state="translated">Odpowiedzi</target>
       </trans-unit>
       <trans-unit id="board_search">
         <source>Searching</source>
-        <target state="needs-translation">Searching</target>
+        <target state="translated">Wyszukiwanie</target>
       </trans-unit>
       <trans-unit id="board_subject">
         <source>Subject</source>
-        <target state="needs-translation">Subject</target>
+        <target state="translated">Temat</target>
       </trans-unit>
       <trans-unit id="board_threads">
         <source>Threads</source>
-        <target state="needs-translation">Threads</target>
+        <target state="translated">Wątki</target>
       </trans-unit>
       <trans-unit id="board_thread_starter">
         <source>Thread Starter</source>
-        <target state="needs-translation">Thread Starter</target>
+        <target state="translated">Autor wątku</target>
       </trans-unit>
       <trans-unit id="board_topics">
         <source>Topics</source>
-        <target state="needs-translation">Topics</target>
+        <target state="translated">Tematy</target>
       </trans-unit>
       <trans-unit id="board_new">
         <source>NEW</source>
@@ -157,15 +157,15 @@
       </trans-unit>
       <trans-unit id="button_search">
         <source>Search in the Board</source>
-        <target state="needs-translation">Search in the Board</target>
+        <target state="translated">Szukaj w Forum</target>
       </trans-unit>
       <trans-unit id="spam_detected">
         <source>The spam word '%s' has been detected!</source>
-        <target state="needs-translation">The spam word '%s' has been detected!</target>
+        <target state="translated">Słowo '%s' wykryte jako spam!</target>
       </trans-unit>
       <trans-unit id="wrong_captcha">
         <source>Wrong captcha word '%s' entered!</source>
-        <target state="needs-translation">Wrong captcha word '%s' entered!</target>
+        <target state="translated">Wprowadzono niepoprawny kod captcha '%s'</target>
       </trans-unit>
       <trans-unit id="error_access_denied">
         <source>Access denied!</source>
