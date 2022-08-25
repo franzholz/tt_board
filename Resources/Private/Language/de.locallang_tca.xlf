@@ -3,85 +3,85 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board" target-language="de">
     <header/>
     <body>
-      <trans-unit id="pi_list">
+      <trans-unit id="pi_list" approved="yes">
         <source>Board, List</source>
-        <target state="translated">Forum, Liste</target>
+        <target state="final">Forum, Liste</target>
       </trans-unit>
-      <trans-unit id="pi_tree">
+      <trans-unit id="pi_tree" approved="yes">
         <source>Board, Tree</source>
-        <target state="translated">Forum, Baumansicht</target>
+        <target state="final">Forum, Baumansicht</target>
       </trans-unit>
-      <trans-unit id="tt_board">
+      <trans-unit id="tt_board" approved="yes">
         <source>Board</source>
-        <target state="translated">Forum</target>
+        <target state="final">Forum</target>
       </trans-unit>
-      <trans-unit id="tt_board.subject">
+      <trans-unit id="tt_board.subject" approved="yes">
         <source>Subject:</source>
-        <target state="translated">Betreff:</target>
+        <target state="final">Betreff:</target>
       </trans-unit>
-      <trans-unit id="tt_board.message">
+      <trans-unit id="tt_board.message" approved="yes">
         <source>Message:</source>
-        <target state="translated">Nachricht:</target>
+        <target state="final">Nachricht:</target>
       </trans-unit>
-      <trans-unit id="tt_board.parent">
+      <trans-unit id="tt_board.parent" approved="yes">
         <source>Parent:</source>
-        <target state="translated">Übergeordnet:</target>
+        <target state="final">Übergeordnet:</target>
       </trans-unit>
-      <trans-unit id="tt_board.notify_me">
+      <trans-unit id="tt_board.notify_me" approved="yes">
         <source>Notify by email:</source>
-        <target state="translated">Benachrichtigung per E-Mail:</target>
+        <target state="final">Benachrichtigung per E-Mail:</target>
       </trans-unit>
-      <trans-unit id="tt_board.crdate">
+      <trans-unit id="tt_board.crdate" approved="yes">
         <source>Date/Time:</source>
-        <target state="translated">Datum/Zeit:</target>
+        <target state="final">Datum/Zeit:</target>
       </trans-unit>
-      <trans-unit id="tt_board.tstamp">
+      <trans-unit id="tt_board.tstamp" approved="yes">
         <source>Timestamp:</source>
-        <target state="translated">Zeitstempel:</target>
+        <target state="final">Zeitstempel:</target>
       </trans-unit>
-      <trans-unit id="tt_board.cr_ip">
+      <trans-unit id="tt_board.cr_ip" approved="yes">
         <source>Sender IP address</source>
-        <target state="translated">Absender-IP-Adresse</target>
+        <target state="final">Absender-IP-Adresse</target>
       </trans-unit>
-      <trans-unit id="tt_board.reference">
+      <trans-unit id="tt_board.reference" approved="yes">
         <source>Reference to record in another extension</source>
-        <target state="translated">Verweis auf Datensatz in einer anderen Erweiterung</target>
+        <target state="final">Verweis auf Datensatz in einer anderen Erweiterung</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode">
+      <trans-unit id="tt_content.pi_flexform.display_mode" approved="yes">
         <source>Display mode</source>
-        <target state="translated">Anzeigemodus</target>
+        <target state="final">Anzeigemodus</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.1">
+      <trans-unit id="tt_content.pi_flexform.display_mode.1" approved="yes">
         <source>General: Help</source>
-        <target state="translated">Allgemein: Hilfe</target>
+        <target state="final">Allgemein: Hilfe</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.2">
+      <trans-unit id="tt_content.pi_flexform.display_mode.2" approved="yes">
         <source>Category, Forum: List</source>
-        <target state="translated">Kategorie, Forum: Liste</target>
+        <target state="final">Kategorie, Forum: Liste</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.3">
+      <trans-unit id="tt_content.pi_flexform.display_mode.3" approved="yes">
         <source>Forum: List</source>
-        <target state="translated">Forum: Liste</target>
+        <target state="final">Forum: Liste</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.4">
+      <trans-unit id="tt_content.pi_flexform.display_mode.4" approved="yes">
         <source>Forum: Single</source>
-        <target state="translated">Forum Einzelansicht</target>
+        <target state="final">Forum Einzelansicht</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.5">
+      <trans-unit id="tt_content.pi_flexform.display_mode.5" approved="yes">
         <source>Entry Form: General</source>
-        <target state="translated">Eingabeformular: Allgemeines</target>
+        <target state="final">Eingabeformular: Allgemeines</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.6">
+      <trans-unit id="tt_content.pi_flexform.display_mode.6" approved="yes">
         <source>Entry Form: Reply</source>
-        <target state="translated">Eingabeformular: Antwort</target>
+        <target state="final">Eingabeformular: Antwort</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.7">
+      <trans-unit id="tt_content.pi_flexform.display_mode.7" approved="yes">
         <source>Entry Form: New Thread</source>
-        <target state="translated">Eingabeformular: Neues Thema</target>
+        <target state="final">Eingabeformular: Neues Thema</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.8">
+      <trans-unit id="tt_content.pi_flexform.display_mode.8" approved="yes">
         <source>Forum: Tree</source>
-        <target state="translated">Forum: Baumansicht</target>
+        <target state="final">Forum: Baumansicht</target>
       </trans-unit>
     </body>
   </file>
