@@ -5,23 +5,23 @@
     <body>
       <trans-unit id="plugin">
         <source>Message Board Plugin</source>
-        <target state="translated">Proširenje forum</target>
+        <target state="needs-translation">Message Board Plugin</target>
       </trans-unit>
       <trans-unit id="members_only">
         <source>Only logged in members are allowed to post on this forum.</source>
-        <target state="translated">Jedino prijavljenim članovima je dopušteno objavljivati na ovom forumu.</target>
+        <target state="needs-translation">Only logged in members are allowed to post on this forum.</target>
       </trans-unit>
       <trans-unit id="subject">
         <source>Subject:</source>
-        <target state="translated">Naslov:</target>
+        <target state="needs-translation">Subject:</target>
       </trans-unit>
       <trans-unit id="message">
         <source>Message:</source>
-        <target state="translated">Poruka:</target>
+        <target state="needs-translation">Message:</target>
       </trans-unit>
       <trans-unit id="author">
         <source>Name:</source>
-        <target state="translated">Ime:</target>
+        <target state="needs-translation">Name:</target>
       </trans-unit>
       <trans-unit id="city">
         <source>City:</source>
@@ -29,7 +29,7 @@
       </trans-unit>
       <trans-unit id="email">
         <source>Email:</source>
-        <target state="translated">E-mail:</target>
+        <target state="needs-translation">Email:</target>
       </trans-unit>
       <trans-unit id="captcha">
         <source>Captcha:</source>
@@ -37,7 +37,7 @@
       </trans-unit>
       <trans-unit id="notify_me">
         <source>Notify me&lt;br&gt;by reply:</source>
-        <target state="translated">Obavijesti me&lt;br&gt;odgovorom:</target>
+        <target state="needs-translation">Notify me&lt;br&gt;by reply:</target>
       </trans-unit>
       <trans-unit id="post_new">
         <source>New Post</source>
@@ -45,11 +45,11 @@
       </trans-unit>
       <trans-unit id="post_reply">
         <source>Post Reply</source>
-        <target state="translated">Pošalji odgovor</target>
+        <target state="needs-translation">Post Reply</target>
       </trans-unit>
       <trans-unit id="post_new_reply">
         <source>Post New Reply</source>
-        <target state="translated">Pošalji novi odgovor</target>
+        <target state="needs-translation">Post New Reply</target>
       </trans-unit>
       <trans-unit id="post.fillSubjectPrefix">
         <source>Re: </source>
@@ -61,15 +61,15 @@
       </trans-unit>
       <trans-unit id="board_age">
         <source>Age</source>
-        <target state="translated">starost</target>
+        <target state="needs-translation">Age</target>
       </trans-unit>
       <trans-unit id="board_ago">
         <source>Ago</source>
-        <target state="translated">koliko davno</target>
+        <target state="needs-translation">Ago</target>
       </trans-unit>
       <trans-unit id="board_author">
         <source>Author</source>
-        <target state="translated">autor</target>
+        <target state="needs-translation">Author</target>
       </trans-unit>
       <trans-unit id="board_city">
         <source>City</source>
@@ -77,79 +77,79 @@
       </trans-unit>
       <trans-unit id="board_back_to_forum">
         <source>Back to Forum</source>
-        <target state="translated">Nazad na forum</target>
+        <target state="needs-translation">Back to Forum</target>
       </trans-unit>
       <trans-unit id="board_by">
         <source>By</source>
-        <target state="translated">prema</target>
+        <target state="needs-translation">By</target>
       </trans-unit>
       <trans-unit id="board_content">
         <source>Content</source>
-        <target state="translated">Sadržaj</target>
+        <target state="needs-translation">Content</target>
       </trans-unit>
       <trans-unit id="board_date">
         <source>Date</source>
-        <target state="translated">datum</target>
+        <target state="needs-translation">Date</target>
       </trans-unit>
       <trans-unit id="board_forum">
         <source>Forum</source>
-        <target state="translated">forum</target>
+        <target state="needs-translation">Forum</target>
       </trans-unit>
       <trans-unit id="board_forum_list">
         <source>Forum List</source>
-        <target state="translated">Popis foruma</target>
+        <target state="needs-translation">Forum List</target>
       </trans-unit>
       <trans-unit id="board_go_to_top">
         <source>Go to Top</source>
-        <target state="translated">Idi na vrh</target>
+        <target state="needs-translation">Go to Top</target>
       </trans-unit>
       <trans-unit id="board_last_post">
         <source>Last Post</source>
-        <target state="translated">Posljednja objava</target>
+        <target state="needs-translation">Last Post</target>
       </trans-unit>
       <trans-unit id="board_next_message">
         <source>Next Message</source>
-        <target state="translated">Sljedeća poruka</target>
+        <target state="needs-translation">Next Message</target>
       </trans-unit>
       <trans-unit id="board_next_topic">
         <source>Next Topic</source>
-        <target state="translated">Sljedeća tema</target>
+        <target state="needs-translation">Next Topic</target>
       </trans-unit>
       <trans-unit id="board_posts">
         <source>Posts</source>
-        <target state="translated">Objave</target>
+        <target state="needs-translation">Posts</target>
       </trans-unit>
       <trans-unit id="board_previous_message">
         <source>Previous Message</source>
-        <target state="translated">Prethodna poruka</target>
+        <target state="needs-translation">Previous Message</target>
       </trans-unit>
       <trans-unit id="board_previous_topic">
         <source>Previous Topic</source>
-        <target state="translated">Prethodna tema</target>
+        <target state="needs-translation">Previous Topic</target>
       </trans-unit>
       <trans-unit id="board_replies">
         <source>Replies</source>
-        <target state="translated">Odgovori</target>
+        <target state="needs-translation">Replies</target>
       </trans-unit>
       <trans-unit id="board_search">
         <source>Searching</source>
-        <target state="translated">Pretraživanje</target>
+        <target state="needs-translation">Searching</target>
       </trans-unit>
       <trans-unit id="board_subject">
         <source>Subject</source>
-        <target state="translated">Naslov</target>
+        <target state="needs-translation">Subject</target>
       </trans-unit>
       <trans-unit id="board_threads">
         <source>Threads</source>
-        <target state="translated">Podforum</target>
+        <target state="needs-translation">Threads</target>
       </trans-unit>
       <trans-unit id="board_thread_starter">
         <source>Thread Starter</source>
-        <target state="translated">Pokretač podforuma</target>
+        <target state="needs-translation">Thread Starter</target>
       </trans-unit>
       <trans-unit id="board_topics">
         <source>Topics</source>
-        <target state="translated">Teme</target>
+        <target state="needs-translation">Topics</target>
       </trans-unit>
       <trans-unit id="board_new">
         <source>NEW</source>
@@ -157,15 +157,15 @@
       </trans-unit>
       <trans-unit id="button_search">
         <source>Search in the Board</source>
-        <target state="translated">Pretražuj forum</target>
+        <target state="needs-translation">Search in the Board</target>
       </trans-unit>
       <trans-unit id="spam_detected">
         <source>The spam word '%s' has been detected!</source>
-        <target state="translated">Otkrivena je spam riječ '%s'!</target>
+        <target state="needs-translation">The spam word '%s' has been detected!</target>
       </trans-unit>
       <trans-unit id="wrong_captcha">
         <source>Wrong captcha word '%s' entered!</source>
-        <target state="translated">Unijeli ste krivu captcha riječ '%s'!</target>
+        <target state="needs-translation">Wrong captcha word '%s' entered!</target>
       </trans-unit>
       <trans-unit id="error_access_denied">
         <source>Access denied!</source>
