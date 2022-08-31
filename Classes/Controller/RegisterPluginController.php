@@ -75,7 +75,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     {
         $this->conf = $conf;
         $codeArray = $this->getCodeArray($conf);
-        $allowCaching = $conf['allowCaching'] ? 1 : 0;
+        $allowCaching = !empty($conf['allowCaching']) ? 1 : 0;
         foreach ($codeArray as $k => $theCode) {
             $theCode = (string) strtoupper(trim($theCode));
 
@@ -143,25 +143,29 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     public function getCodeArray ($conf)
     {
         $config = [];
+        $codeArray = [];
 
-        $this->cObj->data['pi_flexform'] =
-            GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
+        if (isset($this->cObj->data['pi_flexform'])) {
+            $this->cObj->data['pi_flexform'] =
+                GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
 
-        $config['code'] = \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
-            $this->cObj,
-            $conf['code'],
-            $conf['code.'],
-            $conf['defaultCode'],
-            $this->cObj->data['pi_flexform'],
-            'display_mode',
-            true
-        );
+            $config['code'] = \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
+                $this->cObj,
+                $conf['code'],
+                $conf['code.'],
+                $conf['defaultCode'],
+                $this->cObj->data['pi_flexform'],
+                'display_mode',
+                true
+            );
 
-        $codeArray = GeneralUtility::trimExplode(
-            ',',
-            $config['code'],
-            1
-        );
+            $codeArray = GeneralUtility::trimExplode(
+                ',',
+                $config['code'],
+                1
+            );
+        }
+
         if (!count($codeArray)) {
             $codeArray = [''];
         }
