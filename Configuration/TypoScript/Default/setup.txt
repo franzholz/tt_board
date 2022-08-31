@@ -235,7 +235,7 @@ plugin.tt_board_list {
   color3.wrap = {$plugin.tt_board_list.color3}
   color4.wrap = {$plugin.tt_board_list.color4}
 
-    # Disallows for the forum to draw it as a tree
+    # Disallows for the forum to be drawn as in tree form
   tree = 0
 
   _CSS_DEFAULT_STYLE < temp.tt_board.css._CSS_DEFAULT_STYLE

@@ -47,14 +47,15 @@ class Api implements \TYPO3\CMS\Core\SingletonInterface {
     *
     * @param	string type of the forum: list or tree
     *
-    * @return	array  TypoScript configuration for ratings
+    * @return	array/bool  TypoScript configuration 
     */
     public function getDefaultConfig ($type) {
+        $result = false;
         if ($type == 'list' || $type == 'tree') {
             $key = 'tt_board_' . $type . '.';
-            $result = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$key];
-        } else {
-            $result = false;
+            if (isset($GLOBALS['TSFE']->tmpl->setup['plugin.'][$key])) {
+                $result = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$key];
+            }
         }
         return $result;
     }
