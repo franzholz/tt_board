@@ -53,7 +53,7 @@ class WizardIcon
         ];
 
         foreach ($wizardArray as $type => $wizardConf) {
-            $params = '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=' . $wizardConf['list_type'] . '&defVals[tt_content][select_key]=' . rawurlencode('FORUM, POSTFORM');
+            $params = '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=' . $wizardConf['list_type'];
             $wizardItem = [
                 'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_be.xlf:plugins_' . $type . '_title'),
                 'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_be.xlf:plugins_' . $type . '_description'),

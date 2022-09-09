@@ -45,7 +45,7 @@ FEData.tt_board {
 temp.tt_board.shared = USER
 temp.tt_board.shared {
   pid_list.field = pages
-  code.field = select_key
+  code.field = 
   memberOfGroups = {$plugin.tt_board.memberOfGroups}
   captcha = {$plugin.tt_board.captcha}
   PIDprivacyPolicy = {$plugin.tt_board.PIDprivacyPolicy}

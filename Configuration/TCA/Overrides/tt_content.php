@@ -4,10 +4,10 @@ defined('TYPO3_MODE') || die('Access denied.');
 call_user_func(function () {
     $table = 'tt_content';
 
-    $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['2'] = 'layout,select_key';
+    $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['2'] = 'layout';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist']['2'] = 'pi_flexform';
 
-    $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['4'] = 'layout,select_key';
+    $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['4'] = 'layout';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist']['4'] = 'pi_flexform';
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('2', 'FILE:EXT:' . TT_BOARD_EXT . '/Configuration/FlexForms/flexform_ds_pi_tree.xml');
