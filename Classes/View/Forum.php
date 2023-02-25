@@ -63,6 +63,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
     )
     {
         $uid = $composite->getTtBoardUid();
+        $prefixId = $composite->getPrefixId();
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
         $recentPosts = [];
@@ -173,7 +174,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                 $markerArray['###FORUM_TITLE###'] =
                     $local_cObj->stdWrap(
                         $GLOBALS['TSFE']->page['title'],
-                        $lConf['forum_title_stdWrap.']
+                        $lConf['forum_title_stdWrap.'] ?? ''
                     );
 
                 $templateCode =
@@ -301,27 +302,27 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     $markerArray['###LAST_POST_DATE###'] =
                         $local_cObj->stdWrap(
                             $recentDate,
-                            $conf['date_stdWrap.']
+                            $conf['date_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_TIME###'] =
                         $local_cObj->stdWrap(
                             $recentDate,
-                            $conf['time_stdWrap.']
+                            $conf['time_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_AGE###'] =
                         $local_cObj->stdWrap(
                             $recentDate,
-                            $conf['age_stdWrap.']
+                            $conf['age_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_AUTHOR###'] =
                         $local_cObj->stdWrap(
                             $markerObj->formatStr($lastPostInfo['author']),
-                            $lConf['last_post_author_stdWrap.']
+                            $lConf['last_post_author_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_CITY###'] =
                         $local_cObj->stdWrap(
                             $markerObj->formatStr($lastPostInfo['city']),
-                            $lConf['last_post_city_stdWrap.']
+                            $lConf['last_post_city_stdWrap.'] ?? ''
                         );
 
                         // Link to the last post
@@ -348,7 +349,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             [],
                             $wrappedSubpartArray
                         );
-                }
+                } // foreach ($recentPosts)
 
                 if (!$conf['tree']) {
                     krsort($subpartArray);
@@ -378,7 +379,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     $markerArray,
                     $subpartContentArray
                 );
-                $content .= $newContent;
+                $content = $newContent;
             } // if ($templateCode) {
         } // if($continue) {
 

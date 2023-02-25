@@ -41,6 +41,7 @@ namespace JambageCom\TtBoard\Domain;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -53,12 +54,15 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     public $enableFields = '';		// The enablefields of the tt_board table.
     public $searchFieldList = 'author,email,subject,message';
     protected $tablename = 'tt_board';
+    protected $version; // TYPO3 version
 
 
     public function init ()
     {
         $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($this->tablename);
         $this->setEnableFields($enableFields);
+        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+        $this->version = $typo3Version->getVersion();
     }
 
     public function getTablename ()
@@ -208,7 +212,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     static public function getPagesInPage ($pid_list)
     {
         $result = [];
-        $thePids = GeneralUtility::intExplode(',', $pid_list);
+        $thePids = GeneralUtility::intExplode(',', (string) $pid_list);
         $pageRows = [];
         foreach($thePids as $pid) {
             $menuRows = $GLOBALS['TSFE']->sys_page->getMenu($pid);
@@ -246,7 +250,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
      */
     public function getNumPosts ($pidList, array $queryParameters = [], QueryBuilder $where = null)
     {
-        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class)
@@ -278,11 +282,20 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             $queryBuilder->andWhere($where);
         }
 
-        $result =
-            $queryBuilder
-                ->execute()
-                ->fetchColumn(0);
-
+        if (
+            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+        ) {
+            $result =
+                $queryBuilder
+                    ->executeQuery()
+                    ->fetchOne();
+        } else {
+            $result =
+                $queryBuilder
+                    ->execute()
+                    ->fetchColumn(0);
+        }
+    
         return $result;
     }
 
@@ -350,29 +363,51 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     public function getLastPost ($pidList)
     {
         $result = false;
-        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $rows = '';
+        $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
         $field = 'pid';
 
-        $rows = $queryBuilder
-            ->select('*')
-            ->from($this->getTablename())
-            ->where(
-                $queryBuilder->expr()->in(
-                    $field,
-                    $queryBuilder->createNamedParameter(
-                        $pageIds,
-                        Connection::PARAM_INT_ARRAY
+        if (
+            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+        ) {
+            $rows = $queryBuilder
+                ->select('*')
+                ->from($this->getTablename())
+                ->where(
+                    $queryBuilder->expr()->in(
+                        $field,
+                        $queryBuilder->createNamedParameter(
+                            $pageIds,
+                            Connection::PARAM_INT_ARRAY
+                        )
                     )
                 )
-            )
-            ->orderBy('crdate', 'DESC')
-            ->setMaxResults(1)
-            ->execute()
-            ->fetchAll();
+                ->orderBy('crdate', 'DESC')
+                ->setMaxResults(1)
+                ->executeQuery()
+                ->fetchAllAssociative();
+        } else {
+            $rows = $queryBuilder
+                ->select('*')
+                ->from($this->getTablename())
+                ->where(
+                    $queryBuilder->expr()->in(
+                        $field,
+                        $queryBuilder->createNamedParameter(
+                            $pageIds,
+                            Connection::PARAM_INT_ARRAY
+                        )
+                    )
+                )
+                ->orderBy('crdate', 'DESC')
+                ->setMaxResults(1)
+                ->execute()
+                ->fetchAll();
+        }
 
-        if (is_array($rows)) {
+        if (is_array($rows) && !empty($rows)) {
             $result = $rows['0'];
         }
         return $result;
@@ -384,7 +419,8 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     public function getLastPostInThread ($pidList, $uid, $ref)
     {
         $result = false;
-        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $rows = '';
+        $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
@@ -416,13 +452,23 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
         }
 
-        $rows = $queryBuilder
-            ->orderBy('crdate', 'DESC')
-            ->setMaxResults(1)
-            ->execute()
-            ->fetchAll();
+        if (
+            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+        ) {
+            $rows = $queryBuilder
+                ->orderBy('crdate', 'DESC')
+                ->setMaxResults(1)
+                ->executeQuery()
+                ->fetchAllAssociative();
+        } else {
+            $rows = $queryBuilder
+                ->orderBy('crdate', 'DESC')
+                ->setMaxResults(1)
+                ->execute()
+                ->fetchAll();
+        }
 
-        if (is_array($rows)) {
+        if (is_array($rows) && !empty($rows)) {
             $result = $rows['0'];
         }
 
@@ -464,13 +510,22 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
             }
 
-            $rows = $queryBuilder
-                ->setMaxResults(1)
-                ->execute()
-                ->fetchAll();
+            if (
+                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+            ) {
+                $rows = $queryBuilder
+                    ->setMaxResults(1)
+                    ->executeQuery()
+                    ->fetchAllAssociative();
+            } else {
+                $rows = $queryBuilder
+                    ->setMaxResults(1)
+                    ->execute()
+                    ->fetchAll();
+            }
         }
 
-        if (is_array($rows)) {
+        if (is_array($rows) && !empty($rows)) {
             $result = $rows['0'];
         }
 
@@ -484,7 +539,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     */
     public function getMostRecentPosts ($pidList, $number, $days = 300)
     {
-        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
@@ -513,11 +568,21 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             );
         }
 
-        $result = $queryBuilder
-            ->orderBy('crdate', 'DESC')
-            ->setMaxResults($number)
-            ->execute()
-            ->fetchAll();
+        if (
+            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+        ) {
+            $result = $queryBuilder
+                ->orderBy('crdate', 'DESC')
+                ->setMaxResults($number)
+                ->executeQuery()
+                ->fetchAllAssociative();
+        } else {
+            $result = $queryBuilder
+                ->orderBy('crdate', 'DESC')
+                ->setMaxResults($number)
+                ->execute()
+                ->fetchAll();
+        }
 
         return $result;
     }
@@ -548,7 +613,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         if (
             $limit > 0
         ) {
-            $rows = $queryBuilder
+            $queryBuilder
                 ->select('*')
                 ->from($this->getTablename())
                 ->where(
@@ -557,9 +622,19 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                         $queryBuilder->createNamedParameter($uid, $type)
                     )
                 )
-                ->setMaxResults(1)
-                ->execute()
-                ->fetchAll();
+                ->setMaxResults(1);
+
+            if (
+                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+            ) {
+                $rows = $queryBuilder
+                    ->executeQuery()
+                    ->fetchAllAssociative();
+            } else {
+                $rows = $queryBuilder
+                    ->execute()
+                    ->fetchAll();
+            }
 
             if (is_array($rows)) {
                 $row = $rows['0'];
@@ -596,7 +671,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     public function getThreadRoot ($pidList, $crdate, $type = 'next')
     {
         $result = null;
-        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
         $crdate = intval($crdate);
 
         $queryBuilder = $this->getQueryBuilder();
@@ -648,13 +723,23 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
             )
         );
 
-        $rows = $queryBuilder
+        $queryBuilder
             ->orderBy('crdate', ($type != 'next' ? '' : 'DESC'))
-            ->setMaxResults(1)
-            ->execute()
-            ->fetchAll();
-         
-        if (is_array($rows)) {
+            ->setMaxResults(1);
+
+        if (
+            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+        ) {
+            $rows = $queryBuilder
+                ->executeQuery()
+                ->fetchAllAssociative();
+        } else {
+            $rows = $queryBuilder
+                ->execute()
+                ->fetchAll();
+        }
+
+        if (is_array($rows) && !empty($rows)) {
             $result = $rows['0'];
         }
 
@@ -673,6 +758,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $result = false;
         $row = null;
+        $rows = '';
         $outArray = [];
         if ($uid) {
             $hash = md5($uid . '|' . $ref . '|' . $descend);
@@ -703,10 +789,19 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
             }
 
-            $rows = $queryBuilder
-                ->setMaxResults(1)
-                ->execute()
-                ->fetchAll();
+            if (
+                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+            ) {
+                $rows = $queryBuilder
+                    ->setMaxResults(1)
+                    ->executeQuery()
+                    ->fetchAllAssociative();
+            } else {
+                $rows = $queryBuilder
+                    ->setMaxResults(1)
+                    ->execute()
+                    ->fetchAll();
+            }
 
             if (is_array($rows)) {
                 $row = $rows['0'];
@@ -744,7 +839,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
-        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         $outArray = [];
         $whereRef = $this->getWhereRef($ref);
@@ -795,11 +890,20 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 $queryBuilder
                     ->setMaxResults($limitString);
             }
-            $statement = $queryBuilder
-                ->execute();
+
+            $statement = null;
+            if (
+                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+            ) {
+                $statement = $queryBuilder
+                    ->executeQuery();
+            } else {
+                $statement = $queryBuilder
+                    ->execute();
+            }
 
             $set = [];
-            while ($row = $statement->fetch()) {
+            while ($row = (version_compare($this->version, '12.0.0', '>=') ? $statement->fetchAssociative() : $statement->fetch())) {
                 $rootRow = $this->getRootParent($row['uid']);
                 if (!$rootRow) {
                     $rootRow = $row;
@@ -840,10 +944,18 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 $queryBuilder
                     ->setMaxResults($limitString);
             }
-            $statement = $queryBuilder
-                ->execute();
 
-            while ($row = $statement->fetch()) {
+            if (
+                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+            ) {
+                $statement = $queryBuilder
+                    ->executeQuery();
+            } else {
+                $statement = $queryBuilder
+                    ->execute();
+            }
+
+            while ($row = (version_compare($this->version, '12.0.0', '>=') ? $statement->fetchAssociative() : $statement->fetch())) {
                 $outArray[$row['uid']] = $row;
 
                 if ($descend) {
@@ -874,7 +986,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
     {
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
-        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
+        $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         if ($treeMarks != '') {
             $treeMarks .= ',';
@@ -907,18 +1019,34 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         $numberRows = $counter = 0;
-        $numberRows = $queryBuilder
-            ->execute()
-            ->fetchColumn(0);
+        if (
+            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+        ) {
+            $numberRows = $queryBuilder
+                ->executeQuery()
+                ->fetchOne();
+        } else {
+            $numberRows = $queryBuilder
+                ->execute()
+                ->fetchColumn(0);
+        }
 
         $queryBuilder
-            ->select('*');
-        $statement = $queryBuilder
-            ->orderBy('crdate', ($recentAtEnd ? 'ASC' : 'DESC'))
-            ->execute();
+            ->select('*')
+            ->orderBy('crdate', ($recentAtEnd ? 'ASC' : 'DESC'));
+
+        if (
+            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
+        ) {
+            $statement = $queryBuilder->executeQuery();
+        } else {
+            $statement = $queryBuilder->execute();
+        }
         $prevUid = end(array_keys($theRows));
 
-        if ($theRows[$prevUid]['treeMarks'] != '') {
+        if (empty($theRows[$prevUid]['treeMarks'])) {
+            $theRows[$prevUid]['treeMarks'] = '';
+        } else {
             $theRows[$prevUid]['treeMarks'] .= ',';
         }
 
@@ -929,7 +1057,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                 TreeMark::END
             );
 
-        while ($row = $statement->fetch()) {
+        while ($row = (version_compare($this->version, '12.0.0', '>=') ? $statement->fetchAssociative() : $statement->fetch())) {
             $counter++;
             $uid = $row['uid'];
 
@@ -987,5 +1115,4 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         return $row['tstamp'];
     }
 }
-
 

@@ -59,7 +59,7 @@ class Marker
     public function init ($conf)
     {
         $this->setConf($conf);
-        $this->dontParseContent = $conf['dontParseContent'];
+        $this->dontParseContent = $conf['dontParseContent'] ?? 0;
     }
 
     public function setConf ($conf)
@@ -99,13 +99,13 @@ class Marker
         for ($i = 1; $i <= 4; ++$i) {
             $markerArray['###GC' . $i . '###'] =
                 $cObj->stdWrap(
-                    $conf['color' . $i],
-                    $conf['color' . $i . '.']
+                    $conf['color' . $i] ?? '',
+                    $conf['color' . $i . '.'] ?? ''
                 );
         }
         $markerArray['###PATH###'] = PATH_FE_TTBOARD_REL;
 
-        if (is_array($conf['marks.'])) {
+        if (!empty($conf['marks.'])) {
                 // Substitute Marker Array from TypoScript Setup
             foreach ($conf['marks.'] as $key => $value) {
                 $markerArray['###' . $key . '###'] = $value;
@@ -113,7 +113,10 @@ class Marker
         }
 
             // Call all addURLMarkers hooks at the end of this method
-        if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])) {
+        if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])
+        ) {
             foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
                 $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addGlobalMarkers')) {
@@ -146,7 +149,7 @@ class Marker
             $markerArray['###POST_THREAD_CODE###'] =
                 $local_cObj->stdWrap(
                     $row['treeIcons'],
-                    $lConf['post_thread_code_stdWrap.']
+                    $lConf['post_thread_code_stdWrap.'] ?? ''
                 );
         }
 
@@ -156,7 +159,7 @@ class Marker
                     $this->formatStr(
                         $row['subject']
                     ),
-                    $lConf['post_title_stdWrap.']
+                    $lConf['post_title_stdWrap.'] ?? ''
                 );
         }
 
@@ -166,7 +169,7 @@ class Marker
                     $local_cObj->stdWrap(
                         $this->formatStr(
                             $row['message']),
-                            $lConf['post_content_stdWrap.']
+                            $lConf['post_content_stdWrap.'] ?? ''
                         )
                 );
         }
@@ -178,7 +181,7 @@ class Marker
                         $row['pid'],
                         $row['uid']
                     ),
-                    $lConf['post_replies_stdWrap.']
+                    $lConf['post_replies_stdWrap.'] ?? ''
                 );
         }
 
@@ -188,7 +191,7 @@ class Marker
                     $this->formatStr(
                         $row['author']
                     ),
-                    $lConf['post_author_stdWrap.']
+                    $lConf['post_author_stdWrap.'] ?? ''
                 );
         }
 
@@ -198,7 +201,7 @@ class Marker
                     $this->formatStr(
                         $row['city']
                     ),
-                    $lConf['post_city_stdWrap.']
+                    $lConf['post_city_stdWrap.'] ?? ''
                 );
         }
 
@@ -213,7 +216,7 @@ class Marker
             $markerArray['###POST_DATE###'] =
                 $local_cObj->stdWrap(
                     $recentDate,
-                    $conf['date_stdWrap.']
+                    $conf['date_stdWrap.'] ?? ''
                 );
         }
 
@@ -221,7 +224,7 @@ class Marker
             $markerArray['###POST_TIME###'] =
                 $local_cObj->stdWrap(
                     $recentDate,
-                    $conf['time_stdWrap.']
+                    $conf['time_stdWrap.'] ?? ''
                 );
         }
 
@@ -229,7 +232,7 @@ class Marker
             $markerArray['###POST_AGE###'] =
                 $local_cObj->stdWrap(
                     $recentDate,
-                    $conf['age_stdWrap.']
+                    $conf['age_stdWrap.'] ?? ''
                 );
         }
     }

@@ -36,26 +36,15 @@ namespace JambageCom\TtBoard\Controller;
 
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+
 
 use JambageCom\TtBoard\Domain\Composite;
 
 
-class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+class RegisterPluginController extends AbstractPlugin
 {
-
-    /**
-     * The backReference to the mother cObj object set at call time
-     *
-     * @var ContentObjectRenderer
-     */
-    public $cObj;
-
-    /**
-     * Should be same as classname of the plugin, used for CSS classes, variables
-     *
-     * @var string
-     */
-    public $prefixId;
 
     /**
      * Should normally be set in the main function with the TypoScript content passed to the method.
@@ -125,7 +114,7 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
             $content,
             $this->cObj,
             $conf,
-            $this->piVars['uid'],
+            $this->piVars['uid'] ?? '',
             $this->prefixId
         );
 
@@ -151,9 +140,9 @@ class RegisterPluginController extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
             $config['code'] = \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
                 $this->cObj,
-                $conf['code'],
-                $conf['code.'],
-                $conf['defaultCode'],
+                $conf['code'] ?? '',
+                $conf['code.'] ?? '',
+                $conf['defaultCode'] ?? '',
                 $this->cObj->data['pi_flexform'],
                 'display_mode',
                 true

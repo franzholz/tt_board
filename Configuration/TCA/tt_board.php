@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 $table = 'tt_board';
 
@@ -153,12 +153,6 @@ $result = [
         '0' => ['showitem' => 'hidden, crdate, tstamp, subject, message, author, city, email, parent, notify_me, cr_ip, reference']
     ]
 ];
-
-if (version_compare(TYPO3_version, '10.0.0', '<')) {
-    $result['interface'] = [
-        'showRecordFieldList' => 'subject,author,city,email,message'
-    ];
-}
 
 return $result;
 

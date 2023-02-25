@@ -229,7 +229,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $markerObj->formatStr(
                                         $forumData['title']
                                     ),
-                                    $lConf['forum_title_stdWrap.']
+                                    $lConf['forum_title_stdWrap.'] ?? ''
                                 );
 
                             $markerArray['###FORUM_DESCRIPTION###'] =
@@ -237,7 +237,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $markerObj->formatStr(
                                         $forumData['subtitle']
                                     ),
-                                    $lConf['forum_description_stdWrap.']
+                                    $lConf['forum_description_stdWrap.'] ?? ''
                                 );
 
                             $pidList = (
@@ -251,12 +251,12 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             $markerArray['###FORUM_POSTS###'] =
                                 $forum_cObj->stdWrap(
                                     $modelObj->getNumPosts($pidList),
-                                    $lConf['forum_posts_stdWrap.']
+                                    $lConf['forum_posts_stdWrap.'] ?? ''
                                 );
                             $markerArray['###FORUM_THREADS###'] =
                                 $forum_cObj->stdWrap(
                                     $modelObj->getNumThreads($pidList),
-                                    $lConf['forum_threads_stdWrap.']
+                                    $lConf['forum_threads_stdWrap.'] ?? ''
                                 );
 
                                 // Link to the forum (wrap)
@@ -279,32 +279,32 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             $lastPostInfo = $modelObj->getLastPost($pidList);
                             $forum_cObj->start($lastPostInfo);
 
-                            if ($lastPostInfo) {
+                            if (is_array($lastPostInfo)) {
                                 $markerArray['###LAST_POST_AUTHOR###'] =
-                                    $forum_cObj->stdWrap($markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.']);
+                                    $forum_cObj->stdWrap($markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.'] ?? '');
                                 $markerArray['###LAST_POST_CITY###'] =
                                     $local_cObj->stdWrap(
                                         $markerObj->formatStr($lastPostInfo['city']),
-                                        $lConf['last_post_city_stdWrap.']
+                                        $lConf['last_post_city_stdWrap.'] ?? ''
                                     );
                                 $markerArray['###LAST_POST_DATE###'] =
                                     $forum_cObj->stdWrap(
                                         $modelObj->recentDate(
                                             $lastPostInfo
                                         ),
-                                        $conf['date_stdWrap.']
+                                        $conf['date_stdWrap.'] ?? ''
                                     );
                                 $markerArray['###LAST_POST_TIME###'] =
                                     $forum_cObj->stdWrap(
                                         $modelObj->recentDate(
                                             $lastPostInfo
                                         ),
-                                        $conf['time_stdWrap.']
+                                        $conf['time_stdWrap.'] ?? ''
                                     );
                                 $markerArray['###LAST_POST_AGE###'] =
                                     $forum_cObj->stdWrap(
                                         $modelObj->recentDate($lastPostInfo),
-                                        $conf['age_stdWrap.']
+                                        $conf['age_stdWrap.'] ?? ''
                                     );
                             } else {
                                 $markerArray['###LAST_POST_AUTHOR###'] = '';
@@ -314,12 +314,18 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 $markerArray['###LAST_POST_AGE###'] = '';
                             }
 
-                                // Link to the last post
-                            $overrulePIvars =
-                                array_merge(
-                                    $linkParams,
-                                    ['uid' => $lastPostInfo['uid']]
-                                );
+                            $overrulePIvars = null;
+                            if (is_array($lastPostInfo)) {
+                                    // Link to the last post
+                                $overrulePIvars =
+                                    array_merge(
+                                        $linkParams,
+                                        ['uid' => $lastPostInfo['uid']]
+                                    );
+                            } else {
+                                    // Link to the last post
+                                $overrulePIvars = $linkParams;
+                            }
                             $pageLink =
                                 FrontendUtility::getTypoLink_URL(
                                     $composite->getCObj(),
@@ -345,7 +351,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 );
 
                                 // Rendering the most recent posts
-                            if (count($postHeader) && $lConf['numberOfRecentPosts']) {
+                            if (count($postHeader) && !empty($lConf['numberOfRecentPosts'])) {
                                 $recentPosts =
                                     $modelObj->getMostRecentPosts(
                                         $forumData['uid'],
@@ -369,7 +375,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             $markerObj->formatStr(
                                                 $recentPost['subject']
                                             ),
-                                            $lConf['post_title_stdWrap.']
+                                            $lConf['post_title_stdWrap.'] ?? ''
                                         );
                                     $markerArray['###POST_CONTENT###'] =
                                         $markerObj->substituteEmoticons(
@@ -377,7 +383,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                                 $markerObj->formatStr(
                                                     $recentPost['message']
                                                 ),
-                                                $lConf['post_content_stdWrap.']
+                                                $lConf['post_content_stdWrap.'] ?? ''
                                             )
                                         );
                                     $markerArray['###POST_REPLIES###'] =
@@ -386,35 +392,35 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                                 $recentPost['pid'],
                                                 $recentPost['uid']
                                             ),
-                                            $lConf['post_replies_stdWrap.']
+                                            $lConf['post_replies_stdWrap.'] ?? ''
                                         );
                                     $markerArray['###POST_AUTHOR###'] =
                                         $forum_cObj->stdWrap(
                                             $markerObj->formatStr(
                                                 $recentPost['author']
                                             ),
-                                            $lConf['post_author_stdWrap.']
+                                            $lConf['post_author_stdWrap.'] ?? ''
                                         );
                                     $markerArray['###POST_DATE###'] =
                                         $forum_cObj->stdWrap(
                                             $modelObj->recentDate(
                                                 $recentPost
                                             ),
-                                            $conf['date_stdWrap.']
+                                            $conf['date_stdWrap.'] ?? ''
                                         );
                                     $markerArray['###POST_TIME###'] =
                                         $forum_cObj->stdWrap(
                                             $modelObj->recentDate(
                                                 $recentPost
                                             ),
-                                            $conf['time_stdWrap.']
+                                            $conf['time_stdWrap.'] ?? ''
                                         );
                                     $markerArray['###POST_AGE###'] =
                                         $forum_cObj->stdWrap(
                                             $modelObj->recentDate(
                                                 $recentPost
                                             ),
-                                            $conf['age_stdWrap.']
+                                            $conf['age_stdWrap.'] ?? ''
                                         );
 
                                         // Link to the post:
@@ -432,6 +438,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             $linkParams,
                                             ['uid' => $recentPost['uid']]
                                         );
+
                                     $pageLink =
                                         FrontendUtility::getTypoLink_URL(
                                             $composite->getCObj(),
@@ -461,10 +468,10 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                     if ($forumlist) {
                         break;
                     }
-                }
+                } // foreach ($categories)
 
                     // Substitution:
-                $content .=
+                $content =
                     $templateService->substituteSubpart(
                         $templateCode,
                         '###CONTENT###',

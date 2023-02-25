@@ -38,6 +38,7 @@ namespace JambageCom\TtBoard\Controller;
 
 use TYPO3\CMS\Core\Controller\ErrorPageController;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -49,13 +50,15 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 {
     static public function execute (TypoScriptFrontendDataController $pObj, $conf)
     {
+        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+        $version = $typo3Version->getVersion();
         $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
         $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
         $sessionData = $session->getSessionData();
 
         $result = true;
         $table = 'tt_board';
-        $row = $pObj->newData[$table]['NEW'];
+        $row = $pObj->newData[$table]['NEW'] ?? '';
 
         // store the least entered row in order to allow a special output in the frontend
         $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
@@ -154,13 +157,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         $result = false;
                         break;
                     } else {
-                        $excludeArray = [];
-
-                        if (version_compare(TYPO3_version, '10.0.0', '>=')) {
-                            $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'];
-                        } else if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'])) {
-                            $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
-                        }
+                        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'];
 
                         if (
                             !GeneralUtility::inList(
@@ -206,7 +203,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         }
 
                             // Clear specific cache:
-                        if ($conf['clearCacheForPids']) {
+                        if (!empty($conf['clearCacheForPids'])) {
                             $ccPids = GeneralUtility::intExplode(',', $conf['clearCacheForPids']);
                             foreach($ccPids as $ccPid) {
                                 if ($ccPid > 0) {
@@ -251,11 +248,19 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                             $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup . ',%', \PDO::PARAM_STR)),
                                             $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup, \PDO::PARAM_STR)),
                                             $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup . ',%', \PDO::PARAM_STR))
-                                        )
-                                        ->execute();
+                                        );
+
+                                if (
+                                    version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
+                                ) {
+                                    $statement->executeQuery();
+                                } else {
+                                    $statement->execute();
+                                }
+
                                 $c = 0;
                                 while(
-                                    $feRow = $statement->fetch()
+                                    $feRow = (version_compare($version, '12.0.0', '>=') ? $statement->fetchAssociative() : $statement->fetch())
                                 ) {
                                     $c++;
                                     $emails .= $feRow['email'] . ',';
@@ -280,8 +285,15 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                         ->from($table)
                                         ->where(
                                             $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], \PDO::PARAM_INT))
-                                        )
-                                        ->execute();
+                                        );
+
+                                if (
+                                    version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
+                                ) {
+                                    $statement->executeQuery();
+                                } else {
+                                    $statement->execute();
+                                }
                                 $parentRow = $statement->fetch();
                                 $maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
                             } else {	// New:
