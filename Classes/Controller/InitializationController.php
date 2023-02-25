@@ -72,6 +72,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             return false;
         }
 
+        $tt_board_uid = 0;
         $config = [];
         $composite = GeneralUtility::makeInstance(Composite::class);
 
@@ -96,17 +97,17 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             $tt_board_uid = $uid;
         }
 
-        $alternativeLayouts = intval($conf['alternatingLayouts']) > 0 ? intval($conf['alternatingLayouts']) : 2;
+        $alternativeLayouts = !empty($conf['alternatingLayouts']) ? intval($conf['alternatingLayouts']) : 2;
         $composite->setAlternativeLayouts($alternativeLayouts);
 
-            // pid_list is the pid/list of pids from where to fetch the guest items.
-        $tmp = trim($cObj->stdWrap($conf['pid_list'], $conf['pid_list.']));
-        $pid_list = $config['pid_list'] = ($conf['pid_list'] ? $conf['pid_list'] : $tmp);
+            // pid_list is the pid/list of pids from where to fetch the forum items.
+        $tmp = trim($cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? ''));
+        $pid_list = $config['pid_list'] = ($conf['pid_list'] ?? $tmp);
         $pid_list = ($pid_list ? $pid_list : $GLOBALS['TSFE']->id);
         $composite->setPidList($pid_list);
 
         // page where to go usually
-        $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : ($pid ? $pid : $GLOBALS['TSFE']->id));
+        $pid = ($conf['PIDforum'] ?? $GLOBALS['TSFE']->id);
 
         $composite->setPid($pid);
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
@@ -114,7 +115,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
         $languageObj->init(
             TT_BOARD_EXT,
-            $conf['_LOCAL_LANG.'],
+            $conf['_LOCAL_LANG.'] ?? '',
             DIV2007_LANGUAGE_SUBPATH
         );
 
@@ -145,7 +146,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $composite->setOrigTemplateCode($orig_templateCode);
 
             // TypoLink.
-        $typolink_conf = $conf['typolink.'];
+        $typolink_conf = $conf['typolink.'] ?? [];
         $typolink_conf['parameter.']['current'] = 1;
         if (isset($conf['linkParams']) && is_array($conf['linkParams'])) {
             $additionalParams = $typolink_conf['additionalParams'];
@@ -157,8 +158,8 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             $typolink_conf['additionalParams'] = $additionalParams;
         }
         $typolink_conf['additionalParams'] = $cObj->stdWrap(
-            $typolink_conf['additionalParams'],
-            $typolink_conf['additionalParams.']
+            $typolink_conf['additionalParams'] ?? '',
+            $typolink_conf['additionalParams.'] ?? ''
         );
         unset($typolink_conf['additionalParams.']);
         $composite->setTypolinkConf($typolink_conf);
@@ -168,7 +169,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         // *************************************
 
             // If the current record should be displayed.
-        $config['displayCurrentRecord'] = $conf['displayCurrentRecord'];
+        $config['displayCurrentRecord'] = $conf['displayCurrentRecord'] ?? '';
         if ($config['displayCurrentRecord']) {
             $config['code'] = 'FORUM';
             $tt_board_uid = $cObj->data['uid'];

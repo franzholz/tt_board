@@ -114,6 +114,7 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface
     {
         $icons = $this->getIcons();
         foreach ($rows as &$row) {
+            $row['treeIcons'] = '';
             if (
                 !empty($row['treeMarks'])
             ) {

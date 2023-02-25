@@ -31,6 +31,8 @@ namespace JambageCom\TtBoard\Hooks;
  * Part of the tt_board (Message Board) extension.
  *
  * hook functions for the TYPO3 cms
+ * deprecated. Used only until TYPO3 11
+ * TYPO3 12 uses PageContentPreviewRenderingListener instead
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
@@ -40,8 +42,10 @@ namespace JambageCom\TtBoard\Hooks;
  *
  */
 
+use JambageCom\Div2007\Base\CmsHookBase;
+
 
 class CmsBackend extends \JambageCom\Div2007\Base\CmsHookBase {
-    public $extKey = TT_BOARD_EXT;
+    public $extensionKey = 'tt_board';
 }
 

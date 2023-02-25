@@ -90,8 +90,6 @@ window.onload = addListeners;
         $notify = [];
 
         if (
-            isset($GLOBALS['TSFE']->applicationData) &&
-            is_array($GLOBALS['TSFE']->applicationData) &&
             isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
             is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
             !isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']) &&
@@ -236,12 +234,11 @@ window.onload = addListeners;
                 $origRow = [];
                 $wrongCaptcha = false;
                 if (
-                    isset($GLOBALS['TSFE']->applicationData) &&
-                    is_array($GLOBALS['TSFE']->applicationData) &&
                     isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
                     is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
                     isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']) &&
-                    is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error'])
+                    is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']) &&
+                    isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'])
                 ) {
                     if ($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] == true) {
                         $origRow = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'];
@@ -386,7 +383,7 @@ window.onload = addListeners;
                         'value' =>  $labels['approval_required'],
                     ];
 
-                    if (!$_REQUEST['privacy_policy']) {
+                    if (empty($_REQUEST['privacy_policy'])) {
                         $lConf['params.']['submit'] .=
                             ($useXhtml ? ' disabled="disabled" ' : ' disabled ');
                     }
@@ -405,20 +402,11 @@ window.onload = addListeners;
                             'mailformformtypedb'
                         );
 
-                    if (
-                        version_compare(TYPO3_version, '10.0.0', '>=')
-                    ) {
-                        GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class)
-                            ->addInlineJavaScript(
-                                TT_BOARD_EXT . '-privacy_policy',
-                                $privacyJavaScript
-                            );
-                    } else {
-                        $GLOBALS['TSFE']->setJS(
+                    GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class)
+                        ->addInlineJavaScript(
                             TT_BOARD_EXT . '-privacy_policy',
                             $privacyJavaScript
                         );
-                    }
                 } else {
                     if (
                         isset($lConf['dataArray.']['60.']) &&
@@ -453,7 +441,10 @@ window.onload = addListeners;
                         $type = 'label';
                     }
 
-                    if (is_array($lConf['dataArray.'][$k . '.'])) {
+                    if (
+                        isset($lConf['dataArray.'][$k . '.']) &&
+                        is_array($lConf['dataArray.'][$k . '.'])
+                    ) {
                         if (
                             (
                                 !$languageObj->getLocalLangKey() ||
@@ -464,8 +455,11 @@ window.onload = addListeners;
                             (
                                 $languageObj->getLocalLangKey() != 'en' &&
                                 (
+                                    isset($lConf['dataArray.'][$k . '.'][$type . '.']) &&
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']) ||
+                                    isset($lConf['dataArray.'][$k . '.'][$type . '.']['lang.']) &&
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.']) ||
+                                    isset($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$languageObj->getLocalLangKey() . '.']) &&
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$languageObj->getLocalLangKey() . '.'])
                                 )
                             )

@@ -1,6 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
-defined('TYPO3_version') || die('The constant TYPO3_version is undefined in tt_board!');
+defined('TYPO3') || die('Access denied.');
 
 call_user_func(function () {
     if (!defined ('TT_BOARD_EXT')) {
@@ -18,8 +17,6 @@ call_user_func(function () {
     if (!defined ('TT_BOARD_CSS_PREFIX')) {
         define('TT_BOARD_CSS_PREFIX', 'tx-ttboard-');
     }
-
-    $extensionConfiguration = [];
 
     $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
@@ -44,7 +41,9 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT] = [];
     }
 
-    if (TYPO3_MODE == 'BE') {
+    if (
+        defined('TYPO3_MODE') && (TYPO3_MODE == 'BE')
+    ) {
         // replace the output of the former CODE field with the flexform
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] =
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] =
@@ -54,47 +53,40 @@ call_user_func(function () {
     }
 
         // add missing setup for the tt_content "list_type = 2" which is used by the tt_board tree view forum
-    $addLine = trim('
-    tt_content.list.20.2 = CASE
-    tt_content.list.20.2 {
-        key.field = layout
-        0 = < plugin.tt_board_tree
-    }');
+//     $addLine = trim('
+//     tt_content.list.20.2 = CASE
+//     tt_content.list.20.2 {
+//         key.field = layout
+//         0 = < plugin.tt_board_tree
+//     }
+//     ');
+// 
+//     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+//         TT_BOARD_EXT,
+//         'setup', '
+//         # Setting ' . TT_BOARD_EXT . ' plugin TypoScript
+//         ' . $addLine . '
+//         ',
+//         43
+//     );
+// 
+//         // add missing setup for the tt_content "list_type = 4" which is used by the tt_board list view forum
+//     $addLine = trim('
+//     tt_content.list.20.4 = CASE
+//     tt_content.list.20.4 {
+//         key.field = layout
+//         0 = < plugin.tt_board_list
+//         1 = < plugin.tt_board_tree
+//     }
+//     ');
+// 
+//      \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+//         TT_BOARD_EXT,
+//         'setup', '
+//     # Setting ' . TT_BOARD_EXT . ' plugin TypoScript
+//     ' . $addLine . '
+//     ',
+//         43
+//     );
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
-        TT_BOARD_EXT,
-        'setup', '
-        # Setting ' . TT_BOARD_EXT . ' plugin TypoScript
-        ' . $addLine . '
-        ',
-        43
-    );
-
-        // add missing setup for the tt_content "list_type = 4" which is used by the tt_board list view forum
-    $addLine = trim('
-    tt_content.list.20.4 = CASE
-    tt_content.list.20.4 {
-        key.field = layout
-        0 = < plugin.tt_board_list
-        1 = < plugin.tt_board_tree
-    }');
-
-     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
-        TT_BOARD_EXT,
-        'setup', '
-    # Setting ' . TT_BOARD_EXT . ' plugin TypoScript
-    ' . $addLine . '
-    ',
-        43
-    );
-
-    // Configure captcha hooks
-    if (
-        !isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha']) ||
-        !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'])
-    ) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'] = [];
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Captcha';
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['captcha'][] = 'JambageCom\\Div2007\\Captcha\\Freecap';
-    }
 });

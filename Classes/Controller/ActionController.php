@@ -72,6 +72,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
     )
     {
         $conf = $composite->getConf();
+        $contentTmp = '';
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
         $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : []);
 
