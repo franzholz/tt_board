@@ -1,0 +1,6 @@
+services:
+  JambageCom\TtBoard\EventListener\PageContentPreviewRenderingListener:
+    tags:
+      - name: event.listener
+        identifier: 'ttboardCodeListener'
+        event: TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent

@@ -32,8 +32,8 @@
     "typo3/cms-filemetadata": "^11.5 || ^12",
     "typo3/cms-tstemplate": "^11.5 || ^12",
     "typo3/minimal": "^11.5 || ^12",
-    "jambagecom/div2007": "^1.14",
-    "jambagecom/tslib-fetce": "^0.5.4"
+    "jambagecom/div2007": "^1.16.2",
+    "jambagecom/tslib-fetce": "^0.6.0"
   },
   "require-dev": {
     "typo3-console/composer-auto-commands": "*",

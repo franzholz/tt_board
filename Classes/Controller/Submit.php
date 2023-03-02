@@ -56,44 +56,49 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
         $sessionData = $session->getSessionData();
 
-        $result = true;
-        $table = 'tt_board';
-        $row = $pObj->newData[$table]['NEW'] ?? '';
-
-        // store the least entered row in order to allow a special output in the frontend
-        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
-
-        $prefixId = $row['prefixid'];
-        unset($row['prefixid']);
-        $pid = intval($row['pid']);
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $local_cObj->setCurrentVal($pid);
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
-        $languageObj->init(
-            TT_BOARD_EXT,
-            $conf,
-            DIV2007_LANGUAGE_SUBPATH
-        );
-        $languageObj->loadLocalLang(
-            'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
-            false
-        );
-        $allowCaching = $conf['allowCaching'] ? 1 : 0;
-        if (is_array($row)) {
-            $email = $row['email'];
-        }
         $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
         $modelObj->init();
         $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
 
+        $result = true;
+        $table = 'tt_board';
+        $row = $pObj->newData[$table]['NEW'] ?? null;
+
+        if (isset($row)) {
+            // store the least entered row in order to allow a special output in the frontend
+            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
+
+            if (isset($row['prefixid'])) {
+                $prefixId = $row['prefixid'];
+                unset($row['prefixid']);
+            }
+            $pid = intval($row['pid']);
+            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+            $local_cObj->setCurrentVal($pid);
+            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
+            $languageObj->init(
+                TT_BOARD_EXT,
+                $conf,
+                DIV2007_LANGUAGE_SUBPATH
+            );
+            $languageObj->loadLocalLang(
+                'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
+                false
+            );
+            $allowCaching = $conf['allowCaching'] ?? 0;
+            if (is_array($row)) {
+                $email = $row['email'];
+            }
+        }
+
         if (
             $allowed &&
             (
-                !$conf['emailCheck'] ||
+                empty($conf['emailCheck']) ||
                 MailUtility::checkMXRecord($email)
             )
         ) {
-            if (is_array($row) && trim($row['message'])) {
+            if (isset($row) && is_array($row) && trim($row['message'])) {
                 do {
                     $internalFieldArray =
                         [
@@ -230,32 +235,31 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             }
                         }
                         */
-                            $mConf = $conf['sendToMailingList.'];
+                            $mConf = $conf['sendToMailingList.'] ?? [];
 
                             // If there is a FE-user group defined, then send notifiers to all FE-members of this group
-                            if ($mConf['sendToFEgroup']) {
+                            if (!empty($mConf['sendToFEgroup'])) {
                                 $sendToFEgroup = intval($mConf['sendToFEgroup']);
                                 $feUserTable = 'fe_users';
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($feUserTable);
                                 $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
 
-                                $statement =
-                                    $queryBuilder
-                                        ->select('*')
-                                        ->from($feUserTable)
-                                        ->orWhere(
-                                            $queryBuilder->expr()->eq('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup, \PDO::PARAM_STR)),
-                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup . ',%', \PDO::PARAM_STR)),
-                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup, \PDO::PARAM_STR)),
-                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup . ',%', \PDO::PARAM_STR))
-                                        );
+                                $queryBuilder
+                                    ->select('*')
+                                    ->from($feUserTable)
+                                    ->orWhere(
+                                        $queryBuilder->expr()->eq('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup, \PDO::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup . ',%', \PDO::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup, \PDO::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup . ',%', \PDO::PARAM_STR))
+                                    );
 
                                 if (
                                     version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
                                 ) {
-                                    $statement->executeQuery();
+                                    $statement = $queryBuilder->executeQuery();
                                 } else {
-                                    $statement->execute();
+                                    $statement = $queryBuilder->execute();
                                 }
 
                                 $c = 0;
@@ -275,26 +279,27 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             $maillist_header .= 'Reply-To: ' . $mConf['reply'];
 
                                 //  Subject
-                            if ($row['parent']) {	// RE:
+                            if (!empty($row['parent'])) {	// RE:
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
                                 $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
 
-                                $statement =
-                                    $queryBuilder
-                                        ->select('*')
-                                        ->from($table)
-                                        ->where(
-                                            $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], \PDO::PARAM_INT))
-                                        );
+                                $queryBuilder
+                                    ->select('*')
+                                    ->from($table)
+                                    ->where(
+                                        $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], \PDO::PARAM_INT))
+                                    );
 
                                 if (
                                     version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
                                 ) {
-                                    $statement->executeQuery();
+                                    $statement = $queryBuilder->executeQuery();
+                                    $parentRow = $statement->fetchAssociative();
                                 } else {
-                                    $statement->execute();
+                                    $statement = $queryBuilder->execute();
+                                    $parentRow = $statement->fetch();
                                 }
-                                $parentRow = $statement->fetch();
+
                                 $maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
                             } else {	// New:
                                 $maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']) . ' [#' . $newId . ']';

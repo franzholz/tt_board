@@ -218,6 +218,9 @@ window.onload = addListeners;
                 $modEmail = $conf['moderatorEmail_newThread'] ? $conf['moderatorEmail_newThread'] : $modEmail;
                 $setupArray['300'] = 'post_new';
             }
+            if (!isset($lConf['params.'])) {
+                $lConf['params.'] = [];
+            }
 
             if ($modEmail) {
                 $modEmail = explode(',', $modEmail);
@@ -367,7 +370,6 @@ window.onload = addListeners;
                     $privacyUrl = str_replace(['[', ']'], ['%5B', '%5D'], $privacyUrl);
 
                     $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>' . chr(13);
-
                     $lConf['dataArray.']['60.'] = [
                         'label' => $labels['title'] . ':',
                         'label.' =>
@@ -384,6 +386,9 @@ window.onload = addListeners;
                     ];
 
                     if (empty($_REQUEST['privacy_policy'])) {
+                        if (!isset($lConf['params.']['submit'])) {
+                            $lConf['params.']['submit'] = '';
+                        }
                         $lConf['params.']['submit'] .=
                             ($useXhtml ? ' disabled="disabled" ' : ' disabled ');
                     }
@@ -401,7 +406,6 @@ window.onload = addListeners;
                             $idPrefix . 'privacypolicy',
                             'mailformformtypedb'
                         );
-
                     GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class)
                         ->addInlineJavaScript(
                             TT_BOARD_EXT . '-privacy_policy',
@@ -448,12 +452,12 @@ window.onload = addListeners;
                         if (
                             (
                                 !$languageObj->getLocalLangKey() ||
-                                $languageObj->getLocalLangKey() == 'en'
+                                $languageObj->getLocalLangKey() == 'default'
                             ) &&
                             !$lConf['dataArray.'][$k . '.'][$type] ||
 
                             (
-                                $languageObj->getLocalLangKey() != 'en' &&
+                                $languageObj->getLocalLangKey() != 'default' &&
                                 (
                                     isset($lConf['dataArray.'][$k . '.'][$type . '.']) &&
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']) ||

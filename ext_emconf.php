@@ -8,7 +8,7 @@ $EM_CONF[$_EXTKEY] = [
     'title' => 'Message board, twin mode',
     'description' => 'Simple threaded (tree) or list message board (forum).',
     'category' => 'plugin',
-    'version' => '1.12.0',
+    'version' => '1.12.1',
     'state' => 'stable',
     'uploadfolder' => 0,
     'createDirs' => '',
@@ -20,8 +20,8 @@ $EM_CONF[$_EXTKEY] = [
         'depends' => [
             'php' => '7.4.0-8.1.99',
             'typo3' => '11.5.0-12.3.99',
-            'div2007' => '1.14.0-0.0.0',
-            'tslib_fetce' => '0.5.4-0.9.0',
+            'div2007' => '1.16.2-0.0.0',
+            'tslib_fetce' => '0.6.0-0.9.0',
         ],
         'conflicts' => [
         ],

@@ -62,6 +62,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $pid
     )
     {
+        $content = '';
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
         $recentPosts = [];
@@ -78,7 +79,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $typolinkConf['useCacheHash'] = $allowCaching;
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
-        $lConf = $conf['view_thread.'];
+        $lConf = $conf['view_thread.'] ?? '';
         $subpart = '###TEMPLATE_THREAD###';
         $templateCode =
             $templateService->getSubpart(
@@ -110,6 +111,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
             $threadRootUid = $uid;
             $crdate = 0;
             if (
+                isset($rootParent) &&
                 is_array($rootParent) &&
                 $rootParent['uid']
             ) {
@@ -123,6 +125,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     );
 
                 if (
+                    isset($row) &&
                     is_array($row)
                 ) {
                     $crdate = $row['crdate'];
@@ -135,7 +138,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 $treeView->addTreeIcons($wholeThread);
             }
 
-            if ($lConf['single']) {
+            if (!empty($lConf['single'])) {
                 foreach ($wholeThread as $recentP) {
                     if ($recentP['uid'] == $uid) {
                         $recentPosts[] = $recentP;
@@ -160,7 +163,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
             $markerArray['###FORUM_TITLE###'] =
                 $local_cObj->stdWrap(
                     $GLOBALS['TSFE']->page['title'],
-                    $conf['forum_title_stdWrap.']
+                    $conf['forum_title_stdWrap.'] ?? ''
                 );
 
                 // Link back to forum
@@ -173,6 +176,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
             foreach ($destinations as $destination) {
                 $destinationUid = 0;
                 if (
+                    isset($thread[$destination]) &&
                     is_array($thread[$destination]) &&
                     !empty($thread[$destination]['uid'])
                 ) {
@@ -202,7 +206,10 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 }
             }
 
-            if (is_array($rootParent)) {
+            if (
+                isset($rootParent) &&
+                is_array($rootParent)
+            ) {
                     // Link to first !!
                 $linkParams[$prefixId . '[uid]' ] = $rootParent['uid'];
                 $url = FrontendUtility::getTypoLink_URL(
@@ -289,6 +296,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     if (!empty($recentPost[$destination . 'Uid'])) {
                         $destinationUid = $recentPost[$destination . 'Uid'];
                     } else if (
+                        isset($thread[$destination]) &&
                         is_array($thread[$destination]) &&
                         !empty($thread[$destination]['uid'])
                     ) {
@@ -330,7 +338,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
 
             $GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
                 // Substitution:
-            $content .=
+            $content =
                 $templateService->substituteSubpart(
                     $templateCode,
                     '###CONTENT###',
