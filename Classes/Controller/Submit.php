@@ -244,23 +244,22 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($feUserTable);
                                 $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
 
-                                $statement =
-                                    $queryBuilder
-                                        ->select('*')
-                                        ->from($feUserTable)
-                                        ->orWhere(
-                                            $queryBuilder->expr()->eq('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup, \PDO::PARAM_STR)),
-                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup . ',%', \PDO::PARAM_STR)),
-                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup, \PDO::PARAM_STR)),
-                                            $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup . ',%', \PDO::PARAM_STR))
-                                        );
+                                $queryBuilder
+                                    ->select('*')
+                                    ->from($feUserTable)
+                                    ->orWhere(
+                                        $queryBuilder->expr()->eq('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup, \PDO::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup . ',%', \PDO::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup, \PDO::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup . ',%', \PDO::PARAM_STR))
+                                    );
 
                                 if (
                                     version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
                                 ) {
-                                    $statement->executeQuery();
+                                    $statement = $queryBuilder->executeQuery();
                                 } else {
-                                    $statement->execute();
+                                    $statement = $queryBuilder->execute();
                                 }
 
                                 $c = 0;
@@ -284,21 +283,20 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
                                 $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
 
-                                $statement =
-                                    $queryBuilder
-                                        ->select('*')
-                                        ->from($table)
-                                        ->where(
-                                            $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], \PDO::PARAM_INT))
-                                        );
+                                $queryBuilder
+                                    ->select('*')
+                                    ->from($table)
+                                    ->where(
+                                        $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], \PDO::PARAM_INT))
+                                    );
 
                                 if (
                                     version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
                                 ) {
-                                    $statement->executeQuery();
+                                    $statement = $queryBuilder->executeQuery();
                                     $parentRow = $statement->fetchAssociative();
                                 } else {
-                                    $statement->execute();
+                                    $statement = $queryBuilder->execute();
                                     $parentRow = $statement->fetch();
                                 }
 

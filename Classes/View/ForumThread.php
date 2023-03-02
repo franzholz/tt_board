@@ -79,7 +79,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $typolinkConf['useCacheHash'] = $allowCaching;
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
-        $lConf = $conf['view_thread.'];
+        $lConf = $conf['view_thread.'] ?? '';
         $subpart = '###TEMPLATE_THREAD###';
         $templateCode =
             $templateService->getSubpart(
@@ -138,7 +138,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 $treeView->addTreeIcons($wholeThread);
             }
 
-            if ($lConf['single']) {
+            if (!empty($lConf['single'])) {
                 foreach ($wholeThread as $recentP) {
                     if ($recentP['uid'] == $uid) {
                         $recentPosts[] = $recentP;
