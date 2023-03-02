@@ -1,0 +1,27 @@
+mod.wizards {
+    newContentElement.wizardItems {
+        plugins {
+            elements {
+                tt_board_tree {
+                    iconIdentifier = tx-board-tree
+                    title = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_2_title
+                    description = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_2_description
+                    tt_content_defValues {
+                        CType = list
+                        list_type = 2
+                    }
+                }
+                tt_board_list {
+                    iconIdentifier = tt-board-list
+                    title = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_4_title
+                    description = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_4_description
+                    tt_content_defValues {
+                        CType = list
+                        list_type = 4
+                    }
+                }
+            }
+        }
+    }
+}
+

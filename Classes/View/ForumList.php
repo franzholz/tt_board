@@ -70,14 +70,15 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 
         if (!$composite->getTtBoardUid()) {
             $forumlist = 0;     // set to true if this is a list of forums and not categories + forums
+            $lConf = [];
 
             if ($theCode == 'LIST_CATEGORIES') {
                     // Config if categories are listed.
-                $lConf = $conf['list_categories.'];
+                $lConf = $conf['list_categories.'] ?? [];
             } else {
                 $forumlist = 1;
                     // Config if forums are listed.
-                $lConf = $conf['list_forums.'];
+                $lConf = $conf['list_forums.'] ?? [];
                 $lConf['noForums'] = 0;
             }
 
@@ -164,7 +165,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 $markerObj->formatStr(
                                     $catData['title']
                                 ),
-                                $lConf['title_stdWrap.']
+                                $lConf['title_stdWrap.'] ?? ''
                             );
 
                         $markerArray['###CATEGORY_DESCRIPTION###'] =
@@ -172,13 +173,13 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 $markerObj->formatStr(
                                     $catData['subtitle']
                                 ),
-                                $lConf['subtitle_stdWrap.']
+                                $lConf['subtitle_stdWrap.'] ?? ''
                             );
 
                         $markerArray['###CATEGORY_FORUMNUMBER###'] =
                             $local_cObj->stdWrap(
                                 count($forums),
-                                $lConf['count_stdWrap.']
+                                $lConf['count_stdWrap.'] ?? ''
                             );
 
                         $pageLink =
@@ -206,7 +207,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             );
                     }
 
-                    if (count($forumHeader) && !$lConf['noForums']) {
+                    if (count($forumHeader) && empty($lConf['noForums'])) {
                             // Rendering forums
                         $c_forum = 0;
                         $contentModel =
@@ -356,7 +357,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $modelObj->getMostRecentPosts(
                                         $forumData['uid'],
                                         intval($lConf['numberOfRecentPosts']),
-                                        intval($lConf['numberOfRecentDays'])
+                                        intval($lConf['numberOfRecentDays'] ?? 0)
                                     );
 
                                 $c_post = 0;

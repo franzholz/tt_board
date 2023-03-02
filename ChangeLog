@@ -1,3 +1,5 @@
+2023-03-02 Franz Holzinger  <franz@ttproducts.de>
+    * Breaking no. #96287: use fetchAssociative instead of fetch
 
 2022-09-09 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 8.7: deprecation no 77934: The field `select_key` of the table `tt_content` is not used in the core and has been removed.

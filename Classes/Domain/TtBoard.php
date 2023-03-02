@@ -761,11 +761,6 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $rows = '';
         $outArray = [];
         if ($uid) {
-            $hash = md5($uid . '|' . $ref . '|' . $descend);
-            if ($this->cache_thread[$hash]) {
-                return $this->cache_thread[$hash];
-            }
-
             $queryBuilder = $this->getQueryBuilder();
             $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
 
