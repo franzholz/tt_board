@@ -21,6 +21,7 @@ mod.wizards {
                     }
                 }
             }
+            show := addToList(tt_board_tree, tt_board_list)
         }
     }
 }
