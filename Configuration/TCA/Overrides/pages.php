@@ -8,7 +8,7 @@ call_user_func(function () {
     ExtensionManagementUtility::registerPageTSConfigFile(
         'tt_board',
         'Configuration/TsConfig/Page/Mod/Wizards/NewContentElement.tsconfig',
-        'New Content Element Wizards'
+        'Message Board Content Element Wizards'
     );
 });
 
