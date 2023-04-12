@@ -1,20 +1,17 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-if (!defined ('TT_BOARD_EXT')) {
-    define('TT_BOARD_EXT', 'tt_board');
-}
-
 call_user_func(function () {
+    $extensionKey = 'tt_board';
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-        TT_BOARD_EXT,
+        $extensionKey,
         'Configuration/TypoScript/DefaultCSS/',
         'Message Board CSS styles'
     );
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-        TT_BOARD_EXT,
+        $extensionKey,
         'Configuration/TypoScript/Default/',
         'Message Board Setup'
     );
