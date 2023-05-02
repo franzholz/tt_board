@@ -1,14 +1,14 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
-    $table = 'tt_board';
+call_user_func(function($extensionKey, $table)
+{
     $excludeArray = [];
 
-    if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'])) {
-        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude.'];
-    } else if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'])) {
-        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'];
+    if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude.'])) {
+        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude.'];
+    } else if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'])) {
+        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'];
     }
 
     if (
@@ -25,5 +25,4 @@ call_user_func(function () {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
-});
-
+}, 'tt_board', basename(__FILE__, '.php'));

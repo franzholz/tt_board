@@ -26,7 +26,7 @@ $result = [
             '0' => 'tt_faq_board_root.gif'
         ],
         'useColumnsForDefaultValues' => 'parent',
-        'iconfile' => 'EXT:' . $extensionKey . '/ext_icon.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/Extension.gif',
         'searchFields' => 'uid,author,city,email,subject,message,cr_ip',
     ],
     'columns' => [
