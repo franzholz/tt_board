@@ -188,7 +188,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 $catData['uid'],
                                 $linkParams,
                                 '',
-                                ['useCacheHash' => $allowCaching]
+                                []
                             );
 
                         $wrappedSubpartContentArray['###LINK###'] =
@@ -267,7 +267,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $forumData['uid'],
                                     $linkParams,
                                     '',
-                                    ['useCacheHash' => $allowCaching]
+                                    []
                                 );
 
                             $wrappedSubpartContentArray['###LINK###'] =
@@ -333,7 +333,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $contentRow['pid'],
                                     $overrulePIvars,
                                     '',
-                                    ['useCacheHash' => $allowCaching]
+                                    []
                                 );
 
                             $wrappedSubpartContentArray['###LINK_LAST_POST###'] =
@@ -428,7 +428,6 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $forum_cObj->setCurrentVal($recentPost['pid']);
                                     $temp_conf = $composite->getTypolinkConf();
                                     $temp_conf['additionalParams'] .= '&tt_board_uid=' . $recentPost['uid'];
-                                    $temp_conf['useCacheHash'] = $allowCaching;
                                     $temp_conf['no_cache'] = !$allowCaching;
 
                                     $separator = md5(microtime());
@@ -446,7 +445,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             $recentPost['pid'],
                                             $overrulePIvars,
                                             '',
-                                            ['useCacheHash' => $allowCaching]
+                                            []
                                         );
 
                                     $wrappedSubpartContentArray['###LINK###'] =

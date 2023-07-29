@@ -1,3 +1,9 @@
+2023-07-29 Franz Holzinger  <franz@ttproducts.de>
+    * Deprecation no. 88406: setCacheHash/noCacheHash options in ViewHelpers and UriBuilder
+
+2023-05-17 Franz Holzinger  <franz@ttproducts.de>
+    * feature 85160: Auto create management DB fields from TCA ctrl
+
 2023-03-02 Franz Holzinger  <franz@ttproducts.de>
     * Breaking no. #96287: use fetchAssociative instead of fetch
 

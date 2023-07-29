@@ -75,8 +75,6 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $prefixId = $composite->getPrefixId();
         $typolinkConf = $composite->getTypolinkConf();
-        $allowCaching = $composite->getAllowCaching();
-        $typolinkConf['useCacheHash'] = $allowCaching;
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $lConf = $conf['view_thread.'] ?? '';
@@ -192,9 +190,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                             $pid,
                             $linkParams,
                             '',
-                            [
-                                'useCacheHash' => $allowCaching
-                            ]
+                            []
                         );
                     $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_THREAD###'] =
                         [
@@ -217,7 +213,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $pid,
                     $linkParams,
                     '',
-                    ['useCacheHash' => $allowCaching]
+                    []
                 );
 
                 $wrappedSubpartArray['###LINK_FIRST_POST###'] =
@@ -281,7 +277,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                         $pid,
                         $linkParams,
                         '',
-                        ['useCacheHash' => $allowCaching]
+                        []
                     );
 
                 $wrappedSubpartArray['###LINK###'] =
@@ -313,7 +309,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                                 $pid,
                                 $linkParams,
                                 '',
-                                ['useCacheHash' => $allowCaching]
+                                []
                             );
 
                         $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_POST###'] =

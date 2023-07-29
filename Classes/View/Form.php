@@ -506,7 +506,7 @@ window.onload = addListeners;
                             $GLOBALS['TSFE']->id,
                             $linkParams,
                             '',
-                            ['useCacheHash' => true]
+                            []
                         );
                     $lConf['type'] = $url;
                 }
