@@ -85,7 +85,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                 'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
                 false
             );
-            $allowCaching = $conf['allowCaching'] ?? 0;
             if (is_array($row)) {
                 $email = $row['email'];
             }
@@ -193,7 +192,6 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $linkParams,
                                 '',
                                 [
-                                    'useCacheHash' => $allowCaching,
                                     'forceAbsoluteUrl' => 1
                                 ]
                             );

@@ -278,7 +278,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $pid,
                             $linkParams,
                             '',
-                            ['useCacheHash' => $composite->getAllowCaching()]
+                            []
                     );
                     $wrappedSubpartArray['###LINK###'] =
                         [
@@ -333,7 +333,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $pid,
                             $linkParams,
                             '',
-                            ['useCacheHash' => $composite->getAllowCaching()]
+                            []
                         );
                     $wrappedSubpartArray['###LINK_LAST_POST###'] =
                         [
