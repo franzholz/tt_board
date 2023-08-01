@@ -4,6 +4,7 @@ defined('TYPO3') || die('Access denied.');
 $table = 'tt_board';
 $extensionKey = 'tt_board';
 $languageSubPath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
 // ******************************************************************
 // This is the standard Board table, tt_board
@@ -16,7 +17,7 @@ $result = [
         'crdate' => 'crdate',
         'delete' => 'deleted',
         'copyAfterDuplFields' => 'parent',
-        'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
+        'prependAtCopy' => $languageLglPath . 'locallang_general.xlf:LGL.prependAtCopy',
         'enablecolumns' => [
             'disabled' => 'hidden'
         ],
@@ -51,7 +52,7 @@ $result = [
             ]
         ],
         'author' => [
-            'label' => DIV2007_LANGUAGE_LGL . 'author',
+            'label' => $languageLglPath . 'author',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -61,7 +62,7 @@ $result = [
             ]
         ],
         'city' => [
-            'label'  => DIV2007_LANGUAGE_LGL . 'city',
+            'label'  => $languageLglPath . 'city',
             'config' => [
                 'type' => 'input',
                 'size' => 20,
@@ -71,7 +72,7 @@ $result = [
             ]
         ],
         'email' => [
-            'label'  => DIV2007_LANGUAGE_LGL . 'email',
+            'label'  => $languageLglPath . 'email',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -81,7 +82,7 @@ $result = [
             ]
         ],
         'hidden' => [
-            'label'  => DIV2007_LANGUAGE_LGL . 'hidden',
+            'label'  => $languageLglPath . 'hidden',
             'config' => [
                 'type' => 'check',
                 'default' => 0
