@@ -4,14 +4,6 @@ defined('TYPO3') || die('Access denied.');
 call_user_func(function () {
     $extensionKey = 'tt_board';
 
-    if (!defined ('PATH_BE_TTBOARD')) {
-        define('PATH_BE_TTBOARD', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey));
-    }
-
-    if (!defined ('PATH_FE_TTBOARD_REL')) {
-        define('PATH_FE_TTBOARD_REL', \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(PATH_BE_TTBOARD));
-    }
-
     if (!defined ('TT_BOARD_CSS_PREFIX')) {
         define('TT_BOARD_CSS_PREFIX', 'tx-ttboard-');
     }

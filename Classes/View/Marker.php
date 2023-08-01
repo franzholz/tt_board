@@ -38,8 +38,11 @@ namespace JambageCom\TtBoard\View;
  *
  */
 
+
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -103,7 +106,8 @@ class Marker
                     $conf['color' . $i . '.'] ?? ''
                 );
         }
-        $markerArray['###PATH###'] = PATH_FE_TTBOARD_REL;
+
+        $markerArray['###PATH###'] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extensionKey)));
 
         if (!empty($conf['marks.'])) {
                 // Substitute Marker Array from TypoScript Setup

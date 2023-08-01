@@ -1,3 +1,8 @@
+
+
+2023-08-01 Franz Holzinger  <franz@ttproducts.de>
+    * remove the constants TT_BOARD_EXT, PATH_BE_TTBOARD and PATH_FE_TTBOARD_REL
+
 2023-07-29 Franz Holzinger  <franz@ttproducts.de>
     * Deprecation no. 88406: setCacheHash/noCacheHash options in ViewHelpers and UriBuilder
     * feature 85160: Auto create management DB fields from TCA ctrl
