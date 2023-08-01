@@ -88,6 +88,7 @@ window.onload = addListeners;
         $extensionKey = $composite->getExtensionKey();
         $table = 'tt_board';
         $spamWord = '';
+        $cssPrefix = 'tx-ttboard-';
         $notify = [];
 
         if (
@@ -331,7 +332,7 @@ window.onload = addListeners;
                             'label.' =>
                                 [
                                     'wrap' =>
-                                    '<span class="' . TT_BOARD_CSS_PREFIX . 'captcha">|' . 
+                                    '<span class="' . $cssPrefix . 'captcha">|' . 
                                     $textLabelWrap .
                                     $captchaMarker['###CAPTCHA_IMAGE###']  . '<br' . $xhtmlFix . '>' .
                                     $captchaMarker['###CAPTCHA_NOTICE###'] . '<br' . $xhtmlFix . '>' .
@@ -376,7 +377,7 @@ window.onload = addListeners;
                         'label.' =>
                             [
                                 'wrap' =>
-                                '<div class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' . 
+                                '<div class="'. $cssPrefix . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' . 
                                 $textLabelWrap .
                                 $labels['acknowledged_2'] . '<br' . $xhtmlFix . '>' .
                                 '<strong>' . $labels['hint'] . '</strong><br' . $xhtmlFix . '>' .
@@ -398,7 +399,7 @@ window.onload = addListeners;
                     $lConf['dataArray.']['61.']['label.'] =
                         [
                             'wrap' => 
-                                '<span class="'. TT_BOARD_CSS_PREFIX . 'privacy_policy_checkbox">' . 
+                                '<span class="'. $cssPrefix . 'privacy_policy_checkbox">' . 
                                 $labels['acknowledged'] .
                                 '</span>'
                         ];

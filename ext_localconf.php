@@ -4,10 +4,6 @@ defined('TYPO3') || die('Access denied.');
 call_user_func(function () {
     $extensionKey = 'tt_board';
 
-    if (!defined ('TT_BOARD_CSS_PREFIX')) {
-        define('TT_BOARD_CSS_PREFIX', 'tx-ttboard-');
-    }
-
     $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
     )->get($extensionKey);

@@ -1,7 +1,7 @@
 
 
 2023-08-01 Franz Holzinger  <franz@ttproducts.de>
-    * remove the constants TT_BOARD_EXT, PATH_BE_TTBOARD and PATH_FE_TTBOARD_REL
+    * remove the constants TT_BOARD_EXT, PATH_BE_TTBOARD, PATH_FE_TTBOARD_REL and TT_BOARD_CSS_PREFIX
 
 2023-07-29 Franz Holzinger  <franz@ttproducts.de>
     * Deprecation no. 88406: setCacheHash/noCacheHash options in ViewHelpers and UriBuilder
