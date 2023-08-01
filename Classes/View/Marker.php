@@ -75,7 +75,7 @@ class Marker
     /**
     * getting the global markers
     */
-    public function getGlobalMarkers ($cObj)
+    public function getGlobalMarkers ($cObj, $extensionKey)
     {
         $markerArray = [];
         $conf = $this->getConf();
@@ -114,10 +114,10 @@ class Marker
 
             // Call all addURLMarkers hooks at the end of this method
         if (
-            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers']) &&
-            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addGlobalMarkers']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addGlobalMarkers'])
         ) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
+            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addGlobalMarkers'] as $classRef) {
                 $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addGlobalMarkers')) {
                     $hookObj->addGlobalMarkers($markerArray);

@@ -168,7 +168,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         if ($content === false) {
             $this->outMessage($composite->getErrorMessage());
         } else if ($contentTmp == 'error') {
-            $fileName = 'EXT:' . TT_BOARD_EXT . '/Resources/Private/Templates/board_help.tmpl';
+            $fileName = 'EXT:' . $composite->getExtensionKey() . '/Resources/Private/Templates/board_help.tmpl';
             $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
             $absoluteFileName = $sanitizer->sanitize($fileName);
             $helpTemplate = file_get_contents($absoluteFileName);
@@ -176,7 +176,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                 $composite->getLanguageObj(),
                 $composite->getCObj(),
                 $helpTemplate,
-                TT_BOARD_EXT,
+                $composite->getExtensionKey(),
                 $composite->getErrorMessage(),
                 $theCode
             );

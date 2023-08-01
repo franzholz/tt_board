@@ -45,6 +45,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Composite implements \TYPO3\CMS\Core\SingletonInterface {
     protected $cObj;       // The backReference to the mother cObj object set at call time
+    protected $extensionKey = 'tt_board';
     protected $prefixId;
     protected $alternativeLayouts = '';
     protected $allowCaching = '';
@@ -71,6 +72,16 @@ class Composite implements \TYPO3\CMS\Core\SingletonInterface {
     public function getCObj ()
     {
         return $this->cObj;
+    }
+
+    public function setExtensionKey ($extensionKey)
+    {
+        $this->extensionKey = $value;
+    }
+
+    public function getExtensionKey ()
+    {
+        return $this->extensionKey;
     }
 
     public function setPrefixId ($value)

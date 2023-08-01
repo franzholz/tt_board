@@ -85,16 +85,17 @@ window.onload = addListeners;
         $xhtmlFix = \JambageCom\Div2007\Utility\HtmlUtility::determineXhtmlFix();
         $useXhtml = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
         $idPrefix = 'mailform';
+        $extensionKey = $composite->getExtensionKey();
         $table = 'tt_board';
         $spamWord = '';
         $notify = [];
 
         if (
-            isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
-            is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
-            !isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']) &&
-            isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row']) &&
-            is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'])
+            isset($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
+            is_array($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
+            !isset($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
+            isset($GLOBALS['TSFE']->applicationData[$extensionKey]['row']) &&
+            is_array($GLOBALS['TSFE']->applicationData[$extensionKey]['row'])
         ) {
             $content = $languageObj->getLabel(
                 'post.thanks'
@@ -237,21 +238,21 @@ window.onload = addListeners;
                 $origRow = [];
                 $wrongCaptcha = false;
                 if (
-                    isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
-                    is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]) &&
-                    isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']) &&
-                    is_array($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']) &&
-                    isset($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'])
+                    isset($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
+                    is_array($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
+                    isset($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
+                    is_array($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
+                    isset($GLOBALS['TSFE']->applicationData[$extensionKey]['word'])
                 ) {
-                    if ($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] == true) {
-                        $origRow = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'];
+                    if ($GLOBALS['TSFE']->applicationData[$extensionKey]['error']['captcha'] == true) {
+                        $origRow = $GLOBALS['TSFE']->applicationData[$extensionKey]['row'];
                         unset($origRow['doublePostCheck']);
                         $wrongCaptcha = true;
-                        $word = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'];
+                        $word = $GLOBALS['TSFE']->applicationData[$extensionKey]['word'];
                     }
-                    if ($GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['spam'] == true) {
-                        $spamWord = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'];
-                        $origRow = $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'];
+                    if ($GLOBALS['TSFE']->applicationData[$extensionKey]['error']['spam'] == true) {
+                        $spamWord = $GLOBALS['TSFE']->applicationData[$extensionKey]['word'];
+                        $origRow = $GLOBALS['TSFE']->applicationData[$extensionKey]['row'];
                     }
                 }
 
@@ -289,7 +290,7 @@ window.onload = addListeners;
                 if (
                     is_object(
                         $captcha = \JambageCom\Div2007\Captcha\CaptchaManager::getCaptcha(
-                            TT_BOARD_EXT,
+                            $extensionKey,
                             $conf['captcha']
                         )
                     )
@@ -408,7 +409,7 @@ window.onload = addListeners;
                         );
                     GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class)
                         ->addInlineJavaScript(
-                            TT_BOARD_EXT . '-privacy_policy',
+                            $extensionKey . '-privacy_policy',
                             $privacyJavaScript
                         );
                 } else {
@@ -517,7 +518,7 @@ window.onload = addListeners;
         }
 
                 // delete any formerly stored values
-        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT] = [];
+        $GLOBALS['TSFE']->applicationData[$extensionKey] = [];
 
         if (!empty($notify)) {
             $sessionData['notify_me'] = $notify;

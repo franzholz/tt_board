@@ -2,11 +2,14 @@
 defined('TYPO3') || die('Access denied.');
 
 call_user_func(function () {
+    $extensionKey = 'tt_board';
+    $table = 'tt_board';
+    $languageSubPath = '/Resources/Private/Language/';
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_board');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($table);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
-        'tt_board',
-        'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_csh_ttboard.xlf'
+        $table,
+        'EXT:' . $extensionKey . $languageSubPath . 'locallang_csh_ttboard.xlf'
     );
 });
 

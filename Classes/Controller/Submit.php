@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2020 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2023 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -61,12 +61,14 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
 
         $result = true;
+        $extensionKey = 'tt_board';
         $table = 'tt_board';
+        $languageSubPath = '/Resources/Private/Language/';
         $row = $pObj->newData[$table]['NEW'] ?? null;
 
         if (isset($row)) {
             // store the least entered row in order to allow a special output in the frontend
-            $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['row'] = $row;
+            $GLOBALS['TSFE']->applicationData[$extensionKey]['row'] = $row;
 
             if (isset($row['prefixid'])) {
                 $prefixId = $row['prefixid'];
@@ -77,12 +79,12 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             $local_cObj->setCurrentVal($pid);
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
             $languageObj->init(
-                TT_BOARD_EXT,
+                $extensionKey,
                 $conf,
-                DIV2007_LANGUAGE_SUBPATH
+                $languageSubPath
             );
             $languageObj->loadLocalLang(
-                'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
+                'EXT:' . $extensionKey . $languageSubPath . 'locallang.xlf',
                 false
             );
             if (is_array($row)) {
@@ -114,7 +116,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         isset($row[Field::CAPTCHA]) &&
                         $captcha =
                             \JambageCom\Div2007\Captcha\CaptchaManager::getCaptcha(
-                                TT_BOARD_EXT,
+                                $extensionKey,
                                 $conf['captcha']
                             )
                     ) {
@@ -132,8 +134,8 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                     }
 
                     if ($captchaError) {
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['captcha'] = true;
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $row[Field::CAPTCHA];
+                        $GLOBALS['TSFE']->applicationData[$extensionKey]['error']['captcha'] = true;
+                        $GLOBALS['TSFE']->applicationData[$extensionKey]['word'] = $row[Field::CAPTCHA];
                         $result = false;
                         break;
                     }
@@ -156,12 +158,12 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                     }
 
                     if ($spamFound) {
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['error']['spam'] = true;
-                        $GLOBALS['TSFE']->applicationData[TT_BOARD_EXT]['word'] = $word;
+                        $GLOBALS['TSFE']->applicationData[$extensionKey]['error']['spam'] = true;
+                        $GLOBALS['TSFE']->applicationData[$extensionKey]['word'] = $word;
                         $result = false;
                         break;
                     } else {
-                        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['exclude'];
+                        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'];
 
                         if (
                             !GeneralUtility::inList(

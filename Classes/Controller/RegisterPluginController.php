@@ -40,8 +40,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
 
+use JambageCom\TtBoard\Controller\InitializationController;
 use JambageCom\TtBoard\Domain\Composite;
-
 
 class RegisterPluginController extends AbstractPlugin
 {
@@ -55,6 +55,8 @@ class RegisterPluginController extends AbstractPlugin
      * @var array
      */
     public $conf = [];
+
+    public $extensionKey = 'tt_board';
 
 
     /**
@@ -107,13 +109,14 @@ class RegisterPluginController extends AbstractPlugin
     public function init (&$content, $conf)
     {
         $initialization = GeneralUtility::makeInstance(
-            \JambageCom\TtBoard\Controller\InitializationController::class
+            InitializationController::class
         );
         $initialization->init(
             $composite,
             $content,
             $this->cObj,
             $conf,
+            $this->extensionKey,
             $this->piVars['uid'] ?? '',
             $this->prefixId
         );
