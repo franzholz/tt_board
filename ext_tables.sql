@@ -13,8 +13,6 @@ CREATE TABLE tt_board (
   cr_ip varchar(15) DEFAULT '' NOT NULL,
   reference text,
 
-  PRIMARY KEY (uid),
-  KEY parent (pid),
   KEY parent_select (pid,parent),
   KEY postcheck (doublePostCheck)
 );
