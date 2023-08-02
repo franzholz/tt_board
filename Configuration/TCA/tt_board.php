@@ -3,11 +3,13 @@ defined('TYPO3') || die('Access denied.');
 
 $table = 'tt_board';
 $extensionKey = 'tt_board';
-$languageSubPath = '/Resources/Private/Language/';
+$languageSubpath = '/Resources/Private/Language/';
+
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
+
 // ******************************************************************
-// This is the standard Board table, tt_board
+// This is the standard Board table tt_board
 // ******************************************************************
 $result = [
     'ctrl' => [
@@ -21,7 +23,7 @@ $result = [
         'enablecolumns' => [
             'disabled' => 'hidden'
         ],
-        'title' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:tt_board',
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:tt_board',
         'typeicon_column' => 'parent',
         'typeicons' => [
             '0' => 'tt_faq_board_root.gif'
@@ -32,7 +34,7 @@ $result = [
     ],
     'columns' => [
         'subject' => [
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:' . $table . '.subject',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.subject',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -42,7 +44,7 @@ $result = [
             ]
         ],
         'message' => [
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:' . $table . '.message',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.message',
             'config' => [
                 'type' => 'text',
                 'cols' => '40',
@@ -89,7 +91,7 @@ $result = [
             ]
         ],
         'parent' => [
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:' . $table . '.parent',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.parent',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -102,7 +104,7 @@ $result = [
             ]
         ],
         'notify_me' => [
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:' . $table . '.notify_me',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.notify_me',
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -110,7 +112,7 @@ $result = [
         ],
         'crdate' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:' . $table . '.crdate',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.crdate',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -121,7 +123,7 @@ $result = [
         ],
         'tstamp' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:' . $table . '.tstamp',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.tstamp',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -132,7 +134,7 @@ $result = [
         ],
         'cr_ip' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:' . $table . '.cr_ip',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.cr_ip',
             'config' => [
                 'type' => 'input',
                 'size' => '15',
@@ -142,7 +144,7 @@ $result = [
         ],
         'reference' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubPath . 'locallang_tca.xlf:' . $table . '.reference',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.reference',
             'config' => [
                 'type' => 'input',
                 'size' => '40',

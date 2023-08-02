@@ -63,7 +63,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         $result = true;
         $extensionKey = 'tt_board';
         $table = 'tt_board';
-        $languageSubPath = '/Resources/Private/Language/';
+        $languageSubpath = '/Resources/Private/Language/';
         $row = $pObj->newData[$table]['NEW'] ?? null;
 
         if (isset($row)) {
@@ -81,10 +81,10 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
             $languageObj->init(
                 $extensionKey,
                 $conf,
-                $languageSubPath
+                $languageSubpath
             );
             $languageObj->loadLocalLang(
-                'EXT:' . $extensionKey . $languageSubPath . 'locallang.xlf',
+                'EXT:' . $extensionKey . $languageSubpath . 'locallang.xlf',
                 false
             );
             if (is_array($row)) {
