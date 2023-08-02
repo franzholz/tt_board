@@ -35,6 +35,10 @@ namespace JambageCom\TtBoard\View;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Page\AssetCollector;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
+use JambageCom\Div2007\Captcha\CaptchaManager;
 
 use JambageCom\TtBoard\Constants\Field;
 use JambageCom\TtBoard\Domain\Composite;
@@ -66,6 +70,7 @@ window.onload = addListeners;
     * Creates a post form for a forum
     */
     public function render (
+        ContentObjectRenderer $cObj,
         $theCode,
         $pid,
         $ref,
@@ -80,7 +85,7 @@ window.onload = addListeners;
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $languageObj = $composite->getLanguageObj();
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $request = $cObj->getRequest();
         $uid = $composite->getTtBoardUid();
         $xhtmlFix = \JambageCom\Div2007\Utility\HtmlUtility::determineXhtmlFix();
         $useXhtml = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
@@ -290,7 +295,7 @@ window.onload = addListeners;
 
                 if (
                     is_object(
-                        $captcha = \JambageCom\Div2007\Captcha\CaptchaManager::getCaptcha(
+                        $captcha = CaptchaManager::getCaptcha(
                             $extensionKey,
                             $conf['captcha']
                         )
@@ -368,7 +373,7 @@ window.onload = addListeners;
                     $piVars = [];
 
                     $pagePrivacy = intval($conf['PIDprivacyPolicy']);
-                    $privacyUrl = $local_cObj->getTypoLink_URL($pagePrivacy, $piVars);
+                    $privacyUrl = $cObj->getTypoLink_URL($pagePrivacy, $piVars);
                     $privacyUrl = str_replace(['[', ']'], ['%5B', '%5D'], $privacyUrl);
 
                     $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>' . chr(13);
@@ -387,7 +392,7 @@ window.onload = addListeners;
                         'value' =>  $labels['approval_required'],
                     ];
 
-                    if (empty($_REQUEST['privacy_policy'])) {
+                    if (empty($request->getAttribute('privacy_policy'))) {
                         if (!isset($lConf['params.']['submit'])) {
                             $lConf['params.']['submit'] = '';
                         }
@@ -406,9 +411,10 @@ window.onload = addListeners;
                     $privacyJavaScript =
                         $this->getPrivacyJavaScript(
                             $idPrefix . 'privacypolicy',
-                            'mailformformtypedb'
+                            $idPrefix . 'formtypedb'
                         );
-                    GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class)
+
+                    GeneralUtility::makeInstance(AssetCollector::class)
                         ->addInlineJavaScript(
                             $extensionKey . '-privacy_policy',
                             $privacyJavaScript
@@ -504,7 +510,7 @@ window.onload = addListeners;
                 if (isset($linkParams) && is_array($linkParams)) {
                     $url =
                         \JambageCom\Div2007\Utility\FrontendUtility::getTypoLink_URL(
-                            $local_cObj,
+                            $cObj,
                             $GLOBALS['TSFE']->id,
                             $linkParams,
                             '',
@@ -513,7 +519,7 @@ window.onload = addListeners;
                     $lConf['type'] = $url;
                 }
                 ksort($lConf['dataArray.']);
-                $out = $local_cObj->cObjGetSingle('FORM', $lConf);
+                $out = $cObj->cObjGetSingle('FORM', $lConf);
                 $content .= $out;
             }
         }

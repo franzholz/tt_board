@@ -74,7 +74,7 @@ class Composite implements \TYPO3\CMS\Core\SingletonInterface {
         return $this->cObj;
     }
 
-    public function setExtensionKey ($extensionKey)
+    public function setExtensionKey ($value)
     {
         $this->extensionKey = $value;
     }

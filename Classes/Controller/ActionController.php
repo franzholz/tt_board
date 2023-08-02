@@ -106,6 +106,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                     );
                 $newContent =
                     $form->render(
+                        $cObj,
                         $theCode,
                         $pid,
                         $ref,

@@ -107,7 +107,7 @@ class Marker
                 );
         }
 
-        $markerArray['###PATH###'] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extensionKey)));
+        $markerArray['###PATH###'] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extensionKey));
 
         if (!empty($conf['marks.'])) {
                 // Substitute Marker Array from TypoScript Setup
