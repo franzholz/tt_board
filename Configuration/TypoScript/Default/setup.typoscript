@@ -107,6 +107,7 @@ temp.tt_board.shared {
     300.type = formtype_db=submit
     300.value =
   }
+  postform.accessibility = 1
   postform.no_cache = 1
   postform.dontXssFieldNames = captcha
   postform.dontMd5FieldNames = 1

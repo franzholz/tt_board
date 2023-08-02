@@ -63,12 +63,13 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         &$content,
         ContentObjectRenderer $cObj,
         array $conf,
+        $extensionKey,
         $uid,
         $prefixId
     )
     {    
         if (!ExtensionManagementUtility::isLoaded('div2007')) {
-            $content = 'Error in Board Extension(' . TT_BOARD_EXT . '): Extension div2007 has not been loaded.';
+            $content = 'Error in Board Extension(' . $extensionKey . '): Extension div2007 has not been loaded.';
             return false;
         }
 
@@ -77,9 +78,10 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $composite = GeneralUtility::makeInstance(Composite::class);
 
         // *************************************
-        // *** getting configuration values:
+        // *** setting configuration values:
         // *************************************
         $composite->setConf($conf);
+        $composite->setExtensionKey($extensionKey);
         $composite->setCObj($cObj);
         $composite->setPrefixId($prefixId);
         $ttboardParams = GeneralUtility::_GP($prefixId);
@@ -114,13 +116,13 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $composite->setAllowCaching($allowCaching);
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
         $languageObj->init(
-            TT_BOARD_EXT,
+            $extensionKey,
             $conf['_LOCAL_LANG.'] ?? '',
             DIV2007_LANGUAGE_SUBPATH
         );
 
         $languageObj->loadLocalLang(
-            'EXT:' . TT_BOARD_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
+            'EXT:' . $extensionKey . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
             false
         );
         $composite->setLanguageObj($languageObj);
@@ -130,7 +132,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
         $modelObj->init();
         $composite->setModelObj($modelObj);
-        $globalMarkerArray = $markerObj->getGlobalMarkers($cObj);
+        $globalMarkerArray = $markerObj->getGlobalMarkers($cObj, $extensionKey);
             // template is read.
         $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
         $absoluteFileName = $sanitizer->sanitize($conf['templateFile']);

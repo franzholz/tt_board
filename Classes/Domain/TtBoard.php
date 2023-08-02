@@ -149,7 +149,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
                         );
                         break;
                     default:
-                        throw new \RuntimeException(TT_BOARD_EXT . ': wrong comparator in parameter field "' . $queryParameter->field . '"');
+                        throw new \RuntimeException('tt_board: wrong comparator in parameter field "' . $queryParameter->field . '"');
                     break;
                 }
 

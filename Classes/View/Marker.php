@@ -38,8 +38,11 @@ namespace JambageCom\TtBoard\View;
  *
  */
 
+
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -75,7 +78,7 @@ class Marker
     /**
     * getting the global markers
     */
-    public function getGlobalMarkers ($cObj)
+    public function getGlobalMarkers ($cObj, $extensionKey)
     {
         $markerArray = [];
         $conf = $this->getConf();
@@ -103,7 +106,8 @@ class Marker
                     $conf['color' . $i . '.'] ?? ''
                 );
         }
-        $markerArray['###PATH###'] = PATH_FE_TTBOARD_REL;
+
+        $markerArray['###PATH###'] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extensionKey));
 
         if (!empty($conf['marks.'])) {
                 // Substitute Marker Array from TypoScript Setup
@@ -114,10 +118,10 @@ class Marker
 
             // Call all addURLMarkers hooks at the end of this method
         if (
-            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers']) &&
-            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'])
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addGlobalMarkers']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addGlobalMarkers'])
         ) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_BOARD_EXT]['addGlobalMarkers'] as $classRef) {
+            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addGlobalMarkers'] as $classRef) {
                 $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addGlobalMarkers')) {
                     $hookObj->addGlobalMarkers($markerArray);
