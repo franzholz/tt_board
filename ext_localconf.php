@@ -1,9 +1,8 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
-    $extensionKey = 'tt_board';
-
+call_user_func(function($extensionKey)
+{
     $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
     )->get($extensionKey);
@@ -26,4 +25,4 @@ call_user_func(function () {
     } else if (!isset($tmpArray)) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] = [];
     }
-});
+}, 'tt_board');
