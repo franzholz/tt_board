@@ -25,9 +25,4 @@ call_user_func(function($extensionKey)
     } else if (!isset($tmpArray)) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] = [];
     }
-    
-    // replace the output of the former CODE field with the flexform
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][2][] = 'JambageCom\\TtBoard\\Hooks\\CmsBackend->pmDrawItem';
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][4][] = 'JambageCom\\TtBoard\\Hooks\\CmsBackend->pmDrawItem';
-
 }, 'tt_board');
