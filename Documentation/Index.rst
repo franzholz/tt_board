@@ -1,4 +1,9 @@
-.. include:: Includes.txt
+.. ==================================================
+.. FOR YOUR INFORMATION
+.. --------------------------------------------------
+.. -*- coding: utf-8 -*- with BOM.
+
+.. include:: Includes.rst.txt
 
 
 .. _start:
@@ -7,41 +12,43 @@
 Message board, twin mode
 =============================================================
 
-.. only:: html
+:Extension key:
+   tt_board
 
-	:Classification:
-		tt_board
+:Package name:
+   jambagecom/tt-board
 
-	:Version:
-		|release|
+:Version:
+   |release|
 
-	:Language:
-		en
+:Language:
+   en
 
-	:Description:
-		Manual covering TYPO3 extension tt_board
+:Description:
+   Simple threaded (tree) or list message board (forum).
 
-	:Keywords:
-		forum,message,board
+:Keywords:
+   translation pack
 
-	:Copyright:
-		2019
+:Copyright:
+   2006
 
-	:Author:
-		Franz Holzinger
+:Author:
+   Franz Holzinger
 
-	:Email:
-		franz@ttproducts.de
+:Email:
+   franz@ttproducts.de
 
-	:License:
-		This document is published under the Open Publication License
-		available from http://www.opencontent.org/openpub/
+:License:
+   This document is published under the
+   `Open Content License <https://www.openhub.net/licenses/opl>`__.
 
-	:Rendered:
-		|today|
+   The content of this document is related to TYPO3,
+   a GNU/GPL CMS/Framework available from `www.typo3.org <https://www.typo3.org/>`_.
 
-	The content of this document is related to TYPO3,
-	a GNU/GPL CMS/Framework available from `www.typo3.org <https://typo3.org/>`__.
+:Rendered:
+   |today|
+
 
 
 	**Table of Contents**

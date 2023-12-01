@@ -56,7 +56,7 @@ $result = [
                 'size' => '40',
                 'eval' => 'trim',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'city' => [
@@ -66,7 +66,7 @@ $result = [
                 'size' => 20,
                 'eval' => 'trim',
                 'max' => 255,
-                'default' => ''
+                'default' => null
             ]
         ],
         'email' => [
@@ -76,7 +76,7 @@ $result = [
                 'size' => '40',
                 'eval' => 'trim',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'hidden' => [
@@ -135,7 +135,7 @@ $result = [
                 'type' => 'input',
                 'size' => '15',
                 'max' => '15',
-                'default' => ''
+                'default' => null
             ]
         ],
         'reference' => [
