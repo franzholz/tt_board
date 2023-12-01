@@ -1,4 +1,4 @@
-.. include:: ../Includes.txt
+.. include:: ../Includes.rst.txt
 
 
 .. _introduction:
@@ -36,7 +36,7 @@ Screenshots
 
 List type forum:
 ^^^^^^^^^^^^^^^^
-.. figure:: ../Images/Introduction/ListType.png
+.. figure:: /Images/Introduction/ListType.png
    :width: 500px
    :alt: list type forum
 
@@ -44,7 +44,7 @@ List type forum:
 
 Tree type forum:
 ^^^^^^^^^^^^^^^^
-.. figure:: ../Images/Introduction/TreeType.png
+.. figure:: /Images/Introduction/TreeType.png
    :width: 500px
    :alt: tree type forum
 

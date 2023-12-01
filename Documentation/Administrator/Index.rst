@@ -1,4 +1,4 @@
-.. include:: ../Includes.txt
+.. include:: ../Includes.rst.txt
 
 
 .. _admin-manual:
@@ -19,7 +19,7 @@ Prerequisites
 
 Some of the TypoScript settings do not function via the constants field, but must be entered in the 
 setup field. Only those settings which can be found using the Constants Editor or in the file 
-:file:`Configuration/TypoScript/Default/constants.txt` are valid constants. You must 
+:file:`Configuration/TypoScript/Default/constants.typoscript` are valid constants. You must 
 include the “Message Board Setup” into your “include static from extensions” of your TYPO3 template 
 setup. The “Message Board CSS styles“ are not required. They provide default CSS styles for the forum.
 
@@ -63,7 +63,8 @@ Other configuration
   This other option is for all the rest...
 
 
-.. figure:: ../Images/AdministratorManual/ExtensionManager.png
+.. figure:: /Images/AdministratorManual/ExtensionManager.png
+   :width: 700px
    :alt: Extension Manager
 
    Extension Manager
@@ -144,8 +145,9 @@ Example Setup
 You must alternatively use :code:`plugin.tt_board_tree` for the tree type forum. :code:`plugin.tt_board_list` is only used for the list type forum.
 
 
-.. figure:: ../Images/AdministratorManual/PrivacyPolicy.png
-   :alt: Privacy Policy
+.. figure:: /Images/AdministratorManual/PrivacyPolicy.png
+    :width: 700px
+    :alt: Privacy Policy
 
    Override the language texts for the Privacy Policy
 

@@ -1,4 +1,7 @@
 
+2023-12-01 Franz Holzinger  <franz@ttproducts.de>
+    * add Documentation fixes
+
 2023-11-22 Franz Holzinger  <franz@ttproducts.de>
     * remove Classes/Hooks/CmsBackend.php, because this has been replaced already by the PageContentPreviewRenderingListener.
 

@@ -31,7 +31,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class FrontendHooks implements MiddlewareInterface
 {
     /**
-     * Hook to store the current basket
+     * Hook to initialize the current captcha
      *
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
