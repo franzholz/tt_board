@@ -85,10 +85,7 @@ class Marker
         // globally substituted markers, fonts and colors.
         $splitMark = md5(microtime());
         for ($i = 1; $i <= 3; ++$i) {
-            list(
-                $markerArray['###GW' . $i . 'B###'],
-                $markerArray['###GW' . $i . 'E###']
-            ) =
+            [$markerArray['###GW' . $i . 'B###'], $markerArray['###GW' . $i . 'E###']] =
                 explode(
                     $splitMark,
                     $cObj->stdWrap(
