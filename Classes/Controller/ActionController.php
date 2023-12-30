@@ -78,8 +78,8 @@ class ActionController implements SingletonInterface
     ) {
         $conf = $composite->getConf();
         $contentTmp = '';
-        $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
-        $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : []);
+        $ref = ($conf['ref'] ?? ''); // reference is set if another TYPO3 extension has a record which references to its own forum
+        $linkParams = ($conf['linkParams.'] ?? []);
 
         switch($theCode) {
             case 'LIST_CATEGORIES':
@@ -172,7 +172,7 @@ class ActionController implements SingletonInterface
         }	// Switch
 
         if ($content === false) {
-            $this->outMessage($composite->getErrorMessage());
+            static::outMessage($composite->getErrorMessage());
         } elseif ($contentTmp == 'error') {
             $fileName = 'EXT:' . $composite->getExtensionKey() . '/Resources/Private/Templates/board_help.tmpl';
             $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
