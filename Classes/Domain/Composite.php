@@ -38,11 +38,10 @@ namespace JambageCom\TtBoard\Domain;
  * @author  Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author  Franz Holzinger <franz@ttproducts.de>
  */
-
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class Composite implements \TYPO3\CMS\Core\SingletonInterface
+class Composite implements SingletonInterface
 {
     protected $cObj;       // The backReference to the mother cObj object set at call time
     protected $extensionKey = 'tt_board';

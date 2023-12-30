@@ -38,8 +38,10 @@ namespace JambageCom\TtBoard\View;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use JambageCom\Div2007\Utility\ControlUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -47,7 +49,7 @@ use JambageCom\TtBoard\Domain\Composite;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
-class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
+class ForumThread implements SingletonInterface
 {
     /**
     * Creates the forum display, including listing all items/a single item
@@ -62,8 +64,8 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $pid
     ) {
         $content = '';
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
         $recentPosts = [];
         $languageObj = $composite->getLanguageObj();
         $markerObj = $composite->getMarkerObj();
@@ -242,7 +244,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 );
             $c_post = 0;
             $indexedTitle = '';
-            $tagArray = \JambageCom\Div2007\Utility\MarkerUtility::getTags($templateCode);
+            $tagArray = MarkerUtility::getTags($templateCode);
 
             foreach ($recentPosts as $recentPost) {
                 $out = $postHeader[$c_post % count($postHeader)];

@@ -37,7 +37,10 @@ namespace JambageCom\TtBoard\Domain;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
+use JambageCom\Div2007\Database\QueryBuilderApi;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -48,7 +51,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\TtBoard\Constants\TreeMark;
 use JambageCom\TtBoard\Domain\QueryParameter;
 
-class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
+class TtBoard implements SingletonInterface
 {
     public $enableFields = '';		// The enablefields of the tt_board table.
     public $searchFieldList = 'author,email,subject,message';
@@ -58,7 +61,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
 
     public function init()
     {
-        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($this->tablename);
+        $enableFields = TableUtility::enableFields($this->tablename);
         $this->setEnableFields($enableFields);
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         $this->version = $typo3Version->getVersion();
@@ -252,7 +255,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(
             GeneralUtility::makeInstance(
-                \TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class
+                FrontendRestrictionContainer::class
             )
         );
 
@@ -312,7 +315,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $queryParameters[] = $whereRef;
 
         if ($searchWords) {
-            $where = \JambageCom\Div2007\Database\QueryBuilderApi::searchWhere(
+            $where = QueryBuilderApi::searchWhere(
                 $searchWords,
                 $this->searchFieldList,
                 $this->getTablename()
@@ -367,7 +370,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $rows = '';
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         $field = 'pid';
 
         if (
@@ -424,7 +427,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
         $field = 'pid';
 
@@ -486,7 +489,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
 
         if ($uid || $ref != '') {
             $queryBuilder = $this->getQueryBuilder();
-            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
             $whereCount = 0;
 
             $queryBuilder
@@ -543,7 +546,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
         $field = 'pid';
         $queryBuilder
@@ -597,7 +600,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $error = false;
         $row = null;
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
         if ($uid) {
             $field = 'uid';
@@ -676,7 +679,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $crdate = intval($crdate);
 
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
         $field = 'pid';
         $queryBuilder
@@ -762,7 +765,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $outArray = [];
         if ($uid) {
             $queryBuilder = $this->getQueryBuilder();
-            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
             $field = 'uid';
             $queryBuilder
@@ -832,7 +835,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $recentAtEnd = true
     ) {
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         $outArray = [];
@@ -862,7 +865,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         if ($searchWords) {
-            $where = \JambageCom\Div2007\Database\QueryBuilderApi::searchWhere(
+            $where = QueryBuilderApi::searchWhere(
                 $searchWords,
                 $this->searchFieldList,
                 $this->getTablename()
@@ -978,7 +981,7 @@ class TtBoard implements \TYPO3\CMS\Core\SingletonInterface
         $treeMarks = ''
     ) {
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         if ($treeMarks != '') {

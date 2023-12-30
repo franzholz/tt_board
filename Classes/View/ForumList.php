@@ -34,8 +34,9 @@ namespace JambageCom\TtBoard\View;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use JambageCom\TtBoard\Domain\Content;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -43,7 +44,7 @@ use JambageCom\TtBoard\Domain\Composite;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
-class ForumList implements \TYPO3\CMS\Core\SingletonInterface
+class ForumList implements SingletonInterface
 {
     /**
     * Creates a list of forums or categories depending on theCode
@@ -61,9 +62,9 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
         $allowCaching = $composite->getAllowCaching();
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
-        $forum_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $forum_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $forum_cObj->start([], $modelObj->getTablename());
 
         if (!$composite->getTtBoardUid()) {
@@ -210,7 +211,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                         $c_forum = 0;
                         $contentModel =
                             GeneralUtility::makeInstance(
-                                \JambageCom\TtBoard\Domain\Content::class
+                                Content::class
                             );
                         foreach($forums as $forumData) {
                             $contentRow = $contentModel->getRecord($forumData['uid']);

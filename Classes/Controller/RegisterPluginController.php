@@ -33,7 +33,7 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
+use JambageCom\Div2007\Utility\ConfigUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -126,7 +126,7 @@ class RegisterPluginController extends AbstractPlugin
     public function processCode($theCode, &$content, Composite $composite)
     {
         $action = GeneralUtility::makeInstance(
-            \JambageCom\TtBoard\Controller\ActionController::class
+            ActionController::class
         );
         $action->processCode($this->cObj, $theCode, $content, $composite);
     }
@@ -140,7 +140,7 @@ class RegisterPluginController extends AbstractPlugin
             $this->cObj->data['pi_flexform'] =
                 GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
 
-            $config['code'] = \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
+            $config['code'] = ConfigUtility::getSetupOrFFvalue(
                 $this->cObj,
                 $conf['code'] ?? '',
                 $conf['code.'] ?? '',

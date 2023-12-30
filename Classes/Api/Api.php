@@ -2,6 +2,7 @@
 
 namespace JambageCom\TtBoard\Api;
 
+use TYPO3\CMS\Core\SingletonInterface;
 /***************************************************************
 *  Copyright notice
 *
@@ -38,9 +39,7 @@ namespace JambageCom\TtBoard\Api;
  *
  *
  */
-
-
-class Api implements \TYPO3\CMS\Core\SingletonInterface
+class Api implements SingletonInterface
 {
     /**
     * Retrieves default configuration of tt_board.

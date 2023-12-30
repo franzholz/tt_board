@@ -3,7 +3,7 @@
 ##
 
 temp.tt_board.css {
-	_CSS_DEFAULT_STYLE (
+   _CSS_DEFAULT_STYLE (
 
 .tx-ttboard-catlistheader-forum {
   font-family: Tahoma,Verdana,sans-serif;

@@ -33,7 +33,10 @@ namespace JambageCom\TtBoard\View;
  * @author  Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author  Franz Holzinger <franz@ttproducts.de>
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use JambageCom\TtBoard\Api\SessionHandler;
+use JambageCom\Div2007\Utility\HtmlUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -43,7 +46,7 @@ use JambageCom\Div2007\Captcha\CaptchaManager;
 use JambageCom\TtBoard\Constants\Field;
 use JambageCom\TtBoard\Domain\Composite;
 
-class Form implements \TYPO3\CMS\Core\SingletonInterface
+class Form implements SingletonInterface
 {
     public function getPrivacyJavaScript($checkId, $buttonId)
     {
@@ -77,7 +80,7 @@ window.onload = addListeners;
         Composite $composite
     ) {
         $content = '';
-        $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
+        $session = GeneralUtility::makeInstance(SessionHandler::class);
         $currentSessionData = $session->getSessionData();
         $sessionData = [];
         $conf = $composite->getConf();
@@ -85,8 +88,8 @@ window.onload = addListeners;
         $languageObj = $composite->getLanguageObj();
         $request = $cObj->getRequest();
         $uid = $composite->getTtBoardUid();
-        $xhtmlFix = \JambageCom\Div2007\Utility\HtmlUtility::determineXhtmlFix();
-        $useXhtml = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
+        $xhtmlFix = HtmlUtility::determineXhtmlFix();
+        $useXhtml = HtmlUtility::useXHTML();
         $idPrefix = 'mailform';
         $extensionKey = $composite->getExtensionKey();
         $table = 'tt_board';
@@ -218,9 +221,9 @@ window.onload = addListeners;
                 !$parent &&
                 isset($conf['postform_newThread.'])
             ) {
-                $lConf = $conf['postform_newThread.'] ? $conf['postform_newThread.'] : $lConf;  // Special form for newThread posts...
+                $lConf = $conf['postform_newThread.'] ?: $lConf;  // Special form for newThread posts...
 
-                $modEmail = $conf['moderatorEmail_newThread'] ? $conf['moderatorEmail_newThread'] : $modEmail;
+                $modEmail = $conf['moderatorEmail_newThread'] ?: $modEmail;
                 $setupArray['300'] = 'post_new';
             }
             if (!isset($lConf['params.'])) {
@@ -507,7 +510,7 @@ window.onload = addListeners;
 
                 if (isset($linkParams) && is_array($linkParams)) {
                     $url =
-                        \JambageCom\Div2007\Utility\FrontendUtility::getTypoLink_URL(
+                        FrontendUtility::getTypoLink_URL(
                             $cObj,
                             $GLOBALS['TSFE']->id,
                             $linkParams,

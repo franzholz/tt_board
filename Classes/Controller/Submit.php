@@ -34,8 +34,16 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+use JambageCom\TtBoard\Api\SessionHandler;
+use JambageCom\TtBoard\Domain\TtBoard;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use JambageCom\TtBoard\Api\Localization;
+use JambageCom\Div2007\Captcha\CaptchaManager;
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\SystemUtility;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Controller\ErrorPageController;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Information\Typo3Version;
@@ -46,17 +54,17 @@ use JambageCom\TslibFetce\Controller\TypoScriptFrontendDataController;
 use JambageCom\Div2007\Utility\MailUtility;
 use JambageCom\TtBoard\Constants\Field;
 
-class Submit implements \TYPO3\CMS\Core\SingletonInterface
+class Submit implements SingletonInterface
 {
     public static function execute(TypoScriptFrontendDataController $pObj, $conf)
     {
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         $version = $typo3Version->getVersion();
-        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-        $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
+        $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
+        $session = GeneralUtility::makeInstance(SessionHandler::class);
         $sessionData = $session->getSessionData();
 
-        $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
+        $modelObj = GeneralUtility::makeInstance(TtBoard::class);
         $modelObj->init();
         $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
 
@@ -75,9 +83,9 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                 unset($row['prefixid']);
             }
             $pid = intval($row['pid']);
-            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+            $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $local_cObj->setCurrentVal($pid);
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
             $languageObj->init(
                 $extensionKey,
                 $conf,
@@ -115,7 +123,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                     if (
                         isset($row[Field::CAPTCHA]) &&
                         $captcha =
-                            \JambageCom\Div2007\Captcha\CaptchaManager::getCaptcha(
+                            CaptchaManager::getCaptcha(
                                 $extensionKey,
                                 $conf['captcha']
                             )
@@ -188,7 +196,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         }
                         $linkParams[$prefixId . '[uid]'] = $newId;
                         $url =
-                            \JambageCom\Div2007\Utility\FrontendUtility::getTypoLink_URL(
+                            FrontendUtility::getTypoLink_URL(
                                 $local_cObj,
                                 $pid,
                                 $linkParams,
@@ -198,11 +206,11 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 ]
                             );
                         $pObj->clear_cacheCmd($pid);
-                        \JambageCom\Div2007\Utility\SystemUtility::clearPageCacheContent_pidList($pid);
+                        SystemUtility::clearPageCacheContent_pidList($pid);
 
                         if ($pid != $GLOBALS['TSFE']->id) {
                             $pObj->clear_cacheCmd($GLOBALS['TSFE']->id);
-                            \JambageCom\Div2007\Utility\SystemUtility::clearPageCacheContent_pidList(
+                            SystemUtility::clearPageCacheContent_pidList(
                                 $GLOBALS['TSFE']->id
                             );
                         }
@@ -242,7 +250,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $sendToFEgroup = intval($mConf['sendToFEgroup']);
                                 $feUserTable = 'fe_users';
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($feUserTable);
-                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
                                 $queryBuilder
                                     ->select('*')
@@ -281,7 +289,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             //  Subject
                             if (!empty($row['parent'])) {	// RE:
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
                                 $queryBuilder
                                     ->select('*')
@@ -302,7 +310,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 
                                 $maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
                             } else {	// New:
-                                $maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']) . ' [#' . $newId . ']';
+                                $maillist_subject =  (trim($row['subject']) ?: $mConf['altSubject']) . ' [#' . $newId . ']';
                             }
 
                             // Message

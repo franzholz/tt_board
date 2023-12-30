@@ -39,14 +39,21 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use JambageCom\TtBoard\View\ForumList;
+use JambageCom\TtBoard\View\Form;
+use JambageCom\TtBoard\View\Tree;
+use JambageCom\TtBoard\View\ForumThread;
+use JambageCom\TtBoard\View\Forum;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+use JambageCom\Div2007\Utility\ViewUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtBoard\Domain\Composite;
 
-class ActionController implements \TYPO3\CMS\Core\SingletonInterface
+class ActionController implements SingletonInterface
 {
     /**
     * Returns a message, formatted
@@ -79,7 +86,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
             case 'LIST_FORUMS':
                 $forumList =
                     GeneralUtility::makeInstance(
-                        \JambageCom\TtBoard\View\ForumList::class
+                        ForumList::class
                     );
 
                 $newContent =
@@ -100,7 +107,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                 $pid = $pidArray[0];
                 $form =
                     GeneralUtility::makeInstance(
-                        \JambageCom\TtBoard\View\Form::class
+                        Form::class
                     );
                 $newContent =
                     $form->render(
@@ -114,13 +121,13 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                 break;
             case 'FORUM':
             case 'THREAD_TREE':
-                $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
+                $pid = ($conf['PIDforum'] ?: $GLOBALS['TSFE']->id);
                 $treeView = null;
 
                 if ($conf['tree']) {
                     $treeView =
                         GeneralUtility::makeInstance(
-                            \JambageCom\TtBoard\View\Tree::class,
+                            Tree::class,
                             $composite->getModelObj(),
                             $conf['iconCode.']
                         );
@@ -134,7 +141,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                     ) &&
                     $theCode == 'FORUM'
                 ) {
-                    $view = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\ForumThread::class);
+                    $view = GeneralUtility::makeInstance(ForumThread::class);
                     $newContent =
                         $view->printView(
                             $composite,
@@ -146,7 +153,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                             $pid
                         );
                 } else {
-                    $view = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
+                    $view = GeneralUtility::makeInstance(Forum::class);
                     $newContent =
                         $view->printView(
                             $composite,
@@ -168,10 +175,10 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
             $this->outMessage($composite->getErrorMessage());
         } elseif ($contentTmp == 'error') {
             $fileName = 'EXT:' . $composite->getExtensionKey() . '/Resources/Private/Templates/board_help.tmpl';
-            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+            $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
             $absoluteFileName = $sanitizer->sanitize($fileName);
             $helpTemplate = file_get_contents($absoluteFileName);
-            $newContent = \JambageCom\Div2007\Utility\ViewUtility::displayHelpPage(
+            $newContent = ViewUtility::displayHelpPage(
                 $composite->getLanguageObj(),
                 $composite->getCObj(),
                 $helpTemplate,

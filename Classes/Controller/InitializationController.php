@@ -38,7 +38,11 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use JambageCom\TtBoard\Api\Localization;
+use JambageCom\TtBoard\View\Marker;
+use JambageCom\TtBoard\Domain\TtBoard;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -46,7 +50,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtBoard\Domain\Composite;
 
-class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
+class InitializationController implements SingletonInterface
 {
     /**
     * does the initialization stuff
@@ -102,7 +106,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         // pid_list is the pid/list of pids from where to fetch the forum items.
         $tmp = trim($cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? ''));
         $pid_list = $config['pid_list'] = ($conf['pid_list'] ?? $tmp);
-        $pid_list = ($pid_list ? $pid_list : $GLOBALS['TSFE']->id);
+        $pid_list = ($pid_list ?: $GLOBALS['TSFE']->id);
         $composite->setPidList($pid_list);
 
         // page where to go usually
@@ -111,7 +115,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $composite->setPid($pid);
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
         $composite->setAllowCaching($allowCaching);
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageObj->init(
             $extensionKey,
             $conf['_LOCAL_LANG.'] ?? '',
@@ -123,15 +127,15 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             false
         );
         $composite->setLanguageObj($languageObj);
-        $markerObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Marker::class);
+        $markerObj = GeneralUtility::makeInstance(Marker::class);
         $markerObj->init($conf);
         $composite->setMarkerObj($markerObj);
-        $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
+        $modelObj = GeneralUtility::makeInstance(TtBoard::class);
         $modelObj->init();
         $composite->setModelObj($modelObj);
         $globalMarkerArray = $markerObj->getGlobalMarkers($cObj, $extensionKey);
         // template is read.
-        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+        $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
         $absoluteFileName = $sanitizer->sanitize($conf['templateFile']);
         $orig_templateCode = file_get_contents($absoluteFileName);
 
