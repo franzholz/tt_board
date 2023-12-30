@@ -59,7 +59,7 @@ class TtBoard implements SingletonInterface
     protected $version; // TYPO3 version
 
 
-    public function init()
+    public function init(): void
     {
         $enableFields = TableUtility::enableFields($this->tablename);
         $this->setEnableFields($enableFields);
@@ -81,7 +81,7 @@ class TtBoard implements SingletonInterface
         return $result;
     }
 
-    public function setEnableFields($value)
+    public function setEnableFields($value): void
     {
         $this->enableFields = $value;
     }
@@ -979,7 +979,7 @@ class TtBoard implements SingletonInterface
         $ref,
         $recentAtEnd = true,
         $treeMarks = ''
-    ) {
+    ): void {
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);

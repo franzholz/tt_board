@@ -58,13 +58,13 @@ class Marker
     * Initialized the marker object
     *
     */
-    public function init($conf)
+    public function init($conf): void
     {
         $this->setConf($conf);
         $this->dontParseContent = $conf['dontParseContent'] ?? 0;
     }
 
-    public function setConf($conf)
+    public function setConf($conf): void
     {
         $this->conf = $conf;
     }
@@ -134,7 +134,7 @@ class Marker
         $markerKey,
         array $tagArray,
         array $lConf
-    ) {
+    ): void {
         $conf = $this->getConf();
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
@@ -237,7 +237,7 @@ class Marker
         }
     }
 
-    public function getColumnMarkers(&$markerArray, $languageObj)
+    public function getColumnMarkers(&$markerArray, $languageObj): void
     {
         $locallang = $languageObj->getLocallang();
 
@@ -256,7 +256,7 @@ class Marker
             );
     }
 
-    public function getIconMarkers(&$markerArray, $iconConfig)
+    public function getIconMarkers(&$markerArray, $iconConfig): void
     {
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
@@ -412,7 +412,7 @@ class Marker
         $pointerName,
         $begin_at,
         $useCache
-    ) {
+    ): void {
         $browseObj =
             $this->getBrowserObj(
                 $this->getConf(),

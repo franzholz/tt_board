@@ -123,7 +123,7 @@ class RegisterPluginController extends AbstractPlugin
         return $composite;
     }
 
-    public function processCode($theCode, &$content, Composite $composite)
+    public function processCode($theCode, &$content, Composite $composite): void
     {
         $action = GeneralUtility::makeInstance(
             ActionController::class

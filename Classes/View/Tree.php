@@ -110,7 +110,7 @@ class Tree implements SingletonInterface
         return $this->treeIcons;
     }
 
-    public function addTreeIcons(array &$rows)
+    public function addTreeIcons(array &$rows): void
     {
         $icons = $this->getIcons();
         foreach ($rows as &$row) {

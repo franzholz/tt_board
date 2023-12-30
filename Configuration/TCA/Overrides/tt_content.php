@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey, $table) {
+call_user_func(function ($extensionKey, $table): void {
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['2'] = 'layout';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist']['2'] = 'pi_flexform';
 

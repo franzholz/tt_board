@@ -63,7 +63,7 @@ class Composite implements SingletonInterface
     protected $modelObj = null;
 
 
-    public function setCObj($value)
+    public function setCObj($value): void
     {
         $this->cObj = $value;
     }
@@ -73,7 +73,7 @@ class Composite implements SingletonInterface
         return $this->cObj;
     }
 
-    public function setExtensionKey($value)
+    public function setExtensionKey($value): void
     {
         $this->extensionKey = $value;
     }
@@ -83,7 +83,7 @@ class Composite implements SingletonInterface
         return $this->extensionKey;
     }
 
-    public function setPrefixId($value)
+    public function setPrefixId($value): void
     {
         $this->prefixId = $value;
     }
@@ -93,7 +93,7 @@ class Composite implements SingletonInterface
         return $this->prefixId;
     }
 
-    public function setAlternativeLayouts($value)
+    public function setAlternativeLayouts($value): void
     {
         $this->alternativeLayouts = $value;
     }
@@ -103,7 +103,7 @@ class Composite implements SingletonInterface
         return $this->alternativeLayouts;
     }
 
-    public function setAllowCaching($value)
+    public function setAllowCaching($value): void
     {
         $this->allowCaching = $value;
     }
@@ -113,7 +113,7 @@ class Composite implements SingletonInterface
         return $this->allowCaching;
     }
 
-    public function setConf($value)
+    public function setConf($value): void
     {
         $this->conf = $value;
     }
@@ -123,7 +123,7 @@ class Composite implements SingletonInterface
         return $this->conf;
     }
 
-    public function setConfig($value)
+    public function setConfig($value): void
     {
         $this->config = $value;
     }
@@ -133,7 +133,7 @@ class Composite implements SingletonInterface
         return $this->config;
     }
 
-    public function setPidList($value)
+    public function setPidList($value): void
     {
         $this->pid_list = $value;
     }
@@ -143,7 +143,7 @@ class Composite implements SingletonInterface
         return $this->pid_list;
     }
 
-    public function setTtBoardUid($value)
+    public function setTtBoardUid($value): void
     {
         $this->tt_board_uid = $value;
     }
@@ -153,7 +153,7 @@ class Composite implements SingletonInterface
         return $this->tt_board_uid;
     }
 
-    public function setPid($value)
+    public function setPid($value): void
     {
         $this->pid = $value;
     }
@@ -163,7 +163,7 @@ class Composite implements SingletonInterface
         return $this->pid;
     }
 
-    public function setOrigTemplateCode($value)
+    public function setOrigTemplateCode($value): void
     {
         $this->orig_templateCode = $value;
     }
@@ -173,7 +173,7 @@ class Composite implements SingletonInterface
         return $this->orig_templateCode;
     }
 
-    public function setTypolinkConf($value)
+    public function setTypolinkConf($value): void
     {
         $this->typolink_conf = $value;
     }
@@ -183,7 +183,7 @@ class Composite implements SingletonInterface
         return $this->typolink_conf;
     }
 
-    public function setErrorMessage($value)
+    public function setErrorMessage($value): void
     {
         $this->errorMessage = $value;
     }
@@ -193,7 +193,7 @@ class Composite implements SingletonInterface
         return $this->errorMessage;
     }
 
-    public function setLanguageObj($value)
+    public function setLanguageObj($value): void
     {
         $this->languageObj = $value;
     }
@@ -203,7 +203,7 @@ class Composite implements SingletonInterface
         return $this->languageObj;
     }
 
-    public function setMarkerObj($value)
+    public function setMarkerObj($value): void
     {
         $this->markerObj = $value;
     }
@@ -213,7 +213,7 @@ class Composite implements SingletonInterface
         return $this->markerObj;
     }
 
-    public function setModelObj($value)
+    public function setModelObj($value): void
     {
         $this->modelObj = $value;
     }
