@@ -118,7 +118,7 @@ class TtBoard implements SingletonInterface
         QueryBuilder &$queryBuilder,
         &$whereCount,
         QueryParameter $queryParameter
-    ) {
+    ): bool {
         if (empty($queryParameter) || !is_int($whereCount)) {
             return false;
         }

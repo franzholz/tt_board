@@ -75,7 +75,7 @@ class ActionController implements SingletonInterface
         $theCode,
         &$content,
         Composite $composite
-    ) {
+    ): bool {
         $conf = $composite->getConf();
         $contentTmp = '';
         $ref = ($conf['ref'] ?? ''); // reference is set if another TYPO3 extension has a record which references to its own forum
