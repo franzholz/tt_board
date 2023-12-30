@@ -38,8 +38,10 @@ namespace JambageCom\TtBoard\View;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use JambageCom\Div2007\Utility\ControlUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -47,12 +49,12 @@ use JambageCom\TtBoard\Domain\Composite;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
-class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
+class ForumThread implements SingletonInterface
 {
     /**
     * Creates the forum display, including listing all items/a single item
     */
-    public function printView (
+    public function printView(
         Composite $composite,
         $treeView,
         $conf,
@@ -60,11 +62,10 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         $theCode,
         $linkParams,
         $pid
-    )
-    {
+    ) {
         $content = '';
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
         $recentPosts = [];
         $languageObj = $composite->getLanguageObj();
         $markerObj = $composite->getMarkerObj();
@@ -87,11 +88,11 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
 
         if ($templateCode) {
 
-                // Clear
+            // Clear
             $subpartMarkerArray = [];
             $wrappedSubpartArray = [];
 
-                // Getting the specific parts of the template
+            // Getting the specific parts of the template
             $markerObj->getColumnMarkers(
                 $markerArray,
                 $languageObj
@@ -152,19 +153,19 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
             $thread['previous'] = $modelObj->getThreadRoot($pid_list, $crdate, 'prev');
             $subpartContent = '';
 
-                // Clear
+            // Clear
             $markerArray = [];
             $subpartArray = [];
             $wrappedSubpartArray = [];
 
-                // Getting the specific parts of the template
+            // Getting the specific parts of the template
             $markerArray['###FORUM_TITLE###'] =
                 $local_cObj->stdWrap(
                     $GLOBALS['TSFE']->page['title'],
                     $conf['forum_title_stdWrap.'] ?? ''
                 );
 
-                // Link back to forum
+            // Link back to forum
             $local_cObj->setCurrentVal($pid);
             $separator = md5(microtime());
             $wrappedSubpartArray['###LINK_BACK_TO_FORUM###'] =
@@ -182,7 +183,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 }
 
                 if ($destinationUid) {
-                        // Link to previous or next thread
+                    // Link to previous or next thread
                     $linkParams[$prefixId . '[uid]'] = $destinationUid;
                     $url =
                         FrontendUtility::getTypoLink_URL(
@@ -206,7 +207,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 isset($rootParent) &&
                 is_array($rootParent)
             ) {
-                    // Link to first !!
+                // Link to first !!
                 $linkParams[$prefixId . '[uid]' ] = $rootParent['uid'];
                 $url = FrontendUtility::getTypoLink_URL(
                     $local_cObj,
@@ -225,7 +226,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 $subpartArray['###LINK_FIRST_POST###'] = '';
             }
 
-                // Substitute:
+            // Substitute:
             $templateCode =
                 $templateService->substituteMarkerArrayCached(
                     $templateCode,
@@ -234,7 +235,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $wrappedSubpartArray
                 );
 
-                // Getting subpart for items:
+            // Getting subpart for items:
             $postHeader =
                 $markerObj->getLayouts(
                     $templateCode,
@@ -243,7 +244,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                 );
             $c_post = 0;
             $indexedTitle = '';
-                $tagArray = \JambageCom\Div2007\Utility\MarkerUtility::getTags($templateCode);
+            $tagArray = MarkerUtility::getTags($templateCode);
 
             foreach ($recentPosts as $recentPost) {
                 $out = $postHeader[$c_post % count($postHeader)];
@@ -255,7 +256,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $indexedTitle = trim($recentPost['subject']);
                 }
 
-                    // Clear
+                // Clear
                 $markerArray = [];
                 $subpartMarkerArray = [];
                 $wrappedSubpartArray = [];
@@ -269,7 +270,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $conf
                 );
 
-                    // Link to the post
+                // Link to the post
                 $linkParams[$prefixId . '[uid]'] = $recentPost['uid'];
                 $url =
                     FrontendUtility::getTypoLink_URL(
@@ -291,7 +292,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     $destinationUid = 0;
                     if (!empty($recentPost[$destination . 'Uid'])) {
                         $destinationUid = $recentPost[$destination . 'Uid'];
-                    } else if (
+                    } elseif (
                         isset($thread[$destination]) &&
                         is_array($thread[$destination]) &&
                         !empty($thread[$destination]['uid'])
@@ -300,7 +301,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     }
 
                     if ($destinationUid) {
-                            // Link to the previous or next thread
+                        // Link to the previous or next thread
                         $linkParams[$prefixId . '[uid]'] = $destinationUid;
 
                         $url =
@@ -322,7 +323,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
                     }
                 }
 
-                    // Substitute:
+                // Substitute:
                 $subpartContent .=
                     $templateService->substituteMarkerArrayCached(
                         $out,
@@ -333,7 +334,7 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
             }
 
             $GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
-                // Substitution:
+            // Substitution:
             $content =
                 $templateService->substituteSubpart(
                     $templateCode,
@@ -347,4 +348,3 @@ class ForumThread implements \TYPO3\CMS\Core\SingletonInterface
         return $content;
     } // printView
 }
-

@@ -15,18 +15,16 @@ namespace JambageCom\TtBoard\Constants;
  * The TYPO3 project - inspiring people to share!
  */
 
- /**
- * Constants for the tree views
- */
+/**
+* Constants for the tree views
+*/
 class TreeMark
 {
-    const THREAD        = 1;
-    const END           = 2;
-    const JOIN_BOTTOM   = 3;
-    const JOIN          = 4;
-    const BLANK         = 5;
-    const LINE          = 6;
+    public const THREAD        = 1;
+    public const END           = 2;
+    public const JOIN_BOTTOM   = 3;
+    public const JOIN          = 4;
+    public const BLANK         = 5;
+    public const LINE          = 6;
 
 }
-
-

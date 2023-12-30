@@ -34,8 +34,17 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-
+use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+use JambageCom\TtBoard\Api\SessionHandler;
+use JambageCom\TtBoard\Domain\TtBoard;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use JambageCom\TtBoard\Api\Localization;
+use JambageCom\Div2007\Captcha\CaptchaManager;
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\SystemUtility;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Controller\ErrorPageController;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Information\Typo3Version;
@@ -46,17 +55,17 @@ use JambageCom\TslibFetce\Controller\TypoScriptFrontendDataController;
 use JambageCom\Div2007\Utility\MailUtility;
 use JambageCom\TtBoard\Constants\Field;
 
-class Submit implements \TYPO3\CMS\Core\SingletonInterface
+class Submit implements SingletonInterface
 {
-    static public function execute (TypoScriptFrontendDataController $pObj, $conf)
+    public static function execute(TypoScriptFrontendDataController $pObj, $conf)
     {
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         $version = $typo3Version->getVersion();
-        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-        $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
+        $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
+        $session = GeneralUtility::makeInstance(SessionHandler::class);
         $sessionData = $session->getSessionData();
 
-        $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
+        $modelObj = GeneralUtility::makeInstance(TtBoard::class);
         $modelObj->init();
         $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
 
@@ -75,9 +84,9 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                 unset($row['prefixid']);
             }
             $pid = intval($row['pid']);
-            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+            $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $local_cObj->setCurrentVal($pid);
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
             $languageObj->init(
                 $extensionKey,
                 $conf,
@@ -115,7 +124,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                     if (
                         isset($row[Field::CAPTCHA]) &&
                         $captcha =
-                            \JambageCom\Div2007\Captcha\CaptchaManager::getCaptcha(
+                            CaptchaManager::getCaptcha(
                                 $extensionKey,
                                 $conf['captcha']
                             )
@@ -128,9 +137,9 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         ) {
                             $captchaError = true;
                         }
-                    } else if ($conf['captcha']) {
-                            // There could be a wrong captcha configuration or manipulation of the submit form. This case must always lead to an error message.
-                        $captchaError = true;                        
+                    } elseif ($conf['captcha']) {
+                        // There could be a wrong captcha configuration or manipulation of the submit form. This case must always lead to an error message.
+                        $captchaError = true;
                     }
 
                     if ($captchaError) {
@@ -170,7 +179,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $excludeArray[$table],
                                 'cr_ip'
                             )
-                        ) {                     
+                        ) {
                             $row['cr_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
                         }
 
@@ -178,17 +187,17 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             unset($row[Field::CAPTCHA]);
                         }
 
-                            // Plain insert of record:
+                        // Plain insert of record:
                         $newId = $pObj->execNEWinsert($table, $row);
 
-                            // Link to this thread
+                        // Link to this thread
                         $linkParams = [];
                         if ($GLOBALS['TSFE']->type) {
                             $linkParams['type'] = $GLOBALS['TSFE']->type;
                         }
                         $linkParams[$prefixId . '[uid]'] = $newId;
                         $url =
-                            \JambageCom\Div2007\Utility\FrontendUtility::getTypoLink_URL(
+                            FrontendUtility::getTypoLink_URL(
                                 $local_cObj,
                                 $pid,
                                 $linkParams,
@@ -198,16 +207,16 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 ]
                             );
                         $pObj->clear_cacheCmd($pid);
-                        \JambageCom\Div2007\Utility\SystemUtility::clearPageCacheContent_pidList($pid);
+                        SystemUtility::clearPageCacheContent_pidList($pid);
 
                         if ($pid != $GLOBALS['TSFE']->id) {
                             $pObj->clear_cacheCmd($GLOBALS['TSFE']->id);
-                            \JambageCom\Div2007\Utility\SystemUtility::clearPageCacheContent_pidList(
+                            SystemUtility::clearPageCacheContent_pidList(
                                 $GLOBALS['TSFE']->id
                             );
                         }
 
-                            // Clear specific cache:
+                        // Clear specific cache:
                         if (!empty($conf['clearCacheForPids'])) {
                             $ccPids = GeneralUtility::intExplode(',', $conf['clearCacheForPids']);
                             foreach($ccPids as $ccPid) {
@@ -218,23 +227,23 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             $GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
                         }
 
-                            // Send post to Mailing list ...
+                        // Send post to Mailing list ...
                         if (
                             $conf['sendToMailingList'] &&
                             $conf['sendToMailingList.']['email']
                         ) {
-                        /*
-                            TypoScript for this section (was used for the TYPO3 mailing list.
-                        FEData.tt_board.processScript {
-                            sendToMailingList = 1
-                            sendToMailingList {
-                                email = typo3@netfielders.de
-                                reply = submitmail@typo3.com
-                                namePrefix = Typo3Forum/
-                                altSubject = Post from www.typo3.com
+                            /*
+                                TypoScript for this section (was used for the TYPO3 mailing list.
+                            FEData.tt_board.processScript {
+                                sendToMailingList = 1
+                                sendToMailingList {
+                                    email = typo3@netfielders.de
+                                    reply = submitmail@typo3.com
+                                    namePrefix = Typo3Forum/
+                                    altSubject = Post from www.typo3.com
+                                }
                             }
-                        }
-                        */
+                            */
                             $mConf = $conf['sendToMailingList.'] ?? [];
 
                             // If there is a FE-user group defined, then send notifiers to all FE-members of this group
@@ -242,7 +251,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $sendToFEgroup = intval($mConf['sendToFEgroup']);
                                 $feUserTable = 'fe_users';
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($feUserTable);
-                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
                                 $queryBuilder
                                     ->select('*')
@@ -278,10 +287,10 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             $maillist_header = 'From: ' . $mConf['namePrefix'] . $row['author'] . ' <' . $mConf['reply'] . '>' . chr(10);
                             $maillist_header .= 'Reply-To: ' . $mConf['reply'];
 
-                                //  Subject
+                            //  Subject
                             if (!empty($row['parent'])) {	// RE:
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
                                 $queryBuilder
                                     ->select('*')
@@ -302,17 +311,17 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 
                                 $maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
                             } else {	// New:
-                                $maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']) . ' [#' . $newId . ']';
+                                $maillist_subject =  (trim($row['subject']) ?: $mConf['altSubject']) . ' [#' . $newId . ']';
                             }
 
-                                // Message
+                            // Message
                             $maillist_msg = chr(10) . chr(10) . $languageObj->getLabel('newReply.subjectPrefix') .
                             chr(10) . $row['subject'] . chr(10) . chr(10) . $languageObj->getLabel('newReply.message') . chr(10) . $row['message'] . chr(10) . chr(10) . $languageObj->getLabel('newReply.author') . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
 
                             $maillist_msg .= $languageObj->getLabel('newReply.followThisLink') . ':' . chr(10);
                             $maillist_msg .= $url;
 
-                                // Send
+                            // Send
                             if ($conf['debug']) {
                                 debug($maillist_recip); // keep this
                                 debug($maillist_subject); // keep this
@@ -335,7 +344,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 
                         // Notify me...
                         $notify = false;
-                        
+
                         if (
                             isset($sessionData['notify_me'])
                         ) {
@@ -363,7 +372,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             foreach ($labelKeys as $labelKey) {
                                 $markersArray['###' . strtoupper($labelKey) . '###'] = $languageObj->getLabel($labelKey);
                             }
-    
+
                             if ($row['parent']) {		// If reply and not new thread:
                                 $absoluteFileName = $sanitizer->sanitize($conf['newReply.']['msg']);
                                 $msg = GeneralUtility::getUrl($absoluteFileName);
@@ -388,12 +397,13 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             }
 
                             $msgParts = explode(chr(10), $msg, 2);
-                            $emailList = GeneralUtility::rmFromList($row['email'], $notify);
+                            $email = $row['email'];
+                            $emailList = implode(',', array_filter(explode(',', $notify), function ($item) use ($email) {
+                                return $email == $item;
+                            }));
 
                             $notifyMe =
-                                GeneralUtility::uniqueList(
-                                    $emailList
-                                );
+                                StringUtility::uniqueList($emailList);
 
                             if ($conf['debug']) {
                                 debug($notifyMe); // keep this
@@ -458,4 +468,3 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 }
-

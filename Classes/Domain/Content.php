@@ -2,7 +2,6 @@
 
 namespace JambageCom\TtBoard\Domain;
 
-
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -15,8 +14,9 @@ namespace JambageCom\TtBoard\Domain;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
-
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -31,16 +31,15 @@ use JambageCom\Div2007\Api\Frontend;
  */
 
 
-class Content implements \TYPO3\CMS\Core\SingletonInterface
+class Content implements SingletonInterface
 {
-
     protected $tablename = 'tt_content';
 
 
     /**
     * Returns the content record
     */
-    public function getRecord ($pid)
+    public function getRecord($pid)
     {
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         $version = $typo3Version->getVersion();
@@ -50,8 +49,8 @@ class Content implements \TYPO3\CMS\Core\SingletonInterface
             GeneralUtility::makeInstance(Frontend::class);
         $sys_language_uid = $api->getLanguageId();
 
-        $queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getQueryBuilderForTable($this->tablename);
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->tablename);
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         $queryBuilder->select('*')
             ->from($this->tablename)
             ->where(
@@ -79,4 +78,3 @@ class Content implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     } //getRecord
 }
-

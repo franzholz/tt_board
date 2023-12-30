@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 $table = 'tt_board';
@@ -90,7 +91,6 @@ $result = [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.parent',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                     'allowed' => $table,
                 'size' => '3',
                 'maxitems' => '1',
@@ -156,4 +156,3 @@ $result = [
 ];
 
 return $result;
-

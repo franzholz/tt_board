@@ -38,8 +38,10 @@ namespace JambageCom\TtBoard\View;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
-
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use JambageCom\Div2007\Utility\ControlUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -47,12 +49,12 @@ use JambageCom\TtBoard\Domain\Composite;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
-class Forum implements \TYPO3\CMS\Core\SingletonInterface
+class Forum implements SingletonInterface
 {
     /**
     * Creates the forum display, including listing all items/a single item
     */
-    public function printView (
+    public function printView(
         Composite $composite,
         $treeView,
         $conf,
@@ -60,12 +62,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
         $theCode,
         $linkParams,
         $pid
-    )
-    {
+    ) {
         $uid = $composite->getTtBoardUid();
         $prefixId = $composite->getPrefixId();
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $controlObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Utility\ControlUtility::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
         $recentPosts = [];
         $searchWord = $controlObj->readGP('sword', $prefixId);
         $pointerName = 'pointer';
@@ -94,7 +95,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
         $limit = $lConf['thread_limit'];
 
         if ($continue) {
-                // Clear
+            // Clear
             $subpartMarkerArray = [];
             $wrappedSubpartArray = [];
 
@@ -165,7 +166,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                 );
 
             if ($templateCode) {
-                    // Getting the specific parts of the template
+                // Getting the specific parts of the template
                 $markerObj->getColumnMarkers(
                     $markerArray,
                     $composite->getLanguageObj()
@@ -191,7 +192,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                         $alternativeLayouts,
                         'POST'
                     );
-                    // Template code used if tt_board_uid matches...
+                // Template code used if tt_board_uid matches...
                 $postHeader_active =
                     $markerObj->getLayouts(
                         $templateCode,
@@ -220,15 +221,13 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $ref,
                             1
                         );
-                } else {    
+                } else {
                     $recentPosts =
                         $modelObj->getThreads(
                             $composite->getPidList(),
                             $ref,
                             $conf['tree'],
-                            $lConf['thread_limit'] ?
-                                $lConf['thread_limit'] :
-                                '50',
+                            $lConf['thread_limit'] ?: '50',
                             $begin_at,
                             $controlObj->readGP('sword', $prefixId),
                             false
@@ -241,7 +240,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
 
                 $c_post = 0;
                 $subpartArray = [];
-                $tagArray = \JambageCom\Div2007\Utility\MarkerUtility::getTags($templateCode);
+                $tagArray = MarkerUtility::getTags($templateCode);
 
                 foreach ($recentPosts as $recentPost) {
                     $out = $postHeader[$c_post % count($postHeader)];
@@ -252,11 +251,11 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     $c_post++;
                     $local_cObj->start($recentPost);
 
-                        // Clear
+                    // Clear
                     $markerArray = [];
                     $wrappedSubpartArray = [];
 
-                        // Markers
+                    // Markers
                     $markerObj->getRowMarkerArray(
                         $markerArray,
                         $modelObj,
@@ -266,7 +265,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                         $lConf
                     );
 
-                        // Link to the post
+                    // Link to the post
                     $overrulePIvars = [
                         'uid' => ($recentPost['uid'])
                     ];
@@ -279,14 +278,14 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $linkParams,
                             '',
                             []
-                    );
+                        );
                     $wrappedSubpartArray['###LINK###'] =
                         [
                             '<a href="' . htmlspecialchars($url)  . '">',
                             '</a>'
                         ];
 
-                        // Last post processing:
+                    // Last post processing:
                     $lastPostInfo =
                         $modelObj->getLastPostInThread(
                             $recentPost['pid'],
@@ -325,7 +324,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             $lConf['last_post_city_stdWrap.'] ?? ''
                         );
 
-                        // Link to the last post
+                    // Link to the last post
                     $linkParams[$prefixId . '[uid]'] = $lastPostInfo['uid'];
                     $url =
                         FrontendUtility::getTypoLink_URL(
@@ -341,7 +340,7 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                             '</a>'
                         ];
 
-                        // Substitute:
+                    // Substitute:
                     $subpartArray[$recentDate . sprintf('%010d', $recentPost['uid'])] =
                         $templateService->substituteMarkerArrayCached(
                             $out,
@@ -355,17 +354,17 @@ class Forum implements \TYPO3\CMS\Core\SingletonInterface
                     krsort($subpartArray);
                 }
 
-                    // Substitution:
+                // Substitution:
                 $markerArray = [];
                 $subpartContentArray = [];
                 $markerArray['###SEARCH_NAME###'] = $prefixId . '[sword]';
 
-                    // Fill in array
+                // Fill in array
                 $markerArray['###SEARCH_WORD###'] =
                     $GLOBALS['TSFE']->no_cache ?
                         $controlObj->readGP('sword', $prefixId) :
                         '';	// Setting search words in field if cache is disabled.
-                    // Set FORM_URL
+                // Set FORM_URL
                 $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
                 $temp_conf = $typolinkConf;
                 $temp_conf['no_cache'] = 1;

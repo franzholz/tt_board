@@ -39,20 +39,26 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use JambageCom\TtBoard\View\ForumList;
+use JambageCom\TtBoard\View\Form;
+use JambageCom\TtBoard\View\Tree;
+use JambageCom\TtBoard\View\ForumThread;
+use JambageCom\TtBoard\View\Forum;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+use JambageCom\Div2007\Utility\ViewUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtBoard\Domain\Composite;
 
-class ActionController implements \TYPO3\CMS\Core\SingletonInterface
+class ActionController implements SingletonInterface
 {
-
     /**
     * Returns a message, formatted
     */
-    static public function outMessage ($string, $content = '')
+    public static function outMessage($string, $content = '')
     {
         $msg = '
         <hr>
@@ -64,24 +70,23 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         return $msg;
     }
 
-    public function processCode (
+    public function processCode(
         ContentObjectRenderer $cObj,
         $theCode,
         &$content,
         Composite $composite
-    )
-    {
+    ): bool {
         $conf = $composite->getConf();
         $contentTmp = '';
-        $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
-        $linkParams = (isset($conf['linkParams.']) ? $conf['linkParams.'] : []);
+        $ref = ($conf['ref'] ?? ''); // reference is set if another TYPO3 extension has a record which references to its own forum
+        $linkParams = ($conf['linkParams.'] ?? []);
 
         switch($theCode) {
             case 'LIST_CATEGORIES':
             case 'LIST_FORUMS':
                 $forumList =
                     GeneralUtility::makeInstance(
-                        \JambageCom\TtBoard\View\ForumList::class
+                        ForumList::class
                     );
 
                 $newContent =
@@ -90,7 +95,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                         $composite,
                         $linkParams
                     );
-            break;
+                break;
             case 'POSTFORM':
             case 'POSTFORM_REPLY':
             case 'POSTFORM_THREAD':
@@ -102,7 +107,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                 $pid = $pidArray[0];
                 $form =
                     GeneralUtility::makeInstance(
-                        \JambageCom\TtBoard\View\Form::class
+                        Form::class
                     );
                 $newContent =
                     $form->render(
@@ -113,16 +118,16 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                         $linkParams,
                         $composite
                     );
-            break;
+                break;
             case 'FORUM':
             case 'THREAD_TREE':
-                $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
+                $pid = ($conf['PIDforum'] ?: $GLOBALS['TSFE']->id);
                 $treeView = null;
 
                 if ($conf['tree']) {
                     $treeView =
                         GeneralUtility::makeInstance(
-                            \JambageCom\TtBoard\View\Tree::class,
+                            Tree::class,
                             $composite->getModelObj(),
                             $conf['iconCode.']
                         );
@@ -136,7 +141,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                     ) &&
                     $theCode == 'FORUM'
                 ) {
-                    $view = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\ForumThread::class);
+                    $view = GeneralUtility::makeInstance(ForumThread::class);
                     $newContent =
                         $view->printView(
                             $composite,
@@ -148,7 +153,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                             $pid
                         );
                 } else {
-                    $view = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Forum::class);
+                    $view = GeneralUtility::makeInstance(Forum::class);
                     $newContent =
                         $view->printView(
                             $composite,
@@ -160,20 +165,20 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                             $pid
                         );
                 }
-            break;
+                break;
             default:
                 $contentTmp = 'error';
-            break;
+                break;
         }	// Switch
 
         if ($content === false) {
-            $this->outMessage($composite->getErrorMessage());
-        } else if ($contentTmp == 'error') {
+            static::outMessage($composite->getErrorMessage());
+        } elseif ($contentTmp == 'error') {
             $fileName = 'EXT:' . $composite->getExtensionKey() . '/Resources/Private/Templates/board_help.tmpl';
-            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+            $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
             $absoluteFileName = $sanitizer->sanitize($fileName);
             $helpTemplate = file_get_contents($absoluteFileName);
-            $newContent = \JambageCom\Div2007\Utility\ViewUtility::displayHelpPage(
+            $newContent = ViewUtility::displayHelpPage(
                 $composite->getLanguageObj(),
                 $composite->getCObj(),
                 $helpTemplate,
@@ -187,4 +192,3 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         return true;
     }
 }
-

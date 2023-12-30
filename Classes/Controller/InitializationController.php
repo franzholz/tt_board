@@ -38,7 +38,11 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use JambageCom\TtBoard\Api\Localization;
+use JambageCom\TtBoard\View\Marker;
+use JambageCom\TtBoard\Domain\TtBoard;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -46,10 +50,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtBoard\Domain\Composite;
 
-
-class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
+class InitializationController implements SingletonInterface
 {
-
     /**
     * does the initialization stuff
     *
@@ -58,7 +60,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
     * @param		string		  configuration array
     * @return	  boolean  false in error case, true if successfull
     */
-    public function init (
+    public function init(
         &$composite,
         &$content,
         ContentObjectRenderer $cObj,
@@ -66,8 +68,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $extensionKey,
         $uid,
         $prefixId
-    )
-    {    
+    ) {
         if (!ExtensionManagementUtility::isLoaded('div2007')) {
             $content = 'Error in Board Extension(' . $extensionKey . '): Extension div2007 has not been loaded.';
             return false;
@@ -102,10 +103,10 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $alternativeLayouts = !empty($conf['alternatingLayouts']) ? intval($conf['alternatingLayouts']) : 2;
         $composite->setAlternativeLayouts($alternativeLayouts);
 
-            // pid_list is the pid/list of pids from where to fetch the forum items.
+        // pid_list is the pid/list of pids from where to fetch the forum items.
         $tmp = trim($cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? ''));
         $pid_list = $config['pid_list'] = ($conf['pid_list'] ?? $tmp);
-        $pid_list = ($pid_list ? $pid_list : $GLOBALS['TSFE']->id);
+        $pid_list = ($pid_list ?: $GLOBALS['TSFE']->id);
         $composite->setPidList($pid_list);
 
         // page where to go usually
@@ -114,7 +115,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $composite->setPid($pid);
         $allowCaching = $conf['allowCaching'] ? 1 : 0;
         $composite->setAllowCaching($allowCaching);
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageObj->init(
             $extensionKey,
             $conf['_LOCAL_LANG.'] ?? '',
@@ -126,20 +127,20 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             false
         );
         $composite->setLanguageObj($languageObj);
-        $markerObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\View\Marker::class);
+        $markerObj = GeneralUtility::makeInstance(Marker::class);
         $markerObj->init($conf);
         $composite->setMarkerObj($markerObj);
-        $modelObj = GeneralUtility::makeInstance(\JambageCom\TtBoard\Domain\TtBoard::class);
+        $modelObj = GeneralUtility::makeInstance(TtBoard::class);
         $modelObj->init();
         $composite->setModelObj($modelObj);
         $globalMarkerArray = $markerObj->getGlobalMarkers($cObj, $extensionKey);
-            // template is read.
-        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+        // template is read.
+        $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
         $absoluteFileName = $sanitizer->sanitize($conf['templateFile']);
         $orig_templateCode = file_get_contents($absoluteFileName);
 
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
-            // Substitute Global Marker Array
+        // Substitute Global Marker Array
         $orig_templateCode =
             $templateService->substituteMarkerArray(
                 $orig_templateCode,
@@ -147,7 +148,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
             );
         $composite->setOrigTemplateCode($orig_templateCode);
 
-            // TypoLink.
+        // TypoLink.
         $typolink_conf = $conf['typolink.'] ?? [];
         $typolink_conf['parameter.']['current'] = 1;
         if (isset($conf['linkParams']) && is_array($conf['linkParams'])) {
@@ -170,7 +171,7 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         // *** doing the things...:
         // *************************************
 
-            // If the current record should be displayed.
+        // If the current record should be displayed.
         $config['displayCurrentRecord'] = $conf['displayCurrentRecord'] ?? '';
         if ($config['displayCurrentRecord']) {
             $config['code'] = 'FORUM';
@@ -180,4 +181,3 @@ class InitializationController implements \TYPO3\CMS\Core\SingletonInterface
         $composite->setTtBoardUid($tt_board_uid);
     }
 }
-

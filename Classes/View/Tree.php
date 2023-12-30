@@ -37,14 +37,15 @@ namespace JambageCom\TtBoard\View;
  * @author  Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author  Franz Holzinger <franz@ttproducts.de>
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use JambageCom\TtBoard\Domain\TtBoard;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 
 use JambageCom\TtBoard\Constants\TreeMark;
 
-
-class Tree implements \TYPO3\CMS\Core\SingletonInterface
+class Tree implements SingletonInterface
 {
     private $dataModel;
     protected $treeIcons = [
@@ -56,23 +57,22 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface
         TreeMark::BLANK => '&nbsp;&nbsp;'
     ];
 
-   protected $convertIconTypes = [
-        TreeMark::THREAD => 'thread',
-        TreeMark::END => 'end',
-        TreeMark::JOIN_BOTTOM => 'joinBottom',
-        TreeMark::JOIN => 'join',
-        TreeMark::LINE => 'line',
-        TreeMark::BLANK => 'blank'
-    ];
+    protected $convertIconTypes = [
+         TreeMark::THREAD => 'thread',
+         TreeMark::END => 'end',
+         TreeMark::JOIN_BOTTOM => 'joinBottom',
+         TreeMark::JOIN => 'join',
+         TreeMark::LINE => 'line',
+         TreeMark::BLANK => 'blank'
+     ];
 
-    public function __construct (
-        \JambageCom\TtBoard\Domain\TtBoard $dataModel,
+    public function __construct(
+        TtBoard $dataModel,
         array $iconConfig
-    )
-    {
+    ) {
         $this->dataModel = $dataModel;
 
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $joinConstants = array_keys($this->treeIcons);
 
         foreach ($joinConstants as $joinConstant) {
@@ -100,17 +100,17 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface
         }
     }
 
-    public function getDataModel ()
+    public function getDataModel()
     {
         return $this->dataModel;
     }
 
-    public function getIcons ()
+    public function getIcons()
     {
         return $this->treeIcons;
     }
 
-    public function addTreeIcons (array &$rows)
+    public function addTreeIcons(array &$rows): void
     {
         $icons = $this->getIcons();
         foreach ($rows as &$row) {
@@ -128,4 +128,3 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface
         }
     }
 }
-
