@@ -34,6 +34,7 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use JambageCom\TtBoard\Api\SessionHandler;
@@ -396,12 +397,13 @@ class Submit implements SingletonInterface
                             }
 
                             $msgParts = explode(chr(10), $msg, 2);
-                            $emailList = GeneralUtility::rmFromList($row['email'], $notify);
+                            $email = $row['email'];
+                            $emailList = implode(',', array_filter(explode(',', $notify), function ($item) use ($email) {
+                                return $email == $item;
+                            }));
 
                             $notifyMe =
-                                GeneralUtility::uniqueList(
-                                    $emailList
-                                );
+                                StringUtility::uniqueList($emailList);
 
                             if ($conf['debug']) {
                                 debug($notifyMe); // keep this
