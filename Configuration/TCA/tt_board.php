@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 $table = 'tt_board';
@@ -156,4 +157,3 @@ $result = [
 ];
 
 return $result;
-

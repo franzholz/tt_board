@@ -48,7 +48,7 @@ use JambageCom\TtBoard\Constants\Field;
 
 class Submit implements \TYPO3\CMS\Core\SingletonInterface
 {
-    static public function execute (TypoScriptFrontendDataController $pObj, $conf)
+    public static function execute(TypoScriptFrontendDataController $pObj, $conf)
     {
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         $version = $typo3Version->getVersion();
@@ -128,9 +128,9 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                         ) {
                             $captchaError = true;
                         }
-                    } else if ($conf['captcha']) {
-                            // There could be a wrong captcha configuration or manipulation of the submit form. This case must always lead to an error message.
-                        $captchaError = true;                        
+                    } elseif ($conf['captcha']) {
+                        // There could be a wrong captcha configuration or manipulation of the submit form. This case must always lead to an error message.
+                        $captchaError = true;
                     }
 
                     if ($captchaError) {
@@ -170,7 +170,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $excludeArray[$table],
                                 'cr_ip'
                             )
-                        ) {                     
+                        ) {
                             $row['cr_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
                         }
 
@@ -178,10 +178,10 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             unset($row[Field::CAPTCHA]);
                         }
 
-                            // Plain insert of record:
+                        // Plain insert of record:
                         $newId = $pObj->execNEWinsert($table, $row);
 
-                            // Link to this thread
+                        // Link to this thread
                         $linkParams = [];
                         if ($GLOBALS['TSFE']->type) {
                             $linkParams['type'] = $GLOBALS['TSFE']->type;
@@ -207,7 +207,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             );
                         }
 
-                            // Clear specific cache:
+                        // Clear specific cache:
                         if (!empty($conf['clearCacheForPids'])) {
                             $ccPids = GeneralUtility::intExplode(',', $conf['clearCacheForPids']);
                             foreach($ccPids as $ccPid) {
@@ -218,23 +218,23 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             $GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
                         }
 
-                            // Send post to Mailing list ...
+                        // Send post to Mailing list ...
                         if (
                             $conf['sendToMailingList'] &&
                             $conf['sendToMailingList.']['email']
                         ) {
-                        /*
-                            TypoScript for this section (was used for the TYPO3 mailing list.
-                        FEData.tt_board.processScript {
-                            sendToMailingList = 1
-                            sendToMailingList {
-                                email = typo3@netfielders.de
-                                reply = submitmail@typo3.com
-                                namePrefix = Typo3Forum/
-                                altSubject = Post from www.typo3.com
+                            /*
+                                TypoScript for this section (was used for the TYPO3 mailing list.
+                            FEData.tt_board.processScript {
+                                sendToMailingList = 1
+                                sendToMailingList {
+                                    email = typo3@netfielders.de
+                                    reply = submitmail@typo3.com
+                                    namePrefix = Typo3Forum/
+                                    altSubject = Post from www.typo3.com
+                                }
                             }
-                        }
-                        */
+                            */
                             $mConf = $conf['sendToMailingList.'] ?? [];
 
                             // If there is a FE-user group defined, then send notifiers to all FE-members of this group
@@ -278,7 +278,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             $maillist_header = 'From: ' . $mConf['namePrefix'] . $row['author'] . ' <' . $mConf['reply'] . '>' . chr(10);
                             $maillist_header .= 'Reply-To: ' . $mConf['reply'];
 
-                                //  Subject
+                            //  Subject
                             if (!empty($row['parent'])) {	// RE:
                                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
                                 $queryBuilder->setRestrictions(GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer::class));
@@ -305,14 +305,14 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                                 $maillist_subject =  (trim($row['subject']) ? trim($row['subject']) : $mConf['altSubject']) . ' [#' . $newId . ']';
                             }
 
-                                // Message
+                            // Message
                             $maillist_msg = chr(10) . chr(10) . $languageObj->getLabel('newReply.subjectPrefix') .
                             chr(10) . $row['subject'] . chr(10) . chr(10) . $languageObj->getLabel('newReply.message') . chr(10) . $row['message'] . chr(10) . chr(10) . $languageObj->getLabel('newReply.author') . chr(10) . $row['author'] . chr(10) . chr(10) . chr(10);
 
                             $maillist_msg .= $languageObj->getLabel('newReply.followThisLink') . ':' . chr(10);
                             $maillist_msg .= $url;
 
-                                // Send
+                            // Send
                             if ($conf['debug']) {
                                 debug($maillist_recip); // keep this
                                 debug($maillist_subject); // keep this
@@ -335,7 +335,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
 
                         // Notify me...
                         $notify = false;
-                        
+
                         if (
                             isset($sessionData['notify_me'])
                         ) {
@@ -363,7 +363,7 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
                             foreach ($labelKeys as $labelKey) {
                                 $markersArray['###' . strtoupper($labelKey) . '###'] = $languageObj->getLabel($labelKey);
                             }
-    
+
                             if ($row['parent']) {		// If reply and not new thread:
                                 $absoluteFileName = $sanitizer->sanitize($conf['newReply.']['msg']);
                                 $msg = GeneralUtility::getUrl($absoluteFileName);
@@ -458,4 +458,3 @@ class Submit implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 }
-

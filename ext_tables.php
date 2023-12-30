@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey)
-{
+call_user_func(function ($extensionKey) {
     $table = 'tt_board';
     $languageSubpath = '/Resources/Private/Language/';
 
@@ -12,4 +12,3 @@ call_user_func(function($extensionKey)
         'EXT:' . $extensionKey . $languageSubpath . 'locallang_csh_ttboard.xlf'
     );
 }, 'tt_board');
-

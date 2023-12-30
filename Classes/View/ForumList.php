@@ -43,18 +43,16 @@ use JambageCom\TtBoard\Domain\Composite;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
-
 class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 {
     /**
     * Creates a list of forums or categories depending on theCode
     */
-    public function render (
+    public function render(
         $theCode,
         Composite $composite,
         array $linkParams
-    )
-    {
+    ) {
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $markerObj = $composite->getMarkerObj();
@@ -73,11 +71,11 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
             $lConf = [];
 
             if ($theCode == 'LIST_CATEGORIES') {
-                    // Config if categories are listed.
+                // Config if categories are listed.
                 $lConf = $conf['list_categories.'] ?? [];
             } else {
                 $forumlist = 1;
-                    // Config if forums are listed.
+                // Config if forums are listed.
                 $lConf = $conf['list_forums.'] ?? [];
                 $lConf['noForums'] = 0;
             }
@@ -90,17 +88,17 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                 );
 
             if ($templateCode) {
-                    // Clear
+                // Clear
                 $subpartMarkerArray = [];
                 $wrappedSubpartContentArray = [];
 
-                    // Getting the specific parts of the template
+                // Getting the specific parts of the template
                 $markerObj->getColumnMarkers(
                     $markerArray,
                     $languageObj
                 );
 
-                    // Getting the icon markers
+                // Getting the icon markers
                 $markerObj->getIconMarkers(
                     $markerArray,
                     $conf['icon.']
@@ -114,7 +112,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                         $wrappedSubpartContentArray
                     );
 
-                    // Getting the specific parts of the template
+                // Getting the specific parts of the template
                 $categoryHeader =
                     $markerObj->getLayouts(
                         $templateCode,
@@ -137,12 +135,12 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                     );
                 $subpartContent = '';
 
-                    // Getting categories
+                // Getting categories
                 $categories = $modelObj->getPagesInPage($composite->getPidList());
                 $c_cat = 0;
 
                 foreach ($categories as $k => $catData) {
-                        // Getting forums in category
+                    // Getting forums in category
                     if ($forumlist) {
                         $forums = $categories;
                     } else {
@@ -150,16 +148,16 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                     }
 
                     if (!$forumlist && count($categoryHeader)) {
-                            // Rendering category
+                        // Rendering category
                         $out = $categoryHeader[$c_cat % count($categoryHeader)];
                         $c_cat++;
                         $local_cObj->start($catData);
 
-                            // Clear
+                        // Clear
                         $markerArray = [];
                         $wrappedSubpartContentArray = [];
 
-                            // Markers
+                        // Markers
                         $markerArray['###CATEGORY_TITLE###'] =
                             $local_cObj->stdWrap(
                                 $markerObj->formatStr(
@@ -197,7 +195,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                 '</a>'
                             ];
 
-                            // Substitute
+                        // Substitute
                         $subpartContent .=
                             $templateService->substituteMarkerArrayCached(
                                 $out,
@@ -208,7 +206,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                     }
 
                     if (count($forumHeader) && empty($lConf['noForums'])) {
-                            // Rendering forums
+                        // Rendering forums
                         $c_forum = 0;
                         $contentModel =
                             GeneralUtility::makeInstance(
@@ -220,11 +218,11 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                             $c_forum++;
                             $forum_cObj->start($forumData);
 
-                                // Clear
+                            // Clear
                             $markerArray = [];
                             $wrappedSubpartContentArray = [];
 
-                                // Markers
+                            // Markers
                             $markerArray['###FORUM_TITLE###'] =
                                 $forum_cObj->stdWrap(
                                     $markerObj->formatStr(
@@ -260,7 +258,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $lConf['forum_threads_stdWrap.'] ?? ''
                                 );
 
-                                // Link to the forum (wrap)
+                            // Link to the forum (wrap)
                             $pageLink =
                                 FrontendUtility::getTypoLink_URL(
                                     $composite->getCObj(),
@@ -276,7 +274,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     '</a>'
                                 ];
 
-                                // LAST POST:
+                            // LAST POST:
                             $lastPostInfo = $modelObj->getLastPost($pidList);
                             $forum_cObj->start($lastPostInfo);
 
@@ -317,14 +315,14 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
 
                             $overrulePIvars = null;
                             if (is_array($lastPostInfo)) {
-                                    // Link to the last post
+                                // Link to the last post
                                 $overrulePIvars =
                                     array_merge(
                                         $linkParams,
                                         ['uid' => $lastPostInfo['uid']]
                                     );
                             } else {
-                                    // Link to the last post
+                                // Link to the last post
                                 $overrulePIvars = $linkParams;
                             }
                             $pageLink =
@@ -342,7 +340,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     '</a>'
                                 ];
 
-                                // Add result
+                            // Add result
                             $subpartContent .=
                                 $templateService->substituteMarkerArrayCached(
                                     $out,
@@ -351,7 +349,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $wrappedSubpartContentArray
                                 );
 
-                                // Rendering the most recent posts
+                            // Rendering the most recent posts
                             if (count($postHeader) && !empty($lConf['numberOfRecentPosts'])) {
                                 $recentPosts =
                                     $modelObj->getMostRecentPosts(
@@ -366,11 +364,11 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                     $c_post++;
                                     $forum_cObj->start($recentPost);
 
-                                        // Clear:
+                                    // Clear:
                                     $markerArray = [];
                                     $wrappedSubpartContentArray = [];
 
-                                        // markers:
+                                    // markers:
                                     $markerArray['###POST_TITLE###'] =
                                         $forum_cObj->stdWrap(
                                             $markerObj->formatStr(
@@ -424,7 +422,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                                             $conf['age_stdWrap.'] ?? ''
                                         );
 
-                                        // Link to the post:
+                                    // Link to the post:
                                     $forum_cObj->setCurrentVal($recentPost['pid']);
                                     $temp_conf = $composite->getTypolinkConf();
                                     $temp_conf['additionalParams'] .= '&tt_board_uid=' . $recentPost['uid'];
@@ -470,7 +468,7 @@ class ForumList implements \TYPO3\CMS\Core\SingletonInterface
                     }
                 } // foreach ($categories)
 
-                    // Substitution:
+                // Substitution:
                 $content =
                     $templateService->substituteSubpart(
                         $templateCode,

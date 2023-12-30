@@ -48,7 +48,6 @@ use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\BrowserUtility;
 
-
 class Marker
 {
     protected $conf;
@@ -59,18 +58,18 @@ class Marker
     * Initialized the marker object
     *
     */
-    public function init ($conf)
+    public function init($conf)
     {
         $this->setConf($conf);
         $this->dontParseContent = $conf['dontParseContent'] ?? 0;
     }
 
-    public function setConf ($conf)
+    public function setConf($conf)
     {
         $this->conf = $conf;
     }
 
-    public function getConf ()
+    public function getConf()
     {
         return $this->conf;
     }
@@ -78,7 +77,7 @@ class Marker
     /**
     * getting the global markers
     */
-    public function getGlobalMarkers ($cObj, $extensionKey)
+    public function getGlobalMarkers($cObj, $extensionKey)
     {
         $markerArray = [];
         $conf = $this->getConf();
@@ -110,13 +109,13 @@ class Marker
         $markerArray['###PATH###'] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extensionKey));
 
         if (!empty($conf['marks.'])) {
-                // Substitute Marker Array from TypoScript Setup
+            // Substitute Marker Array from TypoScript Setup
             foreach ($conf['marks.'] as $key => $value) {
                 $markerArray['###' . $key . '###'] = $value;
             }
         }
 
-            // Call all addURLMarkers hooks at the end of this method
+        // Call all addURLMarkers hooks at the end of this method
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addGlobalMarkers']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addGlobalMarkers'])
@@ -131,25 +130,24 @@ class Marker
         return $markerArray;
     } // getGlobalMarkers
 
-    public function getRowMarkerArray (
+    public function getRowMarkerArray(
         &$markerArray,
         $modelObj,
         array $row,
         $markerKey,
         array $tagArray,
         array $lConf
-    )
-    {
+    ) {
         $conf = $this->getConf();
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        
+
         $local_cObj->start(
             $row,
             $modelObj->getTablename()
         );
 
         if (isset($tagArray['POST_THREAD_CODE'])) {
-                // Markers
+            // Markers
             $markerArray['###POST_THREAD_CODE###'] =
                 $local_cObj->stdWrap(
                     $row['treeIcons'],
@@ -172,9 +170,10 @@ class Marker
                 $this->substituteEmoticons(
                     $local_cObj->stdWrap(
                         $this->formatStr(
-                            $row['message']),
-                            $lConf['post_content_stdWrap.'] ?? ''
-                        )
+                            $row['message']
+                        ),
+                        $lConf['post_content_stdWrap.'] ?? ''
+                    )
                 );
         }
 
@@ -241,7 +240,7 @@ class Marker
         }
     }
 
-    public function getColumnMarkers (&$markerArray, $languageObj)
+    public function getColumnMarkers(&$markerArray, $languageObj)
     {
         $locallang = $languageObj->getLocallang();
 
@@ -260,7 +259,7 @@ class Marker
             );
     }
 
-    public function getIconMarkers (&$markerArray, $iconConfig)
+    public function getIconMarkers(&$markerArray, $iconConfig)
     {
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 
@@ -287,7 +286,7 @@ class Marker
     /**
     * Returns alternating layouts
     */
-    public function getLayouts ($templateCode, $alternativeLayouts, $marker)
+    public function getLayouts($templateCode, $alternativeLayouts, $marker)
     {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $out = [];
@@ -305,7 +304,7 @@ class Marker
     /**
     * Format string with nl2br and htmlspecialchars()
     */
-    public function formatStr ($str)
+    public function formatStr($str)
     {
         $result = '';
         if (!$this->dontParseContent) {
@@ -319,7 +318,7 @@ class Marker
     /**
     * Emoticons substitution
     */
-    public function substituteEmoticons ($str)
+    public function substituteEmoticons($str)
     {
         $conf = $this->getConf();
 
@@ -359,15 +358,14 @@ class Marker
         return $str;
     }
 
-    public function getBrowserObj (
+    public function getBrowserObj(
         $conf,
         $browserConf,
         $recordCount,
         $piVars,
         $limit,
         $maxPages
-    )
-    {
+    ) {
         $bShowFirstLast = true;
 
         if (
@@ -401,7 +399,7 @@ class Marker
         return $browseObj;
     }
 
-    public function getBrowserMarkers (
+    public function getBrowserMarkers(
         &$markerArray,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -417,8 +415,7 @@ class Marker
         $pointerName,
         $begin_at,
         $useCache
-    )
-    {
+    ) {
         $browseObj =
             $this->getBrowserObj(
                 $this->getConf(),
@@ -504,4 +501,3 @@ class Marker
         }
     }
 }
-

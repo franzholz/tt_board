@@ -43,7 +43,6 @@ use JambageCom\Div2007\Utility\ExtensionUtility;
 
 use JambageCom\TtBoard\Constants\TreeMark;
 
-
 class Tree implements \TYPO3\CMS\Core\SingletonInterface
 {
     private $dataModel;
@@ -56,20 +55,19 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface
         TreeMark::BLANK => '&nbsp;&nbsp;'
     ];
 
-   protected $convertIconTypes = [
-        TreeMark::THREAD => 'thread',
-        TreeMark::END => 'end',
-        TreeMark::JOIN_BOTTOM => 'joinBottom',
-        TreeMark::JOIN => 'join',
-        TreeMark::LINE => 'line',
-        TreeMark::BLANK => 'blank'
-    ];
+    protected $convertIconTypes = [
+         TreeMark::THREAD => 'thread',
+         TreeMark::END => 'end',
+         TreeMark::JOIN_BOTTOM => 'joinBottom',
+         TreeMark::JOIN => 'join',
+         TreeMark::LINE => 'line',
+         TreeMark::BLANK => 'blank'
+     ];
 
-    public function __construct (
+    public function __construct(
         \JambageCom\TtBoard\Domain\TtBoard $dataModel,
         array $iconConfig
-    )
-    {
+    ) {
         $this->dataModel = $dataModel;
 
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
@@ -100,17 +98,17 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface
         }
     }
 
-    public function getDataModel ()
+    public function getDataModel()
     {
         return $this->dataModel;
     }
 
-    public function getIcons ()
+    public function getIcons()
     {
         return $this->treeIcons;
     }
 
-    public function addTreeIcons (array &$rows)
+    public function addTreeIcons(array &$rows)
     {
         $icons = $this->getIcons();
         foreach ($rows as &$row) {
@@ -128,4 +126,3 @@ class Tree implements \TYPO3\CMS\Core\SingletonInterface
         }
     }
 }
-

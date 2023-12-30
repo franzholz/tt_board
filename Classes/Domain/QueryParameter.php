@@ -2,7 +2,6 @@
 
 namespace JambageCom\TtBoard\Domain;
 
-
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -27,8 +26,8 @@ namespace JambageCom\TtBoard\Domain;
 
 class QueryParameter
 {
-    const CLAUSE_AND_WHERE = 1;
-    const COMP_EQUAL = 1;
+    public const CLAUSE_AND_WHERE = 1;
+    public const COMP_EQUAL = 1;
 
     public $clause = null;
     public $tablename = null;
@@ -37,7 +36,8 @@ class QueryParameter
     public $type = null;
     public $comparator = null;
 
-    public function __construct ($clause, $tablename, $field, $value, $type, $comparator) {
+    public function __construct($clause, $tablename, $field, $value, $type, $comparator)
+    {
         $this->clause = $type;
         $this->tablename = $tablename;
         $this->field = $field;
@@ -46,4 +46,3 @@ class QueryParameter
         $this->comparator = $comparator;
     }
 }
-

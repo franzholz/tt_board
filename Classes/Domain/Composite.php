@@ -42,8 +42,8 @@ namespace JambageCom\TtBoard\Domain;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class Composite implements \TYPO3\CMS\Core\SingletonInterface {
+class Composite implements \TYPO3\CMS\Core\SingletonInterface
+{
     protected $cObj;       // The backReference to the mother cObj object set at call time
     protected $extensionKey = 'tt_board';
     protected $prefixId;
@@ -64,164 +64,163 @@ class Composite implements \TYPO3\CMS\Core\SingletonInterface {
     protected $modelObj = null;
 
 
-    public function setCObj ($value)
+    public function setCObj($value)
     {
         $this->cObj = $value;
     }
 
-    public function getCObj ()
+    public function getCObj()
     {
         return $this->cObj;
     }
 
-    public function setExtensionKey ($value)
+    public function setExtensionKey($value)
     {
         $this->extensionKey = $value;
     }
 
-    public function getExtensionKey ()
+    public function getExtensionKey()
     {
         return $this->extensionKey;
     }
 
-    public function setPrefixId ($value)
+    public function setPrefixId($value)
     {
         $this->prefixId = $value;
     }
 
-    public function getPrefixId ()
+    public function getPrefixId()
     {
         return $this->prefixId;
     }
 
-    public function setAlternativeLayouts ($value)
+    public function setAlternativeLayouts($value)
     {
         $this->alternativeLayouts = $value;
     }
 
-    public function getAlternativeLayouts ()
+    public function getAlternativeLayouts()
     {
         return $this->alternativeLayouts;
     }
 
-    public function setAllowCaching ($value)
+    public function setAllowCaching($value)
     {
         $this->allowCaching = $value;
     }
 
-    public function getAllowCaching ()
+    public function getAllowCaching()
     {
         return $this->allowCaching;
     }
 
-    public function setConf ($value)
+    public function setConf($value)
     {
         $this->conf = $value;
     }
 
-    public function getConf ()
+    public function getConf()
     {
         return $this->conf;
     }
 
-    public function setConfig ($value)
+    public function setConfig($value)
     {
         $this->config = $value;
     }
 
-    public function getConfig ()
+    public function getConfig()
     {
         return $this->config;
     }
 
-    public function setPidList ($value)
+    public function setPidList($value)
     {
         $this->pid_list = $value;
     }
 
-    public function getPidList ()
+    public function getPidList()
     {
         return $this->pid_list;
     }
 
-    public function setTtBoardUid ($value)
+    public function setTtBoardUid($value)
     {
         $this->tt_board_uid = $value;
     }
 
-    public function getTtBoardUid ()
+    public function getTtBoardUid()
     {
         return $this->tt_board_uid;
     }
 
-    public function setPid ($value)
+    public function setPid($value)
     {
         $this->pid = $value;
     }
 
-    public function getPid ()
+    public function getPid()
     {
         return $this->pid;
     }
 
-    public function setOrigTemplateCode ($value)
+    public function setOrigTemplateCode($value)
     {
         $this->orig_templateCode = $value;
     }
 
-    public function getOrigTemplateCode ()
+    public function getOrigTemplateCode()
     {
         return $this->orig_templateCode;
     }
 
-    public function setTypolinkConf ($value)
+    public function setTypolinkConf($value)
     {
         $this->typolink_conf = $value;
     }
 
-    public function getTypolinkConf ()
+    public function getTypolinkConf()
     {
         return $this->typolink_conf;
     }
 
-    public function setErrorMessage ($value)
+    public function setErrorMessage($value)
     {
         $this->errorMessage = $value;
     }
 
-    public function getErrorMessage ()
+    public function getErrorMessage()
     {
         return $this->errorMessage;
     }
 
-    public function setLanguageObj ($value)
+    public function setLanguageObj($value)
     {
         $this->languageObj = $value;
     }
 
-    public function getLanguageObj ()
+    public function getLanguageObj()
     {
         return $this->languageObj;
     }
 
-    public function setMarkerObj ($value)
+    public function setMarkerObj($value)
     {
         $this->markerObj = $value;
     }
 
-    public function getMarkerObj ()
+    public function getMarkerObj()
     {
         return $this->markerObj;
     }
 
-    public function setModelObj ($value)
+    public function setModelObj($value)
     {
         $this->modelObj = $value;
     }
 
-    public function getModelObj ()
+    public function getModelObj()
     {
         return $this->modelObj;
     }
 }
-

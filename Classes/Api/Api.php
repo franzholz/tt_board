@@ -39,17 +39,19 @@ namespace JambageCom\TtBoard\Api;
  *
  */
 
- 
-class Api implements \TYPO3\CMS\Core\SingletonInterface {
+
+class Api implements \TYPO3\CMS\Core\SingletonInterface
+{
     /**
     * Retrieves default configuration of tt_board.
     * Uses plugin.tt_board_list or plugin.tt_board_tree from page TypoScript template
     *
     * @param	string type of the forum: list or tree
     *
-    * @return	array/bool  TypoScript configuration 
+    * @return	array/bool  TypoScript configuration
     */
-    public function getDefaultConfig ($type) {
+    public function getDefaultConfig($type)
+    {
         $result = false;
         if ($type == 'list' || $type == 'tree') {
             $key = 'tt_board_' . $type . '.';
@@ -60,4 +62,3 @@ class Api implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 }
-

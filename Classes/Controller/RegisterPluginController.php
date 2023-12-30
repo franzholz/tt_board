@@ -45,7 +45,6 @@ use JambageCom\TtBoard\Domain\Composite;
 
 class RegisterPluginController extends AbstractPlugin
 {
-
     /**
      * Should normally be set in the main function with the TypoScript content passed to the method.
      *
@@ -62,7 +61,7 @@ class RegisterPluginController extends AbstractPlugin
     /**
     * Main board function. Call this from TypoScript
     */
-    public function main ($content, $conf)
+    public function main($content, $conf)
     {
         $this->conf = $conf;
         $codeArray = $this->getCodeArray($conf);
@@ -106,7 +105,7 @@ class RegisterPluginController extends AbstractPlugin
         return $content;
     }
 
-    public function init (&$content, $conf)
+    public function init(&$content, $conf)
     {
         $initialization = GeneralUtility::makeInstance(
             InitializationController::class
@@ -124,7 +123,7 @@ class RegisterPluginController extends AbstractPlugin
         return $composite;
     }
 
-    public function processCode ($theCode, &$content, Composite $composite)
+    public function processCode($theCode, &$content, Composite $composite)
     {
         $action = GeneralUtility::makeInstance(
             \JambageCom\TtBoard\Controller\ActionController::class
@@ -132,7 +131,7 @@ class RegisterPluginController extends AbstractPlugin
         $action->processCode($this->cObj, $theCode, $content, $composite);
     }
 
-    public function getCodeArray ($conf)
+    public function getCodeArray($conf)
     {
         $config = [];
         $codeArray = [];
@@ -164,60 +163,59 @@ class RegisterPluginController extends AbstractPlugin
         return ($codeArray);
     }
 
-    public function help ($content, $conf)
+    public function help($content, $conf)
     {
         $composite = $this->init($content, $conf);
         $this->processCode('HELP', $content, $composite);
         return $content;
     }
 
-    public function listCategories ($content, $conf)
+    public function listCategories($content, $conf)
     {
         $composite = $this->init($content, $conf);
         $this->processCode('LIST_CATEGORIES', $content, $composite);
         return $content;
     }
 
-    public function listForums ($content, $conf)
+    public function listForums($content, $conf)
     {
         $composite = $this->init($content, $conf);
         $this->processCode('LIST_FORUMS', $content, $composite);
         return $content;
     }
 
-    public function forum ($content, $conf)
+    public function forum($content, $conf)
     {
         $composite = $this->init($content, $conf);
         $this->processCode('FORUM', $content, $composite);
         return $content;
     }
 
-    public function postForm ($content, $conf)
+    public function postForm($content, $conf)
     {
         $composite = $this->init($content, $conf);
         $this->processCode('POSTFORM', $content, $composite);
         return $content;
     }
 
-    public function postFormReply ($content, $conf)
+    public function postFormReply($content, $conf)
     {
         $composite = $this->init($content, $conf);
         $this->processCode('POSTFORM_REPLY', $content, $composite);
         return $content;
     }
 
-    public function thread ($content, $conf)
+    public function thread($content, $conf)
     {
         $composite = $this->init($content, $conf);
         $this->processCode('POSTFORM_THREAD', $content, $composite);
         return $content;
     }
 
-    public function threadTree ($content, $conf)
+    public function threadTree($content, $conf)
     {
         $composite = $this->init($content, $conf);
         $this->processCode('THREAD_TREE', $content, $composite);
         return $content;
     }
 }
-

@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey)
-{
+call_user_func(function ($extensionKey) {
     $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
     )->get($extensionKey);
@@ -12,7 +12,7 @@ call_user_func(function($extensionKey)
         is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey])
     ) {
         $tmpArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey];
-    } else if (isset($tmpArray)) {
+    } elseif (isset($tmpArray)) {
         unset($tmpArray);
     }
 
@@ -22,7 +22,7 @@ call_user_func(function($extensionKey)
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] =
                 array_merge($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey], $tmpArray);
         }
-    } else if (!isset($tmpArray)) {
+    } elseif (!isset($tmpArray)) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] = [];
     }
 }, 'tt_board');

@@ -1,4 +1,5 @@
 <?php
+
 namespace JambageCom\TtBoard\Api;
 
 /*
@@ -18,8 +19,6 @@ namespace JambageCom\TtBoard\Api;
 /**
 * TYPO3 session handling utility.
 */
-class SessionHandler extends \JambageCom\Div2007\SessionHandler\Typo3SessionHandler {
-
+class SessionHandler extends \JambageCom\Div2007\SessionHandler\Typo3SessionHandler
+{
 }
-
-

@@ -48,11 +48,10 @@ use JambageCom\TtBoard\Domain\Composite;
 
 class ActionController implements \TYPO3\CMS\Core\SingletonInterface
 {
-
     /**
     * Returns a message, formatted
     */
-    static public function outMessage ($string, $content = '')
+    public static function outMessage($string, $content = '')
     {
         $msg = '
         <hr>
@@ -64,13 +63,12 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         return $msg;
     }
 
-    public function processCode (
+    public function processCode(
         ContentObjectRenderer $cObj,
         $theCode,
         &$content,
         Composite $composite
-    )
-    {
+    ) {
         $conf = $composite->getConf();
         $contentTmp = '';
         $ref = (isset($conf['ref']) ? $conf['ref'] : ''); // reference is set if another TYPO3 extension has a record which references to its own forum
@@ -90,7 +88,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                         $composite,
                         $linkParams
                     );
-            break;
+                break;
             case 'POSTFORM':
             case 'POSTFORM_REPLY':
             case 'POSTFORM_THREAD':
@@ -113,7 +111,7 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                         $linkParams,
                         $composite
                     );
-            break;
+                break;
             case 'FORUM':
             case 'THREAD_TREE':
                 $pid = ($conf['PIDforum'] ? $conf['PIDforum'] : $GLOBALS['TSFE']->id);
@@ -160,15 +158,15 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
                             $pid
                         );
                 }
-            break;
+                break;
             default:
                 $contentTmp = 'error';
-            break;
+                break;
         }	// Switch
 
         if ($content === false) {
             $this->outMessage($composite->getErrorMessage());
-        } else if ($contentTmp == 'error') {
+        } elseif ($contentTmp == 'error') {
             $fileName = 'EXT:' . $composite->getExtensionKey() . '/Resources/Private/Templates/board_help.tmpl';
             $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
             $absoluteFileName = $sanitizer->sanitize($fileName);
@@ -187,4 +185,3 @@ class ActionController implements \TYPO3\CMS\Core\SingletonInterface
         return true;
     }
 }
-

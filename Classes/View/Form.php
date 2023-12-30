@@ -43,10 +43,9 @@ use JambageCom\Div2007\Captcha\CaptchaManager;
 use JambageCom\TtBoard\Constants\Field;
 use JambageCom\TtBoard\Domain\Composite;
 
-
 class Form implements \TYPO3\CMS\Core\SingletonInterface
 {
-    public function getPrivacyJavaScript ($checkId, $buttonId)
+    public function getPrivacyJavaScript($checkId, $buttonId)
     {
         $result = '
 function addListeners() {
@@ -69,15 +68,14 @@ window.onload = addListeners;
     /**
     * Creates a post form for a forum
     */
-    public function render (
+    public function render(
         ContentObjectRenderer $cObj,
         $theCode,
         $pid,
         $ref,
         array $linkParams,
         Composite $composite
-    )
-    {
+    ) {
         $content = '';
         $session = GeneralUtility::makeInstance(\JambageCom\TtBoard\Api\SessionHandler::class);
         $currentSessionData = $session->getSessionData();
@@ -125,7 +123,7 @@ window.onload = addListeners;
                 $feuserLoggedIn = true;
             }
 
-                // Find parent, if any
+            // Find parent, if any
             if (
                 $uid ||
                 $ref != ''
@@ -170,7 +168,7 @@ window.onload = addListeners;
 
                             if ($recordP['notify_me']) {
                                 $notify[$index] = trim($recordP['email']);
-                            } else if (!$recordP['notify_me']) {
+                            } elseif (!$recordP['notify_me']) {
                                 if (isset($notify[$index])) {
                                     unset($notify[$index]);
                                 }
@@ -180,29 +178,29 @@ window.onload = addListeners;
                 }
             }
 
-                // Get the render-code
+            // Get the render-code
             $lConf = $conf['postform.'];
 
-//   postform.dataArray {
-//     10.label = Subject:
-//     10.type = *data[tt_board][NEW][subject]=input,60
-//     20.label = Message:
-//     20.type =  *data[tt_board][NEW][message]=textarea,60
-//     30.label = Name:
-//     30.type = *data[tt_board][NEW][author]=input,40
-//     40.label = Email:
-//     40.type = *data[tt_board][NEW][email]=input,40
-//     50.label = Notify me<br>by reply:
-//     50.type = data[tt_board][NEW][notify_me]=check
-//     Captcha:
-//     55.label =
-//     Privacy Policy:
-//     60.label =
-//     Privacy checkbox
-//     61.label =
-//    300.type = formtype_db=submit
-//    300.value = Post Reply
-//   }
+            //   postform.dataArray {
+            //     10.label = Subject:
+            //     10.type = *data[tt_board][NEW][subject]=input,60
+            //     20.label = Message:
+            //     20.type =  *data[tt_board][NEW][message]=textarea,60
+            //     30.label = Name:
+            //     30.type = *data[tt_board][NEW][author]=input,40
+            //     40.label = Email:
+            //     40.type = *data[tt_board][NEW][email]=input,40
+            //     50.label = Notify me<br>by reply:
+            //     50.type = data[tt_board][NEW][notify_me]=check
+            //     Captcha:
+            //     55.label =
+            //     Privacy Policy:
+            //     60.label =
+            //     Privacy checkbox
+            //     61.label =
+            //    300.type = formtype_db=submit
+            //    300.value = Post Reply
+            //   }
 
             $setupArray =
                 [
@@ -337,7 +335,7 @@ window.onload = addListeners;
                             'label.' =>
                                 [
                                     'wrap' =>
-                                    '<span class="' . $cssPrefix . 'captcha">|' . 
+                                    '<span class="' . $cssPrefix . 'captcha">|' .
                                     $textLabelWrap .
                                     $captchaMarker['###CAPTCHA_IMAGE###']  . '<br' . $xhtmlFix . '>' .
                                     $captchaMarker['###CAPTCHA_NOTICE###'] . '<br' . $xhtmlFix . '>' .
@@ -346,7 +344,7 @@ window.onload = addListeners;
                             'type' => '*data[' . $table . '][NEW][' . Field::CAPTCHA . ']=input,20'
                         ];
                     }
-                } else if (
+                } elseif (
                     isset($lConf['dataArray.']['55.']) &&
                     $lConf['dataArray.']['55.']['label'] == ''
                 ) {
@@ -382,7 +380,7 @@ window.onload = addListeners;
                         'label.' =>
                             [
                                 'wrap' =>
-                                '<div class="'. $cssPrefix . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' . 
+                                '<div class="'. $cssPrefix . 'privacy_policy"><strong>|</strong><br' . $xhtmlFix .'>' .
                                 $textLabelWrap .
                                 $labels['acknowledged_2'] . '<br' . $xhtmlFix . '>' .
                                 '<strong>' . $labels['hint'] . '</strong><br' . $xhtmlFix . '>' .
@@ -403,8 +401,8 @@ window.onload = addListeners;
                     $lConf['dataArray.']['61.']['label'] = $labels['acknowledgement'];
                     $lConf['dataArray.']['61.']['label.'] =
                         [
-                            'wrap' => 
-                                '<span class="'. $cssPrefix . 'privacy_policy_checkbox">' . 
+                            'wrap' =>
+                                '<span class="'. $cssPrefix . 'privacy_policy_checkbox">' .
                                 $labels['acknowledged'] .
                                 '</span>'
                         ];
@@ -440,7 +438,7 @@ window.onload = addListeners;
                     foreach ($lConf['dataArray.'] as $k => $dataRow) {
                         if (strpos($dataRow['type'], '[author]') !== false) {
                             $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'];
-                        } else if (strpos($dataRow['type'], '[email]') !== false) {
+                        } elseif (strpos($dataRow['type'], '[email]') !== false) {
                             $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'];
                         }
                     }
@@ -486,12 +484,12 @@ window.onload = addListeners;
                             ) {
                                 if (isset($origRow[$theField])) {
                                     $lConf['dataArray.'][$k . '.']['value'] = $origRow[$theField];
-                                } else if (
+                                } elseif (
                                     $theField == 'subject' &&
                                     $conf['fillSubject'] &&
                                     isset($row[$theField])
                                 ) {
-                                    $fillSubjectPrefix = 
+                                    $fillSubjectPrefix =
                                         $languageObj->getLabel(
                                             'post.fillSubjectPrefix'
                                         );
@@ -524,7 +522,7 @@ window.onload = addListeners;
             }
         }
 
-                // delete any formerly stored values
+        // delete any formerly stored values
         $GLOBALS['TSFE']->applicationData[$extensionKey] = [];
 
         if (!empty($notify)) {
@@ -535,4 +533,3 @@ window.onload = addListeners;
         return $content;
     }
 }
-

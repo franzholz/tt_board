@@ -1,13 +1,13 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     $excludeArray = [];
 
     if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude.'])) {
         $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude.'];
-    } else if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'])) {
+    } elseif (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'])) {
         $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'];
     }
 

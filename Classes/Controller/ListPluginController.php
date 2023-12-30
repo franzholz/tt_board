@@ -50,4 +50,3 @@ class ListPluginController extends RegisterPluginController
 }
 
 class_alias('JambageCom\TtBoard\Controller\ListPluginController', 'tt_board_list');
-

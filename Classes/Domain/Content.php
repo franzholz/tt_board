@@ -2,7 +2,6 @@
 
 namespace JambageCom\TtBoard\Domain;
 
-
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -33,14 +32,13 @@ use JambageCom\Div2007\Api\Frontend;
 
 class Content implements \TYPO3\CMS\Core\SingletonInterface
 {
-
     protected $tablename = 'tt_content';
 
 
     /**
     * Returns the content record
     */
-    public function getRecord ($pid)
+    public function getRecord($pid)
     {
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         $version = $typo3Version->getVersion();
@@ -79,4 +77,3 @@ class Content implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     } //getRecord
 }
-

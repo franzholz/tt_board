@@ -15,12 +15,11 @@ namespace JambageCom\TtBoard\Constants;
  * The TYPO3 project - inspiring people to share!
  */
 
- /**
- * Constants for the fields
- */
+/**
+* Constants for the fields
+*/
 class Field
 {
-    const CAPTCHA        = 'captcha';
+    public const CAPTCHA        = 'captcha';
 
 }
-
