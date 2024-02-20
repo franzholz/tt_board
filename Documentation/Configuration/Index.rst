@@ -28,38 +28,38 @@ View Properties
 
 .. container:: ts-properties
 
-	=========================== ===================================== ======================= ====================
-	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
-	=========================== ===================================== ======================= ====================
-	templateFile _              :ref:`t3tsref:data-type-resource`     no                      :code:`<div>|</div>`
-	pid\_list_                  :ref:`t3tsref:data-type-string`       yes                                          
+	=========================== ========================================= ======================= ====================
+	Property                    Data type                                 :ref:`t3tsref:stdwrap`  Default
+	=========================== ========================================= ======================= ====================
+	templateFile _              :ref:`t3tsref:data-type-resource`          no                      :code:`<div>|</div>`
+	pid\_list_                  :ref:`t3tsref:data-type-string`            yes                                          
 	PIDforum_                   :ref:`t3tsref:data-type-positive-integer`  no
 	PIDprivacyPolicy_           :ref:`t3tsref:data-type-positive-integer`  no
-	code_                       :ref:`t3tsref:data-type-string`       yes                                          
-	defaultCode_                :ref:`t3tsref:data-type-string`       no                                                     
-	alternatingLayouts_         :ref:`t3tsref:data-type-integer`      no                      2                           
-	date\_stdWrap_              :ref:`t3tsref:stdwrap`                yes                                              
-	time\_stdWrap_              :ref:`t3tsref:stdwrap`                yes                                              
-	age\_stdWrap_               :ref:`t3tsref:stdwrap`                yes                                              
-	dontParseContent_           :ref:`t3tsref:data-type-boolean`      no                                                 
-	typolink_                   :ref:`t3tsref:typolink`               no                                                 
-	tree_                       :ref:`t3tsref:data-type-boolean`      no                                                 
-	iconCode_                   :ref:`t3tsref:data-type-boolean`      no                                                 
-	iconCode.joinBottom_        :ref:`t3tsref:data-type-string`       yes                                                 
-	iconCode.join_              :ref:`t3tsref:data-type-string`       yes                                                 
-	iconCode.line_              :ref:`t3tsref:data-type-string`       yes                                                 
-	iconCode.blank_             :ref:`t3tsref:data-type-string`       yes                                                 
-	iconCode.thread_            :ref:`t3tsref:data-type-string`       yes                                                 
-	iconCode.end_               :ref:`t3tsref:data-type-string`       yes                                                 
-	emoticons_                  :ref:`t3tsref:data-type-boolean`      no                      1                
-	allowCaching_               :ref:`t3tsref:data-type-boolean`      no                                      
-	displayCurrentRecord_       :ref:`t3tsref:data-type-boolean`      no                                      
-	wrap1_                      :ref:`t3tsref:stdwrap`                yes                                              
-	wrap2_                      :ref:`t3tsref:stdwrap`                yes                                              
-	color1_                     :ref:`t3tsref:data-type-string`       yes                                              
-	color2_                     :ref:`t3tsref:data-type-string`       yes                                              
-	color3_                     :ref:`t3tsref:data-type-string`       yes                                              
-	=========================== ===================================== ======================= ====================
+	code_                       :ref:`t3tsref:data-type-string`            yes                                          
+	defaultCode_                :ref:`t3tsref:data-type-string`            no                                                     
+	alternatingLayouts_         :ref:`t3tsref:data-type-integer`           no                      2                           
+	date\_stdWrap_              :ref:`t3tsref:stdwrap`                     yes                                              
+	time\_stdWrap_              :ref:`t3tsref:stdwrap`                     yes                                              
+	age\_stdWrap_               :ref:`t3tsref:stdwrap`                     yes                                              
+	dontParseContent_           :ref:`t3tsref:data-type-boolean`           no                                                 
+	typolink_                   :ref:`t3tsref:typolink`                    no                                                 
+	tree_                       :ref:`t3tsref:data-type-boolean`           no                                                 
+	iconCode_                   :ref:`t3tsref:data-type-boolean`           no                                                 
+	iconCode.joinBottom_        :ref:`t3tsref:data-type-string`            yes                                                 
+	iconCode.join_              :ref:`t3tsref:data-type-string`            yes                                                 
+	iconCode.line_              :ref:`t3tsref:data-type-string`            yes                                                 
+	iconCode.blank_             :ref:`t3tsref:data-type-string`            yes                                                 
+	iconCode.thread_            :ref:`t3tsref:data-type-string`            yes                                                 
+	iconCode.end_               :ref:`t3tsref:data-type-string`            yes                                                 
+	emoticons_                  :ref:`t3tsref:data-type-boolean`           no                      1                
+	allowCaching_               :ref:`t3tsref:data-type-boolean`           no                                      
+	displayCurrentRecord_       :ref:`t3tsref:data-type-boolean`           no                                      
+	wrap1_                      :ref:`t3tsref:stdwrap`                     yes                                              
+	wrap2_                      :ref:`t3tsref:stdwrap`                     yes                                              
+	color1_                     :ref:`t3tsref:data-type-string`            yes                                              
+	color2_                     :ref:`t3tsref:data-type-string`            yes                                              
+	color3_                     :ref:`t3tsref:data-type-string`            yes                                              
+	=========================== ========================================== ======================= ====================
 
 
 
