@@ -1,10 +1,4 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: Includes.rst.txt
-
+.. include:: /Includes.rst.txt
 
 .. _start:
 
@@ -40,11 +34,9 @@ Message board, twin mode
    franz@ttproducts.de
 
 :License:
-   This document is published under the
-   `Open Content License <https://www.openhub.net/licenses/opl>`__.
-
-   The content of this document is related to TYPO3,
-   a GNU/GPL CMS/Framework available from `www.typo3.org <https://www.typo3.org/>`_.
+    This document is published under the
+    `Creative Commons BY 4.0 <https://creativecommons.org/licenses/by/4.0/>`__
+    license.
 
 :Rendered:
    |today|
@@ -65,4 +57,4 @@ Message board, twin mode
 	KnownProblems/Index
 	ToDoList/Index
 	ChangeLog/Index
-	Links
+
