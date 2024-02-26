@@ -25,7 +25,7 @@ Message board, twin mode
    translation pack
 
 :Copyright:
-   2006
+   since 2006
 
 :Author:
    Franz Holzinger
@@ -43,7 +43,9 @@ Message board, twin mode
 
 
 
-	**Table of Contents**
+==================
+Table of Contents:
+==================
 
 .. toctree::
 	:maxdepth: 3
