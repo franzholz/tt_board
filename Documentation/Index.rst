@@ -42,21 +42,29 @@ Message board, twin mode
    |today|
 
 
-
 ==================
 Table of Contents:
 ==================
 
-.. toctree::
-	:maxdepth: 3
-	:titlesonly:
+..  toctree::
+    :maxdepth: 2
+    :titlesonly:
 
-	Introduction/Index
-	User/Index
-	Administrator/Index
-	Configuration/Index
-	Developer/Index
-	KnownProblems/Index
-	ToDoList/Index
-	ChangeLog/Index
+
+    Introduction/Index
+    User/Index
+    Administrator/Index
+    Configuration/Index
+    Developer/Index
+    KnownProblems/Index
+    ToDoList/Index
+    ChangeLog/Index
+
+..  Meta Menu
+
+..  toctree::
+    :hidden:
+
+    Sitemap
+    genindex
 
