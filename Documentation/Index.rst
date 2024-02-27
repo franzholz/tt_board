@@ -42,7 +42,6 @@ Message board, twin mode
    |today|
 
 
-==================
 Table of Contents:
 ==================
 
