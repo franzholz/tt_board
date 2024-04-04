@@ -5,7 +5,7 @@ namespace JambageCom\TtBoard\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2023 Kasper Skårhøj <kasperYYYY@typo3.com>
+*  (c) 2024 Kasper Skårhøj <kasperYYYY@typo3.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -97,7 +97,7 @@ class Submit implements SingletonInterface
                 false
             );
             if (is_array($row)) {
-                $email = $row['email'];
+                $email = $row['email'] ?? '';
             }
         }
 
@@ -354,11 +354,7 @@ class Submit implements SingletonInterface
                         if (
                             $notify &&
                             $conf['notify'] &&
-                            trim($row['email']) &&
-                            (
-                                !$conf['emailCheck'] ||
-                                MailUtility::checkMXRecord($row['email'])
-                            )
+                            !empty($row['email'])
                         ) {
                             $labelKeys = ['p_at', 'p_content', 'p_salutation', 'p_subject', 'p_text_snippet', 'p_url_title'];
                             $markersArray = [];
@@ -426,14 +422,19 @@ class Submit implements SingletonInterface
                                 }
                                 $fromName = $senderArray[0];
                                 foreach ($addresses as $email) {
-                                    MailUtility::send(
-                                        $email,
-                                        $msgParts[0],
-                                        $msgParts[1],
-                                        '',
-                                        $fromEmail,
-                                        $fromName
-                                    );
+                                    if (
+                                        empty($conf['emailCheck']) ||
+                                        MailUtility::checkMXRecord($email)
+                                    ) {
+                                        MailUtility::send(
+                                            $email,
+                                            $msgParts[0],
+                                            $msgParts[1],
+                                            '',
+                                            $fromEmail,
+                                            $fromName
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -461,7 +462,8 @@ class Submit implements SingletonInterface
                 $message
             );
             $sessionData = [];
-            $sessionData['error'] = $content;
+            $sessionData['error-title'] = $title;
+            $sessionData['error-message'] = $message;
             $session->setSessionData($sessionData);
         }
 

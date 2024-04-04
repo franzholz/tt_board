@@ -24,7 +24,7 @@ plugin.tt_board {
     # cat=plugin.board; type=int+; label= Page Id of forum: Only set this if the BACKLINK does not work.
   PIDforum =
 
-    # cat=plugin.board/email; type=boolean; label= Email check: If you want to verify the validity of an entered email address
+    # cat=plugin.board/email; type=boolean; label= Email check: If you want to verify the validity of an entered email address by trying to connect to the mail gateway
   emailCheck = 0
 
     # cat=plugin.board/captcha; type=string; label= Captcha check: If you want to display the captcha view and field. freecap or captcha are supported.
@@ -46,11 +46,11 @@ plugin.tt_board_list {
   file.templateFile = EXT:tt_board/Resources/Private/Templates/board_template1.tmpl
 
     # cat=plugin.board/typo; type=wrap; label= List-style, Wrap 1: This wrap is used in the template-file.
-  wrap1 = 
+  wrap1 =
     # cat=plugin.board/typo; type=wrap; label= List-style, Wrap 2: This wrap is used in the template-file.
-  wrap2 = 
+  wrap2 =
     # cat=plugin.board/typo; type=wrap; label= List-style, Wrap 3: This wrap is used in the template-file.
-  wrap3 = 
+  wrap3 =
 
     # cat=plugin.board/color; type=color; label= List-style, Color 1: This bgcolor is marker ###GC4### used in the template-file.
   color1 = #cae8f5
@@ -68,11 +68,11 @@ plugin.tt_board_tree {
   file.templateFile = EXT:tt_board/Resources/Private/Templates/board_template2.tmpl
 
     # cat=plugin.board/typo; type=wrap; label= Tree-style, Wrap 1: This wrap is used in the template-file.
-  wrap1 = 
+  wrap1 =
     # cat=plugin.board/typo; type=wrap; label= Tree-style, Wrap 2: This wrap is used in the template-file.
-  wrap2 = 
+  wrap2 =
     # cat=plugin.board/typo; type=wrap; label= Tree-style, Wrap 3: This wrap is used in the template-file.
-  wrap3 = 
+  wrap3 =
 
     # cat=plugin.board/color; type=color; label= Tree-style, Color 1: This bgcolor is used in the template-file.
   color1 = #cae8f5

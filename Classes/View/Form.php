@@ -62,7 +62,7 @@ function addListeners() {
         document.getElementById("' . $buttonId . '").disabled = !this.checked;
     }
 }
-window.onload = addListeners; 
+window.onload = addListeners;
         ';
 
         return $result;
@@ -82,10 +82,23 @@ window.onload = addListeners;
         $content = '';
         $session = GeneralUtility::makeInstance(SessionHandler::class);
         $currentSessionData = $session->getSessionData();
+
+        $errorOut = '';
+        if (
+            !empty($currentSessionData['error-title']) &&
+            !empty($currentSessionData['error-message'])
+        ) {
+            $errorOut =
+'<div class="typo3-error-page-container">
+    <h1 class="typo3-error-page-title">' . $currentSessionData['error-title'] . '</h1>
+    <p class="typo3-error-page-message">' . $currentSessionData['error-message'] . '</p>
+</div>';
+        }
         $sessionData = [];
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $languageObj = $composite->getLanguageObj();
+        $langKey = $languageObj->getLocalLangKey();
         $request = $cObj->getRequest();
         $uid = $composite->getTtBoardUid();
         $xhtmlFix = HtmlUtility::determineXhtmlFix();
@@ -96,15 +109,17 @@ window.onload = addListeners;
         $spamWord = '';
         $cssPrefix = 'tx-ttboard-';
         $notify = [];
+        $content .= $errorOut;
 
         if (
+            empty($errorOut) &&
             isset($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
             is_array($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
             !isset($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
             isset($GLOBALS['TSFE']->applicationData[$extensionKey]['row']) &&
             is_array($GLOBALS['TSFE']->applicationData[$extensionKey]['row'])
         ) {
-            $content = $languageObj->getLabel(
+            $content .= $languageObj->getLabel(
                 'post.thanks'
             );
         }
@@ -440,9 +455,9 @@ window.onload = addListeners;
                 ) {
                     foreach ($lConf['dataArray.'] as $k => $dataRow) {
                         if (strpos($dataRow['type'], '[author]') !== false) {
-                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'];
+                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'] ?? '';
                         } elseif (strpos($dataRow['type'], '[email]') !== false) {
-                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'];
+                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'] ?? '';
                         }
                     }
                 }
@@ -459,21 +474,15 @@ window.onload = addListeners;
                         is_array($lConf['dataArray.'][$k . '.'])
                     ) {
                         if (
+                            empty($lConf['dataArray.'][$k . '.'][$type]) ||
                             (
-                                !$languageObj->getLocalLangKey() ||
-                                $languageObj->getLocalLangKey() == 'default'
-                            ) &&
-                            !$lConf['dataArray.'][$k . '.'][$type] ||
-
-                            (
-                                $languageObj->getLocalLangKey() != 'default' &&
                                 (
                                     isset($lConf['dataArray.'][$k . '.'][$type . '.']) &&
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']) ||
                                     isset($lConf['dataArray.'][$k . '.'][$type . '.']['lang.']) &&
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.']) ||
-                                    isset($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$languageObj->getLocalLangKey() . '.']) &&
-                                    !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$languageObj->getLocalLangKey() . '.'])
+                                    isset($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$langKey . '.']) &&
+                                    !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$langKey . '.'])
                                 )
                             )
                         ) {
@@ -489,14 +498,13 @@ window.onload = addListeners;
                                     $lConf['dataArray.'][$k . '.']['value'] = $origRow[$theField];
                                 } elseif (
                                     $theField == 'subject' &&
-                                    $conf['fillSubject'] &&
-                                    isset($row[$theField])
+                                    !empty($conf['fillSubject']) &&
+                                    !empty($row[$theField])
                                 ) {
                                     $fillSubjectPrefix =
                                         $languageObj->getLabel(
                                             'post.fillSubjectPrefix'
                                         );
-
                                     $lConf['dataArray.'][$k . '.']['value'] = $fillSubjectPrefix . $row[$theField];
                                 }
                             }
@@ -532,7 +540,6 @@ window.onload = addListeners;
             $sessionData['notify_me'] = $notify;
         }
         $session->setSessionData($sessionData);
-
         return $content;
     }
 }

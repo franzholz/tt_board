@@ -1,3 +1,11 @@
+TODO:
+Replace $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] by
+https://docs.typo3.org/m/typo3/reference-coreapi/11.5/en-us/ExtensionArchitecture/FileStructure/ExtConfTemplate.html#accessing-saved-options
+
+
+2024-04-04 Franz Holzinger  <franz@ttproducts.de>
+    * use checkMXRecord for each e-mail address before sending a notification e-mail
+    * fix bug to show the errors formerly shown in a flash error page message in the front end
 
 2023-12-01 Franz Holzinger  <franz@ttproducts.de>
     * add Documentation fixes
@@ -44,7 +52,7 @@
 
 2020-07-31 Franz Holzinger <franz@ttproducts.de>
     * add the field tstamp to the TCA
-    * add the page browser header to the ###TEMPLATE_FORUM### subpart of the template file board_template2.html 
+    * add the page browser header to the ###TEMPLATE_FORUM### subpart of the template file board_template2.html
 
 2020-07-27 Franz Holzinger <franz@ttproducts.de>
     * add new field city
@@ -65,7 +73,7 @@
 2019-12-18 Franz Holzinger <franz@ttproducts.de>
     * fix issue #5: tt_board 1.10.15 works under TYPO3 9.5
     * compatibility for TYPO3 9 breaking 82803: $TYPO3_CONF_VARS['FE']['content_doktypes'] has been removed in TYPO3 9
-        
+
 2019-11-02 Franz Holzinger <franz@ttproducts.de>
     * adapt composer.json to current needs
     * add alias files tt_board_list for JambageCom\TtBoard\Controller\ListPluginController and tt_board_tree for JambageCom\TtBoard\Controller\TreePluginController
@@ -131,7 +139,7 @@
     * readd the API to use a commenting system inside of external extensions. Only the method getDefaultConfig is needed.
 
 2018-11-25 Franz Holzinger <franz@ttproducts.de>
-    * new: Replace the labels from the newReply and newThread processScript setup by language labels: 
+    * new: Replace the labels from the newReply and newThread processScript setup by language labels:
       newReply.didWhat, newReply.subjectPrefix, newReply.followThisLink, newThread.didWhat, newThread.subjectPrefix
     * Add a new label for each text entry in the file template/board_notify.txt
     * fix in composer.json: require shall use the namespace typo3-ter instead of jambagecom
@@ -165,7 +173,7 @@
     * bugfix for TYPO3 9.x: replace deprecated method ContentObjectRenderer::substituteMarkerArrayCached by TYPO3\CMS\Core\Service\MarkerBasedTemplateService::substituteMarkerArrayCached
 
 2018-07-30 Franz Holzinger <franz@ttproducts.de>
-    * bugfix for TYPO3 9.x: replace deprecated method ContentObjectRenderer::fileResource by $TSFE->tmpl->getFileName and file_get_contents. 
+    * bugfix for TYPO3 9.x: replace deprecated method ContentObjectRenderer::fileResource by $TSFE->tmpl->getFileName and file_get_contents.
 
 2018-06-28 Franz Holzinger <franz@ttproducts.de>
     * bugfix: because of the new base class \JambageCom\Div2007\Base\TranslationBase the new \JambageCom\Div2007\Utility\BrowserUtility must be used.
@@ -189,7 +197,7 @@
     * HTML templates: remove the font entries. Use CSS instead.
 
 2018-04-02 Franz Holzinger <franz@ttproducts.de>
-    * new feature: disallow fields by exclude.tt_board. Set it to cr_ip for GDPR compliance 
+    * new feature: disallow fields by exclude.tt_board. Set it to cr_ip for GDPR compliance
 
 2018-03-19 Franz Holzinger <franz@ttproducts.de>
     * rename PostForm into Form
