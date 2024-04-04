@@ -37,16 +37,18 @@ namespace JambageCom\TtBoard\Domain;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-use TYPO3\CMS\Core\SingletonInterface;
-use JambageCom\Div2007\Utility\TableUtility;
+
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
-use JambageCom\Div2007\Database\QueryBuilderApi;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Expression\CompositeExpression;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\Div2007\Database\QueryBuilderApi;
 
 use JambageCom\TtBoard\Constants\TreeMark;
 use JambageCom\TtBoard\Domain\QueryParameter;
@@ -247,9 +249,9 @@ class TtBoard implements SingletonInterface
      * Returns number of post in a forum.
      * @param string ... $pidList comma separated list of page ids.
      * @param array  ... $andWhereEqualsArray array of QueryParameter for equation comparisons
-     * @param where ... $where
+     * @param where  ... $where
      */
-    public function getNumPosts($pidList, array $queryParameters = [], QueryBuilder $where = null)
+    public function getNumPosts($pidList, array $queryParameters = [], CompositeExpression $where = null)
     {
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
