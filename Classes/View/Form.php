@@ -98,6 +98,7 @@ window.onload = addListeners;
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $languageObj = $composite->getLanguageObj();
+        $langKey = $languageObj->getLocalLangKey();
         $request = $cObj->getRequest();
         $uid = $composite->getTtBoardUid();
         $xhtmlFix = HtmlUtility::determineXhtmlFix();
@@ -454,9 +455,9 @@ window.onload = addListeners;
                 ) {
                     foreach ($lConf['dataArray.'] as $k => $dataRow) {
                         if (strpos($dataRow['type'], '[author]') !== false) {
-                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'];
+                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'] ?? '';
                         } elseif (strpos($dataRow['type'], '[email]') !== false) {
-                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'];
+                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'] ?? '';
                         }
                     }
                 }
@@ -473,21 +474,15 @@ window.onload = addListeners;
                         is_array($lConf['dataArray.'][$k . '.'])
                     ) {
                         if (
+                            empty($lConf['dataArray.'][$k . '.'][$type]) ||
                             (
-                                !$languageObj->getLocalLangKey() ||
-                                $languageObj->getLocalLangKey() == 'default'
-                            ) &&
-                            !$lConf['dataArray.'][$k . '.'][$type] ||
-
-                            (
-                                $languageObj->getLocalLangKey() != 'default' &&
                                 (
                                     isset($lConf['dataArray.'][$k . '.'][$type . '.']) &&
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']) ||
                                     isset($lConf['dataArray.'][$k . '.'][$type . '.']['lang.']) &&
                                     !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.']) ||
-                                    isset($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$languageObj->getLocalLangKey() . '.']) &&
-                                    !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$languageObj->getLocalLangKey() . '.'])
+                                    isset($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$langKey . '.']) &&
+                                    !is_array($lConf['dataArray.'][$k . '.'][$type . '.']['lang.'][$langKey . '.'])
                                 )
                             )
                         ) {
@@ -503,14 +498,13 @@ window.onload = addListeners;
                                     $lConf['dataArray.'][$k . '.']['value'] = $origRow[$theField];
                                 } elseif (
                                     $theField == 'subject' &&
-                                    $conf['fillSubject'] &&
-                                    isset($row[$theField])
+                                    !empty($conf['fillSubject']) &&
+                                    !empty($row[$theField])
                                 ) {
                                     $fillSubjectPrefix =
                                         $languageObj->getLabel(
                                             'post.fillSubjectPrefix'
                                         );
-
                                     $lConf['dataArray.'][$k . '.']['value'] = $fillSubjectPrefix . $row[$theField];
                                 }
                             }
