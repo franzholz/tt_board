@@ -42,5 +42,10 @@
   },
   "replace": {
     "typo3-ter/tt-board": "self.version"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "tt_board"
+    }
   }
 }
