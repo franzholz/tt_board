@@ -62,7 +62,7 @@ function addListeners() {
         document.getElementById("' . $buttonId . '").disabled = !this.checked;
     }
 }
-window.onload = addListeners; 
+window.onload = addListeners;
         ';
 
         return $result;
@@ -82,6 +82,18 @@ window.onload = addListeners;
         $content = '';
         $session = GeneralUtility::makeInstance(SessionHandler::class);
         $currentSessionData = $session->getSessionData();
+
+        $errorOut = '';
+        if (
+            !empty($currentSessionData['error-title']) &&
+            !empty($currentSessionData['error-message'])
+        ) {
+            $errorOut =
+'<div class="typo3-error-page-container">
+    <h1 class="typo3-error-page-title">' . $currentSessionData['error-title'] . '</h1>
+    <p class="typo3-error-page-message">' . $currentSessionData['error-message'] . '</p>
+</div>';
+        }
         $sessionData = [];
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
@@ -96,15 +108,17 @@ window.onload = addListeners;
         $spamWord = '';
         $cssPrefix = 'tx-ttboard-';
         $notify = [];
+        $content .= $errorOut;
 
         if (
+            empty($errorOut) &&
             isset($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
             is_array($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
             !isset($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
             isset($GLOBALS['TSFE']->applicationData[$extensionKey]['row']) &&
             is_array($GLOBALS['TSFE']->applicationData[$extensionKey]['row'])
         ) {
-            $content = $languageObj->getLabel(
+            $content .= $languageObj->getLabel(
                 'post.thanks'
             );
         }
@@ -532,7 +546,6 @@ window.onload = addListeners;
             $sessionData['notify_me'] = $notify;
         }
         $session->setSessionData($sessionData);
-
         return $content;
     }
 }
