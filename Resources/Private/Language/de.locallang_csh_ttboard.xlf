@@ -3,15 +3,15 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_csh_ttboard.xlf" date="2016-11-16T09:39:34Z" product-name="tt_board" target-language="de">
     <header/>
     <body>
-      <trans-unit id=".description" approved="yes">
+      <trans-unit id=".description" resname=".description" approved="yes">
         <source>Built-in discussion board.</source>
         <target state="final">Eingebautes Diskussionsforum.</target>
       </trans-unit>
-      <trans-unit id=".details" approved="yes">
+      <trans-unit id=".details" resname=".details" approved="yes">
         <source>This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.</source>
         <target state="final">Diese Tabelle wird von dem standardmäßig verfügbaren TypoScript-Diskussionsforum/Liste verwendet. Alle Einträge gehen in diese Tabelle und Sie können die Foren über das Backend verwalten.</target>
       </trans-unit>
-      <trans-unit id="_.seeAlso">
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
         <source>tt_content:list_type</source>
         <target state="needs-translation">tt_content:list_type</target>
       </trans-unit>
