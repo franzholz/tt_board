@@ -3,83 +3,83 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board" target-language="de">
     <header/>
     <body>
-      <trans-unit id="pi_list" approved="yes">
+      <trans-unit id="pi_list" resname="pi_list" approved="yes">
         <source>Board, List</source>
         <target state="final">Forum, Liste</target>
       </trans-unit>
-      <trans-unit id="pi_tree" approved="yes">
+      <trans-unit id="pi_tree" resname="pi_tree" approved="yes">
         <source>Board, Tree</source>
         <target state="final">Forum, Baumansicht</target>
       </trans-unit>
-      <trans-unit id="tt_board" approved="yes">
+      <trans-unit id="tt_board" resname="tt_board" approved="yes">
         <source>Board</source>
         <target state="final">Forum</target>
       </trans-unit>
-      <trans-unit id="tt_board.subject" approved="yes">
+      <trans-unit id="tt_board.subject" resname="tt_board.subject" approved="yes">
         <source>Subject:</source>
         <target state="final">Betreff:</target>
       </trans-unit>
-      <trans-unit id="tt_board.message" approved="yes">
+      <trans-unit id="tt_board.message" resname="tt_board.message" approved="yes">
         <source>Message:</source>
         <target state="final">Nachricht:</target>
       </trans-unit>
-      <trans-unit id="tt_board.parent" approved="yes">
+      <trans-unit id="tt_board.parent" resname="tt_board.parent" approved="yes">
         <source>Parent:</source>
         <target state="final">Übergeordnet:</target>
       </trans-unit>
-      <trans-unit id="tt_board.notify_me" approved="yes">
+      <trans-unit id="tt_board.notify_me" resname="tt_board.notify_me" approved="yes">
         <source>Notify by email:</source>
         <target state="final">Benachrichtigung per E-Mail:</target>
       </trans-unit>
-      <trans-unit id="tt_board.crdate" approved="yes">
+      <trans-unit id="tt_board.crdate" resname="tt_board.crdate" approved="yes">
         <source>Date/Time:</source>
         <target state="final">Datum/Zeit:</target>
       </trans-unit>
-      <trans-unit id="tt_board.tstamp" approved="yes">
+      <trans-unit id="tt_board.tstamp" resname="tt_board.tstamp" approved="yes">
         <source>Timestamp:</source>
         <target state="final">Zeitstempel:</target>
       </trans-unit>
-      <trans-unit id="tt_board.cr_ip" approved="yes">
+      <trans-unit id="tt_board.cr_ip" resname="tt_board.cr_ip" approved="yes">
         <source>Sender IP address</source>
         <target state="final">Absender-IP-Adresse</target>
       </trans-unit>
-      <trans-unit id="tt_board.reference" approved="yes">
+      <trans-unit id="tt_board.reference" resname="tt_board.reference" approved="yes">
         <source>Reference to record in another extension</source>
         <target state="final">Verweis auf Datensatz in einer anderen Erweiterung</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode" resname="tt_content.pi_flexform.display_mode" approved="yes">
         <source>Display mode</source>
         <target state="final">Anzeigemodus</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.1" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode.1" resname="tt_content.pi_flexform.display_mode.1" approved="yes">
         <source>General: Help</source>
         <target state="final">Allgemein: Hilfe</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.2" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode.2" resname="tt_content.pi_flexform.display_mode.2" approved="yes">
         <source>Category, Forum: List</source>
         <target state="final">Kategorie, Forum: Liste</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.3" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode.3" resname="tt_content.pi_flexform.display_mode.3" approved="yes">
         <source>Forum: List</source>
         <target state="final">Forum: Liste</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.4" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode.4" resname="tt_content.pi_flexform.display_mode.4" approved="yes">
         <source>Forum: Single</source>
         <target state="final">Forum Einzelansicht</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.5" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode.5" resname="tt_content.pi_flexform.display_mode.5" approved="yes">
         <source>Entry Form: General</source>
         <target state="final">Eingabeformular: Allgemeines</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.6" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode.6" resname="tt_content.pi_flexform.display_mode.6" approved="yes">
         <source>Entry Form: Reply</source>
         <target state="final">Eingabeformular: Antwort</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.7" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode.7" resname="tt_content.pi_flexform.display_mode.7" approved="yes">
         <source>Entry Form: New Thread</source>
         <target state="final">Eingabeformular: Neues Thema</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.display_mode.8" approved="yes">
+      <trans-unit id="tt_content.pi_flexform.display_mode.8" resname="tt_content.pi_flexform.display_mode.8" approved="yes">
         <source>Forum: Tree</source>
         <target state="final">Forum: Baumansicht</target>
       </trans-unit>
