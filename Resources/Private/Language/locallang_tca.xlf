@@ -3,64 +3,64 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board">
 		<header/>
 		<body>
-			<trans-unit id="pi_list">
+			<trans-unit id="pi_list" resname="pi_list">
 				<source>Board, List</source>
 			</trans-unit>
-			<trans-unit id="pi_tree">
+			<trans-unit id="pi_tree" resname="pi_tree">
 				<source>Board, Tree</source>
 			</trans-unit>
-			<trans-unit id="tt_board">
+			<trans-unit id="tt_board" resname="tt_board">
 				<source>Board</source>
 			</trans-unit>
-			<trans-unit id="tt_board.subject">
+			<trans-unit id="tt_board.subject" resname="tt_board.subject">
 				<source>Subject:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.message">
+			<trans-unit id="tt_board.message" resname="tt_board.message">
 				<source>Message:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.parent">
+			<trans-unit id="tt_board.parent" resname="tt_board.parent">
 				<source>Parent:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.notify_me">
+			<trans-unit id="tt_board.notify_me" resname="tt_board.notify_me">
 				<source>Notify by email:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.crdate">
+			<trans-unit id="tt_board.crdate" resname="tt_board.crdate">
 				<source>Date/Time:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.tstamp">
+			<trans-unit id="tt_board.tstamp" resname="tt_board.tstamp">
 				<source>Timestamp:</source>
 			</trans-unit>
-			<trans-unit id="tt_board.cr_ip">
+			<trans-unit id="tt_board.cr_ip" resname="tt_board.cr_ip">
 				<source>Sender IP address</source>
 			</trans-unit>
-			<trans-unit id="tt_board.reference">
+			<trans-unit id="tt_board.reference" resname="tt_board.reference">
 				<source>Reference to record in another extension</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode">
+			<trans-unit id="tt_content.pi_flexform.display_mode" resname="tt_content.pi_flexform.display_mode">
 				<source>Display mode</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.1">
+			<trans-unit id="tt_content.pi_flexform.display_mode.1" resname="tt_content.pi_flexform.display_mode.1">
 				<source>General: Help</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.2">
+			<trans-unit id="tt_content.pi_flexform.display_mode.2" resname="tt_content.pi_flexform.display_mode.2">
 				<source>Category, Forum: List</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.3">
+			<trans-unit id="tt_content.pi_flexform.display_mode.3" resname="tt_content.pi_flexform.display_mode.3">
 				<source>Forum: List</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.4">
+			<trans-unit id="tt_content.pi_flexform.display_mode.4" resname="tt_content.pi_flexform.display_mode.4">
 				<source>Forum: Single</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.5">
+			<trans-unit id="tt_content.pi_flexform.display_mode.5" resname="tt_content.pi_flexform.display_mode.5">
 				<source>Entry Form: General</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.6">
+			<trans-unit id="tt_content.pi_flexform.display_mode.6" resname="tt_content.pi_flexform.display_mode.6">
 				<source>Entry Form: Reply</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.7">
+			<trans-unit id="tt_content.pi_flexform.display_mode.7" resname="tt_content.pi_flexform.display_mode.7">
 				<source>Entry Form: New Thread</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.display_mode.8">
+			<trans-unit id="tt_content.pi_flexform.display_mode.8" resname="tt_content.pi_flexform.display_mode.8">
 				<source>Forum: Tree</source>
 			</trans-unit>
 		</body>
