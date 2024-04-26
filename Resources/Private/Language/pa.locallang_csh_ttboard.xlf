@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_csh_ttboard.xlf" date="2016-11-16T09:39:34Z" product-name="tt_board" target-language="pa-IN">
+    <header/>
+    <body>
+      <trans-unit id=".description" resname=".description">
+        <source>Built-in discussion board.</source>
+        <target state="needs-translation">Built-in discussion board.</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.</source>
+        <target state="needs-translation">This table is used by the default TypoScript discussion board/list available. All entries goes into this table and you can thus administer the forums through the backend.</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_content:list_type</source>
+        <target state="needs-translation">tt_content:list_type</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
