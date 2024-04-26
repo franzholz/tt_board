@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang.xlf" date="2016-11-16T09:40:24Z" product-name="tt_board" target-language="pcm">
+    <header/>
+    <body>
+      <trans-unit id="plugin" resname="plugin">
+        <source>Message Board Plugin</source>
+        <target state="needs-translation">Message Board Plugin</target>
+      </trans-unit>
+      <trans-unit id="members_only" resname="members_only">
+        <source>Only logged in members are allowed to post on this forum.</source>
+        <target state="needs-translation">Only logged in members are allowed to post on this forum.</target>
+      </trans-unit>
+      <trans-unit id="subject" resname="subject">
+        <source>Subject:</source>
+        <target state="needs-translation">Subject:</target>
+      </trans-unit>
+      <trans-unit id="message" resname="message">
+        <source>Message:</source>
+        <target state="needs-translation">Message:</target>
+      </trans-unit>
+      <trans-unit id="author" resname="author">
+        <source>Name:</source>
+        <target state="needs-translation">Name:</target>
+      </trans-unit>
+      <trans-unit id="city" resname="city">
+        <source>City:</source>
+        <target state="needs-translation">City:</target>
+      </trans-unit>
+      <trans-unit id="email" resname="email">
+        <source>Email:</source>
+        <target state="needs-translation">Email:</target>
+      </trans-unit>
+      <trans-unit id="captcha" resname="captcha">
+        <source>Captcha:</source>
+        <target state="needs-translation">Captcha:</target>
+      </trans-unit>
+      <trans-unit id="notify_me" resname="notify_me">
+        <source>Notify me&lt;br&gt;by reply:</source>
+        <target state="needs-translation">Notify me&lt;br&gt;by reply:</target>
+      </trans-unit>
+      <trans-unit id="post_new" resname="post_new">
+        <source>New Post</source>
+        <target state="needs-translation">New Post</target>
+      </trans-unit>
+      <trans-unit id="post_reply" resname="post_reply">
+        <source>Post Reply</source>
+        <target state="needs-translation">Post Reply</target>
+      </trans-unit>
+      <trans-unit id="post_new_reply" resname="post_new_reply">
+        <source>Post New Reply</source>
+        <target state="needs-translation">Post New Reply</target>
+      </trans-unit>
+      <trans-unit id="post.fillSubjectPrefix" resname="post.fillSubjectPrefix">
+        <source>Re: </source>
+        <target state="needs-translation">Re: </target>
+      </trans-unit>
+      <trans-unit id="post.thanks" resname="post.thanks">
+        <source>Many thanks for your contribution. Click again on the heading forum to read your contribution.</source>
+        <target state="needs-translation">Many thanks for your contribution. Click again on the heading forum to read your contribution.</target>
+      </trans-unit>
+      <trans-unit id="board_age" resname="board_age">
+        <source>Age</source>
+        <target state="needs-translation">Age</target>
+      </trans-unit>
+      <trans-unit id="board_ago" resname="board_ago">
+        <source>Ago</source>
+        <target state="needs-translation">Ago</target>
+      </trans-unit>
+      <trans-unit id="board_author" resname="board_author">
+        <source>Author</source>
+        <target state="needs-translation">Author</target>
+      </trans-unit>
+      <trans-unit id="board_city" resname="board_city">
+        <source>City</source>
+        <target state="needs-translation">City</target>
+      </trans-unit>
+      <trans-unit id="board_back_to_forum" resname="board_back_to_forum">
+        <source>Back to Forum</source>
+        <target state="needs-translation">Back to Forum</target>
+      </trans-unit>
+      <trans-unit id="board_by" resname="board_by">
+        <source>By</source>
+        <target state="needs-translation">By</target>
+      </trans-unit>
+      <trans-unit id="board_content" resname="board_content">
+        <source>Content</source>
+        <target state="needs-translation">Content</target>
+      </trans-unit>
+      <trans-unit id="board_date" resname="board_date">
+        <source>Date</source>
+        <target state="needs-translation">Date</target>
+      </trans-unit>
+      <trans-unit id="board_forum" resname="board_forum">
+        <source>Forum</source>
+        <target state="needs-translation">Forum</target>
+      </trans-unit>
+      <trans-unit id="board_forum_list" resname="board_forum_list">
+        <source>Forum List</source>
+        <target state="needs-translation">Forum List</target>
+      </trans-unit>
+      <trans-unit id="board_go_to_top" resname="board_go_to_top">
+        <source>Go to Top</source>
+        <target state="needs-translation">Go to Top</target>
+      </trans-unit>
+      <trans-unit id="board_last_post" resname="board_last_post">
+        <source>Last Post</source>
+        <target state="needs-translation">Last Post</target>
+      </trans-unit>
+      <trans-unit id="board_next_message" resname="board_next_message">
+        <source>Next Message</source>
+        <target state="needs-translation">Next Message</target>
+      </trans-unit>
+      <trans-unit id="board_next_topic" resname="board_next_topic">
+        <source>Next Topic</source>
+        <target state="needs-translation">Next Topic</target>
+      </trans-unit>
+      <trans-unit id="board_posts" resname="board_posts">
+        <source>Posts</source>
+        <target state="needs-translation">Posts</target>
+      </trans-unit>
+      <trans-unit id="board_previous_message" resname="board_previous_message">
+        <source>Previous Message</source>
+        <target state="needs-translation">Previous Message</target>
+      </trans-unit>
+      <trans-unit id="board_previous_topic" resname="board_previous_topic">
+        <source>Previous Topic</source>
+        <target state="needs-translation">Previous Topic</target>
+      </trans-unit>
+      <trans-unit id="board_replies" resname="board_replies">
+        <source>Replies</source>
+        <target state="needs-translation">Replies</target>
+      </trans-unit>
+      <trans-unit id="board_search" resname="board_search">
+        <source>Searching</source>
+        <target state="needs-translation">Searching</target>
+      </trans-unit>
+      <trans-unit id="board_subject" resname="board_subject">
+        <source>Subject</source>
+        <target state="needs-translation">Subject</target>
+      </trans-unit>
+      <trans-unit id="board_threads" resname="board_threads">
+        <source>Threads</source>
+        <target state="needs-translation">Threads</target>
+      </trans-unit>
+      <trans-unit id="board_thread_starter" resname="board_thread_starter">
+        <source>Thread Starter</source>
+        <target state="needs-translation">Thread Starter</target>
+      </trans-unit>
+      <trans-unit id="board_topics" resname="board_topics">
+        <source>Topics</source>
+        <target state="needs-translation">Topics</target>
+      </trans-unit>
+      <trans-unit id="board_new" resname="board_new">
+        <source>NEW</source>
+        <target state="needs-translation">NEW</target>
+      </trans-unit>
+      <trans-unit id="button_search" resname="button_search">
+        <source>Search in the Board</source>
+        <target state="needs-translation">Search in the Board</target>
+      </trans-unit>
+      <trans-unit id="spam_detected" resname="spam_detected">
+        <source>The spam word '%s' has been detected!</source>
+        <target state="needs-translation">The spam word '%s' has been detected!</target>
+      </trans-unit>
+      <trans-unit id="wrong_captcha" resname="wrong_captcha">
+        <source>Wrong captcha word '%s' entered!</source>
+        <target state="needs-translation">Wrong captcha word '%s' entered!</target>
+      </trans-unit>
+      <trans-unit id="error_access_denied" resname="error_access_denied">
+        <source>Access denied!</source>
+        <target state="needs-translation">Access denied!</target>
+      </trans-unit>
+      <trans-unit id="error_email" resname="error_email">
+        <source>'%s' is not a valid email address!</source>
+        <target state="needs-translation">'%s' is not a valid email address!</target>
+      </trans-unit>
+      <trans-unit id="error_no_email" resname="error_no_email">
+        <source>You did not enter an email address!</source>
+        <target state="needs-translation">You did not enter an email address!</target>
+      </trans-unit>
+      <trans-unit id="error_no_permission" resname="error_no_permission">
+        <source>You do not have the permission to post into this forum!</source>
+        <target state="needs-translation">You do not have the permission to post into this forum!</target>
+      </trans-unit>
+      <trans-unit id="p_at" resname="p_at">
+        <source>at</source>
+        <target state="needs-translation">at</target>
+      </trans-unit>
+      <trans-unit id="p_salutation" resname="p_salutation">
+        <source>Hello</source>
+        <target state="needs-translation">Hello</target>
+      </trans-unit>
+      <trans-unit id="p_url_title" resname="p_url_title">
+        <source>This thread is located at</source>
+        <target state="needs-translation">This thread is located at</target>
+      </trans-unit>
+      <trans-unit id="p_text_snippet" resname="p_text_snippet">
+        <source>Text Snippet</source>
+        <target state="needs-translation">Text Snippet</target>
+      </trans-unit>
+      <trans-unit id="p_subject" resname="p_subject">
+        <source>Subject</source>
+        <target state="needs-translation">Subject</target>
+      </trans-unit>
+      <trans-unit id="p_content" resname="p_content">
+        <source>Content</source>
+        <target state="needs-translation">Content</target>
+      </trans-unit>
+      <trans-unit id="newReply.author" resname="newReply.author">
+        <source>Author</source>
+        <target state="needs-translation">Author</target>
+      </trans-unit>
+      <trans-unit id="newReply.city" resname="newReply.city">
+        <source>City</source>
+        <target state="needs-translation">City</target>
+      </trans-unit>
+      <trans-unit id="newReply.didWhat" resname="newReply.didWhat">
+        <source>has just replied to a thread at</source>
+        <target state="needs-translation">has just replied to a thread at</target>
+      </trans-unit>
+      <trans-unit id="newReply.followThisLink" resname="newReply.followThisLink">
+        <source>Follow this link</source>
+        <target state="needs-translation">Follow this link</target>
+      </trans-unit>
+      <trans-unit id="newReply.message" resname="newReply.message">
+        <source>Message</source>
+        <target state="needs-translation">Message</target>
+      </trans-unit>
+      <trans-unit id="newReply.subjectPrefix" resname="newReply.subjectPrefix">
+        <source>Reply to post at</source>
+        <target state="needs-translation">Reply to post at</target>
+      </trans-unit>
+      <trans-unit id="newThread.didWhat" resname="newThread.didWhat">
+        <source>has just created a new thread at</source>
+        <target state="needs-translation">has just created a new thread at</target>
+      </trans-unit>
+      <trans-unit id="newThread.subjectPrefix" resname="newThread.subjectPrefix">
+        <source>New thread</source>
+        <target state="needs-translation">New thread</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
