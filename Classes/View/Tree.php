@@ -68,7 +68,7 @@ class Tree implements SingletonInterface
 
     public function __construct(
         TtBoard $dataModel,
-        array $iconConfig
+        array $iconConfig = []
     ) {
         $this->dataModel = $dataModel;
 
