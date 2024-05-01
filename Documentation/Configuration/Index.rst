@@ -6,15 +6,6 @@
 Configuration Reference
 =======================
 
-Technical information: Installation, Reference of TypoScript options,
-configuration options on system level, how to extend it, the technical
-details, how to debug it and so on.
-
-Language should be technical, assuming developer knowledge of TYPO3.
-Small examples/visuals are always encouraged.
-
-Target group: **Developers**
-
 
 .. _configuration-typoscript:
 
@@ -32,33 +23,33 @@ View Properties
 	Property                    Data type                                 :ref:`t3tsref:stdwrap`  Default
 	=========================== ========================================= ======================= ====================
 	templateFile _              :ref:`t3tsref:data-type-resource`          no                      :code:`<div>|</div>`
-	pid\_list_                  :ref:`t3tsref:data-type-string`            yes                                          
+	pid\_list_                  :ref:`t3tsref:data-type-string`            yes
 	PIDforum_                   :ref:`t3tsref:data-type-positive-integer`  no
 	PIDprivacyPolicy_           :ref:`t3tsref:data-type-positive-integer`  no
-	code_                       :ref:`t3tsref:data-type-string`            yes                                          
-	defaultCode_                :ref:`t3tsref:data-type-string`            no                                                     
-	alternatingLayouts_         :ref:`t3tsref:data-type-integer`           no                      2                           
-	date\_stdWrap_              :ref:`t3tsref:stdwrap`                     yes                                              
-	time\_stdWrap_              :ref:`t3tsref:stdwrap`                     yes                                              
-	age\_stdWrap_               :ref:`t3tsref:stdwrap`                     yes                                              
-	dontParseContent_           :ref:`t3tsref:data-type-boolean`           no                                                 
-	typolink_                   :ref:`t3tsref:typolink`                    no                                                 
-	tree_                       :ref:`t3tsref:data-type-boolean`           no                                                 
-	iconCode_                   :ref:`t3tsref:data-type-boolean`           no                                                 
-	iconCode.joinBottom_        :ref:`t3tsref:data-type-string`            yes                                                 
-	iconCode.join_              :ref:`t3tsref:data-type-string`            yes                                                 
-	iconCode.line_              :ref:`t3tsref:data-type-string`            yes                                                 
-	iconCode.blank_             :ref:`t3tsref:data-type-string`            yes                                                 
-	iconCode.thread_            :ref:`t3tsref:data-type-string`            yes                                                 
-	iconCode.end_               :ref:`t3tsref:data-type-string`            yes                                                 
-	emoticons_                  :ref:`t3tsref:data-type-boolean`           no                      1                
-	allowCaching_               :ref:`t3tsref:data-type-boolean`           no                                      
-	displayCurrentRecord_       :ref:`t3tsref:data-type-boolean`           no                                      
-	wrap1_                      :ref:`t3tsref:stdwrap`                     yes                                              
-	wrap2_                      :ref:`t3tsref:stdwrap`                     yes                                              
-	color1_                     :ref:`t3tsref:data-type-string`            yes                                              
-	color2_                     :ref:`t3tsref:data-type-string`            yes                                              
-	color3_                     :ref:`t3tsref:data-type-string`            yes                                              
+	code_                       :ref:`t3tsref:data-type-string`            yes
+	defaultCode_                :ref:`t3tsref:data-type-string`            no
+	alternatingLayouts_         :ref:`t3tsref:data-type-integer`           no                      2
+	date\_stdWrap_              :ref:`t3tsref:stdwrap`                     yes
+	time\_stdWrap_              :ref:`t3tsref:stdwrap`                     yes
+	age\_stdWrap_               :ref:`t3tsref:stdwrap`                     yes
+	dontParseContent_           :ref:`t3tsref:data-type-boolean`           no
+	typolink_                   :ref:`t3tsref:typolink`                    no
+	tree_                       :ref:`t3tsref:data-type-boolean`           no
+	iconCode_                   :ref:`t3tsref:data-type-boolean`           no
+	iconCode.joinBottom_        :ref:`t3tsref:data-type-string`            yes
+	iconCode.join_              :ref:`t3tsref:data-type-string`            yes
+	iconCode.line_              :ref:`t3tsref:data-type-string`            yes
+	iconCode.blank_             :ref:`t3tsref:data-type-string`            yes
+	iconCode.thread_            :ref:`t3tsref:data-type-string`            yes
+	iconCode.end_               :ref:`t3tsref:data-type-string`            yes
+	emoticons_                  :ref:`t3tsref:data-type-boolean`           no                      1
+	allowCaching_               :ref:`t3tsref:data-type-boolean`           no
+	displayCurrentRecord_       :ref:`t3tsref:data-type-boolean`           no
+	wrap1_                      :ref:`t3tsref:stdwrap`                     yes
+	wrap2_                      :ref:`t3tsref:stdwrap`                     yes
+	color1_                     :ref:`t3tsref:data-type-string`            yes
+	color2_                     :ref:`t3tsref:data-type-string`            yes
+	color3_                     :ref:`t3tsref:data-type-string`            yes
 	=========================== ========================================== ======================= ====================
 
 
@@ -179,7 +170,7 @@ date_stdWrap
 
 :typoscript:`plugin.tt_board_list.date_stdWrap =` :ref:`t3tsref:stdwrap`
 
-stdWrap for the display of a date. 
+stdWrap for the display of a date.
 Suggestion: :typoscript:`date_stdWrap.strftime= %e-%m-%y`
 
 
@@ -201,7 +192,7 @@ age_stdWrap
 
 :typoscript:`plugin.tt_board_list.age_stdWrap =` :ref:`t3tsref:stdwrap`
 
-stdWrap for the display of an age. 
+stdWrap for the display of an age.
 Suggestion: :typoscript:`age_stdWrap.strftime= 1`
 
 
@@ -404,11 +395,11 @@ Form Properties
 	=========================== ===================================== ======================= ======================
 	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
 	=========================== ===================================== ======================= ======================
-	postform_                   FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20                    
+	postform_                   FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20
 	postform_newThread_         FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20
-	moderatorEmail_             :ref:`t3tsref:data-type-string`       no                                                     
-	moderatorEmail_newThread_   :ref:`t3tsref:data-type-string`       no                                                     
-	memberOfGroups_             :ref:`t3tsref:data-type-string`       no                                                     
+	moderatorEmail_             :ref:`t3tsref:data-type-string`       no
+	moderatorEmail_newThread_   :ref:`t3tsref:data-type-string`       no
+	memberOfGroups_             :ref:`t3tsref:data-type-string`       no
 	=========================== ===================================== ======================= ======================
 
 
@@ -432,7 +423,7 @@ postform
 
 Only the dataArray of this setting should be changed. You can add entries to the dataArray of the FORM cObject in order to change the view.
 
-Configuration of the form for posting replies and possibly also new threads. 
+Configuration of the form for posting replies and possibly also new threads.
 Note, that two hidden-fields are forcibly added to the form: "parent" and "pid" (using .dataArray keys 9998-9999)!
 
 
@@ -485,7 +476,7 @@ If set, this email-address will receive a mail when a new thread is created. If 
 memberOfGroups
 """"""""""""""
 
-:typoscript:`plugin.tt_board_list.memberOfGroups = 1,2` 
+:typoscript:`plugin.tt_board_list.memberOfGroups = 1,2`
 
 Comma separated list of FE groups which a user must belong to, so that the post forms are shown and the submission of a post is allowed.
 
@@ -502,22 +493,22 @@ Category List Properties
 	============================ ==================================== ======================= ======================
 	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
 	============================ ==================================== ======================= ======================
-	noForums_                    :ref:`t3tsref:data-type-boolean`      no                      
+	noForums_                    :ref:`t3tsref:data-type-boolean`      no
 	numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
-	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
-	subtitle\_stdWrap_           :ref:`t3tsref:stdwrap`                yes      
-	count\_stdWrap_              :ref:`t3tsref:stdwrap`                yes      
-	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
-	forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes      
-	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
-	last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes      
-	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes      
-	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
-	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
-	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes      
+	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes
+	subtitle\_stdWrap_           :ref:`t3tsref:stdwrap`                yes
+	count\_stdWrap_              :ref:`t3tsref:stdwrap`                yes
+	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+	forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes
+	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+	last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes
+	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
 	cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
 	============================ ===================================== ======================= ======================
 
@@ -540,7 +531,7 @@ code= LIST_CATEGORIES:
 noForums
 """"""""
 
-:typoscript:`plugin.tt_board_list.noForums = 1` 
+:typoscript:`plugin.tt_board_list.noForums = 1`
 
 
 Disables the view of forums. Default is to display forums in categories.
@@ -552,7 +543,7 @@ Disables the view of forums. Default is to display forums in categories.
 numberOfRecentPosts
 """""""""""""""""""
 
-:typoscript:`plugin.tt_board_list.noForums = 10` 
+:typoscript:`plugin.tt_board_list.noForums = 10`
 
 Set the number of recent posts in a forum to display together with the categories list.
 
@@ -696,17 +687,17 @@ Forum List Properties
 	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
 	============================ ==================================== ======================= ======================
 	numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
-	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
-	forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes      
-	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
-	last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes      
-	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes      
-	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
-	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
-	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes      
+	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+	forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes
+	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+	last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes
+	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
 	cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
 	============================ ====================================  ======================= ======================
 
@@ -726,13 +717,13 @@ Thread View Properties
 	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
 	============================ ==================================== ======================= ======================
 	single                       :ref:`t3tsref:data-type-boolean`      no                      0
-	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
-	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes      
-	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
-	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
-	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes      
+	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
 	============================ ==================================== ======================= ======================
 
 
@@ -762,13 +753,13 @@ Thread List Properties
 	============================ ==================================== ======================= ======================
 	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
 	============================ ==================================== ======================= ======================
-	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes      
-	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes      
-	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
-	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes      
-	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes      
-	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes      
+	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
 	thread\_limit_               :ref:`t3tsref:data-type-integer`      no                      50
 	============================ ===================================== ======================= ======================
 
@@ -831,7 +822,7 @@ Example from the ancient Typo3.com:
        }
      }
    }
-   
+
 
 .. _ts-plugin-fedata-tt-board-processScript-notify:
 
@@ -895,7 +886,7 @@ Example:
    }
 
 
-   
+
 .. _ts-plugin-fedata-tt-board-processScript-debug:
 
 debug
@@ -932,10 +923,10 @@ Constants
 	============================ ===================================== ======================
 	Property                     Data type                             Default
 	============================ ===================================== ======================
-	moderatorEmail_              :ref:`t3tsref:data-type-string`       
-	moderatorEmail_newThread     :ref:`t3tsref:data-type-string`       
-	emailCheck_                  :ref:`t3tsref:data-type-boolean`       
-	captcha_                     :ref:`t3tsref:data-type-string`       
+	moderatorEmail_              :ref:`t3tsref:data-type-string`
+	moderatorEmail_newThread     :ref:`t3tsref:data-type-string`
+	emailCheck_                  :ref:`t3tsref:data-type-boolean`
+	captcha_                     :ref:`t3tsref:data-type-string`
 	============================ ===================================== ======================
 
 .. _ts-plugin-tt-board-list-emailCheck:
