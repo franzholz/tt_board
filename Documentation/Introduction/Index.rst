@@ -8,7 +8,7 @@ Attention
 
 .. important::
 
-    This manual is under construction.
+    This manual is still under construction.
     Take a look into the former manual in the folder doc of tt_board: manual.odt
 
 
@@ -22,10 +22,10 @@ What does it do?
 ----------------
 
 This is a forum and commenting system in list and tree view.
-It is the oldest forum/message board extension in TYPO3. It is not aimed at competing with those 
-board products which feature a lot community like features with user profiles. However a front end 
-user login may be used to limit read/write access by simply access-restricting the very board 
-elements and pages used for display and submission of data. Use this extension in combination with a 
+It is the oldest forum/message board extension in TYPO3. It is not aimed at competing with other
+board products which feature a lot community like features with user profiles. However a front end
+user login may be used to limit read/write access by simply access-restricting the very board
+elements and pages used for display and submission of data. Use this extension in combination with a
 front end user registration extension.
 
 
@@ -53,7 +53,7 @@ Tree type forum:
 
 Requirements:
 -------------
-PHP 7.4, TYPO3 9.5, extension div2007 1.12.0 and extension tslib_fetce 0.5.1 are the minimum requirements.
+PHP 8.0, TYPO3 12.4, extension div2007 1.16.0 and extension tslib_fetce 0.8.0 are the minimum requirements.
 
 
 Support:
