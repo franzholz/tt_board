@@ -6,8 +6,9 @@
 ChangeLog
 =========
 
-For the recent changes: See the file :file:`ChangeLog`.
+For all recent changes: See the file :file:`ChangeLog`.
 
+* 2.5.2023 Ready for TYPO3 12.x
 * 9.6.2018 DSGVO, GDPR
 * 26.7.2017 Ready for TYPO3 8.x
 * 8.9.2016 Ready for TYPO3 7.6.10

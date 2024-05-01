@@ -6,10 +6,6 @@
 Developer Corner
 ================
 
-Target group: **Developers**
-
-Use this section for *providing code examples* or any **useful** information code wise.
-
 
 .. _developer-hooks:
 
