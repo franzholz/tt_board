@@ -1,4 +1,12 @@
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+  JambageCom\TtBoard\:
+    resource: '../Classes/*'
+    exclude: ['../Classes/{Api,Constants,Middleware}/*']
+
   JambageCom\TtBoard\EventListener\PageContentPreviewRenderingListener:
     tags:
       - name: event.listener

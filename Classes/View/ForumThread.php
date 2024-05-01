@@ -38,19 +38,29 @@ namespace JambageCom\TtBoard\View;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use JambageCom\Div2007\Utility\ControlUtility;
-use JambageCom\Div2007\Utility\MarkerUtility;
+
+
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
+use JambageCom\Div2007\Utility\ControlUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
 
 class ForumThread implements SingletonInterface
 {
+
+    public function __construct(
+        protected readonly PageRenderer $pageRenderer,
+    ) {}
+
+
     /**
     * Creates the forum display, including listing all items/a single item
     */
@@ -250,8 +260,9 @@ class ForumThread implements SingletonInterface
                 $out = $postHeader[$c_post % count($postHeader)];
                 $c_post++;
                 if (
-                    !$indexedTitle &&
-                    trim($recentPost['subject'])
+                    $indexedTitle == '' &&
+                    isset($recentPost['subject']) &&
+                    trim($recentPost['subject']) != ''
                 ) {
                     $indexedTitle = trim($recentPost['subject']);
                 }
@@ -333,7 +344,7 @@ class ForumThread implements SingletonInterface
                     );
             }
 
-            $GLOBALS['TSFE']->indexedDocTitle = $indexedTitle;
+            $this->pageRenderer->setTitle($indexedTitle);
             // Substitution:
             $content =
                 $templateService->substituteSubpart(
