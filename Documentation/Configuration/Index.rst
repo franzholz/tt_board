@@ -112,31 +112,22 @@ code
 
 :typoscript:`plugin.tt_board_list.code =` :ref:`t3tsref:data-type-string`
 
-Code to define, what the script does. Case sensitive.
+    ================ ================================================= ===========================================================
+    Code             Label                                             Description
+    ================ ================================================= ===========================================================
+    LIST_CATEGORIES  Category, Forum: List                             List the first level of pages as categories and the second
+    LIST_FORUMS      Forum: Listt                                      Lists the first level of pages as forums.
+    POSTFORM         Entry Form: General                               Creates a form from which to post to the forum
+    POSTFORM_REPLY   Entry Form: Reply                                 as above, but ONLY if "tt_board_uid" is set for a reply!
+    POSTFORM_THREAD  Entry Form: New Threa                             as above, but ONLY if "tt_board_uid" is NOT set, which
+                                                                       means "New Thread".
+    FORUM            Forum: Single                                     Shows the content of the current forum. If the GLOBAL-var
+                                                                       "tt_board_uid" is set with a uid of a board-item, either
+                                                                       this item is shown or the thread. Depends on config.
+    THREAD_TREE      Forum: Tree                                       (tree only) tree of threads
+    HELP             General: Help                                     Help
+    ================ ================================================= ===========================================================
 
-    +-----------------+------------------------+------------------------------------------------------------+
-    | Code            | Label                  | Description                                                |
-    +=================+========================+============================================================+
-    | LIST_CATEGORIES | Category, Forum: List  | List the first level of pages as categories and the second |
-    |                 |                        | level as forums.                                           |
-    +-----------------+------------------------+------------------------------------------------------------+
-    | LIST_FORUMS     | Forum: List            | Lists the first level of pages as forums.                  |
-    +-----------------+------------------------+------------------------------------------------------------+
-    | POSTFORM        | Entry Form: General    | Creates a form from which to post to the forum.            |
-    +-----------------+------------------------+------------------------------------------------------------+
-    | POSTFORM_REPLY  | Entry Form: Reply      | as above, but ONLY if "tt_board_uid" is set for a reply!   |
-    +-----------------+------------------------+------------------------------------------------------------+
-    | POSTFORM_THREAD | Entry Form: New Thread | as above, but ONLY if "tt_board_uid" is NOT set, which     |
-    |                 |                        | means "New Thread".                                        |
-    +-----------------+------------------------+------------------------------------------------------------+
-    | FORUM           | Forum: Single          | Shows the content of the current forum. If the GLOBAL-var  |
-    |                 |                        | "tt_board_uid" is set with a uid of a board-item, either   |
-    |                 |                        | this item is shown or the thread. Depends on config.       |
-    +-----------------+------------------------+------------------------------------------------------------+
-    | THREAD_TREE     | Forum: Tree            | (tree only) tree of threads                                |
-    +-----------------+------------------------+------------------------------------------------------------+
-    | HELP            | General: Help          | Help                                                       |
-    +-----------------+------------------------+------------------------------------------------------------+
 
 
 .. _ts-plugin-tt-board-list-defaultCode:
@@ -392,15 +383,16 @@ Form Properties
 
 .. container:: ts-properties
 
-	=========================== ===================================== ======================= ======================
-	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
-	=========================== ===================================== ======================= ======================
-	postform_                   FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20
-	postform_newThread_         FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20
-	moderatorEmail_             :ref:`t3tsref:data-type-string`       no
-	moderatorEmail_newThread_   :ref:`t3tsref:data-type-string`       no
-	memberOfGroups_             :ref:`t3tsref:data-type-string`       no
-	=========================== ===================================== ======================= ======================
+
+    =========================== ===================================== ======================= ======================
+    Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
+    =========================== ===================================== ======================= ======================
+    postform_                   FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20
+    postform_newThread_         FORM :ref:`t3tsref:data-type-cobject` no                      tt_content.mailform.20
+    moderatorEmail_             :ref:`t3tsref:data-type-string`       no
+    moderatorEmail_newThread_   :ref:`t3tsref:data-type-string`       no
+    memberOfGroups_             :ref:`t3tsref:data-type-string`       no
+    =========================== ===================================== ======================= ======================
 
 
 
@@ -409,9 +401,9 @@ Form Property Details
 
 .. only:: html
 
-	.. contents::
-		:local:
-		:depth: 1
+    .. contents::
+        :local:
+        :depth: 1
 
 
 .. _ts-plugin-tt-board-list-postform:
@@ -490,27 +482,27 @@ Category List Properties
 
 .. container:: ts-properties
 
-	============================ ==================================== ======================= ======================
-	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
-	============================ ==================================== ======================= ======================
-	noForums_                    :ref:`t3tsref:data-type-boolean`      no
-	numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
-	title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes
-	subtitle\_stdWrap_           :ref:`t3tsref:stdwrap`                yes
-	count\_stdWrap_              :ref:`t3tsref:stdwrap`                yes
-	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-	forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes
-	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-	last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes
-	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
-	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
-	cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
-	============================ ===================================== ======================= ======================
+    ============================ ==================================== ======================= ======================
+    Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
+    ============================ ==================================== ======================= ======================
+    noForums_                    :ref:`t3tsref:data-type-boolean`      no
+    numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
+    title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes
+    subtitle\_stdWrap_           :ref:`t3tsref:stdwrap`                yes
+    count\_stdWrap_              :ref:`t3tsref:stdwrap`                yes
+    forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+    forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes
+    last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+    last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes
+    post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
+    ============================ ===================================== ======================= ======================
 
 
 
@@ -683,23 +675,23 @@ Forum List Properties
 
 .. container:: ts-properties
 
-	============================ ==================================== ======================= ======================
-	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
-	============================ ==================================== ======================= ======================
-	numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
-	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-	forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes
-	last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-	last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes
-	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
-	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
-	cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
-	============================ ====================================  ======================= ======================
+    ============================ ==================================== ======================= ======================
+    Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
+    ============================ ==================================== ======================= ======================
+    numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
+    forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+    forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes
+    last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+    last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes
+    post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
+    ============================ ====================================  ======================= ======================
 
 
 
@@ -713,18 +705,18 @@ Thread View Properties
 
 .. container:: ts-properties
 
-	============================ ==================================== ======================= ======================
-	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
-	============================ ==================================== ======================= ======================
-	single                       :ref:`t3tsref:data-type-boolean`      no                      0
-	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
-	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
-	============================ ==================================== ======================= ======================
+    ============================ ==================================== ======================= ======================
+    Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
+    ============================ ==================================== ======================= ======================
+    single                       :ref:`t3tsref:data-type-boolean`      no                      0
+    forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+    post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    ============================ ==================================== ======================= ======================
 
 
 .. _ts-plugin-tt-board-list-single:
@@ -750,18 +742,18 @@ Thread List Properties
 
 .. container:: ts-properties
 
-	============================ ==================================== ======================= ======================
-	Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
-	============================ ==================================== ======================= ======================
-	forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-	post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
-	post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-	post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-	post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-	post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
-	thread\_limit_               :ref:`t3tsref:data-type-integer`      no                      50
-	============================ ===================================== ======================= ======================
+    ============================ ==================================== ======================= ======================
+    Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
+    ============================ ==================================== ======================= ======================
+    forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
+    post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    thread\_limit_               :ref:`t3tsref:data-type-integer`      no                      50
+    ============================ ===================================== ======================= ======================
 
 
 
@@ -785,16 +777,16 @@ The following properties are all prepended `processScript` (section FEData.tt_bo
 
 .. container:: ts-properties
 
-	============================ ===================================== ======================= ======================
-	Property                     Data type                             :ref:`t3tsref:stdwrap`  Default
-	============================ ===================================== ======================= ======================
-	sendToMailingList_           :ref:`t3tsref:data-type-boolean`, a   no
-	notify_                      :ref:`t3tsref:data-type-boolean`      no
-	notify\_from_                :ref:`t3tsref:data-type-string`       no
-	newReply.msg                 :ref:`t3tsref:data-type-resource`     no
-	newThread.msg                :ref:`t3tsref:data-type-resource`     no
-	newThread.debug_             :ref:`t3tsref:data-type-boolean`      no
-	============================ ===================================== ======================= ======================
+    ============================ ===================================== ======================= ======================
+    Property                     Data type                             :ref:`t3tsref:stdwrap`  Default
+    ============================ ===================================== ======================= ======================
+    sendToMailingList_           :ref:`t3tsref:data-type-boolean`, a   no
+    notify_                      :ref:`t3tsref:data-type-boolean`      no
+    notify\_from_                :ref:`t3tsref:data-type-string`       no
+    newReply.msg                 :ref:`t3tsref:data-type-resource`     no
+    newThread.msg                :ref:`t3tsref:data-type-resource`     no
+    newThread.debug_             :ref:`t3tsref:data-type-boolean`      no
+    ============================ ===================================== ======================= ======================
 
 
 .. _ts-plugin-fedata-tt-board-processScript-sendToMailingList:
@@ -900,11 +892,11 @@ Outputs the mail information directly in browser. For debugging only.
 
 .. container:: ts-properties
 
-	============================ ===================================== ======================= ======================
-	Property                     Data type                             :ref:`t3tsref:stdwrap`  Default
-	============================ ===================================== ======================= ======================
-	clearCacheForPids_           :ref:`t3tsref:data-type-list`         no
-	============================ ===================================== ======================= ======================
+    ============================ ===================================== ======================= ======================
+    Property                     Data type                             :ref:`t3tsref:stdwrap`  Default
+    ============================ ===================================== ======================= ======================
+    clearCacheForPids_           :ref:`t3tsref:data-type-list`         no
+    ============================ ===================================== ======================= ======================
 
 .. _ts-plugin-tt-board-list-clearCacheForPids:
 
@@ -920,14 +912,14 @@ Constants
 
 .. container:: ts-properties
 
-	============================ ===================================== ======================
-	Property                     Data type                             Default
-	============================ ===================================== ======================
-	moderatorEmail_              :ref:`t3tsref:data-type-string`
-	moderatorEmail_newThread     :ref:`t3tsref:data-type-string`
-	emailCheck_                  :ref:`t3tsref:data-type-boolean`
-	captcha_                     :ref:`t3tsref:data-type-string`
-	============================ ===================================== ======================
+    ============================ ===================================== ======================
+    Property                     Data type                             Default
+    ============================ ===================================== ======================
+    moderatorEmail_              :ref:`t3tsref:data-type-string`
+    moderatorEmail_newThread     :ref:`t3tsref:data-type-string`
+    emailCheck_                  :ref:`t3tsref:data-type-boolean`
+    captcha_                     :ref:`t3tsref:data-type-string`
+    ============================ ===================================== ======================
 
 .. _ts-plugin-tt-board-list-emailCheck:
 
