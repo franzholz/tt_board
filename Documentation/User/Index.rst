@@ -18,9 +18,7 @@ Installation
 
    list tt_board in the Extension Manager
 
-
    Activate tt_board in the Extension Manager.
-
 
 #.  Check if tt_board has been activated.
 
@@ -30,9 +28,7 @@ Installation
 
    list tt_board in the Extension Manager after activation
 
-
    tt_board must have been activated in the Extension Manager.
-
 
 #.  The Extension Manager should have activated all the dependant extensions automatically.
 
@@ -42,9 +38,7 @@ Installation
 
    list tt_board's depending extensions in the Extension Manager after activation
 
-
    tt_board depends on some extensions which are automatically activated from the Extension Manager when tt_board is activated.
-
 
 #.  Choose or add a starting page for the forum.
 
@@ -54,9 +48,7 @@ Installation
 
    Each forum needs a starting page.
 
-
    Use the TYPO3 backend page module to add a starting page.
-
 
 #.  Add a new content element and choose the Message board plugin.
 
@@ -66,19 +58,15 @@ Installation
 
    The forum needs "Discussion Forum" or a "Message Board" plugin.
 
-
    Choose the "Message Board" plugin for this example.
 
-
 #.  Insert the Plugin on your Topics page
-
 
 .. figure:: /Images/UserManual/ForumInsertFirstPlugin.png
    :width: 700px
    :alt: insert the first forum plugin
 
    plugin addition
-
 
    After the previous step you will see the "General" tab of the content element of the plugin.
 
@@ -89,7 +77,6 @@ Installation
    :alt: insert the first forum list plugin
 
    forum list plugin addition
-
 
    From the list of the available items you shall choose "Forum: List" for this example.
    Press the save button.
@@ -102,7 +89,6 @@ Installation
 
    forum list code verification
 
-
    Just to be sure that everything has been accomplished correctly, have a look at the code of the plugin.
 
 #.  Add two subpages underneath the Topics page.
@@ -113,7 +99,6 @@ Installation
 
    add 2 subpages "Forum 1" and "Forum 2"
 
-
    Two forum pages are created below the forum starting page.
 
 #.  Add a discussion forum to the page “Forum 1”
@@ -122,8 +107,7 @@ Installation
    :width: 700px
    :alt: add plugin for message board 1
 
-   New content element wizard with plugin tab
-
+    New content element wizard with plugin tab
 
     Add a new content element of the type plugin and subtype "Message Board" from the plugin tab.
 
@@ -134,7 +118,6 @@ Installation
    :alt: select the message board 1 display modes
 
     Click 2 message board plugins from "Available items" into "Selected items"
-
 
     Choose from the available display modes for the "Message Board" (Board / List).
 
@@ -156,7 +139,6 @@ Installation
 
    Click 2 message board plugins from "Available items" into "Selected items"
 
-
     Choose from the available display modes for the "Message Board" (Board / List).
 
 #.  Create an extension template for tt_board in your Templates folder and call it “+ext: tt_board”
@@ -167,7 +149,6 @@ Installation
 
     Add a sysfolder "Templates" and create an empty extension template.
 
-
     The Constants will be filled in the next step.
 
 #.  Insert Constants and Setup for tt_board.
@@ -177,7 +158,6 @@ Installation
    :alt: add the first constants and setup
 
     Edit the “+ext: tt_board” template and add important constants and setup.
-
 
     The forum  shall be allowed for any user. By default it is limited to logged in front end users. This is because it must be taken care of spammers.
 
@@ -214,7 +194,6 @@ Use your own e-mail adresses instead of the example email address.
 
     You can forget about the CSS styles template if you include your own CSS file for tt_board.
 
-
 #.  Edit your master template.
 
 .. figure:: /Images/UserManual/MasterTemplate.png
@@ -222,7 +201,6 @@ Use your own e-mail adresses instead of the example email address.
    :alt: edit the master template in the Templates sysfolder
 
     Open your master template in the Templates sysfolder.
-
 
     The master template is the template which defines the whole TYPO3 website.
 
@@ -244,7 +222,6 @@ Use your own e-mail adresses instead of the example email address.
 
     The master template shows the extension template "+ext tt_board" under “Include Basis Template” as included .
 
-
     If everything went fine you must also click on the save button.
 
 #.  The two forums should be visible in the front end now.
@@ -254,7 +231,6 @@ Use your own e-mail adresses instead of the example email address.
    :alt: front end view with 2 forums
 
     The 2 pages of the 2 forums are shown. One forum page is open and it shows the empty forum list, the search entry form and the post entry form.
-
 
     You do not see any entries in the forum yet. These will be shown after the first users entered some posts.
 
