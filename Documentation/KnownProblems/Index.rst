@@ -16,7 +16,7 @@ You must insert the 'include static template from extensions' tt_ board static t
 If you do not get any output, then further investigation is needed.
 Try to debug the extension where it does not continue.
 
-file:`tt_board/Classes/Controller/RegisterPluginController.php:`
+:file:`tt_board/Classes/Controller/RegisterPluginController.php` :
 
 Insert debug commands.
 
@@ -39,7 +39,7 @@ If the PHP code of tt_board is not executed, then the Default Setup has not been
 
 You can also insert the TypoScript manually from the following extension folders:
 
-file:`tt_board/Configuration/TypoScript/Default/`
+:file:`tt_board/Configuration/TypoScript/Default/`
 
 One of the following TypoScript must be there:
 
@@ -69,10 +69,12 @@ Clear all the caches and the typo3temp/var/cache folder.
 Try to add the Content Wizard in the TSConfig of the top page:
 
 Page TSconfig
-Include static Page TSconfig (from extensions) [tsconfig_includes]
+**Include static Page TSconfig (from extensions) [tsconfig_includes]**
 
 Check if it works after using the content wizard. Check if another extension plugin works.
 
+
+Check if the following TypoScript is there:
 
 ..  code-block:: typoscript
 
