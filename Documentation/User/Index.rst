@@ -213,7 +213,7 @@ Use your own e-mail adresses instead of the example email address.
 
    The popup window output contains a page browser in order to navigate to the extension template setup and constants.
 
-    You must choose the include tab from the master template and move to the “Include Basis Template” sysfolder symbol. If you click on it then a popup windows shows up. There you choose the “+ext: tt_board” template. This template must be included anywhere into your webpage's template.
+   You must choose the include tab from the master template and move to the “Include Basis Template” sysfolder symbol. If you click on it then a popup windows shows up. There you choose the “+ext: tt_board” template. This template must be included anywhere into your webpage's template.
 
 19.  Check the result.
 
@@ -221,9 +221,9 @@ Use your own e-mail adresses instead of the example email address.
    :width: 700px
    :alt: included basis template "+ext tt_board"
 
-    The master template shows the extension template "+ext tt_board" under “Include Basis Template” as included .
+   The master template shows the extension template "+ext tt_board" under “Include Basis Template” as included .
 
-    If everything went fine you must also click on the save button.
+   If everything went fine you must also click on the save button.
 
 20.  The two forums should be visible in the front end now.
 
@@ -231,11 +231,9 @@ Use your own e-mail adresses instead of the example email address.
    :width: 700px
    :alt: front end view with 2 forums
 
-    The 2 pages of the 2 forums are shown. One forum page is open and it shows the empty forum list, the search entry form and the post entry form.
+   The 2 pages of the 2 forums are shown. One forum page is open and it shows the empty forum list, the search entry form and the post entry form.
 
-    You do not see any entries in the forum yet. These will be shown after the first users entered some posts.
-
-
+   You do not see any entries in the forum yet. These will be shown after the first users entered some posts.
 
 
 
