@@ -472,6 +472,7 @@ memberOfGroups
 
 Comma separated list of FE groups which a user must belong to, so that the post forms are shown and the submission of a post is allowed.
 
+
 Category List Properties
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -939,11 +940,11 @@ captcha
 """""""
 
 Constant
-:typoscript:`plugin.tt_board.captcha =` :ref:`t3tsref:data-type-string`
+:typoscript:`plugin.tt_board.captcha =`  :ref:`t3tsref:data-type-string`
 
 Usage of the captcha security string.
-Set this to freecap and install sr_freecap.
-Or set this to captcha and install captcha.
+Set this to `freecap` and install sr_freecap.
+Or set this to `captcha` and install captcha.
 
 
 Example:
@@ -952,7 +953,7 @@ Constants
 .. code-block:: typoscript
 
    plugin.tt_board {
-     captcha = sr_freecap
+     captcha = freecap
    }
 
 
@@ -963,4 +964,4 @@ Constants
 FAQ
 ---
 
-Possible subsection: FAQ
+No FAQ yet.
