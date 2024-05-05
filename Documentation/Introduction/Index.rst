@@ -3,15 +3,6 @@
 
 .. _introduction:
 
-Attention
-=========
-
-.. important::
-
-    This manual is still under construction.
-    Take a look into the former manual in the folder doc of tt_board: manual.odt
-
-
 Introduction
 ============
 
