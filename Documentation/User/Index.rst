@@ -9,8 +9,9 @@ Users Manual
 Installation
 ------------
 
+..  rst-class:: bignums
 
-#.  Install tt_board from the Extension Manager. Maybe the extension must be fetched from TYPO3 TER in the Extension Manager or from https://extensions.typo3.org/ by downloading a ZIP file and uploading it into your TYPO3 system.
+1.  Install tt_board from the Extension Manager. Maybe the extension must be fetched from TYPO3 TER in the Extension Manager or from https://extensions.typo3.org/ by downloading a ZIP file and uploading it into your TYPO3 system.
 
 .. figure:: /Images/UserManual/ActivateExtensionManager.png
    :width: 700px
@@ -20,7 +21,7 @@ Installation
 
    Activate tt_board in the Extension Manager.
 
-#.  Check if tt_board has been activated.
+2.  Check if tt_board has been activated.
 
 .. figure:: /Images/UserManual/CheckExtensionManager.png
    :width: 700px
@@ -30,7 +31,7 @@ Installation
 
    tt_board must have been activated in the Extension Manager.
 
-#.  The Extension Manager should have activated all the dependant extensions automatically.
+3.  The Extension Manager should have activated all the dependant extensions automatically.
 
 .. figure:: /Images/UserManual/ActivateDependantExtensionManager.png
    :width: 700px
@@ -40,7 +41,7 @@ Installation
 
    tt_board depends on some extensions which are automatically activated from the Extension Manager when tt_board is activated.
 
-#.  Choose or add a starting page for the forum.
+4.  Choose or add a starting page for the forum.
 
 .. figure:: /Images/UserManual/ForumStartingPage.png
    :width: 700px
@@ -50,7 +51,7 @@ Installation
 
    Use the TYPO3 backend page module to add a starting page.
 
-#.  Add a new content element and choose the Message board plugin.
+5.  Add a new content element and choose the Message board plugin.
 
 .. figure:: /Images/UserManual/ForumFirstPlugin.png
    :width: 700px
@@ -60,7 +61,7 @@ Installation
 
    Choose the "Message Board" plugin for this example.
 
-#.  Insert the Plugin on your Topics page
+6.  Insert the Plugin on your Topics page
 
 .. figure:: /Images/UserManual/ForumInsertFirstPlugin.png
    :width: 700px
@@ -70,7 +71,7 @@ Installation
 
    After the previous step you will see the "General" tab of the content element of the plugin.
 
-#.  Select the Forum: List flexform of the Plugin “Board, List”
+7.  Select the Forum: List flexform of the Plugin “Board, List”
 
 .. figure:: /Images/UserManual/ForumFirstPluginForumList.png
    :width: 700px
@@ -81,7 +82,7 @@ Installation
    From the list of the available items you shall choose "Forum: List" for this example.
    Press the save button.
 
-#.  Verify the code in the page module. It must be ‘LIST_FORUMS’.
+8.  Verify the code in the page module. It must be ‘LIST_FORUMS’.
 
 .. figure:: /Images/UserManual/ForumCodeForForumList.png
    :width: 700px
@@ -91,7 +92,7 @@ Installation
 
    Just to be sure that everything has been accomplished correctly, have a look at the code of the plugin.
 
-#.  Add two subpages underneath the Topics page.
+9.  Add two subpages underneath the Topics page.
 
 .. figure:: /Images/UserManual/ForumSubPages.png
    :width: 700px
@@ -101,7 +102,7 @@ Installation
 
    Two forum pages are created below the forum starting page.
 
-#.  Add a discussion forum to the page “Forum 1”
+10.  Add a discussion forum to the page “Forum 1”
 
 .. figure:: /Images/UserManual/Forum1InsertPlugin.png
    :width: 700px
@@ -111,7 +112,7 @@ Installation
 
     Add a new content element of the type plugin and subtype "Message Board" from the plugin tab.
 
-#.  Insert the flexforms “Forum: Single” and “Entry Form: General” .
+11.  Insert the flexforms “Forum: Single” and “Entry Form: General” .
 
 .. figure:: /Images/UserManual/Forum1InsertDisplayModes.png
    :width: 700px
@@ -121,7 +122,7 @@ Installation
 
     Choose from the available display modes for the "Message Board" (Board / List).
 
-#.  Add the Message board to the “Forum 2” page.
+12.  Add the Message board to the “Forum 2” page.
 
 .. figure:: /Images/UserManual/Forum2InsertPlugin.png
    :width: 700px
@@ -131,7 +132,7 @@ Installation
 
     Add a new content element of the type plugin and subtype "Message Board" from the plugin tab.
 
-#.  Insert the “Forum: Single” and “Entry Form: General” flexforms.
+13.  Insert the “Forum: Single” and “Entry Form: General” flexforms.
 
 .. figure:: /Images/UserManual/Forum2InsertDisplayModes.png
    :width: 700px
@@ -141,7 +142,7 @@ Installation
 
     Choose from the available display modes for the "Message Board" (Board / List).
 
-#.  Create an extension template for tt_board in your Templates folder and call it “+ext: tt_board”
+14.  Create an extension template for tt_board in your Templates folder and call it “+ext: tt_board”
 
 .. figure:: /Images/UserManual/ForumExtensionTemplate.png
    :width: 700px
@@ -151,7 +152,7 @@ Installation
 
     The Constants will be filled in the next step.
 
-#.  Insert Constants and Setup for tt_board.
+15.  Insert Constants and Setup for tt_board.
 
 .. figure:: /Images/UserManual/ForumExtensionTemplateConstantsSetup.png
    :width: 700px
@@ -184,7 +185,7 @@ Insert the Setup.
 
 Use your own e-mail adresses instead of the example email address.
 
-#.  Add the CSS styles (or use your own CSS file) and the Message Board Setup under “Include static from extensions”.
+16.  Add the CSS styles (or use your own CSS file) and the Message Board Setup under “Include static from extensions”.
 
 .. figure:: /Images/UserManual/ForumExtensionTemplateIncludeStatic.png
    :width: 700px
@@ -194,7 +195,7 @@ Use your own e-mail adresses instead of the example email address.
 
     You can forget about the CSS styles template if you include your own CSS file for tt_board.
 
-#.  Edit your master template.
+17.  Edit your master template.
 
 .. figure:: /Images/UserManual/MasterTemplate.png
    :width: 700px
@@ -204,7 +205,7 @@ Use your own e-mail adresses instead of the example email address.
 
     The master template is the template which defines the whole TYPO3 website.
 
-#.  Include the “+ext: tt_board” from your master template under “Include Basis Template”.
+18.  Include the “+ext: tt_board” from your master template under “Include Basis Template”.
 
 .. figure:: /Images/UserManual/MasterTemplateIncludeTtBoard.png
    :width: 700px
@@ -214,7 +215,7 @@ Use your own e-mail adresses instead of the example email address.
 
     You must choose the include tab from the master template and move to the “Include Basis Template” sysfolder symbol. If you click on it then a popup windows shows up. There you choose the “+ext: tt_board” template. This template must be included anywhere into your webpage's template.
 
-#.  Check the result.
+19.  Check the result.
 
 .. figure:: /Images/UserManual/MasterTemplateIncludeTtBoardResult.png
    :width: 700px
@@ -224,7 +225,7 @@ Use your own e-mail adresses instead of the example email address.
 
     If everything went fine you must also click on the save button.
 
-#.  The two forums should be visible in the front end now.
+20.  The two forums should be visible in the front end now.
 
 .. figure:: /Images/UserManual/FrontEnd2Forums.png
    :width: 700px
