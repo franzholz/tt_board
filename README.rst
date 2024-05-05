@@ -5,7 +5,7 @@ TYPO3 extension tt_board
 =========================
 
 :Repository:  https://github.com/franzholz/tt_board
-:Read online: https://docs.typo3.org/typo3cms/extensions/tt_board/stable/
+:Read online: https://docs.typo3.org/p/jambagecom/tt-board/main/en-us/Index.html
 :TER:         https://extensions.typo3.org/extension/tt_board/
 
 
@@ -17,7 +17,6 @@ You must have set this in the constants
 
    PAGE_TARGET = _top
 
-Some of the documentation is missing in the front end. Have also a look into the folder Documentation.
 
 The entry form is only available for logged in front end users of group id=1 by default.
 You can activate this in the constants for all users and even those without a login:
