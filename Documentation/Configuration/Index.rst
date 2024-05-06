@@ -23,15 +23,15 @@ View Properties
 	Property                    Data type                                 :ref:`t3tsref:stdwrap`  Default
 	=========================== ========================================= ======================= ====================
 	templateFile _              :ref:`t3tsref:data-type-resource`          no                      :code:`<div>|</div>`
-	pid\_list_                  :ref:`t3tsref:data-type-string`            yes
+	pid_list_                   :ref:`t3tsref:data-type-string`            yes
 	PIDforum_                   :ref:`t3tsref:data-type-positive-integer`  no
 	PIDprivacyPolicy_           :ref:`t3tsref:data-type-positive-integer`  no
 	code_                       :ref:`t3tsref:data-type-string`            yes
 	defaultCode_                :ref:`t3tsref:data-type-string`            no
 	alternatingLayouts_         :ref:`t3tsref:data-type-integer`           no                      2
-	date\_stdWrap_              :ref:`t3tsref:stdwrap`                     yes
-	time\_stdWrap_              :ref:`t3tsref:stdwrap`                     yes
-	age\_stdWrap_               :ref:`t3tsref:stdwrap`                     yes
+	date_stdWrap_               :ref:`t3tsref:stdwrap`                     yes
+	time_stdWrap_               :ref:`t3tsref:stdwrap`                     yes
+	age_stdWrap_                :ref:`t3tsref:stdwrap`                     yes
 	dontParseContent_           :ref:`t3tsref:data-type-boolean`           no
 	typolink_                   :ref:`t3tsref:typolink`                    no
 	tree_                       :ref:`t3tsref:data-type-boolean`           no
@@ -479,7 +479,7 @@ Category List Properties
   code= LIST_CATEGORIES
 
   "Category, Forum: List"
-  The following properties are all prepended `list_categories` .
+  The following properties are all prepended by `list_categories` .
 
 .. container:: ts-properties
 
@@ -488,21 +488,21 @@ Category List Properties
     ============================ ==================================== ======================= ======================
     noForums_                    :ref:`t3tsref:data-type-boolean`      no
     numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
-    title\_stdWrap_              :ref:`t3tsref:stdwrap`                yes
-    subtitle\_stdWrap_           :ref:`t3tsref:stdwrap`                yes
-    count\_stdWrap_              :ref:`t3tsref:stdwrap`                yes
-    forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-    forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes
-    last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-    last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes
-    post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
-    post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-    post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-    post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
-    cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
+    title_stdWrap_               :ref:`t3tsref:stdwrap`                yes
+    subtitle_stdWrap_            :ref:`t3tsref:stdwrap`                yes
+    count_stdWrap_               :ref:`t3tsref:stdwrap`                yes
+    forum_title_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    forum_description_stdWrap_   :ref:`t3tsref:stdwrap`                yes
+    forum_posts_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    forum_threads_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    last_post_author_stdWrap_    :ref:`t3tsref:stdwrap`                yes
+    last_post_city_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post_title_stdWrap_          :ref:`t3tsref:stdwrap`                yes
+    post_content_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post_replies_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post_author_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    post_city_stdWrap_           :ref:`t3tsref:stdwrap`                yes
+    cache_timeout_               :ref:`t3tsref:data-type-integer`      no                      300
     ============================ ===================================== ======================= ======================
 
 
@@ -680,18 +680,18 @@ Forum List Properties
     Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
     ============================ ==================================== ======================= ======================
     numberOfRecentPosts_         :ref:`t3tsref:data-type-integer`      no                      0
-    forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    forum\_description\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-    forum\_posts\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    forum\_threads\_stdWrap_     :ref:`t3tsref:stdwrap`                yes
-    last\_post\_author\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-    last\_post\_city\_stdWrap_   :ref:`t3tsref:stdwrap`                yes
-    post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
-    post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-    post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-    post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
-    cache\_timeout_              :ref:`t3tsref:data-type-integer`      no                      300
+    forum_title_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    forum_description_stdWrap_   :ref:`t3tsref:stdwrap`                yes
+    forum_posts_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    forum_threads_stdWrap_       :ref:`t3tsref:stdwrap`                yes
+    last_post_author_stdWrap_    :ref:`t3tsref:stdwrap`                yes
+    last_post_city_stdWrap_      :ref:`t3tsref:stdwrap`                yes
+    post_title_stdWrap_          :ref:`t3tsref:stdwrap`                yes
+    post_content_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post_replies_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post_author_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    post_city_stdWrap_           :ref:`t3tsref:stdwrap`                yes
+    cache_timeout_               :ref:`t3tsref:data-type-integer`      no                      300
     ============================ ====================================  ======================= ======================
 
 
@@ -710,13 +710,13 @@ Thread View Properties
     Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
     ============================ ==================================== ======================= ======================
     single                       :ref:`t3tsref:data-type-boolean`      no                      0
-    forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-    post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
-    post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-    post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-    post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    forum_title_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    post_thread_code_stdWrap_    :ref:`t3tsref:stdwrap`                yes
+    post_title_stdWrap_          :ref:`t3tsref:stdwrap`                yes
+    post_content_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post_replies_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post_author_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    post_city_stdWrap_           :ref:`t3tsref:stdwrap`                yes
     ============================ ==================================== ======================= ======================
 
 
@@ -746,14 +746,14 @@ Thread List Properties
     ============================ ==================================== ======================= ======================
     Property                     Data type                            :ref:`t3tsref:stdwrap`  Default
     ============================ ==================================== ======================= ======================
-    forum\_title\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    post\_thread\_code\_stdWrap_ :ref:`t3tsref:stdwrap`                yes
-    post\_title\_stdWrap_        :ref:`t3tsref:stdwrap`                yes
-    post\_content\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-    post\_replies\_stdWrap_      :ref:`t3tsref:stdwrap`                yes
-    post\_author\_stdWrap_       :ref:`t3tsref:stdwrap`                yes
-    post\_city\_stdWrap_         :ref:`t3tsref:stdwrap`                yes
-    thread\_limit_               :ref:`t3tsref:data-type-integer`      no                      50
+    forum_title_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    post_thread_code_stdWrap_    :ref:`t3tsref:stdwrap`                yes
+    post_title_stdWrap_          :ref:`t3tsref:stdwrap`                yes
+    post_content_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post_replies_stdWrap_        :ref:`t3tsref:stdwrap`                yes
+    post_author_stdWrap_         :ref:`t3tsref:stdwrap`                yes
+    post_city_stdWrap_           :ref:`t3tsref:stdwrap`                yes
+    thread_limit_                :ref:`t3tsref:data-type-integer`      no                      50
     ============================ ===================================== ======================= ======================
 
 
@@ -783,7 +783,7 @@ The following properties are all prepended `processScript` (section FEData.tt_bo
     ============================ ===================================== ======================= ======================
     sendToMailingList_           :ref:`t3tsref:data-type-boolean`, a   no
     notify_                      :ref:`t3tsref:data-type-boolean`      no
-    notify\_from_                :ref:`t3tsref:data-type-string`       no
+    notify_from_                 :ref:`t3tsref:data-type-string`       no
     newReply.msg                 :ref:`t3tsref:data-type-resource`     no
     newThread.msg                :ref:`t3tsref:data-type-resource`     no
     newThread.debug_             :ref:`t3tsref:data-type-boolean`      no
