@@ -11,7 +11,7 @@ Prerequisites
 
 .. important::
 
-   You must have set :code:`PAGE_TARGET = _top` in the constants
+   You must have set the page target by assigning "top" as "PAGE_TARGET" in the constants.
 
 .. code-block:: typoscript
 
@@ -50,26 +50,30 @@ To install the extension, perform the following steps:
 
 #. Go to the Extension Manager
 #. Install the extension
+   .. figure:: /Images/AdministratorManual/ExtensionManager.png
+      :width: 700px
+      :alt: Extension Manager
+
+      Extension Manager
+
+   List of extensions within the Extension Manager also shortened as "EM"
+
 #. Configure it in the Extension Manager
 
-exclude creator IP
-  exclude.tt_board = cr_ip
-  This option disables the IP address for all tt_board records. If unset then the IP address of each post is stored. GDPR can require that you do not record the IP address.
-  Here you can enter a comma separated list of fields of the tt_board table which will not be used. `cr_ip` is set by default in order not to store the IP address of the customer client. Remove it if you want to see the IP address of the persons who entered forms.
+   exclude creator IP
+     exclude.tt_board = cr_ip
+     This option disables the IP address for all tt_board records. If unset then the IP address of each post is
+     stored. GDPR can require that you do not record the IP address.
+     Here you can enter a comma separated list of fields of the tt_board table which will not be used. `cr_ip` is
+     set by default in order not to store the IP address of the customer client. Remove it if you want to see the
+     IP address of the persons who entered forms.
 
 #. Load the static template
 
-Other configuration
-  This other option is for all the rest...
+   Other configuration
+     This other option is for all the rest...
 
 
-.. figure:: /Images/AdministratorManual/ExtensionManager.png
-   :width: 700px
-   :alt: Extension Manager
-
-   Extension Manager
-
-   List of extensions within the Extension Manager also shorten with "EM"
 
 
 .. _admin-configuration:

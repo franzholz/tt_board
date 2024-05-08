@@ -92,8 +92,7 @@ Installation
 
        forum list plugin addition
 
-   From the list of the available items you shall choose "Forum: List" for this example.
-   Press the save button.
+   From the list of the available items you shall choose "Forum: List" for this example. Press the save button.
 
 ..  rst-class:: bignums
 
@@ -121,13 +120,13 @@ Installation
 
 ..  rst-class:: bignums
 
-10.  Add a discussion forum to the page “Forum 1”
+10.  Add a discussion forum to the page “Forum 1”.
 
     .. figure:: /Images/UserManual/Forum1InsertPlugin.png
        :width: 700px
        :alt: add plugin for message board 1
 
-        New content element wizard with plugin tab
+       New content element wizard with plugin tab
 
     Add a new content element of the type plugin and subtype "Message Board" from the plugin tab.
 
@@ -279,6 +278,4 @@ Installation
 .. important::
 
    The correct output of the forum in the front end will only show up if tt_board has been installed and if the static template of it has been assigned in the TYPO3 backend.
-
-
 
