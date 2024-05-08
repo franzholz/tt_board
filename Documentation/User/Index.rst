@@ -120,7 +120,7 @@ Installation
 
 ..  rst-class:: bignums
 
-10.  Add a discussion forum to the page “Forum 1”.
+10. Add a discussion forum to the page “Forum 1”.
 
     .. figure:: /Images/UserManual/Forum1InsertPlugin.png
        :width: 700px
@@ -132,19 +132,19 @@ Installation
 
 ..  rst-class:: bignums
 
-11.  Insert the flexforms “Forum: Single” and “Entry Form: General” .
+11. Insert the flexforms “Forum: Single” and “Entry Form: General” .
 
     .. figure:: /Images/UserManual/Forum1InsertDisplayModes.png
        :width: 700px
        :alt: select the message board 1 display modes
 
-        Click 2 message board plugins from "Available items" into "Selected items"
+       Click 2 message board plugins from "Available items" into "Selected items"
 
     Choose from the available display modes for the "Message Board" (Board / List).
 
 ..  rst-class:: bignums
 
-12.  Add the Message board to the “Forum 2” page.
+12. Add the Message board to the “Forum 2” page.
 
     .. figure:: /Images/UserManual/Forum2InsertPlugin.png
        :width: 700px
@@ -156,7 +156,7 @@ Installation
 
 ..  rst-class:: bignums
 
-13.  Insert the “Forum: Single” and “Entry Form: General” flexforms.
+13. Insert the “Forum: Single” and “Entry Form: General” flexforms.
 
     .. figure:: /Images/UserManual/Forum2InsertDisplayModes.png
        :width: 700px
@@ -168,7 +168,7 @@ Installation
 
 ..  rst-class:: bignums
 
-14.  Create an extension template for tt_board in your Templates folder and call it “+ext: tt_board”
+14. Create an extension template for tt_board in your Templates folder and call it “+ext: tt_board”
 
     .. figure:: /Images/UserManual/ForumExtensionTemplate.png
        :width: 700px
@@ -180,7 +180,7 @@ Installation
 
 ..  rst-class:: bignums
 
-15.  Insert Constants and Setup for tt_board.
+15. Insert Constants and Setup for tt_board.
 
     .. figure:: /Images/UserManual/ForumExtensionTemplateConstantsSetup.png
        :width: 700px
@@ -215,7 +215,7 @@ Installation
 
 ..  rst-class:: bignums
 
-16.  Add the CSS styles (or use your own CSS file) and the Message Board Setup under “Include static from extensions”.
+16. Add the CSS styles (or use your own CSS file) and the Message Board Setup under “Include static from extensions”.
 
     .. figure:: /Images/UserManual/ForumExtensionTemplateIncludeStatic.png
        :width: 700px
@@ -227,7 +227,7 @@ Installation
 
 ..  rst-class:: bignums
 
-17.  Edit your master template.
+17. Edit your master template.
 
     .. figure:: /Images/UserManual/MasterTemplate.png
        :width: 700px
@@ -239,7 +239,7 @@ Installation
 
 ..  rst-class:: bignums
 
-18.  Include the “+ext: tt_board” from your master template under “Include Basis Template”.
+18. Include the “+ext: tt_board” from your master template under “Include Basis Template”.
 
     .. figure:: /Images/UserManual/MasterTemplateIncludeTtBoard.png
        :width: 700px
@@ -251,7 +251,7 @@ Installation
 
 ..  rst-class:: bignums
 
-19.  Check the result.
+19. Check the result.
 
     .. figure:: /Images/UserManual/MasterTemplateIncludeTtBoardResult.png
        :width: 700px
@@ -263,7 +263,7 @@ Installation
 
 ..  rst-class:: bignums
 
-20.  The two forums should be visible in the front end now.
+20. The two forums should be visible in the front end now.
 
     .. figure:: /Images/UserManual/FrontEnd2Forums.png
        :width: 700px
