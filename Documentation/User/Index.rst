@@ -116,7 +116,7 @@ Installation
 
        add 2 subpages "Forum 1" and "Forum 2"
 
-   Two forum pages are created below the forum starting page.
+    Two forum pages are created below the forum starting page.
 
 ..  rst-class:: bignums
 
