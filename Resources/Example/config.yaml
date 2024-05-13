@@ -1,0 +1,57 @@
+base: 'https://example.com/'
+baseVariants: {  }
+errorHandling:
+  -
+    errorCode: '404'
+    errorHandler: Page
+    errorContentSource: 't3://page?uid=1'
+languages:
+  -
+    title: Deutsch
+    enabled: true
+    base: /
+    typo3Language: de
+    locale: de_DE
+    iso-639-1: de
+    navigationTitle: ''
+    hreflang: 'de-DE'
+    direction: ''
+    flag: de
+    languageId: '0'
+rootPageId: 1
+routeEnhancers:
+  TtBoardList:
+    type: Plugin
+    routePath: '/boardl/{board}'
+    namespace: tt_board_list
+    requirements:
+      board: '[\w].*'
+    aspects:
+      board:
+        type: PersistedAliasMapper
+        tableName: tt_board
+        routeFieldName: slug
+  TtBoardTree:
+    type: Plugin
+    routePath: '/boardt/{board}'
+    namespace: tt_board_tree
+    requirements:
+      board: '[\w].*'
+    aspects:
+      board:
+        type: PersistedAliasMapper
+        tableName: tt_board
+        routeFieldName: slug
+routes:
+  -
+    route: robots.txt
+    type: staticText
+    content: "User-agent: *\r\nDisallow: /typo3/\r\nDisallow: /typo3_src/\r\nAllow: /typo3/sysext/frontend/Resources/Public/*\r\nSitemap: https://www.example.com/sitemap.xml"
+  -
+    route: sitemap.xml
+    type: uri
+    source: 't3://page?uid=1&type=1533906435'
+  -
+    route: rss.xml
+    type: uri
+    source: 't3://page?uid=1194&type=103'

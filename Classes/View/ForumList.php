@@ -189,6 +189,7 @@ class ForumList implements SingletonInterface
                                 '',
                                 []
                             );
+                    debug ($pageLink, '$pageLink');
 
                         $wrappedSubpartContentArray['###LINK###'] =
                             [
@@ -268,6 +269,7 @@ class ForumList implements SingletonInterface
                                     '',
                                     []
                                 );
+                    debug ($pageLink, '$pageLink');
 
                             $wrappedSubpartContentArray['###LINK###'] =
                                 [
@@ -334,6 +336,7 @@ class ForumList implements SingletonInterface
                                     '',
                                     []
                                 );
+                    debug ($pageLink, '$pageLink');
 
                             $wrappedSubpartContentArray['###LINK_LAST_POST###'] =
                                 [
@@ -446,6 +449,7 @@ class ForumList implements SingletonInterface
                                             '',
                                             []
                                         );
+                    debug ($pageLink, '$pageLink');
 
                                     $wrappedSubpartContentArray['###LINK###'] =
                                         [

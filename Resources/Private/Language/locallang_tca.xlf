@@ -15,6 +15,9 @@
 			<trans-unit id="tt_board.subject" resname="tt_board.subject">
 				<source>Subject:</source>
 			</trans-unit>
+			<trans-unit id="tt_board.subject_addition" resname="tt_board.subject_addition">
+				<source>Slug Unique Addition to the Subject:</source>
+			</trans-unit>
 			<trans-unit id="tt_board.message" resname="tt_board.message">
 				<source>Message:</source>
 			</trans-unit>
@@ -35,6 +38,9 @@
 			</trans-unit>
 			<trans-unit id="tt_board.reference" resname="tt_board.reference">
 				<source>Reference to record in another extension</source>
+			</trans-unit>
+			<trans-unit id="tt_board.slug" resname="tt_board.slug">
+				<source>URL Segment</source>
 			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.display_mode" resname="tt_content.pi_flexform.display_mode">
 				<source>Display mode</source>

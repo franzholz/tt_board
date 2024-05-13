@@ -27,7 +27,7 @@ $result = [
         'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:tt_board',
         'useColumnsForDefaultValues' => 'parent',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/Extension.gif',
-        'searchFields' => 'uid,author,city,email,subject,message,cr_ip',
+        'searchFields' => 'uid,author,city,email,subject,message,cr_ip,slug',
     ],
     'columns' => [
         'subject' => [
@@ -36,6 +36,16 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
+                'eval' => 'null',
+                'default' => null,
+            ]
+        ],
+        'subject_addition' => [
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.subject_addition',
+            'config' => [
+                'type' => 'input',
+                'size' => '25',
+                'max' => '25',
                 'eval' => 'null',
                 'default' => null,
             ]
@@ -148,10 +158,30 @@ $result = [
                 'eval' => 'null',
                 'default' => null,
             ]
-        ]
+        ],
+        'slug' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.slug',
+            'config' => [
+                'type' => 'slug',
+                'size' => 50,
+                'eval' => 'unique',
+                'generatorOptions' => [
+                    'fields' => [
+                        'subject'
+                    ],
+                    'fieldSeparator' => '_',
+                    'replacements' => [
+                        '/' => '-',
+                    ],
+                ],
+                'fallbackCharacter' => '-',
+                'default' => null,
+            ],
+        ],
     ],
     'types' => [
-        '0' => ['showitem' => 'hidden, crdate, tstamp, subject, message, author, city, email, parent, notify_me, cr_ip, reference']
+        '0' => ['showitem' => 'hidden, crdate, tstamp, subject, subject_addition, message, author, city, email, parent, notify_me, cr_ip, reference, slug']
     ]
 ];
 

@@ -2,58 +2,51 @@
 
 namespace JambageCom\TtBoard\Controller;
 
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2024 Kasper Skårhøj <kasperYYYY@typo3.com>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*  A copy is found in the textfile GPL.txt and important notices to the license
-*  from the author is found in LICENSE.txt distributed with these scripts.
-*
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
-/**
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
+ /**
  * See TSref document: boardLib.inc / FEDATA section for details on how to use this script.
  * The static template 'plugin.tt_board' provides a working example of configuration.
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-use TYPO3\CMS\Core\Utility\StringUtility;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
-use JambageCom\TtBoard\Api\SessionHandler;
-use JambageCom\TtBoard\Domain\TtBoard;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use JambageCom\TtBoard\Api\Localization;
-use JambageCom\Div2007\Captcha\CaptchaManager;
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\SystemUtility;
-use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
+
 use TYPO3\CMS\Core\Controller\ErrorPageController;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
+use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+
+use JambageCom\Div2007\Captcha\CaptchaManager;
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\MailUtility;
+use JambageCom\Div2007\Utility\SystemUtility;
 
 use JambageCom\TslibFetce\Controller\TypoScriptFrontendDataController;
-use JambageCom\Div2007\Utility\MailUtility;
+
+use JambageCom\TtBoard\Api\Localization;
+use JambageCom\TtBoard\Api\SessionHandler;
 use JambageCom\TtBoard\Constants\Field;
+use JambageCom\TtBoard\Domain\TtBoard;
+
 
 class Submit implements SingletonInterface
 {
@@ -70,6 +63,7 @@ class Submit implements SingletonInterface
         $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
 
         $result = true;
+        $pid = 0;
         $extensionKey = 'tt_board';
         $table = 'tt_board';
         $languageSubpath = '/Resources/Private/Language/';
@@ -117,7 +111,9 @@ class Submit implements SingletonInterface
                             'pid',
                             'reference',
                             'doublePostCheck',
-                            Field::CAPTCHA
+                            Field::CAPTCHA,
+                            Field::SUBJECT_ID,
+                            Field::SLUG
                         ];
                     $captchaError = false;
 
@@ -186,6 +182,29 @@ class Submit implements SingletonInterface
                         if (isset($row[Field::CAPTCHA])) {
                             unset($row[Field::CAPTCHA]);
                         }
+                        // NEU +++ ANFANG
+                        $tcaConfig = $GLOBALS['TCA'][$table]['columns']['slug']['config'];
+                        $helper =
+                            GeneralUtility::makeInstance(
+                                SlugHelper::class,
+                                $table,
+                                Field::SLUG,
+                                $tcaConfig
+                            );
+                        $subjectId =
+                            $this->getNewSameSubjectAddition(
+                                    $table,
+                                    $row['subject']
+                                ) ?? '';
+                        $row[Field::SUBJECT_ID] = $subjectId;
+
+                        $slug =
+                            $helper->generate(
+                                $row,
+                                $pid
+                            );
+                        $row[Field::SLUG] = $slug;
+                    // NEU +++ ENDE
 
                         // Plain insert of record:
                         $newId = $pObj->execNEWinsert($table, $row);
@@ -289,8 +308,13 @@ class Submit implements SingletonInterface
 
                             //  Subject
                             if (!empty($row['parent'])) {	// RE:
-                                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-                                $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+                                $queryBuilder =
+                                    GeneralUtility::makeInstance(ConnectionPool::class)->
+                                        getQueryBuilderForTable($table);
+                                $queryBuilder->setRestrictions(
+                                    GeneralUtility::makeInstance(
+                                        FrontendRestrictionContainer::class)
+                                    );
 
                                 $queryBuilder
                                     ->select('*')
@@ -465,6 +489,52 @@ class Submit implements SingletonInterface
             $sessionData['error-title'] = $title;
             $sessionData['error-message'] = $message;
             $session->setSessionData($sessionData);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if a specific backend user can be used to trigger an email reset for (email + password set)
+     */
+    public function getNewSameSubjectAddition($table, string $subject)
+    {
+        $result = false;
+        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+        $version = $typo3Version->getVersion();
+
+        $queryBuilder =
+            GeneralUtility::makeInstance(ConnectionPool::class)->
+                getQueryBuilderForTable($table);
+
+        $queryBuilder
+            ->select('uid,subject,'. Field::SUBJECT_ID)
+            ->from($table)
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'subject',
+                    $queryBuilder->createNamedParameter(
+                        (string) $subject,
+                        \PDO::PARAM_STR
+                    )
+                )
+            )
+            ->orderBy('crdate', 'DESC')
+            ->setMaxResults(1);
+
+        if (
+            version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
+        ) {
+            $statement = $queryBuilder->executeQuery();
+            $row = $statement->fetchAssociative();
+        } else {
+            $statement = $queryBuilder->execute();
+            $row = $statement->fetch();
+        }
+
+        if (!empty($row)) {
+            $subjectId = $row[Field::SUBJECT_ID];
+            $result = (string) (intval($row[Field::SUBJECT_ID]) + 1);
         }
 
         return $result;

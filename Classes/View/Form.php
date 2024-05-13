@@ -308,6 +308,7 @@ window.onload = addListeners;
                     'type' => '*data[' . $table . '][NEW][parent]=hidden',
                     'value' => $parent
                 ];
+debug ($conf['captcha'], '$conf[\'captcha\']');
 
                 if (
                     is_object(
@@ -323,10 +324,12 @@ window.onload = addListeners;
                         $captchaMarker,
                         true
                     );
+                    debug ($captchaMarker, '$captchaMarker');
                     $textLabel =
                         $languageObj->getLabel(
                             'captcha'
                         );
+                    debug ($textLabel, '$textLabel');
 
                     if ($wrongCaptcha) {
                         $textLabelWrap = '<strong>' .
@@ -338,6 +341,7 @@ window.onload = addListeners;
                             ) .
                             '</strong><br'. $xhtmlFix . '>';
                     }
+                    debug ($markerFilled, '$markerFilled');
 
                     if (
                         $markerFilled
@@ -348,6 +352,7 @@ window.onload = addListeners;
                                 $captchaMarker['###CAPTCHA_CANT_READ###'] . '<br' . $xhtmlFix . '>' .
                                 $captchaMarker['###CAPTCHA_ACCESSIBLE###'];
                         }
+                    debug ($additionalText, '$additionalText');
                         $lConf['dataArray.']['55.'] = [
                             'label' => $textLabel,
                             'label.' =>
@@ -361,6 +366,8 @@ window.onload = addListeners;
                                 ],
                             'type' => '*data[' . $table . '][NEW][' . Field::CAPTCHA . ']=input,20'
                         ];
+
+                        debug ($lConf['dataArray.']['55.'], '$lConf[\'dataArray.\'][\'55.\']');
                     }
                 } elseif (
                     isset($lConf['dataArray.']['55.']) &&
