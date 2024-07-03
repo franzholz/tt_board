@@ -40,16 +40,6 @@ $result = [
                 'default' => null,
             ]
         ],
-        'subject_addition' => [
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.subject_addition',
-            'config' => [
-                'type' => 'input',
-                'size' => '25',
-                'max' => '25',
-                'eval' => 'null',
-                'default' => null,
-            ]
-        ],
         'message' => [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.message',
             'config' => [
@@ -165,7 +155,7 @@ $result = [
             'config' => [
                 'type' => 'slug',
                 'size' => 50,
-                'eval' => 'unique',
+                'eval' => 'uniqueInSite',
                 'generatorOptions' => [
                     'fields' => [
                         'subject'
@@ -173,6 +163,10 @@ $result = [
                     'fieldSeparator' => '_',
                     'replacements' => [
                         '/' => '-',
+                        ' ' => '-',
+                        '"' => '-',
+                        '\'' => '-',
+                        '&' => '-',
                     ],
                 ],
                 'fallbackCharacter' => '-',

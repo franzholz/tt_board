@@ -112,7 +112,6 @@ class Submit implements SingletonInterface
                             'reference',
                             'doublePostCheck',
                             Field::CAPTCHA,
-                            Field::SUBJECT_ID,
                             Field::SLUG
                         ];
                     $captchaError = false;
@@ -182,7 +181,7 @@ class Submit implements SingletonInterface
                         if (isset($row[Field::CAPTCHA])) {
                             unset($row[Field::CAPTCHA]);
                         }
-                        // NEU +++ ANFANG
+
                         $tcaConfig = $GLOBALS['TCA'][$table]['columns']['slug']['config'];
                         $helper =
                             GeneralUtility::makeInstance(
@@ -191,20 +190,12 @@ class Submit implements SingletonInterface
                                 Field::SLUG,
                                 $tcaConfig
                             );
-                        $subjectId =
-                            $this->getNewSameSubjectAddition(
-                                    $table,
-                                    $row['subject']
-                                ) ?? '';
-                        $row[Field::SUBJECT_ID] = $subjectId;
-
                         $slug =
                             $helper->generate(
                                 $row,
                                 $pid
                             );
                         $row[Field::SLUG] = $slug;
-                    // NEU +++ ENDE
 
                         // Plain insert of record:
                         $newId = $pObj->execNEWinsert($table, $row);
@@ -489,52 +480,6 @@ class Submit implements SingletonInterface
             $sessionData['error-title'] = $title;
             $sessionData['error-message'] = $message;
             $session->setSessionData($sessionData);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Check if a specific backend user can be used to trigger an email reset for (email + password set)
-     */
-    public function getNewSameSubjectAddition($table, string $subject)
-    {
-        $result = false;
-        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
-        $version = $typo3Version->getVersion();
-
-        $queryBuilder =
-            GeneralUtility::makeInstance(ConnectionPool::class)->
-                getQueryBuilderForTable($table);
-
-        $queryBuilder
-            ->select('uid,subject,'. Field::SUBJECT_ID)
-            ->from($table)
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'subject',
-                    $queryBuilder->createNamedParameter(
-                        (string) $subject,
-                        \PDO::PARAM_STR
-                    )
-                )
-            )
-            ->orderBy('crdate', 'DESC')
-            ->setMaxResults(1);
-
-        if (
-            version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $statement = $queryBuilder->executeQuery();
-            $row = $statement->fetchAssociative();
-        } else {
-            $statement = $queryBuilder->execute();
-            $row = $statement->fetch();
-        }
-
-        if (!empty($row)) {
-            $subjectId = $row[Field::SUBJECT_ID];
-            $result = (string) (intval($row[Field::SUBJECT_ID]) + 1);
         }
 
         return $result;

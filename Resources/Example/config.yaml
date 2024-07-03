@@ -22,23 +22,19 @@ rootPageId: 1
 routeEnhancers:
   TtBoardList:
     type: Plugin
-    routePath: '/boardl/{board}'
+    routePath: '/boardl/{uid}'
     namespace: tt_board_list
-    requirements:
-      board: '[\w].*'
     aspects:
-      board:
+      uid:
         type: PersistedAliasMapper
         tableName: tt_board
         routeFieldName: slug
   TtBoardTree:
     type: Plugin
-    routePath: '/boardt/{board}'
+    routePath: '/boardt/{uid}'
     namespace: tt_board_tree
-    requirements:
-      board: '[\w].*'
     aspects:
-      board:
+      uid:
         type: PersistedAliasMapper
         tableName: tt_board
         routeFieldName: slug

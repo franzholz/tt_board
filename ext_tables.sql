@@ -5,8 +5,7 @@ CREATE TABLE tt_board (
   author varchar(80) DEFAULT '' NOT NULL,
   email varchar(80) DEFAULT '' NOT NULL,
   city varchar(255) DEFAULT '' NOT NULL,
-  subject tinytext,
-  subject_addition varchar(25) DEFAULT '' NOT NULL,
+  subject varchar(255) DEFAULT '' NOT NULL,
   message text,
   parent int(10) unsigned DEFAULT '0' NOT NULL,
   notify_me tinyint(3) unsigned DEFAULT '0' NOT NULL,
@@ -15,7 +14,9 @@ CREATE TABLE tt_board (
   reference text,
   slug varchar(2048) DEFAULT '' NOT NULL,
 
-  KEY subject_check (subject),
+  KEY subjectCheck (subject),
   KEY parent_select (pid,parent),
-  KEY postcheck (doublePostCheck)
+  KEY postCheck (doublePostCheck)
 );
+
+
