@@ -21,5 +21,7 @@ namespace JambageCom\TtBoard\Constants;
 class Field
 {
     public const CAPTCHA        = 'captcha';
+    public const SLUG           = 'slug';
 
 }
+
