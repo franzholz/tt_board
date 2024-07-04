@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board" target-language="ru-BY">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board" target-language="ru">
     <header/>
     <body>
       <trans-unit id="pi_list" resname="pi_list">
@@ -18,6 +18,10 @@
       <trans-unit id="tt_board.subject" resname="tt_board.subject">
         <source>Subject:</source>
         <target state="needs-translation">Subject:</target>
+      </trans-unit>
+      <trans-unit id="tt_board.subject_addition" resname="tt_board.subject_addition">
+        <source>Slug Unique Addition to the Subject:</source>
+        <target state="needs-translation">Slug Unique Addition to the Subject:</target>
       </trans-unit>
       <trans-unit id="tt_board.message" resname="tt_board.message">
         <source>Message:</source>
@@ -46,6 +50,10 @@
       <trans-unit id="tt_board.reference" resname="tt_board.reference">
         <source>Reference to record in another extension</source>
         <target state="needs-translation">Reference to record in another extension</target>
+      </trans-unit>
+      <trans-unit id="tt_board.slug" resname="tt_board.slug">
+        <source>URL Segment</source>
+        <target state="needs-translation">URL Segment</target>
       </trans-unit>
       <trans-unit id="tt_content.pi_flexform.display_mode" resname="tt_content.pi_flexform.display_mode">
         <source>Display mode</source>
