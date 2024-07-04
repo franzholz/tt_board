@@ -109,6 +109,7 @@ window.onload = addListeners;
         $spamWord = '';
         $cssPrefix = 'tx-ttboard-';
         $notify = [];
+        $wordCaptcha = '';
         $content .= $errorOut;
 
         if (
@@ -266,13 +267,14 @@ window.onload = addListeners;
                     is_array($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
                     isset($GLOBALS['TSFE']->applicationData[$extensionKey]['word'])
                 ) {
-                    if ($GLOBALS['TSFE']->applicationData[$extensionKey]['error']['captcha'] == true) {
+                    if (!empty($GLOBALS['TSFE']->applicationData[$extensionKey]['error']['captcha'])) {
                         $origRow = $GLOBALS['TSFE']->applicationData[$extensionKey]['row'];
                         unset($origRow['doublePostCheck']);
                         $wrongCaptcha = true;
-                        $word = $GLOBALS['TSFE']->applicationData[$extensionKey]['word'];
+                        $wordCaptcha = $GLOBALS['TSFE']->applicationData[$extensionKey]['word'];
                     }
-                    if ($GLOBALS['TSFE']->applicationData[$extensionKey]['error']['spam'] == true) {
+
+                    if (!empty($GLOBALS['TSFE']->applicationData[$extensionKey]['error']['spam'])) {
                         $spamWord = $GLOBALS['TSFE']->applicationData[$extensionKey]['word'];
                         $origRow = $GLOBALS['TSFE']->applicationData[$extensionKey]['row'];
                     }
@@ -308,7 +310,6 @@ window.onload = addListeners;
                     'type' => '*data[' . $table . '][NEW][parent]=hidden',
                     'value' => $parent
                 ];
-debug ($conf['captcha'], '$conf[\'captcha\']');
 
                 if (
                     is_object(
@@ -324,12 +325,10 @@ debug ($conf['captcha'], '$conf[\'captcha\']');
                         $captchaMarker,
                         true
                     );
-                    debug ($captchaMarker, '$captchaMarker');
                     $textLabel =
                         $languageObj->getLabel(
                             'captcha'
                         );
-                    debug ($textLabel, '$textLabel');
 
                     if ($wrongCaptcha) {
                         $textLabelWrap = '<strong>' .
@@ -337,22 +336,20 @@ debug ($conf['captcha'], '$conf[\'captcha\']');
                                 $languageObj->getLabel(
                                     'wrong_captcha'
                                 ),
-                                $word
+                                $wordCaptcha
                             ) .
                             '</strong><br'. $xhtmlFix . '>';
                     }
-                    debug ($markerFilled, '$markerFilled');
 
                     if (
                         $markerFilled
                     ) {
                         $additionalText = '';
                         if ($conf['captcha'] == 'freecap') {
-                            $additionalText =
+                            $additionalText .=
                                 $captchaMarker['###CAPTCHA_CANT_READ###'] . '<br' . $xhtmlFix . '>' .
                                 $captchaMarker['###CAPTCHA_ACCESSIBLE###'];
                         }
-                    debug ($additionalText, '$additionalText');
                         $lConf['dataArray.']['55.'] = [
                             'label' => $textLabel,
                             'label.' =>
@@ -366,8 +363,8 @@ debug ($conf['captcha'], '$conf[\'captcha\']');
                                 ],
                             'type' => '*data[' . $table . '][NEW][' . Field::CAPTCHA . ']=input,20'
                         ];
-
-                        debug ($lConf['dataArray.']['55.'], '$lConf[\'dataArray.\'][\'55.\']');
+                    } else if (!empty($wordCaptcha)) {
+                        $content .=  '<br' . $xhtmlFix . '>' . $textLabelWrap;
                     }
                 } elseif (
                     isset($lConf['dataArray.']['55.']) &&
@@ -399,7 +396,9 @@ debug ($conf['captcha'], '$conf[\'captcha\']');
                     $privacyUrl = $cObj->getTypoLink_URL($pagePrivacy, $piVars);
                     $privacyUrl = str_replace(['[', ']'], ['%5B', '%5D'], $privacyUrl);
 
-                    $textLabelWrap = '<a href="' . htmlspecialchars($privacyUrl) . '">' . $labels['title'] . '</a><br' . $xhtmlFix . '>' . chr(13);
+                    $textLabelWrap =
+                        '<a href="' . htmlspecialchars($privacyUrl) . '">' .
+                            $labels['title'] . '</a><br' . $xhtmlFix . '>' . chr(13);
                     $lConf['dataArray.']['60.'] = [
                         'label' => $labels['title'] . ':',
                         'label.' =>

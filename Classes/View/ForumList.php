@@ -189,8 +189,6 @@ class ForumList implements SingletonInterface
                                 '',
                                 []
                             );
-                    debug ($pageLink, '$pageLink');
-
                         $wrappedSubpartContentArray['###LINK###'] =
                             [
                                 '<a href="' . htmlspecialchars($pageLink) . '">',
@@ -269,8 +267,6 @@ class ForumList implements SingletonInterface
                                     '',
                                     []
                                 );
-                    debug ($pageLink, '$pageLink');
-
                             $wrappedSubpartContentArray['###LINK###'] =
                                 [
                                     '<a href="' . htmlspecialchars($pageLink) . '">',
@@ -336,8 +332,6 @@ class ForumList implements SingletonInterface
                                     '',
                                     []
                                 );
-                    debug ($pageLink, '$pageLink');
-
                             $wrappedSubpartContentArray['###LINK_LAST_POST###'] =
                                 [
                                     '<a href="' . htmlspecialchars($pageLink) . '">',
@@ -449,8 +443,6 @@ class ForumList implements SingletonInterface
                                             '',
                                             []
                                         );
-                    debug ($pageLink, '$pageLink');
-
                                     $wrappedSubpartContentArray['###LINK###'] =
                                         [
                                             '<a href="' . htmlspecialchars($pageLink) . '">',

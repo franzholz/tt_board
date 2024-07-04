@@ -118,11 +118,14 @@ class Submit implements SingletonInterface
 
                     if (
                         isset($row[Field::CAPTCHA]) &&
-                        $captcha =
-                            CaptchaManager::getCaptcha(
-                                $extensionKey,
-                                $conf['captcha']
+                        null !== (
+                            $captcha =
+                                CaptchaManager::getCaptcha(
+                                    $extensionKey,
+                                    $conf['captcha']
                             )
+                        ) &&
+                        is_object($captcha)
                     ) {
                         if (
                             !$captcha->evalValues(
@@ -132,14 +135,14 @@ class Submit implements SingletonInterface
                         ) {
                             $captchaError = true;
                         }
-                    } elseif ($conf['captcha']) {
+                    } elseif (!empty($conf['captcha'])) {
                         // There could be a wrong captcha configuration or manipulation of the submit form. This case must always lead to an error message.
                         $captchaError = true;
                     }
 
                     if ($captchaError) {
                         $GLOBALS['TSFE']->applicationData[$extensionKey]['error']['captcha'] = true;
-                        $GLOBALS['TSFE']->applicationData[$extensionKey]['word'] = $row[Field::CAPTCHA];
+                        $GLOBALS['TSFE']->applicationData[$extensionKey]['word'] = $row[Field::CAPTCHA] ?? '*';
                         $result = false;
                         break;
                     }
@@ -298,7 +301,7 @@ class Submit implements SingletonInterface
                             $maillist_header .= 'Reply-To: ' . $mConf['reply'];
 
                             //  Subject
-                            if (!empty($row['parent'])) {	// RE:
+                            if (!empty($row['parent'])) {
                                 $queryBuilder =
                                     GeneralUtility::makeInstance(ConnectionPool::class)->
                                         getQueryBuilderForTable($table);
@@ -454,7 +457,7 @@ class Submit implements SingletonInterface
                             }
                         }
                     }
-                } while (1 == 0);	// only once
+                } while (1 == 0);	// Execute this loop only once.
             }
         } else {
             if ($allowed) {

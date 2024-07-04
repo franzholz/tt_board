@@ -279,7 +279,6 @@ class Forum implements SingletonInterface
                             '',
                             []
                         );
-                    debug ($url, '$url');
                     $wrappedSubpartArray['###LINK###'] =
                         [
                             '<a href="' . htmlspecialchars($url)  . '">',
@@ -335,7 +334,6 @@ class Forum implements SingletonInterface
                             '',
                             []
                         );
-                    debug ($url, '$url');
                     $wrappedSubpartArray['###LINK_LAST_POST###'] =
                         [
                             '<a href="' .  htmlspecialchars($url) . '">',
@@ -371,7 +369,6 @@ class Forum implements SingletonInterface
                 $temp_conf = $typolinkConf;
                 $temp_conf['no_cache'] = 1;
                 $markerArray['###FORM_URL###'] = $local_cObj->typoLink_URL($temp_conf);
-                    debug ($markerArray['###FORM_URL###'], '$markerArray[\'###FORM_URL###\']');
                 $subpartContent = implode('', $subpartArray);
 
                 // Substitute CONTENT-subpart

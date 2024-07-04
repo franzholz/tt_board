@@ -203,7 +203,6 @@ class ForumThread implements SingletonInterface
                             '',
                             []
                         );
-                    debug ($url, '$url');
                     $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_THREAD###'] =
                         [
                             '<a href="' . htmlspecialchars($url) . '">',
@@ -227,8 +226,6 @@ class ForumThread implements SingletonInterface
                     '',
                     []
                 );
-                    debug ($url, '$url');
-
                 $wrappedSubpartArray['###LINK_FIRST_POST###'] =
                     [
                         '<a href="' . htmlspecialchars($url) . '">',
@@ -293,8 +290,6 @@ class ForumThread implements SingletonInterface
                         '',
                         []
                     );
-                    debug ($url, '$url');
-
                 $wrappedSubpartArray['###LINK###'] =
                     [
                         '<a href="' . htmlspecialchars($url) . '">',
@@ -326,8 +321,6 @@ class ForumThread implements SingletonInterface
                                 '',
                                 []
                             );
-                    debug ($url, '$url');
-
                         $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_POST###'] =
                             [
                                 '<a href="' .  htmlspecialchars($url) . '">',
