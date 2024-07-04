@@ -19,6 +19,10 @@
         <source>Subject:</source>
         <target state="needs-translation">Subject:</target>
       </trans-unit>
+      <trans-unit id="tt_board.subject_addition" resname="tt_board.subject_addition">
+        <source>Slug Unique Addition to the Subject:</source>
+        <target state="needs-translation">Slug Unique Addition to the Subject:</target>
+      </trans-unit>
       <trans-unit id="tt_board.message" resname="tt_board.message">
         <source>Message:</source>
         <target state="needs-translation">Message:</target>
@@ -46,6 +50,10 @@
       <trans-unit id="tt_board.reference" resname="tt_board.reference">
         <source>Reference to record in another extension</source>
         <target state="needs-translation">Reference to record in another extension</target>
+      </trans-unit>
+      <trans-unit id="tt_board.slug" resname="tt_board.slug">
+        <source>URL Segment</source>
+        <target state="needs-translation">URL Segment</target>
       </trans-unit>
       <trans-unit id="tt_content.pi_flexform.display_mode" resname="tt_content.pi_flexform.display_mode">
         <source>Display mode</source>
