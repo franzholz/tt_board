@@ -55,7 +55,6 @@ use JambageCom\TtBoard\Domain\Composite;
 
 class ForumThread implements SingletonInterface
 {
-
     public function __construct(
         protected readonly PageRenderer $pageRenderer,
     ) {}
@@ -226,7 +225,6 @@ class ForumThread implements SingletonInterface
                     '',
                     []
                 );
-
                 $wrappedSubpartArray['###LINK_FIRST_POST###'] =
                     [
                         '<a href="' . htmlspecialchars($url) . '">',
@@ -291,7 +289,6 @@ class ForumThread implements SingletonInterface
                         '',
                         []
                     );
-
                 $wrappedSubpartArray['###LINK###'] =
                     [
                         '<a href="' . htmlspecialchars($url) . '">',
@@ -323,7 +320,6 @@ class ForumThread implements SingletonInterface
                                 '',
                                 []
                             );
-
                         $wrappedSubpartArray['###LINK_' . strtoupper($destination) . '_POST###'] =
                             [
                                 '<a href="' .  htmlspecialchars($url) . '">',
