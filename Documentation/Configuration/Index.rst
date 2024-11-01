@@ -22,7 +22,7 @@ View Properties
 	=========================== ========================================= ======================= ====================
 	Property                    Data type                                 :ref:`t3tsref:stdwrap`  Default
 	=========================== ========================================= ======================= ====================
-	templateFile _              :ref:`t3tsref:data-type-resource`          no                      :code:`<div>|</div>`
+	templateFile _              :ref:`t3tsref:data-type-resource`          no
 	pid_list_                   :ref:`t3tsref:data-type-string`            yes
 	PIDforum_                   :ref:`t3tsref:data-type-positive-integer`  no
 	PIDprivacyPolicy_           :ref:`t3tsref:data-type-positive-integer`  no
@@ -81,7 +81,7 @@ pid_list
 
 :typoscript:`plugin.tt_board_list.pid_list =` :ref:`t3tsref:data-type-string`
 
-The pid's from where to fetch categories, forums and so on. Default is the current page. Accepts multiple pid's commaseparated!
+The pids from where to fetch categories, forums and so on. Default is the current page. Accepts multiple pids commaseparated!
 
 
 .. _ts-plugin-tt-board-list-pidForum:

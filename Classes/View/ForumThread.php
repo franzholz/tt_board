@@ -55,7 +55,6 @@ use JambageCom\TtBoard\Domain\Composite;
 
 class ForumThread implements SingletonInterface
 {
-
     public function __construct(
         protected readonly PageRenderer $pageRenderer,
     ) {}

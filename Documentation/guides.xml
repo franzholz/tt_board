@@ -13,7 +13,7 @@
     interlink-shortcode="jambagecom/tt-board"
     typo3-core-preferred="stable"
   />
-  <project title="Message board, twin mode" release="main (development)" version="main (development)" copyright="since 2006"/>
+  <project title="Message board, twin mode" release="master" version="master" copyright="since 2006"/>
   <inventory id="t3coreapi"
              url="https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/"
   />
