@@ -36,7 +36,7 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'eval' => 'null',
+                'nullable' => true,
                 'default' => null,
             ]
         ],
@@ -46,7 +46,7 @@ $result = [
                 'type' => 'text',
                 'cols' => '40',
                 'rows' => '5',
-                'eval' => 'null',
+                'nullable' => true,
                 'default' => null
             ]
         ],
@@ -57,6 +57,7 @@ $result = [
                 'size' => '40',
                 'eval' => 'trim',
                 'max' => '80',
+                'nullable' => true,
                 'default' => null
             ]
         ],
@@ -66,6 +67,7 @@ $result = [
                 'type' => 'input',
                 'size' => 20,
                 'eval' => 'trim',
+                'nullable' => true,
                 'max' => 255,
                 'default' => null
             ]
@@ -76,6 +78,7 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'eval' => 'trim',
+                'nullable' => true,
                 'max' => '80',
                 'default' => null
             ]
@@ -91,7 +94,7 @@ $result = [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.parent',
             'config' => [
                 'type' => 'group',
-                    'allowed' => $table,
+                'allowed' => $table,
                 'size' => '3',
                 'maxitems' => '1',
                 'minitems' => '0',
@@ -110,10 +113,9 @@ $result = [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.crdate',
             'config' => [
-                'type' => 'input',
+                'type' => 'datetime',
                 'size' => '8',
                 'eval' => 'date',
-                'renderType' => 'inputDateTime',
                 'default' => 0
             ]
         ],
@@ -121,10 +123,9 @@ $result = [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_tca.xlf:' . $table . '.tstamp',
             'config' => [
-                'type' => 'input',
+                'type' => 'datetime',
                 'size' => '8',
                 'eval' => 'date',
-                'renderType' => 'inputDateTime',
                 'default' => 0
             ]
         ],
@@ -135,6 +136,7 @@ $result = [
                 'type' => 'input',
                 'size' => '15',
                 'max' => '15',
+                'nullable' => true,
                 'default' => null
             ]
         ],
@@ -145,7 +147,7 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '40',
-                'eval' => 'null',
+                'nullable' => true,
                 'default' => null,
             ]
         ],
