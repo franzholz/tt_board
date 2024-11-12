@@ -393,7 +393,14 @@ window.onload = addListeners;
                     $piVars = [];
 
                     $pagePrivacy = intval($conf['PIDprivacyPolicy']);
-                    $privacyUrl = $cObj->getTypoLink_URL($pagePrivacy, $piVars);
+                    $privacyUrl =
+                        FrontendUtility::getTypoLink_URL(
+                            $cObj,
+                            $pagePrivacy,
+                            $piVars,
+                            '',
+                            []
+                        );
                     $privacyUrl = str_replace(['[', ']'], ['%5B', '%5D'], $privacyUrl);
 
                     $textLabelWrap =
