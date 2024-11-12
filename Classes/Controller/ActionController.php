@@ -39,19 +39,23 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
+use Psr\Http\Message\ServerRequestInterface;
+
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+
+use JambageCom\Div2007\Utility\ViewUtility;
+
+use JambageCom\TtBoard\Domain\Composite;
 use JambageCom\TtBoard\View\ForumList;
 use JambageCom\TtBoard\View\Form;
 use JambageCom\TtBoard\View\Tree;
 use JambageCom\TtBoard\View\ForumThread;
 use JambageCom\TtBoard\View\Forum;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
-use JambageCom\Div2007\Utility\ViewUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-use JambageCom\TtBoard\Domain\Composite;
 
 class ActionController implements SingletonInterface
 {
@@ -74,7 +78,8 @@ class ActionController implements SingletonInterface
         ContentObjectRenderer $cObj,
         $theCode,
         &$content,
-        Composite $composite
+        Composite $composite,
+        ServerRequestInterface $request,
     ): bool {
         $conf = $composite->getConf();
         $contentTmp = '';

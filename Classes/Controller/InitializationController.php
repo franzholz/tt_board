@@ -38,17 +38,18 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-use TYPO3\CMS\Core\SingletonInterface;
-use JambageCom\TtBoard\Api\Localization;
-use JambageCom\TtBoard\View\Marker;
-use JambageCom\TtBoard\Domain\TtBoard;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+use Psr\Http\Message\ServerRequestInterface;
+
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
+use JambageCom\TtBoard\Api\Localization;
 use JambageCom\TtBoard\Domain\Composite;
+use JambageCom\TtBoard\Domain\TtBoard;
+use JambageCom\TtBoard\View\Marker;
 
 class InitializationController implements SingletonInterface
 {
@@ -63,6 +64,7 @@ class InitializationController implements SingletonInterface
     public function init(
         &$composite,
         &$content,
+        ServerRequestInterface $request,
         ContentObjectRenderer $cObj,
         array $conf,
         $extensionKey,
@@ -70,7 +72,7 @@ class InitializationController implements SingletonInterface
         $prefixId
     ) {
         if (!ExtensionManagementUtility::isLoaded('div2007')) {
-            $content = 'Error in Board Extension(' . $extensionKey . '): Extension div2007 has not been loaded.';
+            $content = 'Error in Board Extension (' . $extensionKey . '): Extension div2007 has not been loaded.';
             return false;
         }
 
@@ -85,7 +87,7 @@ class InitializationController implements SingletonInterface
         $composite->setExtensionKey($extensionKey);
         $composite->setCObj($cObj);
         $composite->setPrefixId($prefixId);
-        $ttboardParams = GeneralUtility::_GP($prefixId);
+        $ttboardParams = $request->getParsedBody()[$prefixId] ?? $request->getQueryParams()[$prefixId] ?? null;
 
         if (
             isset($ttboardParams) &&
@@ -135,8 +137,7 @@ class InitializationController implements SingletonInterface
         $composite->setModelObj($modelObj);
         $globalMarkerArray = $markerObj->getGlobalMarkers($cObj, $extensionKey);
         // template is read.
-        $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
-        $absoluteFileName = $sanitizer->sanitize($conf['templateFile']);
+        $absoluteFileName = GeneralUtility::getFileAbsFileName($conf['templateFile']);
         $orig_templateCode = file_get_contents($absoluteFileName);
 
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
