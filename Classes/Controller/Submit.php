@@ -205,8 +205,10 @@ class Submit implements SingletonInterface
 
                         // Link to this thread
                         $linkParams = [];
-                        if ($GLOBALS['TSFE']->type) {
-                            $linkParams['type'] = $GLOBALS['TSFE']->type;
+                        $type = $GLOBALS['TSFE']->getPageArguments()->getPageType();
+
+                        if ($type) {
+                            $linkParams['type'] = $type;
                         }
                         $linkParams[$prefixId . '[uid]'] = $newId;
                         $url =
