@@ -40,10 +40,11 @@ namespace JambageCom\TtBoard\View;
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use JambageCom\Div2007\Utility\ControlUtility;
-use JambageCom\Div2007\Utility\MarkerUtility;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\ControlUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
 
@@ -54,7 +55,7 @@ class Forum implements SingletonInterface
     /**
     * Creates the forum display, including listing all items/a single item
     */
-    public function printView(
+    public function render(
         Composite $composite,
         $treeView,
         $conf,
@@ -227,7 +228,7 @@ class Forum implements SingletonInterface
                             $composite->getPidList(),
                             $ref,
                             $conf['tree'],
-                            $lConf['thread_limit'] ?: '50',
+                            $lConf['thread_limit'] ?? '50',
                             $begin_at,
                             $controlObj->readGP('sword', $prefixId),
                             false
@@ -361,9 +362,7 @@ class Forum implements SingletonInterface
 
                 // Fill in array
                 $markerArray['###SEARCH_WORD###'] =
-                    $GLOBALS['TSFE']->no_cache ?
-                        $controlObj->readGP('sword', $prefixId) :
-                        '';	// Setting search words in field if cache is disabled.
+                    $controlObj->readGP('sword', $prefixId);	// Setting search words in field. Cache must be disabled.
                 // Set FORM_URL
                 $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
                 $temp_conf = $typolinkConf;
@@ -383,5 +382,5 @@ class Forum implements SingletonInterface
         } // if($continue) {
 
         return $content;
-    } // printView
+    } // render
 }

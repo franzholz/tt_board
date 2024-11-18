@@ -43,7 +43,6 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Expression\CompositeExpression;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -58,15 +57,12 @@ class TtBoard implements SingletonInterface
     public $enableFields = '';		// The enablefields of the tt_board table.
     public $searchFieldList = 'author,email,subject,message';
     protected $tablename = 'tt_board';
-    protected $version; // TYPO3 version
 
 
     public function init(): void
     {
         $enableFields = TableUtility::enableFields($this->tablename);
         $this->setEnableFields($enableFields);
-        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
-        $this->version = $typo3Version->getVersion();
     }
 
     public function getTablename()
@@ -109,7 +105,7 @@ class TtBoard implements SingletonInterface
                     $this->getTablename(),
                     'reference',
                     $ref,
-                    \PDO::PARAM_STR,
+                    Connection::PARAM_STR,
                     QueryParameter::COMP_EQUAL
                 );
         }
@@ -171,7 +167,6 @@ class TtBoard implements SingletonInterface
             default:
                 break;
         }
-
         return true;
     }
 
@@ -229,17 +224,8 @@ class TtBoard implements SingletonInterface
             }
         }
 
-        // Exclude pages not of doktype 'Standard' or 'Advanced'
         foreach($pageRows as $pageRow) {
-            if (
-                !isset($GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes']) || // removed since TYPO3 9.5
-                GeneralUtility::inList(
-                    $GLOBALS['TYPO3_CONF_VARS']['FE']['content_doktypes'],
-                    $pageRow['doktype']
-                )
-            ) {
-                $result[] = $pageRow;
-            } // All pages including pages 'not in menu'
+            $result[] = $pageRow;
         }
 
         return $result;
@@ -287,20 +273,10 @@ class TtBoard implements SingletonInterface
             $queryBuilder->andWhere($where);
         }
 
-        if (
-            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $result =
-                $queryBuilder
-                    ->executeQuery()
-                    ->fetchOne();
-        } else {
-            $result =
-                $queryBuilder
-                    ->execute()
-                    ->fetchColumn(0);
-        }
-
+        $result =
+            $queryBuilder
+                ->executeQuery()
+                ->fetchOne();
         return $result;
     }
 
@@ -314,7 +290,9 @@ class TtBoard implements SingletonInterface
         $count = 0;
         $whereRef = $this->getWhereRef($ref);
         $queryParameters = [];
-        $queryParameters[] = $whereRef;
+        if (!empty($whereRef)) {
+            $queryParameters[] = $whereRef;
+        }
 
         if ($searchWords) {
             $where = QueryBuilderApi::searchWhere(
@@ -331,7 +309,7 @@ class TtBoard implements SingletonInterface
                     $this->getTablename(),
                     'parent',
                     0,
-                    \PDO::PARAM_INT,
+                    Connection::PARAM_INT,
                     QueryParameter::COMP_EQUAL
                 );
             $queryParameters[] = $queryParameter;
@@ -354,9 +332,10 @@ class TtBoard implements SingletonInterface
                 $this->getTablename(),
                 'parent',
                 intval($uid),
-                \PDO::PARAM_INT,
+                Connection::PARAM_INT,
                 QueryParameter::COMP_EQUAL
             );
+
         $queryParameters[] = $queryParameter;
         $count = $this->getNumPosts($pid, $queryParameters);
 
@@ -375,43 +354,22 @@ class TtBoard implements SingletonInterface
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         $field = 'pid';
 
-        if (
-            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $rows = $queryBuilder
-                ->select('*')
-                ->from($this->getTablename())
-                ->where(
-                    $queryBuilder->expr()->in(
-                        $field,
-                        $queryBuilder->createNamedParameter(
-                            $pageIds,
-                            Connection::PARAM_INT_ARRAY
-                        )
+        $rows = $queryBuilder
+            ->select('*')
+            ->from($this->getTablename())
+            ->where(
+                $queryBuilder->expr()->in(
+                    $field,
+                    $queryBuilder->createNamedParameter(
+                        $pageIds,
+                        Connection::PARAM_INT_ARRAY
                     )
                 )
-                ->orderBy('crdate', 'DESC')
-                ->setMaxResults(1)
-                ->executeQuery()
-                ->fetchAllAssociative();
-        } else {
-            $rows = $queryBuilder
-                ->select('*')
-                ->from($this->getTablename())
-                ->where(
-                    $queryBuilder->expr()->in(
-                        $field,
-                        $queryBuilder->createNamedParameter(
-                            $pageIds,
-                            Connection::PARAM_INT_ARRAY
-                        )
-                    )
-                )
-                ->orderBy('crdate', 'DESC')
-                ->setMaxResults(1)
-                ->execute()
-                ->fetchAll();
-        }
+            )
+            ->orderBy('crdate', 'DESC')
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         if (is_array($rows) && !empty($rows)) {
             $result = $rows['0'];
@@ -448,7 +406,7 @@ class TtBoard implements SingletonInterface
             ->andWhere(
                 $queryBuilder->expr()->eq(
                     'parent',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             );
 
@@ -458,21 +416,11 @@ class TtBoard implements SingletonInterface
             $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
         }
 
-        if (
-            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $rows = $queryBuilder
-                ->orderBy('crdate', 'DESC')
-                ->setMaxResults(1)
-                ->executeQuery()
-                ->fetchAllAssociative();
-        } else {
-            $rows = $queryBuilder
-                ->orderBy('crdate', 'DESC')
-                ->setMaxResults(1)
-                ->execute()
-                ->fetchAll();
-        }
+        $rows = $queryBuilder
+            ->orderBy('crdate', 'DESC')
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         if (is_array($rows) && !empty($rows)) {
             $result = $rows['0'];
@@ -504,7 +452,7 @@ class TtBoard implements SingletonInterface
                         $this->getTablename() . '.uid',
                         $queryBuilder->createNamedParameter(
                             $uid,
-                            \PDO::PARAM_INT
+                            Connection::PARAM_INT
                         )
                     )
                 );
@@ -516,19 +464,10 @@ class TtBoard implements SingletonInterface
                 $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
             }
 
-            if (
-                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-            ) {
-                $rows = $queryBuilder
-                    ->setMaxResults(1)
-                    ->executeQuery()
-                    ->fetchAllAssociative();
-            } else {
-                $rows = $queryBuilder
-                    ->setMaxResults(1)
-                    ->execute()
-                    ->fetchAll();
-            }
+            $rows = $queryBuilder
+                ->setMaxResults(1)
+                ->executeQuery()
+                ->fetchAllAssociative();
         }
 
         if (is_array($rows) && !empty($rows)) {
@@ -569,26 +508,16 @@ class TtBoard implements SingletonInterface
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->gte(
                     'crdate',
-                    $queryBuilder->createNamedParameter($seconds, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($seconds, Connection::PARAM_INT)
                 )
             );
         }
 
-        if (
-            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $result = $queryBuilder
-                ->orderBy('crdate', 'DESC')
-                ->setMaxResults($number)
-                ->executeQuery()
-                ->fetchAllAssociative();
-        } else {
-            $result = $queryBuilder
-                ->orderBy('crdate', 'DESC')
-                ->setMaxResults($number)
-                ->execute()
-                ->fetchAll();
-        }
+        $result = $queryBuilder
+            ->orderBy('crdate', 'DESC')
+            ->setMaxResults($number)
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         return $result;
     }
@@ -607,11 +536,11 @@ class TtBoard implements SingletonInterface
         if ($uid) {
             $field = 'uid';
             $value = $uid;
-            $type = \PDO::PARAM_INT;
+            $type = Connection::PARAM_INT;
         } elseif ($ref != '') {
             $field = 'reference';
             $value = $ref;
-            $type = \PDO::PARAM_STR;
+            $type = Conncetion::PARAM_STR;
         } else {
             return false;
         }
@@ -630,17 +559,9 @@ class TtBoard implements SingletonInterface
                 )
                 ->setMaxResults(1);
 
-            if (
-                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-            ) {
-                $rows = $queryBuilder
-                    ->executeQuery()
-                    ->fetchAllAssociative();
-            } else {
-                $rows = $queryBuilder
-                    ->execute()
-                    ->fetchAll();
-            }
+            $rows = $queryBuilder
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             if (is_array($rows)) {
                 $row = $rows['0'];
@@ -703,7 +624,7 @@ class TtBoard implements SingletonInterface
                     'crdate',
                     $queryBuilder->createNamedParameter(
                         $crdate,
-                        \PDO::PARAM_INT
+                        Connection::PARAM_INT
                     )
                 )
             );
@@ -713,7 +634,7 @@ class TtBoard implements SingletonInterface
                     'crdate',
                     $queryBuilder->createNamedParameter(
                         $crdate,
-                        \PDO::PARAM_INT
+                        Connection::PARAM_INT
                     )
                 )
             );
@@ -724,7 +645,7 @@ class TtBoard implements SingletonInterface
                 'parent',
                 $queryBuilder->createNamedParameter(
                     0,
-                    \PDO::PARAM_INT
+                    Connection::PARAM_INT
                 )
             )
         );
@@ -733,17 +654,9 @@ class TtBoard implements SingletonInterface
             ->orderBy('crdate', ($type != 'next' ? '' : 'DESC'))
             ->setMaxResults(1);
 
-        if (
-            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $rows = $queryBuilder
-                ->executeQuery()
-                ->fetchAllAssociative();
-        } else {
-            $rows = $queryBuilder
-                ->execute()
-                ->fetchAll();
-        }
+        $rows = $queryBuilder
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         if (is_array($rows) && !empty($rows)) {
             $result = $rows['0'];
@@ -778,7 +691,7 @@ class TtBoard implements SingletonInterface
                         $field,
                         $queryBuilder->createNamedParameter(
                             $uid,
-                            \PDO::PARAM_INT
+                            Connection::PARAM_INT
                         )
                     )
                 );
@@ -789,19 +702,10 @@ class TtBoard implements SingletonInterface
                 $this->addQueryParameter($queryBuilder, $whereCount, $whereRef);
             }
 
-            if (
-                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-            ) {
-                $rows = $queryBuilder
-                    ->setMaxResults(1)
-                    ->executeQuery()
-                    ->fetchAllAssociative();
-            } else {
-                $rows = $queryBuilder
-                    ->setMaxResults(1)
-                    ->execute()
-                    ->fetchAll();
-            }
+            $rows = $queryBuilder
+                ->setMaxResults(1)
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             if (is_array($rows)) {
                 $row = $rows['0'];
@@ -890,19 +794,11 @@ class TtBoard implements SingletonInterface
                     ->setMaxResults($limitString);
             }
 
-            $statement = null;
-            if (
-                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-            ) {
-                $statement = $queryBuilder
-                    ->executeQuery();
-            } else {
-                $statement = $queryBuilder
-                    ->execute();
-            }
+            $statement = $queryBuilder
+                ->executeQuery();
 
             $set = [];
-            while ($row = (version_compare($this->version, '12.0.0', '>=') ? $statement->fetchAssociative() : $statement->fetch())) {
+            while ($row = ($statement->fetchAssociative())) {
                 $rootRow = $this->getRootParent($row['uid']);
                 if (!$rootRow) {
                     $rootRow = $row;
@@ -929,7 +825,7 @@ class TtBoard implements SingletonInterface
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'parent',
-                    $queryBuilder->createNamedParameter($parent, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($parent, Connection::PARAM_INT)
                 )
             );
 
@@ -944,17 +840,10 @@ class TtBoard implements SingletonInterface
                     ->setMaxResults($limitString);
             }
 
-            if (
-                version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-            ) {
-                $statement = $queryBuilder
-                    ->executeQuery();
-            } else {
-                $statement = $queryBuilder
-                    ->execute();
-            }
+            $statement = $queryBuilder
+                ->executeQuery();
 
-            while ($row = (version_compare($this->version, '12.0.0', '>=') ? $statement->fetchAssociative() : $statement->fetch())) {
+            while ($row = ($statement->fetchAssociative())) {
                 $outArray[$row['uid']] = $row;
 
                 if ($descend) {
@@ -1007,7 +896,7 @@ class TtBoard implements SingletonInterface
             ->andWhere(
                 $queryBuilder->expr()->eq(
                     'parent',
-                    $queryBuilder->createNamedParameter($parent, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($parent, Connection::PARAM_INT)
                 )
             );
 
@@ -1017,29 +906,15 @@ class TtBoard implements SingletonInterface
         }
 
         $numberRows = $counter = 0;
-        if (
-            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $numberRows = $queryBuilder
-                ->executeQuery()
-                ->fetchOne();
-        } else {
-            $numberRows = $queryBuilder
-                ->execute()
-                ->fetchColumn(0);
-        }
+        $numberRows = $queryBuilder
+            ->executeQuery()
+            ->fetchOne();
 
         $queryBuilder
             ->select('*')
             ->orderBy('crdate', ($recentAtEnd ? 'ASC' : 'DESC'));
 
-        if (
-            version_compare($this->version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $statement = $queryBuilder->executeQuery();
-        } else {
-            $statement = $queryBuilder->execute();
-        }
+        $statement = $queryBuilder->executeQuery();
         $prevUid = end(array_keys($theRows));
 
         if (empty($theRows[$prevUid]['treeMarks'])) {
@@ -1055,7 +930,7 @@ class TtBoard implements SingletonInterface
                 TreeMark::END
             );
 
-        while ($row = (version_compare($this->version, '12.0.0', '>=') ? $statement->fetchAssociative() : $statement->fetch())) {
+        while ($row = ($statement->fetchAssociative())) {
             $counter++;
             $uid = $row['uid'];
 

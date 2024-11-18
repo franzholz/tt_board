@@ -148,7 +148,7 @@ class ActionController implements SingletonInterface
                 ) {
                     $view = GeneralUtility::makeInstance(ForumThread::class);
                     $newContent =
-                        $view->printView(
+                        $view->render(
                             $composite,
                             $treeView,
                             $conf,
@@ -160,7 +160,7 @@ class ActionController implements SingletonInterface
                 } else {
                     $view = GeneralUtility::makeInstance(Forum::class);
                     $newContent =
-                        $view->printView(
+                        $view->render(
                             $composite,
                             $treeView,
                             $conf,

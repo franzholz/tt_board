@@ -63,7 +63,7 @@ class ForumThread implements SingletonInterface
     /**
     * Creates the forum display, including listing all items/a single item
     */
-    public function printView(
+    public function render(
         Composite $composite,
         $treeView,
         $conf,
@@ -353,5 +353,5 @@ class ForumThread implements SingletonInterface
         }
 
         return $content;
-    } // printView
+    } // render
 }

@@ -21,6 +21,9 @@ $result = [
         'delete' => 'deleted',
         'copyAfterDuplFields' => 'parent',
         'prependAtCopy' => $languageLglPath . 'locallang_general.xlf:LGL.prependAtCopy',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ],
         'enablecolumns' => [
             'disabled' => 'hidden'
         ],

@@ -26,14 +26,14 @@
   "require": {
     "php": ">=8.0.0",
     "ext-pdo": "*",
-    "typo3/cms-core": "^12",
-    "typo3/cms-extensionmanager": "^12",
-    "typo3/cms-felogin": "^^12",
-    "typo3/cms-filemetadata": "^12",
-    "typo3/cms-tstemplate": "^12",
-    "typo3/minimal": "^12",
+    "typo3/cms-core": "^12 || ^13",
+    "typo3/cms-extensionmanager": "^12 || ^13",
+    "typo3/cms-felogin": "^12 || ^13",
+    "typo3/cms-filemetadata": "^12 || ^13",
+    "typo3/cms-tstemplate": "^12 || ^13",
+    "typo3/minimal": "^12 || ^13",
     "jambagecom/div2007": "^2.2",
-    "jambagecom/tslib-fetce": "^0.9.0"
+    "jambagecom/tslib-fetce": "^0.9.1"
   },
   "autoload": {
     "psr-4": {

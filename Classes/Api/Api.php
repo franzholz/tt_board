@@ -39,6 +39,11 @@ use TYPO3\CMS\Core\SingletonInterface;
  *
  *
  */
+
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+
 class Api implements SingletonInterface
 {
     /**
@@ -54,10 +59,22 @@ class Api implements SingletonInterface
         $result = false;
         if ($type == 'list' || $type == 'tree') {
             $key = 'tt_board_' . $type . '.';
-            if (isset($GLOBALS['TSFE']->tmpl->setup['plugin.'][$key])) {
-                $result = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$key];
-            }
+            $result = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][$key] ?? [];
         }
+        return $result;
+    }
+
+    public function isSystemLoginUser()
+    {
+        $result = false;
+        $context = GeneralUtility::makeInstance(Context::class);
+
+        if (
+            $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')
+        ) {
+            $result = true;
+        }
+
         return $result;
     }
 }

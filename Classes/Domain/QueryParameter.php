@@ -38,7 +38,7 @@ class QueryParameter
 
     public function __construct($clause, $tablename, $field, $value, $type, $comparator)
     {
-        $this->clause = $type;
+        $this->clause = $clause;
         $this->tablename = $tablename;
         $this->field = $field;
         $this->value = $value;

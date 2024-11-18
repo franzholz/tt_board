@@ -61,6 +61,7 @@ class Composite implements SingletonInterface
     protected $languageObj = null;
     protected $markerObj = null;
     protected $modelObj = null;
+    protected $request = null;
 
 
     public function setCObj($value): void
@@ -221,5 +222,15 @@ class Composite implements SingletonInterface
     public function getModelObj()
     {
         return $this->modelObj;
+    }
+
+    public function setRequest($value): void
+    {
+        $this->request = $value;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
     }
 }

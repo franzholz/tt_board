@@ -87,6 +87,7 @@ class InitializationController implements SingletonInterface
         $composite->setExtensionKey($extensionKey);
         $composite->setCObj($cObj);
         $composite->setPrefixId($prefixId);
+        $composite->setRequest($request);
         $ttboardParams = $request->getParsedBody()[$prefixId] ?? $request->getQueryParams()[$prefixId] ?? null;
 
         if (
