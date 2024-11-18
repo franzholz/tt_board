@@ -34,15 +34,16 @@ namespace JambageCom\TtBoard\View;
  * @author	Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use JambageCom\TtBoard\Domain\Content;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-use JambageCom\TtBoard\Domain\Composite;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtBoard\Domain\Composite;
+use JambageCom\TtBoard\Domain\Content;
+
 
 class ForumList implements SingletonInterface
 {

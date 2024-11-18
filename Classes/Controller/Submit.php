@@ -24,10 +24,10 @@ namespace JambageCom\TtBoard\Controller;
  */
 
 use TYPO3\CMS\Core\Controller\ErrorPageController;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -52,12 +52,11 @@ class Submit implements SingletonInterface
 {
     public static function execute(TypoScriptFrontendDataController $pObj, $conf)
     {
-        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
-        $version = $typo3Version->getVersion();
         $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
         $session = GeneralUtility::makeInstance(SessionHandler::class);
         $sessionData = $session->getSessionData();
-
+        $request = $pObj->getRequest();
+        $boardData = $request->getAttribute('boardData');
         $modelObj = GeneralUtility::makeInstance(TtBoard::class);
         $modelObj->init();
         $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
@@ -71,7 +70,7 @@ class Submit implements SingletonInterface
 
         if (isset($row)) {
             // store the least entered row in order to allow a special output in the frontend
-            $GLOBALS['TSFE']->applicationData[$extensionKey]['row'] = $row;
+            $boardData['row'] = $row;
 
             if (isset($row['prefixid'])) {
                 $prefixId = $row['prefixid'];
@@ -141,8 +140,8 @@ class Submit implements SingletonInterface
                     }
 
                     if ($captchaError) {
-                        $GLOBALS['TSFE']->applicationData[$extensionKey]['error']['captcha'] = true;
-                        $GLOBALS['TSFE']->applicationData[$extensionKey]['word'] = $row[Field::CAPTCHA] ?? '*';
+                        $boardData['error']['captcha'] = true;
+                        $boardData['word'] = ($row[Field::CAPTCHA] ?? '*');
                         $result = false;
                         break;
                     }
@@ -165,8 +164,8 @@ class Submit implements SingletonInterface
                     }
 
                     if ($spamFound) {
-                        $GLOBALS['TSFE']->applicationData[$extensionKey]['error']['spam'] = true;
-                        $GLOBALS['TSFE']->applicationData[$extensionKey]['word'] = $word;
+                        $boardData['error']['spam'] = true;
+                        $boardData['word'] = $word;
                         $result = false;
                         break;
                     } else {
@@ -205,8 +204,10 @@ class Submit implements SingletonInterface
 
                         // Link to this thread
                         $linkParams = [];
-                        if ($GLOBALS['TSFE']->type) {
-                            $linkParams['type'] = $GLOBALS['TSFE']->type;
+                        $type = $request->getAttribute('routing')->getPageType();
+
+                        if ($type) {
+                            $linkParams['type'] = $type;
                         }
                         $linkParams[$prefixId . '[uid]'] = $newId;
                         $url =
@@ -270,23 +271,16 @@ class Submit implements SingletonInterface
                                     ->select('*')
                                     ->from($feUserTable)
                                     ->orWhere(
-                                        $queryBuilder->expr()->eq('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup, \PDO::PARAM_STR)),
-                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup . ',%', \PDO::PARAM_STR)),
-                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup, \PDO::PARAM_STR)),
-                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup . ',%', \PDO::PARAM_STR))
+                                        $queryBuilder->expr()->eq('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup, Connection::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter($sendToFEgroup . ',%', Connection::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup, Connection::PARAM_STR)),
+                                        $queryBuilder->expr()->like('usergroup', $queryBuilder->createNamedParameter('%,' . $sendToFEgroup . ',%', Connection::PARAM_STR))
                                     );
 
-                                if (
-                                    version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
-                                ) {
-                                    $statement = $queryBuilder->executeQuery();
-                                } else {
-                                    $statement = $queryBuilder->execute();
-                                }
-
+                                $statement = $queryBuilder->executeQuery();
                                 $c = 0;
                                 while(
-                                    $feRow = (version_compare($version, '12.0.0', '>=') ? $statement->fetchAssociative() : $statement->fetch())
+                                    $feRow =  $statement->fetchAssociative()
                                 ) {
                                     $c++;
                                     $emails .= $feRow['email'] . ',';
@@ -314,19 +308,11 @@ class Submit implements SingletonInterface
                                     ->select('*')
                                     ->from($table)
                                     ->where(
-                                        $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], \PDO::PARAM_INT))
+                                        $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int) $row['parent'], Connection::PARAM_INT))
                                     );
 
-                                if (
-                                    version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
-                                ) {
-                                    $statement = $queryBuilder->executeQuery();
-                                    $parentRow = $statement->fetchAssociative();
-                                } else {
-                                    $statement = $queryBuilder->execute();
-                                    $parentRow = $statement->fetch();
-                                }
-
+                                $statement = $queryBuilder->executeQuery();
+                                $parentRow = $statement->fetchAssociative();
                                 $maillist_subject = 'Re: ' . $parentRow['subject'] . ' [#' . $row['parent'] . ']';
                             } else {	// New:
                                 $maillist_subject =  (trim($row['subject']) ?: $mConf['altSubject']) . ' [#' . $newId . ']';
@@ -484,6 +470,8 @@ class Submit implements SingletonInterface
             $sessionData['error-message'] = $message;
             $session->setSessionData($sessionData);
         }
+
+        $request = $request->withAttribute('boardData', $boardData);
 
         return $result;
     }

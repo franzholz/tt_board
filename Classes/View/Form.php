@@ -34,15 +34,16 @@ namespace JambageCom\TtBoard\View;
  * @author  Franz Holzinger <franz@ttproducts.de>
  */
 use TYPO3\CMS\Core\SingletonInterface;
-use JambageCom\TtBoard\Api\SessionHandler;
-use JambageCom\Div2007\Utility\HtmlUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Captcha\CaptchaManager;
+use JambageCom\Div2007\Utility\HtmlUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
 
+use JambageCom\TtBoard\Api\Api;
+use JambageCom\TtBoard\Api\SessionHandler;
 use JambageCom\TtBoard\Constants\Field;
 use JambageCom\TtBoard\Domain\Composite;
 
@@ -82,7 +83,8 @@ window.onload = addListeners;
         $content = '';
         $session = GeneralUtility::makeInstance(SessionHandler::class);
         $currentSessionData = $session->getSessionData();
-
+        $request = $composite->getRequest();
+        $boardData = $request->getAttribute('boardData');
         $errorOut = '';
         if (
             !empty($currentSessionData['error-title']) &&
@@ -111,14 +113,13 @@ window.onload = addListeners;
         $notify = [];
         $wordCaptcha = '';
         $content .= $errorOut;
+        $api = GeneralUtility::makeInstance(Api::class);
 
         if (
             empty($errorOut) &&
-            isset($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
-            is_array($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
-            !isset($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
-            isset($GLOBALS['TSFE']->applicationData[$extensionKey]['row']) &&
-            is_array($GLOBALS['TSFE']->applicationData[$extensionKey]['row'])
+            !isset($boardData['error']) &&
+            isset($boardData['row']) &&
+            is_array($boardData['row'])
         ) {
             $content .= $languageObj->getLabel(
                 'post.thanks'
@@ -133,11 +134,7 @@ window.onload = addListeners;
             $feuserLoggedIn = false;
 
             if (
-                is_array($GLOBALS['TSFE']->fe_user->user) &&
-                (
-                    isset($GLOBALS['TSFE']->fe_user->user['name']) ||
-                    isset($GLOBALS['TSFE']->fe_user->user['email'])
-                )
+                $api->isSystemLoginUser()
             ) {
                 $feuserLoggedIn = true;
             }
@@ -261,22 +258,22 @@ window.onload = addListeners;
                 $origRow = [];
                 $wrongCaptcha = false;
                 if (
-                    isset($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
-                    is_array($GLOBALS['TSFE']->applicationData[$extensionKey]) &&
-                    isset($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
-                    is_array($GLOBALS['TSFE']->applicationData[$extensionKey]['error']) &&
-                    isset($GLOBALS['TSFE']->applicationData[$extensionKey]['word'])
+                    isset($boardData) &&
+                    is_array($boardData) &&
+                    isset($boardData['error']) &&
+                    is_array($boardData['error']) &&
+                    isset($boardData['word'])
                 ) {
-                    if (!empty($GLOBALS['TSFE']->applicationData[$extensionKey]['error']['captcha'])) {
-                        $origRow = $GLOBALS['TSFE']->applicationData[$extensionKey]['row'];
+                    if (!empty($boardData['error']['captcha'])) {
+                        $origRow = $boardData['row'];
                         unset($origRow['doublePostCheck']);
                         $wrongCaptcha = true;
-                        $wordCaptcha = $GLOBALS['TSFE']->applicationData[$extensionKey]['word'];
+                        $wordCaptcha = $boardData['word'];
                     }
 
-                    if (!empty($GLOBALS['TSFE']->applicationData[$extensionKey]['error']['spam'])) {
-                        $spamWord = $GLOBALS['TSFE']->applicationData[$extensionKey]['word'];
-                        $origRow = $GLOBALS['TSFE']->applicationData[$extensionKey]['row'];
+                    if (!empty($boardData['error']['spam'])) {
+                        $spamWord = $boardData['word'];
+                        $origRow = $boardData['row'];
                     }
                 }
 
@@ -393,7 +390,14 @@ window.onload = addListeners;
                     $piVars = [];
 
                     $pagePrivacy = intval($conf['PIDprivacyPolicy']);
-                    $privacyUrl = $cObj->getTypoLink_URL($pagePrivacy, $piVars);
+                    $privacyUrl =
+                        FrontendUtility::getTypoLink_URL(
+                            $cObj,
+                            $pagePrivacy,
+                            $piVars,
+                            '',
+                            []
+                        );
                     $privacyUrl = str_replace(['[', ']'], ['%5B', '%5D'], $privacyUrl);
 
                     $textLabelWrap =
@@ -540,7 +544,8 @@ window.onload = addListeners;
         }
 
         // delete any formerly stored values
-        $GLOBALS['TSFE']->applicationData[$extensionKey] = [];
+        // $GLOBALS['TSFE']->applicationData[$extensionKey] = [];
+        $request->withAttribute('boardData', []);
 
         if (!empty($notify)) {
             $sessionData['notify_me'] = $notify;

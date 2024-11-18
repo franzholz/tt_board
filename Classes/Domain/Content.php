@@ -18,7 +18,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Api\Frontend;
@@ -41,8 +40,6 @@ class Content implements SingletonInterface
     */
     public function getRecord($pid)
     {
-        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
-        $version = $typo3Version->getVersion();
         $result = null;
 
         $api =
@@ -54,26 +51,18 @@ class Content implements SingletonInterface
         $queryBuilder->select('*')
             ->from($this->tablename)
             ->where(
-                $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT))
+                $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT))
             )
             ->andWhere(
                 $queryBuilder->expr()->in('list_type', $queryBuilder->createNamedParameter([2, 4], Connection::PARAM_INT_ARRAY))
             )
             ->andWhere(
-                $queryBuilder->expr()->eq('sys_language_uid', $queryBuilder->createNamedParameter($sys_language_uid, \PDO::PARAM_INT))
+                $queryBuilder->expr()->eq('sys_language_uid', $queryBuilder->createNamedParameter($sys_language_uid, Connection::PARAM_INT))
             )
             ->setMaxResults(1);
 
-        if (
-            version_compare($version, '12.0.0', '>=') // Doctrine DBAL 3
-        ) {
-            $statement = $queryBuilder->executeQuery();
-            $result = $statement->fetchAssociative();
-        } else {
-            $statement = $queryBuilder->execute();
-            $result = $statement->fetch();
-        }
-
+        $statement = $queryBuilder->executeQuery();
+        $result = $statement->fetchAssociative();
 
         return $result;
     } //getRecord

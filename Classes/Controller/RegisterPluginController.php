@@ -33,12 +33,14 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
-use JambageCom\Div2007\Utility\ConfigUtility;
+
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
+use JambageCom\Div2007\Compatibility\AbstractPlugin;
+use JambageCom\Div2007\Utility\ConfigUtility;
 
 use JambageCom\TtBoard\Controller\InitializationController;
 use JambageCom\TtBoard\Domain\Composite;
@@ -54,15 +56,17 @@ class RegisterPluginController extends AbstractPlugin
      * @var array
      */
     public $conf = [];
-
     public $extensionKey = 'tt_board';
 
 
     /**
     * Main board function. Call this from TypoScript
     */
-    public function main($content, $conf)
-    {
+    public function main(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
         $this->conf = $conf;
         $codeArray = $this->getCodeArray($conf);
         $allowCaching = !empty($conf['allowCaching']) ? 1 : 0;
@@ -105,14 +109,19 @@ class RegisterPluginController extends AbstractPlugin
         return $content;
     }
 
-    public function init(&$content, $conf)
-    {
+    public function init(
+        string &$content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : Composite {
         $initialization = GeneralUtility::makeInstance(
             InitializationController::class
         );
+        $composite = null;
         $initialization->init(
             $composite,
             $content,
+            $request,
             $this->cObj,
             $conf,
             $this->extensionKey,
@@ -123,12 +132,22 @@ class RegisterPluginController extends AbstractPlugin
         return $composite;
     }
 
-    public function processCode($theCode, &$content, Composite $composite): void
-    {
+    public function processCode(
+        $theCode,
+        &$content,
+        Composite $composite,
+        ServerRequestInterface $request,
+    ): void {
         $action = GeneralUtility::makeInstance(
             ActionController::class
         );
-        $action->processCode($this->cObj, $theCode, $content, $composite);
+        $action->processCode(
+            $this->cObj,
+            $theCode,
+            $content,
+            $composite,
+            $request
+        );
     }
 
     public function getCodeArray($conf)
@@ -163,59 +182,83 @@ class RegisterPluginController extends AbstractPlugin
         return ($codeArray);
     }
 
-    public function help($content, $conf)
-    {
-        $composite = $this->init($content, $conf);
-        $this->processCode('HELP', $content, $composite);
+    public function help(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
+        $composite = $this->init($content, $conf, $request);
+        $this->processCode('HELP', $content, $composite, $request);
         return $content;
     }
 
-    public function listCategories($content, $conf)
-    {
-        $composite = $this->init($content, $conf);
-        $this->processCode('LIST_CATEGORIES', $content, $composite);
+    public function listCategories(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
+        $composite = $this->init($content, $conf, $request);
+        $this->processCode('LIST_CATEGORIES', $content, $composite, $request);
         return $content;
     }
 
-    public function listForums($content, $conf)
-    {
-        $composite = $this->init($content, $conf);
-        $this->processCode('LIST_FORUMS', $content, $composite);
+    public function listForums(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
+        $composite = $this->init($content, $conf, $request);
+        $this->processCode('LIST_FORUMS', $content, $composite, $request);
         return $content;
     }
 
-    public function forum($content, $conf)
-    {
-        $composite = $this->init($content, $conf);
-        $this->processCode('FORUM', $content, $composite);
+    public function forum(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
+        $composite = $this->init($content, $conf, $request);
+        $this->processCode('FORUM', $content, $composite, $request);
         return $content;
     }
 
-    public function postForm($content, $conf)
-    {
-        $composite = $this->init($content, $conf);
-        $this->processCode('POSTFORM', $content, $composite);
+    public function postForm(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
+        $composite = $this->init($content, $conf, $request);
+        $this->processCode('POSTFORM', $content, $composite, $request);
         return $content;
     }
 
-    public function postFormReply($content, $conf)
-    {
-        $composite = $this->init($content, $conf);
-        $this->processCode('POSTFORM_REPLY', $content, $composite);
+    public function postFormReply(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
+        $composite = $this->init($content, $conf, $request);
+        $this->processCode('POSTFORM_REPLY', $content, $composite, $request);
         return $content;
     }
 
-    public function thread($content, $conf)
-    {
-        $composite = $this->init($content, $conf);
-        $this->processCode('POSTFORM_THREAD', $content, $composite);
+    public function thread(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
+        $composite = $this->init($content, $conf, $request);
+        $this->processCode('POSTFORM_THREAD', $content, $composite, $request);
         return $content;
     }
 
-    public function threadTree($content, $conf)
-    {
-        $composite = $this->init($content, $conf);
-        $this->processCode('THREAD_TREE', $content, $composite);
+    public function threadTree(
+        string $content,
+        array $conf,
+        ServerRequestInterface $request,
+    ) : string {
+        $composite = $this->init($content, $conf, $request);
+        $this->processCode('THREAD_TREE', $content, $composite, $request);
         return $content;
     }
 }

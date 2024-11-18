@@ -24,16 +24,16 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "php": ">=7.4.0",
+    "php": ">=8.0.0",
     "ext-pdo": "*",
-    "typo3/cms-core": "^11.5 || ^12",
-    "typo3/cms-extensionmanager": "^11.5 || ^12",
-    "typo3/cms-felogin": "^11.5 || ^12",
-    "typo3/cms-filemetadata": "^11.5 || ^12",
-    "typo3/cms-tstemplate": "^11.5 || ^12",
-    "typo3/minimal": "^11.5 || ^12",
-    "jambagecom/div2007": "^1.17 || ^2.0",
-    "jambagecom/tslib-fetce": "^0.8.0"
+    "typo3/cms-core": "^12 || ^13",
+    "typo3/cms-extensionmanager": "^12 || ^13",
+    "typo3/cms-felogin": "^12 || ^13",
+    "typo3/cms-filemetadata": "^12 || ^13",
+    "typo3/cms-tstemplate": "^12 || ^13",
+    "typo3/minimal": "^12 || ^13",
+    "jambagecom/div2007": "^2.2",
+    "jambagecom/tslib-fetce": "^0.9.1"
   },
   "autoload": {
     "psr-4": {
