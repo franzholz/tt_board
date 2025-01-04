@@ -6,46 +6,44 @@
 	    <type>array</type>
 	    <el>
 	      <display_mode>
-			<TCEforms>
-				<label>LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode</label>
-				<config>
-					<type>select</type>
-                    <renderType>selectMultipleSideBySide</renderType>
-					<items>
-					    <numindex index="1">
-							<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.1</numindex>
-							<numindex index="1">HELP</numindex>
-					    </numindex>
-					    <numindex index="2">
-							<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.2</numindex>
-							<numindex index="1">LIST_CATEGORIES</numindex>
-					    </numindex>
-					    <numindex index="3">
-							<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.3</numindex>
-							<numindex index="1">LIST_FORUMS</numindex>
-					    </numindex>
-					    <numindex index="4">
-							<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.4</numindex>
-							<numindex index="1">FORUM</numindex>
-					    </numindex>
-					    <numindex index="5">
-							<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.5</numindex>
-							<numindex index="1">POSTFORM</numindex>
-					    </numindex>
-					    <numindex index="6">
-							<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.6</numindex>
-							<numindex index="1">POSTFORM_REPLY</numindex>
-					    </numindex>
-					    <numindex index="7">
-							<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.7</numindex>
-							<numindex index="1">POSTFORM_THREAD</numindex>
-					    </numindex>
-					</items>
-					<size>5</size>
-					<minitems>1</minitems>
-					<maxitems>5</maxitems>
-				</config>
-			</TCEforms>
+			<label>LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode</label>
+			<config>
+				<type>select</type>
+				<renderType>selectMultipleSideBySide</renderType>
+				<items>
+					<numindex index="1">
+						<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.1</numindex>
+						<numindex index="1">HELP</numindex>
+					</numindex>
+					<numindex index="2">
+						<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.2</numindex>
+						<numindex index="1">LIST_CATEGORIES</numindex>
+					</numindex>
+					<numindex index="3">
+						<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.3</numindex>
+						<numindex index="1">LIST_FORUMS</numindex>
+					</numindex>
+					<numindex index="4">
+						<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.4</numindex>
+						<numindex index="1">FORUM</numindex>
+					</numindex>
+					<numindex index="5">
+						<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.5</numindex>
+						<numindex index="1">POSTFORM</numindex>
+					</numindex>
+					<numindex index="6">
+						<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.6</numindex>
+						<numindex index="1">POSTFORM_REPLY</numindex>
+					</numindex>
+					<numindex index="7">
+						<numindex index="0">LLL:EXT:tt_board/Resources/Private/Language/locallang_tca.xlf:tt_content.pi_flexform.display_mode.7</numindex>
+						<numindex index="1">POSTFORM_THREAD</numindex>
+					</numindex>
+				</items>
+				<size>5</size>
+				<minitems>1</minitems>
+				<maxitems>5</maxitems>
+			</config>
 	      </display_mode>
 	    </el>
 	  </ROOT>

@@ -3,6 +3,9 @@ Replace $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] by
 https://docs.typo3.org/m/typo3/reference-coreapi/11.5/en-us/ExtensionArchitecture/FileStructure/ExtConfTemplate.html#accessing-saved-options
 Remove the aliases tt_board_tree.php and tt_board_list.php deprecated in addPItoST43.
 
+2025-01-04  Franz Holzinger  <franz@ttproducts.de>
+    * Deprecation no. 97126: TCEforms removed in FlexForm
+
 2024-11-15 Franz Holzinger  <franz@ttproducts.de>
     * support TYPO3 13
 
