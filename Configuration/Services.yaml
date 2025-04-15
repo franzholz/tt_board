@@ -5,7 +5,7 @@ services:
     public: false
   JambageCom\TtBoard\:
     resource: '../Classes/'
-    exclude: ['../Classes/{Api,Constants,Middleware}/']
+    exclude: ['../Classes/{Constants,Middleware,SessionHandler}/']
 
   JambageCom\TtBoard\EventListener\PageContentPreviewRenderingListener:
     tags:

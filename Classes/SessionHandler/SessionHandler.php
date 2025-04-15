@@ -1,8 +1,7 @@
 <?php
 
-namespace JambageCom\TtBoard\Api;
+namespace JambageCom\TtBoard\SessionHandler;
 
-use JambageCom\Div2007\SessionHandler\Typo3SessionHandler;
 /*
 * This file is part of the TYPO3 CMS project.
 *
@@ -18,6 +17,11 @@ use JambageCom\Div2007\SessionHandler\Typo3SessionHandler;
 /**
 * TYPO3 session handling utility.
 */
-class SessionHandler extends Typo3SessionHandler
+
+use TYPO3\CMS\Core\SingletonInterface;
+
+use JambageCom\Div2007\SessionHandler\Typo3SessionHandler;
+
+class SessionHandler extends Typo3SessionHandler implements SingletonInterface
 {
 }

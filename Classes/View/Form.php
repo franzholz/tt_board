@@ -43,9 +43,9 @@ use JambageCom\Div2007\Utility\HtmlUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtBoard\Api\Api;
-use JambageCom\TtBoard\Api\SessionHandler;
 use JambageCom\TtBoard\Constants\Field;
 use JambageCom\TtBoard\Domain\Composite;
+use JambageCom\TtBoard\SessionHandler\SessionHandler;
 
 class Form implements SingletonInterface
 {

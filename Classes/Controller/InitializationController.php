@@ -122,7 +122,7 @@ class InitializationController implements SingletonInterface
         $languageObj->init(
             $extensionKey,
             $conf['_LOCAL_LANG.'] ?? '',
-            DIV2007_LANGUAGE_SUBPATH
+            $request
         );
 
         $languageObj->loadLocalLang(
