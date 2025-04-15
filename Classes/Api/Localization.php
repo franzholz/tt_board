@@ -2,8 +2,6 @@
 
 namespace JambageCom\TtBoard\Api;
 
-use JambageCom\Div2007\Base\TranslationBase;
-use TYPO3\CMS\Core\SingletonInterface;
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -16,6 +14,11 @@ use TYPO3\CMS\Core\SingletonInterface;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+use TYPO3\CMS\Core\SingletonInterface;
+
+use JambageCom\Div2007\Base\TranslationBase;
+
 class Localization extends TranslationBase implements SingletonInterface
 {
 }

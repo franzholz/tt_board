@@ -43,9 +43,9 @@ use JambageCom\Div2007\Utility\SystemUtility;
 use JambageCom\TslibFetce\Controller\TypoScriptFrontendDataController;
 
 use JambageCom\TtBoard\Api\Localization;
-use JambageCom\TtBoard\Api\SessionHandler;
 use JambageCom\TtBoard\Constants\Field;
 use JambageCom\TtBoard\Domain\TtBoard;
+use JambageCom\TtBoard\SessionHandler\SessionHandler;
 
 
 class Submit implements SingletonInterface
@@ -83,7 +83,7 @@ class Submit implements SingletonInterface
             $languageObj->init(
                 $extensionKey,
                 $conf,
-                $languageSubpath
+                $request
             );
             $languageObj->loadLocalLang(
                 'EXT:' . $extensionKey . $languageSubpath . 'locallang.xlf',
