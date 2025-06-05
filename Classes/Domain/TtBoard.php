@@ -173,7 +173,10 @@ class TtBoard implements SingletonInterface
     /**
     * Checks if posting is allowed to user
     */
-    public static function isAllowed($memberOfGroups)
+    public static function isAllowed(
+        $memberOfGroups,
+        $feUserRecord
+    ): bool
     {
         $allowed = false;
 
@@ -182,13 +185,13 @@ class TtBoard implements SingletonInterface
             $memberOfGroups != '{$plugin.tt_board.memberOfGroups}' &&
             $memberOfGroups != '0'
         ) {
-            if (is_array($GLOBALS['TSFE']->fe_user->user)) {
+            if (isset($feUserRecord) && is_array($feUserRecord)) {
                 $requestGroupArray =
                     GeneralUtility::trimExplode(
                         ',',
                         $memberOfGroups
                     );
-                $usergroupArray = explode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
+                $usergroupArray = explode(',', $feUserRecord['usergroup']);
                 $fitArray = array_intersect($requestGroupArray, $usergroupArray);
                 if (count($fitArray)) {
                     $allowed = true;
