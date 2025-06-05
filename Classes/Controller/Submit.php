@@ -59,7 +59,8 @@ class Submit implements SingletonInterface
         $boardData = $request->getAttribute('boardData');
         $modelObj = GeneralUtility::makeInstance(TtBoard::class);
         $modelObj->init();
-        $allowed = $modelObj->isAllowed($conf['memberOfGroups']);
+        $feUserRecord = $request->getAttribute('frontend.user')->user ?? null;
+        $allowed = $modelObj->isAllowed($conf['memberOfGroups'], $feUserRecord);
 
         $result = true;
         $pid = 0;

@@ -114,6 +114,7 @@ window.onload = addListeners;
         $wordCaptcha = '';
         $content .= $errorOut;
         $api = GeneralUtility::makeInstance(Api::class);
+        $feUserRecord = $request->getAttribute('frontend.user')->user ?? null;
 
         if (
             empty($errorOut) &&
@@ -127,7 +128,7 @@ window.onload = addListeners;
         }
 
         if (
-            $modelObj->isAllowed($conf['memberOfGroups'])
+            $modelObj->isAllowed($conf['memberOfGroups'], $feUserRecord)
         ) {
             $parent = 0;        // This is the parent item for the form. If this is set, then the form is a reply and not a new post.
             $nofity = [];
