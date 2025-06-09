@@ -1,14 +1,4 @@
-tt_content.list.20.2 = CASE
-tt_content.list.20.2 {
-    key.field = layout
-    0 = < plugin.tt_board_tree
-}
-
-tt_content.list.20.4 = CASE
-tt_content.list.20.4 {
-    key.field = layout
-    0 = < plugin.tt_board_list
-    1 = < plugin.tt_board_tree
-}
 
 
+tt_content.tt_board_tree.20 < plugin.tt_board_tree
+tt_content.tt_board_list.20 < plugin.tt_board_list
