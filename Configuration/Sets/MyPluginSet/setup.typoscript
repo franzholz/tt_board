@@ -1,4 +1,381 @@
 
+## Sets up the fields, that may be submitted in order to create items. Mandatory!
+FEData.tt_board = USER_INT
+FEData.tt_board {
+  processScript = JambageCom\TtBoard\Controller\Submit->execute
+  processScript {
+      # Enable notify
+    notify = {$plugin.tt_board.notify}
+      # "From" email header
+    notify_from = {$plugin.tt_board.notificationEmail}
+      # Notification message template, first line is subject.
+    newReply.msg =  EXT:tt_board/Resources/Private/Templates/board_notify.txt
+    newThread.msg = EXT:tt_board/Resources/Private/Templates/board_notify.txt
+
+    debug = 0
+    captcha = {$plugin.tt_board.captcha}
+    emailCheck = {$plugin.tt_board.emailCheck}
+    spamWords = {$plugin.tt_board.spamWords}
+    memberOfGroups = {$plugin.tt_board.memberOfGroups}
+  }
+  default {
+    hidden = 0
+    parent = 0
+  }
+  allowNew {
+    pid = 1
+    subject = 1
+    message = 1
+    author = 1
+    city = 1
+    email = 1
+    parent = 1
+    notify_me = 1
+    captcha = 1
+    reference = 1
+    prefixid = 1
+  }
+  autoInsertPID = 0
+  doublePostCheck = doublePostCheck
+  doublePostCheck.fields = subject,message,author
+}
+
+
+
+temp.tt_board.shared = USER
+temp.tt_board.shared {
+  pid_list.field = pages
+  code.field =
+  memberOfGroups = {$plugin.tt_board.memberOfGroups}
+  captcha = {$plugin.tt_board.captcha}
+  PIDprivacyPolicy = {$plugin.tt_board.PIDprivacyPolicy}
+  fillSubject = {$plugin.tt_board.fillSubject}
+
+  date_stdWrap.strftime = %e-%m-%y
+  time_stdWrap.strftime = %H:%M:%S
+  age_stdWrap.age = 1
+  allowCaching = 1
+
+  list_categories {
+    cache_timeout = 120
+  }
+  list_forums {
+    author_stdWrap.wrap = by |
+    cache_timeout = 300
+    post_content_stdWrap.crop = 130 | ...
+    numberOfRecentPosts = {$plugin.tt_board.numberOfRecentPosts}
+    numberOfRecentDays = {$plugin.tt_board.numberOfRecentDays}
+  }
+  list_threads {
+    post_content_stdWrap.crop = 130 | ...
+    thread_limit = {$plugin.tt_board.threadLimit}
+    browser = div2007
+    browser {
+      browseLinksWrap = <div class="browseLinksWrap">|</div>
+    }
+  }
+
+  postform < tt_content.mailform.20
+  postform {
+    formName = mailform
+    layout = <div class="csc-mailform-field">###LABEL### ###FIELD###</div>
+  }
+  postform.data >
+  postform.dataArray {
+# Subject:
+    10.label =
+    10.type = *data[tt_board][NEW][subject]=input,60
+    20.label =
+# Message:
+    20.type =  *data[tt_board][NEW][message]=textarea,60
+# Name:
+    30.label =
+    30.type = *data[tt_board][NEW][author]=input,40
+# E-Mail:
+    40.label =
+    40.type = *data[tt_board][NEW][email]=input,40
+# Notify by reply:
+    50.label =
+    50.type = data[tt_board][NEW][notify_me]=check
+# Captcha:
+    55.label =
+# Privacy policy:
+    60.label =
+    61.label =
+    61.type = privacy_policy=check
+# Post Reply button
+    300.type = formtype_db=submit
+    300.value =
+  }
+  postform.accessibility = 1
+  postform.no_cache = 1
+  postform.dontXssFieldNames = captcha
+  postform.dontMd5FieldNames = 1
+
+  postform_newThread < .postform
+  postform_newThread.dataArray.300.value = Post New Thread
+
+  moderatorEmail_newThread = {$plugin.tt_board.moderatorEmail}
+  moderatorEmail = {$plugin.tt_board.moderatorEmail}
+
+  PIDforum = {$plugin.tt_board.PIDforum}
+
+# configurable typolink
+  typolink {
+  }
+
+  emoticons = 1
+  emoticons {
+    path = EXT:tt_board/Resources/Public/Icons/Emoticons/
+    icon = IMAGE
+    icon {
+      params = valign="bottom" hspace=4
+    }
+    substitute {
+      10.source = >:-<
+      10.destination = angry.gif
+      20.source = :D
+      20.destination = grin.gif
+      30.source = :-(
+      30.destination = sad.gif
+      40.source = :-)
+      40.destination = smile.gif
+      50.source = :-P
+      50.destination = tongue.gif
+      60.source = ;-P
+      60.destination = tonguewink.gif
+      70.source = :-D
+      70.destination = veryhappy.gif
+      80.source = ;-)
+      80.destination = wink.gif
+    }
+  }
+
+  image = IMAGE
+  image {
+    file {
+      width  = 18
+      height = 16
+      params = align="top"
+    }
+  }
+
+  icon.new < .image
+  icon.new {
+    file = EXT:tt_board/Resources/Public/Icons/List/new.gif
+    file {
+      width  = 12
+      height = 12
+      params = align="top"
+    }
+  }
+}
+
+
+temp.userFuncList = JambageCom\TtBoard\Controller\ListPluginController->main
+temp.userFuncList {
+
+  HELP = COA
+  HELP {
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->help
+  }
+
+  LIST_CATEGORIES = COA
+  LIST_CATEGORIES {
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->listCategories
+  }
+
+  LIST_FORUMS = COA
+  LIST_FORUMS {
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->listForums
+  }
+
+  FORUM = COA
+  FORUM {
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->forum
+  }
+
+  POSTFORM = COA
+  POSTFORM {
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->postForm
+  }
+
+  POSTFORM_REPLY = COA
+  POSTFORM_REPLY {
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->postFormReply
+  }
+
+  POSTFORM_THREAD = COA
+  POSTFORM_THREAD {
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\ListPluginController->thread
+  }
+}
+
+
+
+## This enables the tt_content.list item to display the forum, list style:
+plugin.tt_board_list < temp.tt_board.shared
+plugin.tt_board_list {
+  userFunc < temp.userFuncList
+
+  templateFile = {$plugin.tt_board_list.file.templateFile}
+
+  # Global wraps
+  wrap1.wrap = {$plugin.tt_board_list.wrap1}
+  wrap2.wrap = {$plugin.tt_board_list.wrap2}
+  wrap3.wrap = {$plugin.tt_board_list.wrap3}
+  color1.wrap = {$plugin.tt_board_list.color1}
+  color2.wrap = {$plugin.tt_board_list.color2}
+  color3.wrap = {$plugin.tt_board_list.color3}
+  color4.wrap = {$plugin.tt_board_list.color4}
+
+    # Disallows for the forum to be drawn as in tree form
+  tree = 0
+
+  _CSS_DEFAULT_STYLE < temp.tt_board.css._CSS_DEFAULT_STYLE
+}
+
+
+## This enables the record item to display board list items
+tt_board_list >
+tt_board_list = < plugin.tt_board_list
+tt_board_list.displayCurrentRecord = 1
+
+
+
+temp.userFuncTree = JambageCom\TtBoard\Controller\TreePluginController->main
+temp.userFuncTree {
+
+  HELP = COA
+  HELP {
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->help
+  }
+
+  LIST_CATEGORIES = COA
+  LIST_CATEGORIES {
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->listCategories
+  }
+
+  LIST_FORUMS = COA
+  LIST_FORUMS {
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->listForums
+  }
+
+  FORUM = COA
+  FORUM {
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->forum
+  }
+
+  POSTFORM = COA
+  POSTFORM {
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->postForm
+  }
+
+  POSTFORM_REPLY = COA
+  POSTFORM_REPLY {
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->postFormReply
+  }
+
+  POSTFORM_THREAD = COA
+  POSTFORM_THREAD {
+    10 = USER_INT
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->thread
+  }
+
+  THREAD_TREE = COA
+  THREAD_TREE {
+    10 = USER
+    10.userFunc = JambageCom\TtBoard\Controller\TreePluginController->threadTree
+  }
+}
+
+
+
+## This enables the tt_content.list item to display the forum, tree style:
+plugin.tt_board_tree < temp.tt_board.shared
+plugin.tt_board_tree {
+  userFunc < temp.userFuncTree
+  templateFile = {$plugin.tt_board_tree.file.templateFile}
+
+  # Global wraps
+  wrap1.wrap = {$plugin.tt_board_tree.wrap1}
+  wrap2.wrap = {$plugin.tt_board_tree.wrap2}
+  wrap3.wrap = {$plugin.tt_board_tree.wrap3}
+  color1.wrap = {$plugin.tt_board_tree.color1}
+  color2.wrap = {$plugin.tt_board_tree.color2}
+  color3.wrap = {$plugin.tt_board_tree.color3}
+  color4.wrap = {$plugin.tt_board_tree.color4}
+
+    # Allows for elements to be viewed one at a time and not parent+childs
+  view_thread.single = 1
+    # Allows for the forum to draw it as a tree
+  tree = 1
+
+  list_forums {
+    author_stdWrap.wrap = by |
+    post_content_stdWrap.crop = 200 | ...
+    forum_posts_stdWrap.wrap = Posts:&nbsp; |
+  }
+  list_threads {
+    post_content_stdWrap.crop = 200 | ...
+  }
+
+  iconCode.join < .image
+  iconCode.join {
+    file = EXT:tt_board/Resources/Public/Icons/Tree/join.gif
+  }
+  iconCode.joinBottom < .image
+  iconCode.joinBottom {
+    file = EXT:tt_board/Resources/Public/Icons/Tree/joinbottom.gif
+  }
+  iconCode.line < .image
+  iconCode.line {
+    file = EXT:tt_board/Resources/Public/Icons/Tree/line.gif
+  }
+  iconCode.blank < .image
+  iconCode.blank {
+    file = EXT:tt_board/Resources/Public/Icons/Tree/blank.gif
+  }
+  iconCode.thread < .image
+  iconCode.thread {
+    file = EXT:tt_board/Resources/Public/Icons/Tree/thread.gif
+  }
+  iconCode.end < .image
+  iconCode.end {
+    file = EXT:tt_board/Resources/Public/Icons/Tree/end.gif
+  }
+
+
+  list_threads.post_title_stdWrap.wrap =
+  list_threads.post_title_stdWrap.crop = 80 | ...
+  list_threads.post_author_stdWrap.wrap =
+  list_threads.post_author_stdWrap.crop = 20 | ...
+  list_threads.post_city_stdWrap.wrap =
+  list_threads.post_city_stdWrap.crop = 12 | ...
+  list_threads.thread_limit = {$plugin.tt_board.threadLimit}
+
+  thread_tree < .list_threads
+}
+
+## This enables the record item to display board tree items
+tt_board >
+tt_board = < plugin.tt_board_tree
+tt_board.displayCurrentRecord = 1
+
 
 tt_content.tt_board_tree.20 < plugin.tt_board_tree
 tt_content.tt_board_list.20 < plugin.tt_board_list
+
