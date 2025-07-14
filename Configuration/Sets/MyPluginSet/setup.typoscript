@@ -376,6 +376,10 @@ tt_board = < plugin.tt_board_tree
 tt_board.displayCurrentRecord = 1
 
 
+tt_content.tt_board_tree =< lib.contentElement
 tt_content.tt_board_tree.20 < plugin.tt_board_tree
+
+tt_content.tt_board_list =< lib.contentElement
 tt_content.tt_board_list.20 < plugin.tt_board_list
+
 
