@@ -24,10 +24,12 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
 
     protected function getListTypeToCTypeMapping(): array
     {
-        return [
+        $mapping = [
             '2' => 'tt_board_tree',
             '4' => 'tt_board_list',
         ];
+
+        return $mapping;
     }
 
     public function getTitle(): string
@@ -97,11 +99,11 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
         $queryBuilder->getRestrictions()->removeAll();
 
         $searchConstraints = [];
-        foreach ($this->getListTypeToCTypeMapping() as $listTyp) {
+        foreach ($this->getListTypeToCTypeMapping() as $listType) {
             $searchConstraints[] = $queryBuilder->expr()->like(
                 'explicit_allowdeny',
                 $queryBuilder->createNamedParameter(
-                    '%' . $queryBuilder->escapeLikeWildcards('tt_content:list_type:' . $listTyp) . '%'
+                    '%' . $queryBuilder->escapeLikeWildcards('tt_content:list_type:' . $listType) . '%'
                 )
             );
         }
@@ -139,7 +141,7 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
         return (int)$queryBuilder->executeQuery()->fetchOne() === 0;
     }
 
-    protected function getContentElementsToUpdate(string $listType): array
+    protected function getContentElementsToUpdate(string|int $listType): array
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_CONTENT);
         $queryBuilder->getRestrictions()->removeAll();
@@ -148,7 +150,7 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
         ->from(self::TABLE_CONTENT)
         ->where(
             $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('list')),
-                $queryBuilder->expr()->eq('list_type', $queryBuilder->createNamedParameter($listType)),
+                $queryBuilder->expr()->eq('list_type', $queryBuilder->createNamedParameter((string) $listType)),
         );
 
         return $queryBuilder->executeQuery()->fetchAllAssociative();
