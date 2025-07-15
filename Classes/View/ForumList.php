@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace JambageCom\TtBoard\View;
 
@@ -140,6 +141,7 @@ class ForumList implements SingletonInterface
                 // Getting categories
                 $categories = $modelObj->getPagesInPage($composite->getPidList());
                 $c_cat = 0;
+                $forums = null;
 
                 foreach ($categories as $k => $catData) {
                     // Getting forums in category
@@ -328,7 +330,7 @@ class ForumList implements SingletonInterface
                             $pageLink =
                                 FrontendUtility::getTypoLink_URL(
                                     $composite->getCObj(),
-                                    $contentRow['pid'],
+                                    $contentRow['pid'] ?? 0,
                                     $overrulePIvars,
                                     '',
                                     []
@@ -352,7 +354,7 @@ class ForumList implements SingletonInterface
                             if (count($postHeader) && !empty($lConf['numberOfRecentPosts'])) {
                                 $recentPosts =
                                     $modelObj->getMostRecentPosts(
-                                        $forumData['uid'],
+                                        (string) $forumData['uid'],
                                         intval($lConf['numberOfRecentPosts']),
                                         intval($lConf['numberOfRecentDays'] ?? 0)
                                     );

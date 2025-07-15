@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace JambageCom\TtBoard\Controller;
 
@@ -172,7 +173,7 @@ class RegisterPluginController extends AbstractPlugin
             $codeArray = GeneralUtility::trimExplode(
                 ',',
                 $config['code'],
-                1
+                true
             );
         }
 
