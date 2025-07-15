@@ -475,6 +475,7 @@ class Submit implements SingletonInterface
         }
 
         $request = $request->withAttribute('boardData', $boardData);
+        $pObj->setRequest($request);
 
         return $result;
     }

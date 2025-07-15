@@ -3,6 +3,9 @@ Replace $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] by
 https://docs.typo3.org/m/typo3/reference-coreapi/11.5/en-us/ExtensionArchitecture/FileStructure/ExtConfTemplate.html#accessing-saved-options
 Remove the aliases tt_board_tree.php and tt_board_list.php deprecated in addPItoST43.
 
+2025-07-15 Franz Holzinger  <franz@ttproducts.de>
+    * Fix bug: The modified request object must be stored.
+
 2025-06-05 Franz Holzinger  <franz@ttproducts.de>
     * Breaking no. 102605: TSFE->fe_user removed
 
