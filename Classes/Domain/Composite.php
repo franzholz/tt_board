@@ -51,7 +51,7 @@ class Composite implements SingletonInterface
     protected $allowCaching = '';
     protected $conf = [];
     protected $config = [];
-    protected $pid_list;           // list of page ids
+    protected string $pid_list;           // list of page ids
 
     protected $tt_board_uid = '';
     protected $pid = '';
@@ -137,7 +137,7 @@ class Composite implements SingletonInterface
 
     public function setPidList($value): void
     {
-        $this->pid_list = $value;
+        $this->pid_list = (string) $value;
     }
 
     public function getPidList()

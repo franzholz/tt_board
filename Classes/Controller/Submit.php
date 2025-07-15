@@ -149,7 +149,7 @@ class Submit implements SingletonInterface
                         break;
                     }
 
-                    $spamArray = GeneralUtility::trimExplode(',', $conf['spamWords']);
+                    $spamArray = GeneralUtility::trimExplode(',', $conf['spamWords'], true);
                     $spamFound = false;
 
                     foreach ($row as $field => $value) {
@@ -335,7 +335,7 @@ class Submit implements SingletonInterface
                                 echo nl2br($maillist_msg . chr(10));
                                 debug($maillist_header); // keep this
                             } else {
-                                $addresses = GeneralUtility::trimExplode(',', $maillist_recip);
+                                $addresses = GeneralUtility::trimExplode(',', $maillist_recip, true);
                                 foreach ($addresses as $email) {
                                     MailUtility::send(
                                         $email,
@@ -413,7 +413,7 @@ class Submit implements SingletonInterface
                                 debug($headers); // keep this
                                 debug($msgParts); // keep this
                             } else {
-                                $addresses = GeneralUtility::trimExplode(',', $notifyMe);
+                                $addresses = GeneralUtility::trimExplode(',', $notifyMe, true);
                                 $senderArray =
                                     preg_split(
                                         '/(<|>)/',

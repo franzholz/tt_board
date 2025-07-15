@@ -108,7 +108,8 @@ class ActionController implements SingletonInterface
                 $pidArray =
                     GeneralUtility::trimExplode(
                         ',',
-                        $composite->getPidList()
+                        $composite->getPidList(),
+                        true
                     );
                 $pid = $pidArray[0];
                 $form =

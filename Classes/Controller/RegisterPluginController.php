@@ -173,7 +173,7 @@ class RegisterPluginController extends AbstractPlugin
             $codeArray = GeneralUtility::trimExplode(
                 ',',
                 $config['code'],
-                1
+                true
             );
         }
 
