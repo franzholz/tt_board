@@ -25,8 +25,8 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
     protected function getListTypeToCTypeMapping(): array
     {
         $mapping = [
-            '2' => 'tt_board_tree',
-            '4' => 'tt_board_list',
+            '2' => 'ttboard_tree',
+            '4' => 'ttboard_list',
         ];
 
         return $mapping;
@@ -39,7 +39,7 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
 
     public function getDescription(): string
     {
-        return 'Migrates tt_board_tree and tt_board_list from list_type to CType.';
+        return 'Migrates tt_board tree and list from list_type 2 and 4 to CType.';
     }
 
     protected function columnsExistInContentTable(): bool

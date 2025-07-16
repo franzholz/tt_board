@@ -546,7 +546,6 @@ window.onload = addListeners;
         }
 
         // delete any formerly stored values
-        // $GLOBALS['TSFE']->applicationData[$extensionKey] = [];
         $request->withAttribute('boardData', []);
 
         if (!empty($notify)) {
