@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace JambageCom\TtBoard\View;
 
@@ -545,7 +546,6 @@ window.onload = addListeners;
         }
 
         // delete any formerly stored values
-        // $GLOBALS['TSFE']->applicationData[$extensionKey] = [];
         $request->withAttribute('boardData', []);
 
         if (!empty($notify)) {

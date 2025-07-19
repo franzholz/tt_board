@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace JambageCom\TtBoard\Controller;
 
@@ -107,7 +108,8 @@ class ActionController implements SingletonInterface
                 $pidArray =
                     GeneralUtility::trimExplode(
                         ',',
-                        $composite->getPidList()
+                        $composite->getPidList(),
+                        true
                     );
                 $pid = $pidArray[0];
                 $form =

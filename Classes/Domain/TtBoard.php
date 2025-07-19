@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace JambageCom\TtBoard\Domain;
 
@@ -189,7 +190,8 @@ class TtBoard implements SingletonInterface
                 $requestGroupArray =
                     GeneralUtility::trimExplode(
                         ',',
-                        $memberOfGroups
+                        $memberOfGroups,
+                        true
                     );
                 $usergroupArray = explode(',', $feUserRecord['usergroup']);
                 $fitArray = array_intersect($requestGroupArray, $usergroupArray);
@@ -485,7 +487,7 @@ class TtBoard implements SingletonInterface
     *
     * Returns an array with records
     */
-    public function getMostRecentPosts($pidList, $number, $days = 300)
+    public function getMostRecentPosts(string $pidList, int $number, int $days = 300)
     {
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
@@ -507,7 +509,7 @@ class TtBoard implements SingletonInterface
             );
 
         if ($days) {
-            $seconds = time() - 86400 * intval(trim($days));
+            $seconds = time() - 86400 * $days;
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->gte(
                     'crdate',

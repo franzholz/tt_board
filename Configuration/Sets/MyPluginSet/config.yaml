@@ -1,0 +1,6 @@
+name: jambagecom/tt-board-my-plugin-set
+label: Board Forum Plugin Set
+settings:
+  website:
+    background:
+      color: '#386492'

@@ -45,7 +45,7 @@ FEData.tt_board {
 temp.tt_board.shared = USER
 temp.tt_board.shared {
   pid_list.field = pages
-  code.field = 
+  code.field =
   memberOfGroups = {$plugin.tt_board.memberOfGroups}
   captcha = {$plugin.tt_board.captcha}
   PIDprivacyPolicy = {$plugin.tt_board.PIDprivacyPolicy}
@@ -359,11 +359,11 @@ plugin.tt_board_tree {
   }
 
 
-  list_threads.post_title_stdWrap.wrap = 
+  list_threads.post_title_stdWrap.wrap =
   list_threads.post_title_stdWrap.crop = 80 | ...
-  list_threads.post_author_stdWrap.wrap = 
+  list_threads.post_author_stdWrap.wrap =
   list_threads.post_author_stdWrap.crop = 20 | ...
-  list_threads.post_city_stdWrap.wrap = 
+  list_threads.post_city_stdWrap.wrap =
   list_threads.post_city_stdWrap.crop = 12 | ...
   list_threads.thread_limit = {$plugin.tt_board.threadLimit}
 
@@ -374,4 +374,13 @@ plugin.tt_board_tree {
 tt_board >
 tt_board = < plugin.tt_board_tree
 tt_board.displayCurrentRecord = 1
+
+
+tt_content.ttboard_tree =< lib.contentElement
+tt_content.ttboard_tree.templateName = generic
+tt_content.ttboard_tree.20 < plugin.tt_board_tree
+
+tt_content.ttboard_list =< lib.contentElement
+tt_content.ttboard_list.templateName = generic
+tt_content.ttboard_list.20 < plugin.tt_board_list
 

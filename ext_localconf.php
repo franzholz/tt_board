@@ -25,4 +25,7 @@ call_user_func(function ($extensionKey): void {
     } elseif (!isset($tmpArray)) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] = [];
     }
+
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['ttBoardPluginListTypeToCTypeUpdate']
+        = \JambageCom\TtBoard\Upgrades\PluginListTypeToCTypeUpdate::class;
 }, 'tt_board');
