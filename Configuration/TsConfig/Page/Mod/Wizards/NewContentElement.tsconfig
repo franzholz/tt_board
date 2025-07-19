@@ -7,7 +7,7 @@ mod.wizards {
                     title = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_tree_title
                     description = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_list_description
                     tt_content_defValues {
-                        CType = tt_board_tree
+                        CType = ttboard_tree
                     }
                 }
                 tt_board_list {
@@ -15,7 +15,7 @@ mod.wizards {
                     title = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_list_title
                     description = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_tree_description
                     tt_content_defValues {
-                        CType = tt_board_list
+                        CType = ttboard_list
                     }
                 }
             }

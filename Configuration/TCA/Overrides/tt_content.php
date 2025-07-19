@@ -6,8 +6,11 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 call_user_func(function ($extensionKey, $table): void {
     $pluginArray = ['2' => 'tree', '4' => 'list'];
+
+    $extensionName = str_replace(' ', '', ucwords(str_replace('_', ' ', $extensionKey)));
+
     foreach ($pluginArray as $k => $pluginType) {
-        $pluginSignature = $extensionKey . '_' . $pluginType;
+        $pluginSignature = strtolower($extensionName . '_' . $pluginType);
 
         ExtensionManagementUtility::addPlugin(
             [

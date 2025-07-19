@@ -29,6 +29,11 @@ You can activate this in the constants for all users and even those without a lo
 
 
 
+Upgrade Requirement
+-------------------
+
+In version 1.18.0 you must execute the Upgrade Wizard to convert the tt_board plugin content elements identified by the CType ttboard_tree and ttboard_list.
+
 
 .. |TYPO3| image:: https://img.shields.io/badge/TYPO3-Extension-orange?logo=TYPO3
    :target: https://extensions.typo3.org/extension/tt_board
