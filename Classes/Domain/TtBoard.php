@@ -242,9 +242,9 @@ class TtBoard implements SingletonInterface
      * @param array  ... $andWhereEqualsArray array of QueryParameter for equation comparisons
      * @param where  ... $where
      */
-    public function getNumPosts($pidList, array $queryParameters = [], CompositeExpression $where = null)
+    public function getNumPosts(string $pidList, array $queryParameters = [], ?CompositeExpression $where = null)
     {
-        $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
+        $pageIds =  GeneralUtility::intExplode(',', $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(
             GeneralUtility::makeInstance(
@@ -290,7 +290,7 @@ class TtBoard implements SingletonInterface
      * @param string   ... $pid page id
     *  @param array    ... $andWhereEqualsArray array of QueryParameter
      */
-    public function getNumThreads($pid, $ref = '', $searchWords = 0)
+    public function getNumThreads(string $pid, $ref = '', $searchWords = 0)
     {
         $count = 0;
         $whereRef = $this->getWhereRef($ref);
@@ -327,7 +327,7 @@ class TtBoard implements SingletonInterface
     /**
     * Returns number of replies.
     */
-    public function getNumReplies($pid, $uid)
+    public function getNumReplies(string $pid, $uid)
     {
         $queryParameters = [];
         $queryParameter =

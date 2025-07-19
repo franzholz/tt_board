@@ -179,7 +179,7 @@ class Marker
             $markerArray['###POST_REPLIES###'] =
                 $local_cObj->stdWrap(
                     $modelObj->getNumReplies(
-                        $row['pid'],
+                        (string) $row['pid'],
                         $row['uid']
                     ),
                     $lConf['post_replies_stdWrap.'] ?? ''
