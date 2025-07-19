@@ -327,7 +327,7 @@ class TtBoard implements SingletonInterface
     /**
     * Returns number of replies.
     */
-    public function getNumReplies(string $pid, $uid)
+    public function getNumReplies(string $pid, int $uid)
     {
         $queryParameters = [];
         $queryParameter =
@@ -336,7 +336,7 @@ class TtBoard implements SingletonInterface
                 QueryParameter::CLAUSE_AND_WHERE,
                 $this->getTablename(),
                 'parent',
-                intval($uid),
+                $uid,
                 Connection::PARAM_INT,
                 QueryParameter::COMP_EQUAL
             );
