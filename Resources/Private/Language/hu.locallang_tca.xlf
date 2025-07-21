@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2016-11-16T09:40:14Z" product-name="tt_board" target-language="hu">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2025-07-21T18:07:00Z" product-name="tt_board" target-language="hu">
     <header/>
     <body>
       <trans-unit id="pi_list" resname="pi_list">
-        <source>Board, List</source>
-        <target state="needs-translation">Board, List</target>
+        <source>Message Board (list)</source>
+        <target state="needs-translation">Message Board (list)</target>
       </trans-unit>
       <trans-unit id="pi_tree" resname="pi_tree">
-        <source>Board, Tree</source>
-        <target state="needs-translation">Board, Tree</target>
+        <source>Discussion Forum (tree)</source>
+        <target state="needs-translation">Discussion Forum (tree)</target>
       </trans-unit>
       <trans-unit id="tt_board" resname="tt_board">
         <source>Board</source>
