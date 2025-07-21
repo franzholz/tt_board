@@ -3,6 +3,9 @@ Replace $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] by
 https://docs.typo3.org/m/typo3/reference-coreapi/11.5/en-us/ExtensionArchitecture/FileStructure/ExtConfTemplate.html#accessing-saved-options
 Remove the aliases tt_board_tree.php and tt_board_list.php deprecated in addPItoST43.
 
+2025-07-19 Franz Holzinger  <franz@ttproducts.de>
+    * Deprecation no. 105076. Convert plugin list_type 2 => ttboard_tree, 4 => ttboard_list
+
 2025-06-08 Franz Holzinger  <franz@ttproducts.de>
     * only TYPO3 13 is supported
 
