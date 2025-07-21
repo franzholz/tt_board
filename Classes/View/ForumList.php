@@ -242,7 +242,7 @@ class ForumList implements SingletonInterface
                                     $lConf['forum_description_stdWrap.'] ?? ''
                                 );
 
-                            $pidList = (
+                            $pidList = (string) (
                                 isset($contentRow) &&
                                 is_array($contentRow) &&
                                 $contentRow['pages'] ?
@@ -389,7 +389,7 @@ class ForumList implements SingletonInterface
                                     $markerArray['###POST_REPLIES###'] =
                                         $forum_cObj->stdWrap(
                                             $modelObj->getNumReplies(
-                                                $recentPost['pid'],
+                                                (string) $recentPost['pid'],
                                                 $recentPost['uid']
                                             ),
                                             $lConf['post_replies_stdWrap.'] ?? ''

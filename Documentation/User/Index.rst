@@ -60,7 +60,7 @@ Installation
 
 ..  rst-class:: bignums
 
-5.  Add a new content element and choose the Message board plugin.
+5.  Add a new content element and choose the Board plugin.
 
     .. figure:: /Images/UserManual/ForumFirstPlugin.png
        :width: 700px
@@ -109,25 +109,14 @@ Installation
 ..  rst-class:: bignums
 
 9.  Add two subpages underneath the Topics page.
-
-    .. figure:: /Images/UserManual/ForumSubPages.png
-       :width: 700px
-       :alt: add 2 subpages
-
-       add 2 subpages "Forum 1" and "Forum 2"
-
+    Add 2 subpages "Forum 1" and "Forum 2"
     Two forum pages are created below the forum starting page.
 
 ..  rst-class:: bignums
 
 10. Add a discussion forum to the page “Forum 1”.
-
-    .. figure:: /Images/UserManual/Forum1InsertPlugin.png
-       :width: 700px
-       :alt: add plugin for message board 1
-
-       New content element wizard with plugin tab
-
+    Add plugin for message board 1.
+    Use the "New content element wizard".
     Add a new content element of the type plugin and subtype "Message Board" from the plugin tab.
 
 ..  rst-class:: bignums

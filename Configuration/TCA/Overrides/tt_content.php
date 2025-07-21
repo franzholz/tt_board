@@ -16,7 +16,7 @@ call_user_func(function ($extensionKey, $table): void {
             [
                 'LLL:EXT:' . $extensionKey . '/Resources/Private/Language/locallang_tca.xlf:pi_' . $pluginType,
                 $pluginSignature,
-                'EXT:' . $extensionKey . '/Resources/Public/Icons/Extension.gif',
+                'tt-board-' . $pluginType ,
                 'plugin'
             ],
             'CType',

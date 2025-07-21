@@ -11,6 +11,16 @@ Prerequisites
 
 .. important::
 
+   Deprecation no. 105076 requires to convert plugin list_type 2 => ttboard_tree, 4 => ttboard_list.
+   Execute the Upgrade Wizard onces for this.
+
+   .. figure:: /Images/AdministratorManual/UpgradeWizard.png
+      :width: 700px
+      :alt: Upgrade Wizard from list_type 2 and 4 to CType
+
+
+.. important::
+
    You must have set the page target by assigning "top" as "PAGE_TARGET" in the constants.
 
 .. code-block:: typoscript
@@ -19,7 +29,7 @@ Prerequisites
 
 Some of the TypoScript settings do not function via the constants field, but must be entered in the
 setup field. Only those settings which can be found using the Constants Editor or in the file
-:file:`Configuration/TypoScript/Default/constants.typoscript` are valid constants. You must
+:file:`Configuration/Sets/MyPluginSet/constants.typoscript` are valid constants. You must
 include the “Message Board Setup” into your “include static from extensions” of your TYPO3 template
 setup. The “Message Board CSS styles“ are not required. They provide default CSS styles for the forum.
 
@@ -50,18 +60,18 @@ To install the extension, perform the following steps:
 
 #. Go to the Extension Manager
 #. Install the extension
+
    .. figure:: /Images/AdministratorManual/ExtensionManager.png
       :width: 700px
       :alt: Extension Manager
-
-      Extension Manager
 
    List of extensions within the Extension Manager also shortened as "EM"
 
 #. Configure it in the Extension Manager
 
    exclude creator IP
-     exclude.tt_board = cr_ip
+     `exclude.tt_board = cr_ip`
+
      This option disables the IP address for all tt_board records. If unset then the IP address of each post is
      stored. GDPR can require that you do not record the IP address.
      Here you can enter a comma separated list of fields of the tt_board table which will not be used. `cr_ip` is
