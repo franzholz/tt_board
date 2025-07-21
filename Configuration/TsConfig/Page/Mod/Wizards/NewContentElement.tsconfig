@@ -2,7 +2,7 @@ mod.wizards {
     newContentElement.wizardItems {
         plugins {
             elements {
-                tt_board_tree {
+                ttboard_tree {
                     iconIdentifier = tt-board-tree
                     title = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_tree_title
                     description = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_list_description
@@ -10,7 +10,7 @@ mod.wizards {
                         CType = ttboard_tree
                     }
                 }
-                tt_board_list {
+                ttboard_list {
                     iconIdentifier = tt-board-list
                     title = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_list_title
                     description = LLL:EXT:tt_board/Resources/Private/Language/locallang_be.xlf:plugins_tree_description
@@ -19,7 +19,7 @@ mod.wizards {
                     }
                 }
             }
-            show := addToList(tt_board_tree, tt_board_list)
+            show := addToList(ttboard_tree, ttboard_list)
         }
     }
 }
