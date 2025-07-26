@@ -1,7 +1,10 @@
 TODO:
 Replace $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] by
 https://docs.typo3.org/m/typo3/reference-coreapi/11.5/en-us/ExtensionArchitecture/FileStructure/ExtConfTemplate.html#accessing-saved-options
-Remove the aliases tt_board_tree.php and tt_board_list.php deprecated in addPItoST43.
+Remove the file Resources/Private/Language/locallang_be.xlf
+
+2025-07-26 Franz Holzinger <franz@ttproducts.de>
+    * remove dependency on AbstractPlugin
 
 2025-07-21 Franz Holzinger  <franz@ttproducts.de>
     * Fix plugin wizards
