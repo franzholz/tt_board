@@ -104,7 +104,7 @@ class Submit implements SingletonInterface
                 MailUtility::checkMXRecord($email)
             )
         ) {
-            if (isset($row) && is_array($row) && trim($row['message'])) {
+            if (isset($row) && is_array($row) && trim($row['message'] ?? '')) {
                 do {
                     $internalFieldArray =
                         [
@@ -365,10 +365,10 @@ class Submit implements SingletonInterface
                         ) {
                             $labelKeys = ['p_at', 'p_content', 'p_salutation', 'p_subject', 'p_text_snippet', 'p_url_title'];
                             $markersArray = [];
-                            $markersArray['###AUTHOR###'] = trim($row['author']);
-                            $markersArray['###AUTHOR_EMAIL###'] = trim($row['email']);
-                            $markersArray['###AUTHOR_CITY###'] = trim($row['city']);
-                            $markersArray['###CR_IP###'] = $row['cr_ip'];
+                            $markersArray['###AUTHOR###'] = trim($row['author'] ?? '');
+                            $markersArray['###AUTHOR_EMAIL###'] = trim($row['email'] ?? '');
+                            $markersArray['###AUTHOR_CITY###'] = trim($row['city'] ?? '');
+                            $markersArray['###CR_IP###'] = $row['cr_ip'] ?? '';
                             $markersArray['###HOST###'] = GeneralUtility::getIndpEnv('HTTP_HOST');
                             $markersArray['###URL###'] = $url;
 
