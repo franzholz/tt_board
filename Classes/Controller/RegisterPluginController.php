@@ -40,14 +40,37 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-use JambageCom\Div2007\Compatibility\AbstractPlugin;
 use JambageCom\Div2007\Utility\ConfigUtility;
 
 use JambageCom\TtBoard\Controller\InitializationController;
 use JambageCom\TtBoard\Domain\Composite;
 
-class RegisterPluginController extends AbstractPlugin
+class RegisterPluginController
 {
+    protected ?ContentObjectRenderer $cObj = null;
+    /**
+     * Should be same as classname of the plugin, used for CSS classes, variables
+     *
+     * @var string
+     */
+    public $prefixId;
+    /**
+     * This is the incoming array by name $this->prefixId merged between POST and GET, POST taking precedence.
+     * Eg. if the class name is 'tx_myext'
+     * then the content of this array will be whatever comes into &tx_myext[...]=...
+     *
+     * @var array
+     */
+    public $piVars = [
+        'pointer' => '',
+        // Used as a pointer for lists
+        'mode' => '',
+        // List mode
+        'sword' => '',
+        // Search word
+        'sort' => '',
+    ];
+
     /**
      * Should normally be set in the main function with the TypoScript content passed to the method.
      *
@@ -57,8 +80,55 @@ class RegisterPluginController extends AbstractPlugin
      * @var array
      */
     public $conf = [];
+    /**
+     * Property for accessing TypoScriptFrontendController centrally
+     *
+     * @var TypoScriptFrontendController
+     */
+    protected $frontendController;
     public $extensionKey = 'tt_board';
 
+
+    /**
+     * This setter is called when the plugin is called from UserContentObject (USER)
+     * via ContentObjectRenderer->callUserFunction().
+     */
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
+    }
+
+    /**
+     * Class Constructor (true constructor)
+     * Initializes $this->piVars if $this->prefixId is set to any value
+     * Will also set $this->LLkey based on the config.language setting.
+     *
+     * @param null $_ unused,
+     */
+    public function __construct($_ = null, ?TypoScriptFrontendController $frontendController = null)
+    {
+        $this->frontendController = $frontendController ?: $GLOBALS['TSFE'];
+    }
+
+    /**
+     * Returns the global arrays $_GET and $_POST merged with $_POST taking precedence.
+     *
+     * @param string $parameter Key (variable name) from GET or POST vars
+     * @return array Returns the GET vars merged recursively onto the POST vars.
+     */
+    private static function getRequestPostOverGetParameterWithPrefix(
+        $parameter,
+        ServerRequestInterface $request,
+    )
+    {
+        $postParameter = $request->getParsedBody()[$parameter] ?? [];
+        $postParameter = is_array($postParameter) ? $postParameter : [];
+        $getParameter = $request->getQueryParams()[$parameter] ?? [];
+        $getParameter = is_array($getParameter) ? $getParameter : [];
+        $mergedParameters = $getParameter;
+        ArrayUtility::mergeRecursiveWithOverrule($mergedParameters, $postParameter);
+        return $mergedParameters;
+    }
 
     /**
     * Main board function. Call this from TypoScript
@@ -69,6 +139,14 @@ class RegisterPluginController extends AbstractPlugin
         ServerRequestInterface $request,
     ) : string {
         $this->conf = $conf;
+        // Setting piVars:
+        if ($this->prefixId) {
+            $this->piVars =
+                self::getRequestPostOverGetParameterWithPrefix(
+                    $this->prefixId,
+                    $request
+                );
+        }
         $codeArray = $this->getCodeArray($conf);
         $allowCaching = !empty($conf['allowCaching']) ? 1 : 0;
         foreach ($codeArray as $k => $theCode) {
