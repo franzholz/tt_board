@@ -18,7 +18,6 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
 {
     public function __construct(private readonly ConnectionPool $connectionPool)
     {
-        // $this->connectionPool = $connectionPool;
         $this->validateRequirementsFixed();
     }
 

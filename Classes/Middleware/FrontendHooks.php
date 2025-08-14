@@ -14,7 +14,6 @@ namespace JambageCom\TtBoard\Middleware;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use JambageCom\Div2007\Captcha\Captcha;
 use JambageCom\Div2007\Captcha\Freecap;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,7 +21,6 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Stores the original request for an Ajax call before processing a request for the TYPO3 Frontend.
@@ -47,7 +45,6 @@ class FrontendHooks implements MiddlewareInterface
             !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['captcha'])
         ) {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['captcha'] = [];
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['captcha'][] = Captcha::class;
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['captcha'][] = Freecap::class;
         }
         return $handler->handle($request);

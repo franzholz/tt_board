@@ -32,7 +32,7 @@
     "typo3/cms-filemetadata": "^13.4",
     "typo3/cms-tstemplate": "^13.4",
     "typo3/minimal": "^13.4",
-    "jambagecom/div2007": "^2.3.3",
+    "jambagecom/div2007": "^2.3.7",
     "jambagecom/tslib-fetce": "^0.9.1"
   },
   "autoload": {

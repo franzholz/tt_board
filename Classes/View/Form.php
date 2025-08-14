@@ -322,6 +322,7 @@ window.onload = addListeners;
                     $textLabelWrap = '';
                     $markerFilled = $captcha->addGlobalMarkers(
                         $captchaMarker,
+                        $request,
                         true
                     );
                     $textLabel =
