@@ -80,12 +80,6 @@ class RegisterPluginController
      * @var array
      */
     public $conf = [];
-    /**
-     * Property for accessing TypoScriptFrontendController centrally
-     *
-     * @var TypoScriptFrontendController
-     */
-    protected $frontendController;
     public $extensionKey = 'tt_board';
 
 
@@ -96,18 +90,6 @@ class RegisterPluginController
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
         $this->cObj = $cObj;
-    }
-
-    /**
-     * Class Constructor (true constructor)
-     * Initializes $this->piVars if $this->prefixId is set to any value
-     * Will also set $this->LLkey based on the config.language setting.
-     *
-     * @param null $_ unused,
-     */
-    public function __construct($_ = null, ?TypoScriptFrontendController $frontendController = null)
-    {
-        $this->frontendController = $frontendController ?: $GLOBALS['TSFE'];
     }
 
     /**

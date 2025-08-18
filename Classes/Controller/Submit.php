@@ -131,6 +131,7 @@ class Submit implements SingletonInterface
                     ) {
                         if (
                             !$captcha->evalValues(
+                                $request,
                                 $row[Field::CAPTCHA],
                                 $conf['captcha']
                             )

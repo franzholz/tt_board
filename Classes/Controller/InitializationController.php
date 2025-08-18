@@ -108,7 +108,7 @@ class InitializationController implements SingletonInterface
         $composite->setAlternativeLayouts($alternativeLayouts);
 
         // pid_list is the pid/list of pids from where to fetch the forum items.
-        $tmp = trim($cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? ''));
+        $tmp = isset($conf['pid_list']) ? trim($cObj->stdWrap($conf['pid_list'], $conf['pid_list.'] ?? '')) : '';
         $pid_list = $config['pid_list'] = ($conf['pid_list'] ?? $tmp);
         $pid_list = ($pid_list ?: $GLOBALS['TSFE']->id);
         $composite->setPidList($pid_list);
