@@ -56,6 +56,7 @@ class ForumList implements SingletonInterface
         Composite $composite,
         array $linkParams
     ) {
+        $content = '';
         $conf = $composite->getConf();
         $modelObj = $composite->getModelObj();
         $markerObj = $composite->getMarkerObj();

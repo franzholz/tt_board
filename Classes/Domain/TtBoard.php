@@ -149,7 +149,7 @@ class TtBoard implements SingletonInterface
                         );
                         break;
                     default:
-                        throw new \RuntimeException('tt_board: wrong comparator in parameter field "' . $queryParameter->field . '"');
+                        throw new \RuntimeException('tt_board: wrong comparator in parameter field "' . $queryParameter->field . '"', 1755517312);
                         break;
                 }
 
@@ -353,7 +353,7 @@ class TtBoard implements SingletonInterface
     public function getLastPost($pidList)
     {
         $result = false;
-        $rows = '';
+        $rows = null;
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
@@ -376,8 +376,8 @@ class TtBoard implements SingletonInterface
             ->executeQuery()
             ->fetchAllAssociative();
 
-        if (is_array($rows) && !empty($rows)) {
-            $result = $rows['0'];
+        if (!empty($rows) && is_array($rows) && isset($rows[0])) {
+            $result = $rows[0];
         }
         return $result;
     }
@@ -388,7 +388,7 @@ class TtBoard implements SingletonInterface
     public function getLastPostInThread($pidList, $uid, $ref)
     {
         $result = false;
-        $rows = '';
+        $rows = null;
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
 
         $queryBuilder = $this->getQueryBuilder();
@@ -427,8 +427,8 @@ class TtBoard implements SingletonInterface
             ->executeQuery()
             ->fetchAllAssociative();
 
-        if (is_array($rows) && !empty($rows)) {
-            $result = $rows['0'];
+        if (!empty($rows) && is_array($rows) && isset($rows[0])) {
+            $result = $rows[0];
         }
 
         return $result;
@@ -475,8 +475,8 @@ class TtBoard implements SingletonInterface
                 ->fetchAllAssociative();
         }
 
-        if (is_array($rows) && !empty($rows)) {
-            $result = $rows['0'];
+        if (!empty($rows) && is_array($rows) && isset($rows[0])) {
+            $result = $rows[0];
         }
 
         return $result;
@@ -535,6 +535,7 @@ class TtBoard implements SingletonInterface
         $result = false;
         $error = false;
         $row = null;
+        $rows = null;
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
@@ -568,8 +569,8 @@ class TtBoard implements SingletonInterface
                 ->executeQuery()
                 ->fetchAllAssociative();
 
-            if (is_array($rows)) {
-                $row = $rows['0'];
+            if (!empty($rows) && is_array($rows) && isset($rows[0])) {
+                $row = $rows[0];
             }
 
             if (!empty($row) && is_array($row)) {
@@ -663,8 +664,8 @@ class TtBoard implements SingletonInterface
             ->executeQuery()
             ->fetchAllAssociative();
 
-        if (is_array($rows) && !empty($rows)) {
-            $result = $rows['0'];
+        if (!empty($rows) && is_array($rows) && isset($rows[0])) {
+            $result = $rows[0];
         }
 
         return $result;
@@ -681,7 +682,7 @@ class TtBoard implements SingletonInterface
     ) {
         $result = false;
         $row = null;
-        $rows = '';
+        $rows = null;
         $outArray = [];
         if ($uid) {
             $queryBuilder = $this->getQueryBuilder();
@@ -712,8 +713,8 @@ class TtBoard implements SingletonInterface
                 ->executeQuery()
                 ->fetchAllAssociative();
 
-            if (is_array($rows)) {
-                $row = $rows['0'];
+            if (!empty($rows) && is_array($rows) && isset($rows[0])) {
+                $row = $rows[0];
             }
 
             if (!empty($row)) {
