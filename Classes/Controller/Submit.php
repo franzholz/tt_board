@@ -247,8 +247,8 @@ class Submit implements SingletonInterface
 
                         // Send post to Mailing list ...
                         if (
-                            $conf['sendToMailingList'] &&
-                            $conf['sendToMailingList.']['email']
+                            !empty($conf['sendToMailingList']) &&
+                            !empty($conf['sendToMailingList.']['email'])
                         ) {
                             /*
                                 TypoScript for this section (was used for the TYPO3 mailing list.
@@ -330,7 +330,7 @@ class Submit implements SingletonInterface
                             $maillist_msg .= $url;
 
                             // Send
-                            if ($conf['debug']) {
+                            if (!empty($conf['debug'])) {
                                 debug($maillist_recip); // keep this
                                 debug($maillist_subject); // keep this
                                 echo nl2br($maillist_msg . chr(10));
@@ -361,7 +361,7 @@ class Submit implements SingletonInterface
 
                         if (
                             $notify &&
-                            $conf['notify'] &&
+                            !empty($conf['notify']) &&
                             !empty($row['email'])
                         ) {
                             $labelKeys = ['p_at', 'p_content', 'p_salutation', 'p_subject', 'p_text_snippet', 'p_url_title'];
