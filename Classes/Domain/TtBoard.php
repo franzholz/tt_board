@@ -76,7 +76,8 @@ class TtBoard implements SingletonInterface
      */
     public function getQueryBuilder()
     {
-        $result = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->getTablename());
+        $result = QueryBuilderApi::getQueryBuilder($this->getTablename());
+
         return $result;
     }
 

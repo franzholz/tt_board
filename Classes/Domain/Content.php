@@ -22,6 +22,7 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Api\Frontend;
+use JambageCom\Div2007\Database\QueryBuilderApi;
 
 /**
  * Function library for pages
@@ -47,7 +48,7 @@ class Content implements SingletonInterface
             GeneralUtility::makeInstance(Frontend::class);
         $sys_language_uid = $api->getLanguageId();
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->tablename);
+        $queryBuilder = QueryBuilderApi::getQueryBuilder($this->tablename);
         $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         $queryBuilder->select('*')
             ->from($this->tablename)

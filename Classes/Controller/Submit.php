@@ -38,6 +38,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 use JambageCom\Div2007\Captcha\CaptchaManager;
+use JambageCom\Div2007\Database\QueryBuilderApi;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\MailUtility;
 use JambageCom\Div2007\Utility\SystemUtility;
@@ -268,7 +269,7 @@ class Submit implements SingletonInterface
                             if (!empty($mConf['sendToFEgroup'])) {
                                 $sendToFEgroup = intval($mConf['sendToFEgroup']);
                                 $feUserTable = 'fe_users';
-                                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($feUserTable);
+                                $queryBuilder = QueryBuilderApi::getQueryBuilder($feUserTable);
                                 $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
                                 $queryBuilder
@@ -300,9 +301,7 @@ class Submit implements SingletonInterface
 
                             //  Subject
                             if (!empty($row['parent'])) {
-                                $queryBuilder =
-                                    GeneralUtility::makeInstance(ConnectionPool::class)->
-                                        getQueryBuilderForTable($table);
+                                $queryBuilder = QueryBuilderApi::getQueryBuilder($table);
                                 $queryBuilder->setRestrictions(
                                     GeneralUtility::makeInstance(
                                         FrontendRestrictionContainer::class)
