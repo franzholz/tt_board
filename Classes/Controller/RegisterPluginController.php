@@ -36,9 +36,12 @@ namespace JambageCom\TtBoard\Controller;
  */
 
 use Psr\Http\Message\ServerRequestInterface;
+
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
 
 use JambageCom\Div2007\Utility\ConfigUtility;
 
@@ -115,6 +118,7 @@ class RegisterPluginController
     /**
     * Main board function. Call this from TypoScript
     */
+    #[AsAllowedCallable]
     public function main(
         string $content,
         array $conf,

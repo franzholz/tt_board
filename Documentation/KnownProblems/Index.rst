@@ -22,6 +22,7 @@ Insert debug commands.
 
 ..  code-block:: php
 
+    #[AsAllowedCallable]
     public function main($content, $conf)
 
 

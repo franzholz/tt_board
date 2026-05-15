@@ -17,7 +17,7 @@ $EM_CONF[$_EXTKEY] = [
         'depends' => [
             'typo3' => '13.4.15-14.3.99',
             'div2007' => '2.3.11-0.0.0',
-            'tslib_fetce' => '0.10.1-0.15.0',
+            'tslib_fetce' => '0.11.0-0.15.0',
         ],
         'conflicts' => [
         ],

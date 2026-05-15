@@ -27,13 +27,12 @@
     "php": ">=8.2.0",
     "ext-pdo": "*",
     "typo3/cms-core": "^13.4.15 || ^14",
-    "typo3/cms-extensionmanager": "^13.4.15",
-    "typo3/cms-felogin": "^13.4",
-    "typo3/cms-filemetadata": "^13.4",
-    "typo3/cms-tstemplate": "^13.4",
-    "typo3/minimal": "^13.4",
-    "jambagecom/div2007": "^2.3.11",
-    "jambagecom/tslib-fetce": "^0.10.1"
+    "typo3/cms-extensionmanager": "^13.4.15 || ^14",
+    "typo3/cms-felogin": "^13.4.15 || ^14",
+    "typo3/cms-filemetadata": "^13.4.15 || ^14",
+    "typo3/cms-tstemplate": "^13.4.15 || ^14",
+    "jambagecom/div2007": "^2.3.14",
+    "jambagecom/tslib-fetce": "^0.11"
   },
   "autoload": {
     "psr-4": {
