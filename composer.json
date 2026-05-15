@@ -26,7 +26,7 @@
   "require": {
     "php": ">=8.2.0",
     "ext-pdo": "*",
-    "typo3/cms-core": "^13.4.15",
+    "typo3/cms-core": "^13.4.15 || ^14",
     "typo3/cms-extensionmanager": "^13.4.15",
     "typo3/cms-felogin": "^13.4",
     "typo3/cms-filemetadata": "^13.4",
@@ -46,6 +46,10 @@
   "extra": {
     "typo3/cms": {
       "extension-key": "tt_board"
+      "version": "1.18.7",
+      "Package": {
+          "providesPackages": {}
+      }
     }
   }
 }
