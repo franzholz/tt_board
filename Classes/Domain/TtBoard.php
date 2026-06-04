@@ -39,6 +39,8 @@ namespace JambageCom\TtBoard\Domain;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+ use Symfony\Component\Routing\RequestContext;
+
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -213,13 +215,14 @@ class TtBoard implements SingletonInterface
     * This function returns an array a pagerecords from the page-uid's in the pid_list supplied.
     * Excludes pages, that would normally not enter a regular menu. That means hidden, timed or deleted pages and pages with another doktype than 'standard' or 'advanced'
     */
-    public static function getPagesInPage($pid_list)
+    public function getPagesInPage($pid_list, RequestContext $context)
     {
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
         $result = [];
         $thePids = GeneralUtility::intExplode(',', (string) $pid_list);
         $pageRows = [];
         foreach($thePids as $pid) {
-            $menuRows = $GLOBALS['TSFE']->sys_page->getMenu($pid);
+            $menuRows = $pageRepository->getMenu($pid);
 
             // avoid the insertion of duplicate page rows
             foreach ($menuRows as $menuRow) {
@@ -514,7 +517,10 @@ class TtBoard implements SingletonInterface
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->gte(
                     'crdate',
-                    $queryBuilder->createNamedParameter($seconds, Connection::PARAM_INT)
+                    $queryBuilder->createNamedParameter(
+                        $seconds,
+                        Connection::PARAM_INT
+                    )
                 )
             );
         }

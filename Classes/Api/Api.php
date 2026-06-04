@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace JambageCom\TtBoard\Api;
 
-use TYPO3\CMS\Core\SingletonInterface;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -41,11 +41,14 @@ use TYPO3\CMS\Core\SingletonInterface;
  *
  */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class Api implements SingletonInterface
+class Api
 {
     /**
     * Retrieves default configuration of tt_board.
@@ -55,20 +58,23 @@ class Api implements SingletonInterface
     *
     * @return	array/bool  TypoScript configuration
     */
-    public function getDefaultConfig($type)
-    {
+    public function getDefaultConfig(
+        ServerRequestInterface $request,
+        $type
+    ) {
         $result = false;
         if ($type == 'list' || $type == 'tree') {
             $key = 'tt_board_' . $type . '.';
-            $result = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][$key] ?? [];
+            $frontendTypoScript = $request->getAttribute('frontend.typoscript');
+
+            $result = $frontendTypoScript->getSetupArray()['plugin.'][$key] ?? [];
         }
         return $result;
     }
 
-    public function isSystemLoginUser()
+    public function isSystemLoginUser(Context $context)
     {
         $result = false;
-        $context = GeneralUtility::makeInstance(Context::class);
 
         if (
             $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')

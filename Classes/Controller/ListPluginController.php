@@ -35,6 +35,8 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 
 class ListPluginController extends RegisterPluginController
 {
@@ -48,6 +50,11 @@ class ListPluginController extends RegisterPluginController
      */
     public $list_type = '4';
 
+    #[AsAllowedCallable]
+    public function main(string $content, array $conf, ServerRequestInterface $request) : string
+    {
+        return parent::main($content, $conf, $request);
+    }
 }
 
 class_alias(\JambageCom\TtBoard\Controller\ListPluginController::class, 'tt_board_list');

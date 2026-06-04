@@ -79,6 +79,8 @@ class InitializationController implements SingletonInterface
 
         $tt_board_uid = 0;
         $config = [];
+        $pageArguments = $request->getAttribute('routing');
+        $pageId = $pageArguments->getPageId();
         $composite = GeneralUtility::makeInstance(Composite::class);
 
         // *************************************
@@ -110,14 +112,14 @@ class InitializationController implements SingletonInterface
         // pid_list is the pid/list of pids from where to fetch the forum items.
         $tmp = isset($conf['pid_list']) ? trim($cObj->stdWrap($conf['pid_list'], $conf['pid_list.'] ?? '')) : '';
         $pid_list = $config['pid_list'] = ($conf['pid_list'] ?? $tmp);
-        $pid_list = ($pid_list ?: $GLOBALS['TSFE']->id);
+        $pid_list = ($pid_list ?? $pageId);
         $composite->setPidList($pid_list);
+        $composite->setPid($pageId);
 
         // page where to go usually
-        $pid = ($conf['PIDforum'] ?? $GLOBALS['TSFE']->id);
-
-        $composite->setPid($pid);
-        $allowCaching = $conf['allowCaching'] ? 1 : 0;
+        $pid = ($conf['PIDforum'] ?? $pageId);
+        $composite->setPidForum($pid);
+        $allowCaching = !empty($conf['allowCaching']) ? 1 : 0;
         $composite->setAllowCaching($allowCaching);
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageObj->init(

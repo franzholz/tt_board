@@ -61,12 +61,13 @@ class ForumList implements SingletonInterface
         $modelObj = $composite->getModelObj();
         $markerObj = $composite->getMarkerObj();
         $languageObj = $composite->getLanguageObj();
+        $pageId = $composite->getPid();
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $allowCaching = $composite->getAllowCaching();
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
+        $local_cObj->setCurrentVal($pageId);
         $forum_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $forum_cObj->start([], $modelObj->getTablename());
 
@@ -140,7 +141,11 @@ class ForumList implements SingletonInterface
                 $subpartContent = '';
 
                 // Getting categories
-                $categories = $modelObj->getPagesInPage($composite->getPidList());
+                $categories =
+                    $modelObj->getPagesInPage(
+                        $composite->getPidList(),
+                        $composite->getContext()
+                    );
                 $c_cat = 0;
                 $forums = null;
 
@@ -149,7 +154,11 @@ class ForumList implements SingletonInterface
                     if ($forumlist) {
                         $forums = $categories;
                     } else {
-                        $forums = $modelObj->getPagesInPage($catData['uid']);
+                        $forums =
+                            $modelObj->getPagesInPage(
+                                $catData['uid'],
+                                $composite->getContext()
+                            );
                     }
 
                     if (!$forumlist && count($categoryHeader)) {

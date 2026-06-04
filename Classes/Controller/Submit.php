@@ -59,6 +59,8 @@ class Submit implements SingletonInterface
         $session = GeneralUtility::makeInstance(SessionHandler::class);
         $sessionData = $session->getSessionData();
         $request = $pObj->getRequest();
+        $pageArguments = $request->getAttribute('routing');
+        $pageId = $pageArguments->getPageId();
         $boardData = $request->getAttribute('boardData');
         $modelObj = GeneralUtility::makeInstance(TtBoard::class);
         $modelObj->init();
@@ -228,10 +230,10 @@ class Submit implements SingletonInterface
                         $pObj->clear_cacheCmd($pid);
                         SystemUtility::clearPageCacheContent_pidList($pid);
 
-                        if ($pid != $GLOBALS['TSFE']->id) {
-                            $pObj->clear_cacheCmd($GLOBALS['TSFE']->id);
+                        if ($pid != $pageId) {
+                            $pObj->clear_cacheCmd($pageId);
                             SystemUtility::clearPageCacheContent_pidList(
-                                $GLOBALS['TSFE']->id
+                                $pageId
                             );
                         }
 
@@ -243,7 +245,7 @@ class Submit implements SingletonInterface
                                     $pObj->clear_cacheCmd($ccPid);
                                 }
                             }
-                            $GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
+                            SystemUtility::clearPageCacheContent_pidList($conf['clearCacheForPids']);
                         }
 
                         // Send post to Mailing list ...
@@ -479,4 +481,5 @@ class Submit implements SingletonInterface
 
         return $result;
     }
+
 }

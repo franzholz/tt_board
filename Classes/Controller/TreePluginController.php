@@ -35,6 +35,8 @@ namespace JambageCom\TtBoard\Controller;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 
 class TreePluginController extends RegisterPluginController
 {
@@ -47,6 +49,12 @@ class TreePluginController extends RegisterPluginController
      * @var string
      */
     public $list_type = '2';
+
+    #[AsAllowedCallable]
+    public function main(string $content, array $conf, ServerRequestInterface $request) : string
+    {
+        return parent::main($content, $conf, $request);
+    }
 }
 
 

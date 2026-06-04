@@ -66,6 +66,7 @@ class Forum implements SingletonInterface
         $pid
     ) {
         $uid = $composite->getTtBoardUid();
+        $pageId = $composite->getPid();
         $prefixId = $composite->getPrefixId();
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
@@ -360,12 +361,11 @@ class Forum implements SingletonInterface
                 $markerArray = [];
                 $subpartContentArray = [];
                 $markerArray['###SEARCH_NAME###'] = $prefixId . '[sword]';
-
                 // Fill in array
                 $markerArray['###SEARCH_WORD###'] =
                     $controlObj->readGP('sword', $prefixId);	// Setting search words in field. Cache must be disabled.
                 // Set FORM_URL
-                $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
+                $local_cObj->setCurrentVal($pageId);
                 $temp_conf = $typolinkConf;
                 $temp_conf['no_cache'] = 1;
                 $markerArray['###FORM_URL###'] = $local_cObj->typoLink_URL($temp_conf);

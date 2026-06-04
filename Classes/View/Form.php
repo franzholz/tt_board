@@ -104,6 +104,7 @@ window.onload = addListeners;
         $langKey = $languageObj->getLocalLangKey();
         $request = $cObj->getRequest();
         $uid = $composite->getTtBoardUid();
+        $pageId = $composite->getPid();
         $xhtmlFix = HtmlUtility::determineXhtmlFix();
         $useXhtml = HtmlUtility::useXHTML();
         $idPrefix = 'mailform';
@@ -136,7 +137,7 @@ window.onload = addListeners;
             $feuserLoggedIn = false;
 
             if (
-                $api->isSystemLoginUser()
+                $api->isSystemLoginUser($composite->getContext())
             ) {
                 $feuserLoggedIn = true;
             }
@@ -533,7 +534,7 @@ window.onload = addListeners;
                     $url =
                         FrontendUtility::getTypoLink_URL(
                             $cObj,
-                            $GLOBALS['TSFE']->id,
+                            $pageId,
                             $linkParams,
                             '',
                             []

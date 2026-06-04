@@ -128,7 +128,7 @@ class ActionController implements SingletonInterface
                 break;
             case 'FORUM':
             case 'THREAD_TREE':
-                $pid = ($conf['PIDforum'] ?: $GLOBALS['TSFE']->id);
+                $pid = $composite->getPidForum();
                 $treeView = null;
 
                 if ($conf['tree']) {
