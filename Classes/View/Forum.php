@@ -40,19 +40,24 @@ namespace JambageCom\TtBoard\View;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Utility\ControlUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\MarkerUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
+use JambageCom\TtBoard\PageTitle\BoardPageTitleProvider;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
 
 class Forum implements SingletonInterface
 {
+    public function __construct(
+        private readonly BoardPageTitleProvider $titleProvider,
+    ) {}
+
     /**
     * Creates the forum display, including listing all items/a single item
     */
@@ -65,21 +70,24 @@ class Forum implements SingletonInterface
         $linkParams,
         $pid
     ) {
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+
+        $recentPosts = [];
+        $pointerName = 'pointer';
+
         $uid = $composite->getTtBoardUid();
         $pageId = $composite->getPid();
         $prefixId = $composite->getPrefixId();
-        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
-        $recentPosts = [];
         $searchWord = $controlObj->readGP('sword', $prefixId);
-        $pointerName = 'pointer';
 
         $markerObj = $composite->getMarkerObj();
         $modelObj = $composite->getModelObj();
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $prefixId = $composite->getPrefixId();
         $typolinkConf = $composite->getTypolinkConf();
-        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $request = $composite->getRequest();
 
         $continue = true;
 
@@ -177,7 +185,7 @@ class Forum implements SingletonInterface
 
                 $markerArray['###FORUM_TITLE###'] =
                     $local_cObj->stdWrap(
-                        $GLOBALS['TSFE']->page['title'],
+                        $this->titleProvider->getTitle(),
                         $lConf['forum_title_stdWrap.'] ?? ''
                     );
 

@@ -384,3 +384,14 @@ tt_content.ttboard_list =< lib.contentElement
 tt_content.ttboard_list.templateName = generic
 tt_content.ttboard_list.20 < plugin.tt_board_list
 
+
+
+config {
+  pageTitleProviders {
+    tt_board {
+      provider = JambageCom\TtBoard\PageTitle\BoardPageTitleProvider
+      before = record
+    }
+  }
+}
+

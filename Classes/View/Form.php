@@ -116,6 +116,7 @@ window.onload = addListeners;
         $wordCaptcha = '';
         $content .= $errorOut;
         $api = GeneralUtility::makeInstance(Api::class);
+        $context = $composite->getContext();
         $feUserRecord = $request->getAttribute('frontend.user')->user ?? null;
 
         if (
@@ -137,7 +138,7 @@ window.onload = addListeners;
             $feuserLoggedIn = false;
 
             if (
-                $api->isSystemLoginUser($composite->getContext())
+                $api->isSystemLoginUser($context)
             ) {
                 $feuserLoggedIn = true;
             }
@@ -469,9 +470,9 @@ window.onload = addListeners;
                 ) {
                     foreach ($lConf['dataArray.'] as $k => $dataRow) {
                         if (strpos($dataRow['type'], '[author]') !== false) {
-                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'] ?? '';
+                            $lConf['dataArray.'][$k]['value'] = $feUserRecord['name'] ?? '';
                         } elseif (strpos($dataRow['type'], '[email]') !== false) {
-                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'] ?? '';
+                            $lConf['dataArray.'][$k]['value'] = $feUserRecord['email'] ?? '';
                         }
                     }
                 }

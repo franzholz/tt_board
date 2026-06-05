@@ -52,12 +52,14 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\MarkerUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
+use JambageCom\TtBoard\PageTitle\BoardPageTitleProvider;
 
 
 class ForumThread implements SingletonInterface
 {
     public function __construct(
         protected readonly PageRenderer $pageRenderer,
+        private readonly BoardPageTitleProvider $titleProvider,
     ) {}
 
 
@@ -76,6 +78,7 @@ class ForumThread implements SingletonInterface
         $content = '';
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $recentPosts = [];
         $languageObj = $composite->getLanguageObj();
         $markerObj = $composite->getMarkerObj();
@@ -86,7 +89,10 @@ class ForumThread implements SingletonInterface
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $prefixId = $composite->getPrefixId();
         $typolinkConf = $composite->getTypolinkConf();
-        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $request = $composite->getRequest();
+
+        $pageInformation = $request->getAttribute('frontend.page.information');
+        $page = $pageInformation->getPageRecord();
 
         $lConf = $conf['view_thread.'] ?? '';
         $subpart = '###TEMPLATE_THREAD###';
@@ -171,7 +177,7 @@ class ForumThread implements SingletonInterface
             // Getting the specific parts of the template
             $markerArray['###FORUM_TITLE###'] =
                 $local_cObj->stdWrap(
-                    $GLOBALS['TSFE']->page['title'],
+                    $this->titleProvider->getTitle(),
                     $conf['forum_title_stdWrap.'] ?? ''
                 );
 
