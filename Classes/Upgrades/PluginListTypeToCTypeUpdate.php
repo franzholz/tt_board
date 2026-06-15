@@ -65,9 +65,10 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
 
     protected function columnsExistInBackendUserGroupsTable(): bool
     {
-        $schemaManager = $this->connectionPool
-        ->getConnectionForTable(self::TABLE_BACKEND_USER_GROUPS)
-        ->createSchemaManager();
+        $schemaManager =
+            $this->connectionPool
+                ->getConnectionForTable(self::TABLE_BACKEND_USER_GROUPS)
+                ->createSchemaManager();
 
         return isset($schemaManager->listTableColumns(self::TABLE_BACKEND_USER_GROUPS)['explicit_allowdeny']);
     }
@@ -79,15 +80,15 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_CONTENT);
         $queryBuilder->getRestrictions()->removeAll();
         $queryBuilder
-        ->count('uid')
-        ->from(self::TABLE_CONTENT)
-        ->where(
-            $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('list')),
-                $queryBuilder->expr()->in(
-                    'list_type',
-                    $queryBuilder->createNamedParameter($listTypesToUpdate, Connection::PARAM_STR_ARRAY)
-                ),
-        );
+            ->count('uid')
+            ->from(self::TABLE_CONTENT)
+            ->where(
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('list')),
+                    $queryBuilder->expr()->in(
+                        'list_type',
+                        $queryBuilder->createNamedParameter($listTypesToUpdate, Connection::PARAM_STR_ARRAY)
+                    ),
+            );
 
         return (bool)$queryBuilder->executeQuery()->fetchOne();
     }
@@ -108,11 +109,11 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
         }
 
         $queryBuilder
-        ->count('uid')
-        ->from(self::TABLE_BACKEND_USER_GROUPS)
-        ->where(
-            $queryBuilder->expr()->or(...$searchConstraints),
-        );
+            ->count('uid')
+            ->from(self::TABLE_BACKEND_USER_GROUPS)
+            ->where(
+                $queryBuilder->expr()->or(...$searchConstraints),
+            );
 
         return (bool)$queryBuilder->executeQuery()->fetchOne();
     }
@@ -127,16 +128,16 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_BACKEND_USER_GROUPS);
         $queryBuilder->getRestrictions()->removeAll();
         $queryBuilder
-        ->count('uid')
-        ->from(self::TABLE_BACKEND_USER_GROUPS)
-        ->where(
-            $queryBuilder->expr()->like(
-                'explicit_allowdeny',
-                $queryBuilder->createNamedParameter(
-                    '%ALLOW%'
-                )
-            ),
-        );
+            ->count('uid')
+            ->from(self::TABLE_BACKEND_USER_GROUPS)
+            ->where(
+                $queryBuilder->expr()->like(
+                    'explicit_allowdeny',
+                    $queryBuilder->createNamedParameter(
+                        '%ALLOW%'
+                    )
+                ),
+            );
         return (int)$queryBuilder->executeQuery()->fetchOne() === 0;
     }
 
@@ -145,12 +146,12 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_CONTENT);
         $queryBuilder->getRestrictions()->removeAll();
         $queryBuilder
-        ->select('uid')
-        ->from(self::TABLE_CONTENT)
-        ->where(
-            $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('list')),
-                $queryBuilder->expr()->eq('list_type', $queryBuilder->createNamedParameter((string) $listType)),
-        );
+            ->select('uid')
+            ->from(self::TABLE_CONTENT)
+            ->where(
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('list')),
+                    $queryBuilder->expr()->eq('list_type', $queryBuilder->createNamedParameter((string) $listType)),
+            );
 
         return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
@@ -160,16 +161,16 @@ final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_BACKEND_USER_GROUPS);
         $queryBuilder->getRestrictions()->removeAll();
         $queryBuilder
-        ->select('uid', 'explicit_allowdeny')
-        ->from(self::TABLE_BACKEND_USER_GROUPS)
-        ->where(
-            $queryBuilder->expr()->like(
-                'explicit_allowdeny',
-                $queryBuilder->createNamedParameter(
-                    '%' . $queryBuilder->escapeLikeWildcards('tt_content:list_type:' . $listType) . '%'
-                )
-            ),
-        );
+            ->select('uid', 'explicit_allowdeny')
+            ->from(self::TABLE_BACKEND_USER_GROUPS)
+            ->where(
+                $queryBuilder->expr()->like(
+                    'explicit_allowdeny',
+                    $queryBuilder->createNamedParameter(
+                        '%' . $queryBuilder->escapeLikeWildcards('tt_content:list_type:' . $listType) . '%'
+                    )
+                ),
+            );
         return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 

@@ -26,26 +26,35 @@
   "require": {
     "php": ">=8.2.0",
     "ext-pdo": "*",
-    "typo3/cms-core": "^13.4.15",
-    "typo3/cms-extensionmanager": "^13.4.15",
-    "typo3/cms-felogin": "^13.4",
-    "typo3/cms-filemetadata": "^13.4",
-    "typo3/cms-tstemplate": "^13.4",
-    "typo3/minimal": "^13.4",
-    "jambagecom/div2007": "^2.3.7",
-    "jambagecom/tslib-fetce": "^0.9.1"
+    "typo3/cms-core": "^13.4.15 || ^14",
+    "typo3/cms-extensionmanager": "^13.4.15 || ^14",
+    "typo3/cms-felogin": "^13.4.15 || ^14",
+    "typo3/cms-filemetadata": "^13.4.15 || ^14",
+    "typo3/cms-tstemplate": "^13.4.15 || ^14",
+    "jambagecom/div2007": "^2.4.2",
+    "jambagecom/tslib-fetce": "^0.11"
   },
   "autoload": {
     "psr-4": {
       "JambageCom\\TtBoard\\": "Classes"
     }
   },
+  "suggest": {
+    "friendsoftypo3/sys-action": "^13.0 || ^14",
+    "friendsoftypo3/taskcenter": "^13.0 || ^14",
+    "sjbr/sr-freecap": "^13.4 || ^14",
+    "internetgalerie/ig-slug": "^1.1"
+  },
   "replace": {
     "typo3-ter/tt-board": "self.version"
   },
   "extra": {
     "typo3/cms": {
-      "extension-key": "tt_board"
+      "extension-key": "tt_board",
+      "version": "1.18.7",
+      "Package": {
+          "providesPackages": {}
+      }
     }
   }
 }

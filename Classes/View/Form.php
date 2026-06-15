@@ -104,6 +104,7 @@ window.onload = addListeners;
         $langKey = $languageObj->getLocalLangKey();
         $request = $cObj->getRequest();
         $uid = $composite->getTtBoardUid();
+        $pageId = $composite->getPid();
         $xhtmlFix = HtmlUtility::determineXhtmlFix();
         $useXhtml = HtmlUtility::useXHTML();
         $idPrefix = 'mailform';
@@ -115,6 +116,7 @@ window.onload = addListeners;
         $wordCaptcha = '';
         $content .= $errorOut;
         $api = GeneralUtility::makeInstance(Api::class);
+        $context = $composite->getContext();
         $feUserRecord = $request->getAttribute('frontend.user')->user ?? null;
 
         if (
@@ -136,7 +138,7 @@ window.onload = addListeners;
             $feuserLoggedIn = false;
 
             if (
-                $api->isSystemLoginUser()
+                $api->isSystemLoginUser($context)
             ) {
                 $feuserLoggedIn = true;
             }
@@ -179,7 +181,6 @@ window.onload = addListeners;
                         );
 
                     foreach($wholeThread as $recordP) { // the last notification checkbox will be superceded by the previous settings
-
                         if ($recordP['email']) {
 
                             $index = md5(trim(strtolower($recordP['email'])));
@@ -468,9 +469,9 @@ window.onload = addListeners;
                 ) {
                     foreach ($lConf['dataArray.'] as $k => $dataRow) {
                         if (strpos($dataRow['type'], '[author]') !== false) {
-                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['name'] ?? '';
+                            $lConf['dataArray.'][$k]['value'] = $feUserRecord['name'] ?? '';
                         } elseif (strpos($dataRow['type'], '[email]') !== false) {
-                            $lConf['dataArray.'][$k]['value'] = $GLOBALS['TSFE']->fe_user->user['email'] ?? '';
+                            $lConf['dataArray.'][$k]['value'] = $feUserRecord['email'] ?? '';
                         }
                     }
                 }
@@ -533,7 +534,7 @@ window.onload = addListeners;
                     $url =
                         FrontendUtility::getTypoLink_URL(
                             $cObj,
-                            $GLOBALS['TSFE']->id,
+                            $pageId,
                             $linkParams,
                             '',
                             []

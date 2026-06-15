@@ -16,8 +16,7 @@ Prerequisites
 
    .. figure:: /Images/AdministratorManual/UpgradeWizard.png
       :width: 700px
-      :alt: Upgrade Wizard from list_type 2 and 4 to CType
-
+      :alt: Upgrade Wizard from list_type 2 and 4 to CType ttboard_tree and ttboard_list
 
 .. important::
 

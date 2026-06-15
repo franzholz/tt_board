@@ -38,6 +38,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 use JambageCom\Div2007\Captcha\CaptchaManager;
+use JambageCom\Div2007\Database\QueryBuilderApi;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\MailUtility;
 use JambageCom\Div2007\Utility\SystemUtility;
@@ -58,6 +59,8 @@ class Submit implements SingletonInterface
         $session = GeneralUtility::makeInstance(SessionHandler::class);
         $sessionData = $session->getSessionData();
         $request = $pObj->getRequest();
+        $pageArguments = $request->getAttribute('routing');
+        $pageId = $pageArguments->getPageId();
         $boardData = $request->getAttribute('boardData');
         $modelObj = GeneralUtility::makeInstance(TtBoard::class);
         $modelObj->init();
@@ -227,10 +230,10 @@ class Submit implements SingletonInterface
                         $pObj->clear_cacheCmd($pid);
                         SystemUtility::clearPageCacheContent_pidList($pid);
 
-                        if ($pid != $GLOBALS['TSFE']->id) {
-                            $pObj->clear_cacheCmd($GLOBALS['TSFE']->id);
+                        if ($pid != $pageId) {
+                            $pObj->clear_cacheCmd($pageId);
                             SystemUtility::clearPageCacheContent_pidList(
-                                $GLOBALS['TSFE']->id
+                                $pageId
                             );
                         }
 
@@ -242,7 +245,7 @@ class Submit implements SingletonInterface
                                     $pObj->clear_cacheCmd($ccPid);
                                 }
                             }
-                            $GLOBALS['TSFE']->clearPageCacheContent_pidList($conf['clearCacheForPids']);
+                            SystemUtility::clearPageCacheContent_pidList($conf['clearCacheForPids']);
                         }
 
                         // Send post to Mailing list ...
@@ -268,7 +271,7 @@ class Submit implements SingletonInterface
                             if (!empty($mConf['sendToFEgroup'])) {
                                 $sendToFEgroup = intval($mConf['sendToFEgroup']);
                                 $feUserTable = 'fe_users';
-                                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($feUserTable);
+                                $queryBuilder = QueryBuilderApi::getQueryBuilder($feUserTable);
                                 $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 
                                 $queryBuilder
@@ -300,9 +303,7 @@ class Submit implements SingletonInterface
 
                             //  Subject
                             if (!empty($row['parent'])) {
-                                $queryBuilder =
-                                    GeneralUtility::makeInstance(ConnectionPool::class)->
-                                        getQueryBuilderForTable($table);
+                                $queryBuilder = QueryBuilderApi::getQueryBuilder($table);
                                 $queryBuilder->setRestrictions(
                                     GeneralUtility::makeInstance(
                                         FrontendRestrictionContainer::class)
@@ -480,4 +481,5 @@ class Submit implements SingletonInterface
 
         return $result;
     }
+
 }

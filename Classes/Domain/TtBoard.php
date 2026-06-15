@@ -39,11 +39,13 @@ namespace JambageCom\TtBoard\Domain;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Expression\CompositeExpression;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -76,7 +78,8 @@ class TtBoard implements SingletonInterface
      */
     public function getQueryBuilder()
     {
-        $result = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->getTablename());
+        $result = QueryBuilderApi::getQueryBuilder($this->getTablename());
+
         return $result;
     }
 
@@ -212,13 +215,14 @@ class TtBoard implements SingletonInterface
     * This function returns an array a pagerecords from the page-uid's in the pid_list supplied.
     * Excludes pages, that would normally not enter a regular menu. That means hidden, timed or deleted pages and pages with another doktype than 'standard' or 'advanced'
     */
-    public static function getPagesInPage($pid_list)
+    public function getPagesInPage($pid_list, Context $context)
     {
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
         $result = [];
         $thePids = GeneralUtility::intExplode(',', (string) $pid_list);
         $pageRows = [];
         foreach($thePids as $pid) {
-            $menuRows = $GLOBALS['TSFE']->sys_page->getMenu($pid);
+            $menuRows = $pageRepository->getMenu($pid);
 
             // avoid the insertion of duplicate page rows
             foreach ($menuRows as $menuRow) {
@@ -352,7 +356,7 @@ class TtBoard implements SingletonInterface
     */
     public function getLastPost($pidList)
     {
-        $result = false;
+        $result = [];
         $rows = null;
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
         $queryBuilder = $this->getQueryBuilder();
@@ -513,7 +517,10 @@ class TtBoard implements SingletonInterface
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->gte(
                     'crdate',
-                    $queryBuilder->createNamedParameter($seconds, Connection::PARAM_INT)
+                    $queryBuilder->createNamedParameter(
+                        $seconds,
+                        Connection::PARAM_INT
+                    )
                 )
             );
         }

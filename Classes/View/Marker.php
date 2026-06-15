@@ -39,12 +39,12 @@ namespace JambageCom\TtBoard\View;
  *
  */
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use JambageCom\Div2007\Base\BrowserBase;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
+use JambageCom\Div2007\Base\BrowserBase;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\BrowserUtility;
@@ -104,7 +104,10 @@ class Marker
                 );
         }
 
-        $markerArray['###PATH###'] = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extensionKey));
+        $markerArray['###PATH###'] =
+            PathUtility::stripPathSitePrefix(
+                ExtensionManagementUtility::extPath($extensionKey)
+            );
 
         if (!empty($conf['marks.'])) {
             // Substitute Marker Array from TypoScript Setup
@@ -125,8 +128,10 @@ class Marker
                 }
             }
         }
+
         return $markerArray;
     } // getGlobalMarkers
+
 
     public function getRowMarkerArray(
         &$markerArray,
@@ -240,14 +245,18 @@ class Marker
 
     public function getColumnMarkers(&$markerArray, $languageObj): void
     {
-        $locallang = $languageObj->getLocallang();
 
-        foreach ($locallang['default'] as $k => $text) {
-            if (strpos($k, 'board') === 0) {
-                $markerArray['###' . strtoupper($k) . '###'] =
-                    $languageObj->getLabel(
-                        $k
-                    );
+        $locallang = $languageObj->getLocallang();
+        $locallangKey = $languageObj->getLocalLangKey();
+
+        if (
+            isset($locallang[$locallangKey]) &&
+            is_array($locallang[$locallangKey])
+        ) {
+            foreach ($locallang[$locallangKey] as $k => $text) {
+                if (strpos($k, 'board') === 0) {
+                    $markerArray['###' . strtoupper($k) . '###'] = htmlspecialchars($text);
+                }
             }
         }
 

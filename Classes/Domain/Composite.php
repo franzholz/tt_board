@@ -6,7 +6,7 @@ namespace JambageCom\TtBoard\Domain;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2026 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -39,6 +39,8 @@ namespace JambageCom\TtBoard\Domain;
  * @author  Kasper Skårhøj  <kasperYYYY@typo3.com>
  * @author  Franz Holzinger <franz@ttproducts.de>
  */
+
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -54,7 +56,8 @@ class Composite implements SingletonInterface
     protected string $pid_list;           // list of page ids
 
     protected $tt_board_uid = '';
-    protected $pid = '';
+    protected $pid = 0;
+    protected $pidForum = '';
     protected $orig_templateCode = '';
     protected $typolink_conf = [];
 
@@ -64,6 +67,9 @@ class Composite implements SingletonInterface
     protected $modelObj = null;
     protected $request = null;
 
+    public function __construct(
+        private readonly Context $context,
+    ) {}
 
     public function setCObj($value): void
     {
@@ -165,6 +171,16 @@ class Composite implements SingletonInterface
         return $this->pid;
     }
 
+    public function setPidForum($value): void
+    {
+        $this->pidForum = $value;
+    }
+
+    public function getPidForum()
+    {
+        return $this->pidForum;
+    }
+
     public function setOrigTemplateCode($value): void
     {
         $this->orig_templateCode = $value;
@@ -234,4 +250,16 @@ class Composite implements SingletonInterface
     {
         return $this->request;
     }
+
+    public function setContext(Context $context): void
+    {
+        $this->context = $context;
+    }
+
+    public function getContext(): Context
+    {
+        return $this->context;
+    }
 }
+
+

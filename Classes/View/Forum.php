@@ -40,19 +40,24 @@ namespace JambageCom\TtBoard\View;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Utility\ControlUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\MarkerUtility;
 
 use JambageCom\TtBoard\Domain\Composite;
+use JambageCom\TtBoard\PageTitle\BoardPageTitleProvider;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
 
 class Forum implements SingletonInterface
 {
+    public function __construct(
+        private readonly BoardPageTitleProvider $titleProvider,
+    ) {}
+
     /**
     * Creates the forum display, including listing all items/a single item
     */
@@ -65,22 +70,26 @@ class Forum implements SingletonInterface
         $linkParams,
         $pid
     ) {
-        $uid = $composite->getTtBoardUid();
-        $prefixId = $composite->getPrefixId();
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $forum_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
-        $recentPosts = [];
-        $searchWord = $controlObj->readGP('sword', $prefixId);
-        $pointerName = 'pointer';
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
+        $recentPosts = [];
+        $pointerName = 'pointer';
+        $uid = $composite->getTtBoardUid();
+        $pageId = $composite->getPid();
+        $prefixId = $composite->getPrefixId();
+        $searchWord = $controlObj->readGP('sword', $prefixId);
         $markerObj = $composite->getMarkerObj();
         $modelObj = $composite->getModelObj();
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $prefixId = $composite->getPrefixId();
         $typolinkConf = $composite->getTypolinkConf();
-        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
-
+        $request = $composite->getRequest();
         $continue = true;
+        $local_cObj->start([]);
+        $forum_cObj->start([], $modelObj->getTablename());
 
         if ($theCode == 'THREAD_TREE') {
             if (!$uid && $ref == '') {
@@ -98,10 +107,10 @@ class Forum implements SingletonInterface
 
         if ($continue) {
             // Clear
+            $browserConf = '';
             $subpartMarkerArray = [];
             $wrappedSubpartArray = [];
 
-            $browserConf = '';
             if (
                 isset($lConf['browser']) &&
                 $lConf['browser'] == 'div2007'
@@ -176,7 +185,7 @@ class Forum implements SingletonInterface
 
                 $markerArray['###FORUM_TITLE###'] =
                     $local_cObj->stdWrap(
-                        $GLOBALS['TSFE']->page['title'],
+                        $this->titleProvider->getTitle(),
                         $lConf['forum_title_stdWrap.'] ?? ''
                     );
 
@@ -187,7 +196,6 @@ class Forum implements SingletonInterface
                         $subpartMarkerArray,
                         $wrappedSubpartArray
                     );
-
                 $postHeader =
                     $markerObj->getLayouts(
                         $templateCode,
@@ -251,7 +259,7 @@ class Forum implements SingletonInterface
                         $out = $postHeader_active[0];
                     }
                     $c_post++;
-                    $local_cObj->start($recentPost);
+                    $forum_cObj->start($recentPost);
 
                     // Clear
                     $markerArray = [];
@@ -298,30 +306,30 @@ class Forum implements SingletonInterface
                         $lastPostInfo = $recentPost;
                     }
 
-                    $local_cObj->start($lastPostInfo);
+                    $forum_cObj->start($lastPostInfo);
                     $recentDate = $modelObj->recentDate($lastPostInfo);
                     $markerArray['###LAST_POST_DATE###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $recentDate,
                             $conf['date_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_TIME###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $recentDate,
                             $conf['time_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_AGE###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $recentDate,
                             $conf['age_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_AUTHOR###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $markerObj->formatStr($lastPostInfo['author']),
                             $lConf['last_post_author_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_CITY###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $markerObj->formatStr($lastPostInfo['city']),
                             $lConf['last_post_city_stdWrap.'] ?? ''
                         );
@@ -360,12 +368,11 @@ class Forum implements SingletonInterface
                 $markerArray = [];
                 $subpartContentArray = [];
                 $markerArray['###SEARCH_NAME###'] = $prefixId . '[sword]';
-
                 // Fill in array
                 $markerArray['###SEARCH_WORD###'] =
                     $controlObj->readGP('sword', $prefixId);	// Setting search words in field. Cache must be disabled.
                 // Set FORM_URL
-                $local_cObj->setCurrentVal($GLOBALS['TSFE']->id);
+                $local_cObj->setCurrentVal($pageId);
                 $temp_conf = $typolinkConf;
                 $temp_conf['no_cache'] = 1;
                 $markerArray['###FORM_URL###'] = $local_cObj->typoLink_URL($temp_conf);
