@@ -114,10 +114,10 @@ class InitializationController implements SingletonInterface
         $composite->setPidList($pid_list);
 
         // page where to go usually
-        $pid = ($conf['PIDforum'] ?? $GLOBALS['TSFE']->id);
+        $pid = ($conf['PIDforum'] ?: $GLOBALS['TSFE']->id);
 
         $composite->setPid($pid);
-        $allowCaching = $conf['allowCaching'] ? 1 : 0;
+        $allowCaching = !empty($conf['allowCaching']) ? 1 : 0;
         $composite->setAllowCaching($allowCaching);
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageObj->init(
