@@ -424,13 +424,15 @@ class ForumList implements SingletonInterface
                                         );
 
                                     // Link to the post:
-                                    $forum_cObj->setCurrentVal($recentPost['pid']);
+                                    $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+                                    $local_cObj->start([]);
+                                    $local_cObj->setCurrentVal($recentPost['pid']);
                                     $temp_conf = $composite->getTypolinkConf();
                                     $temp_conf['additionalParams'] .= '&tt_board_uid=' . $recentPost['uid'];
                                     $temp_conf['no_cache'] = !$allowCaching;
 
                                     $separator = md5(microtime());
-                                    $wrappedSubpartContentArray['###LINK###'] = explode($separator, $forum_cObj->typoLink($separator, $temp_conf));
+                                    $wrappedSubpartContentArray['###LINK###'] = explode($separator, $local_cObj->typoLink($separator, $temp_conf));
 
                                     $overrulePIvars =
                                         array_merge(
