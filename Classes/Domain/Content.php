@@ -55,7 +55,7 @@ class Content implements SingletonInterface
                 $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT))
             )
             ->andWhere(
-                $queryBuilder->expr()->in('list_type', $queryBuilder->createNamedParameter([2, 4], Connection::PARAM_INT_ARRAY))
+                $queryBuilder->expr()->in('CType', $queryBuilder->createNamedParameter(['ttboard_tree', 'ttboard_list'], Connection::PARAM_STR_ARRAY))
             )
             ->andWhere(
                 $queryBuilder->expr()->eq('sys_language_uid', $queryBuilder->createNamedParameter($sys_language_uid, Connection::PARAM_INT))

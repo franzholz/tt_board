@@ -91,7 +91,8 @@ class InitializationController implements SingletonInterface
         $composite->setCObj($cObj);
         $composite->setPrefixId($prefixId);
         $composite->setRequest($request);
-        $ttboardParams = $request->getParsedBody()[$prefixId] ?? $request->getQueryParams()[$prefixId] ?? null;
+        $ttboardParams =
+            $request->getParsedBody()[$prefixId] ?? $request->getQueryParams()[$prefixId] ?? null;
 
         if (
             isset($ttboardParams) &&
@@ -108,16 +109,27 @@ class InitializationController implements SingletonInterface
 
         $alternativeLayouts = !empty($conf['alternatingLayouts']) ? intval($conf['alternatingLayouts']) : 2;
         $composite->setAlternativeLayouts($alternativeLayouts);
+        $pid_list = '';
+
+        if (isset($conf['pid_list'])) {
+            $pid_list =
+                trim($cObj->stdWrap(
+                        $conf['pid_list'],
+                        $conf['pid_list.'] ?? ''
+                    )
+                );
+        }
+        $config['pid_list'] = $pid_list;
+        $pid_list = ($pid_list ?: $pageId);
 
         // pid_list is the pid/list of pids from where to fetch the forum items.
-        $tmp = isset($conf['pid_list']) ? trim($cObj->stdWrap($conf['pid_list'], $conf['pid_list.'] ?? '')) : '';
-        $pid_list = $config['pid_list'] = ($conf['pid_list'] ?? $tmp);
-        $pid_list = ($pid_list ?? $pageId);
+
         $composite->setPidList($pid_list);
         $composite->setPid($pageId);
 
         // page where to go usually
-        $pid = ($conf['PIDforum'] ?? $pageId);
+        $pid = ($conf['PIDforum'] ?: $pageId);
+
         $composite->setPidForum($pid);
         $allowCaching = !empty($conf['allowCaching']) ? 1 : 0;
         $composite->setAllowCaching($allowCaching);
@@ -143,7 +155,6 @@ class InitializationController implements SingletonInterface
         // template is read.
         $absoluteFileName = GeneralUtility::getFileAbsFileName($conf['templateFile']);
         $orig_templateCode = file_get_contents($absoluteFileName);
-
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         // Substitute Global Marker Array
         $orig_templateCode =

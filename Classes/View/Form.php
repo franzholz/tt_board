@@ -181,7 +181,6 @@ window.onload = addListeners;
                         );
 
                     foreach($wholeThread as $recordP) { // the last notification checkbox will be superceded by the previous settings
-
                         if ($recordP['email']) {
 
                             $index = md5(trim(strtolower($recordP['email'])));

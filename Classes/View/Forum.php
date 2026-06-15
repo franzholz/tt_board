@@ -71,25 +71,25 @@ class Forum implements SingletonInterface
         $pid
     ) {
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $forum_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $controlObj = GeneralUtility::makeInstance(ControlUtility::class);
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $recentPosts = [];
         $pointerName = 'pointer';
-
         $uid = $composite->getTtBoardUid();
         $pageId = $composite->getPid();
         $prefixId = $composite->getPrefixId();
         $searchWord = $controlObj->readGP('sword', $prefixId);
-
         $markerObj = $composite->getMarkerObj();
         $modelObj = $composite->getModelObj();
         $alternativeLayouts = $composite->getAlternativeLayouts();
         $prefixId = $composite->getPrefixId();
         $typolinkConf = $composite->getTypolinkConf();
         $request = $composite->getRequest();
-
         $continue = true;
+        $local_cObj->start([]);
+        $forum_cObj->start([], $modelObj->getTablename());
 
         if ($theCode == 'THREAD_TREE') {
             if (!$uid && $ref == '') {
@@ -107,10 +107,10 @@ class Forum implements SingletonInterface
 
         if ($continue) {
             // Clear
+            $browserConf = '';
             $subpartMarkerArray = [];
             $wrappedSubpartArray = [];
 
-            $browserConf = '';
             if (
                 isset($lConf['browser']) &&
                 $lConf['browser'] == 'div2007'
@@ -196,7 +196,6 @@ class Forum implements SingletonInterface
                         $subpartMarkerArray,
                         $wrappedSubpartArray
                     );
-
                 $postHeader =
                     $markerObj->getLayouts(
                         $templateCode,
@@ -260,7 +259,7 @@ class Forum implements SingletonInterface
                         $out = $postHeader_active[0];
                     }
                     $c_post++;
-                    $local_cObj->start($recentPost);
+                    $forum_cObj->start($recentPost);
 
                     // Clear
                     $markerArray = [];
@@ -307,30 +306,30 @@ class Forum implements SingletonInterface
                         $lastPostInfo = $recentPost;
                     }
 
-                    $local_cObj->start($lastPostInfo);
+                    $forum_cObj->start($lastPostInfo);
                     $recentDate = $modelObj->recentDate($lastPostInfo);
                     $markerArray['###LAST_POST_DATE###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $recentDate,
                             $conf['date_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_TIME###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $recentDate,
                             $conf['time_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_AGE###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $recentDate,
                             $conf['age_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_AUTHOR###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $markerObj->formatStr($lastPostInfo['author']),
                             $lConf['last_post_author_stdWrap.'] ?? ''
                         );
                     $markerArray['###LAST_POST_CITY###'] =
-                        $local_cObj->stdWrap(
+                        $forum_cObj->stdWrap(
                             $markerObj->formatStr($lastPostInfo['city']),
                             $lConf['last_post_city_stdWrap.'] ?? ''
                         );

@@ -85,7 +85,10 @@ class ForumList implements SingletonInterface
                 $lConf['noForums'] = 0;
             }
 
-            $GLOBALS['TSFE']->set_cache_timeout_default($lConf['cache_timeout'] ? intval($lConf['cache_timeout']) : 300);
+            // $GLOBALS['TSFE']->set_cache_timeout_default(
+            //     $lConf['cache_timeout'] ? intval($lConf['cache_timeout']) : 300
+            // );
+
             $templateCode =
                 $templateService->getSubpart(
                     $composite->getOrigTemplateCode(),
@@ -229,7 +232,7 @@ class ForumList implements SingletonInterface
                             $contentRow = $contentModel->getRecord($forumData['uid']);
                             $out = $forumHeader[$c_forum % count($forumHeader)];
                             $c_forum++;
-                            $forum_cObj->start($forumData);
+                            $forum_cObj->start($forumData, $modelObj->getTablename());
 
                             // Clear
                             $markerArray = [];
@@ -288,11 +291,17 @@ class ForumList implements SingletonInterface
 
                             // LAST POST:
                             $lastPostInfo = $modelObj->getLastPost($pidList);
-                            $forum_cObj->start($lastPostInfo);
 
-                            if (is_array($lastPostInfo)) {
+                            if (
+                                !empty($lastPostInfo) &&
+                                is_array($lastPostInfo)
+                            ) {
+                                $forum_cObj->start($lastPostInfo, $modelObj->getTablename());
                                 $markerArray['###LAST_POST_AUTHOR###'] =
-                                    $forum_cObj->stdWrap($markerObj->formatStr($lastPostInfo['author']), $lConf['last_post_author_stdWrap.'] ?? '');
+                                    $forum_cObj->stdWrap(
+                                        $markerObj->formatStr($lastPostInfo['author']),
+                                        $lConf['last_post_author_stdWrap.'] ?? ''
+                                    );
                                 $markerArray['###LAST_POST_CITY###'] =
                                     $local_cObj->stdWrap(
                                         $markerObj->formatStr($lastPostInfo['city']),
@@ -326,7 +335,10 @@ class ForumList implements SingletonInterface
                             }
 
                             $overrulePIvars = null;
-                            if (is_array($lastPostInfo)) {
+                            if (
+                                !empty($lastPostInfo) &&
+                                is_array($lastPostInfo)
+                            ) {
                                 // Link to the last post
                                 $overrulePIvars =
                                     array_merge(
@@ -361,7 +373,10 @@ class ForumList implements SingletonInterface
                                 );
 
                             // Rendering the most recent posts
-                            if (count($postHeader) && !empty($lConf['numberOfRecentPosts'])) {
+                            if (
+                                count($postHeader) &&
+                                !empty($lConf['numberOfRecentPosts'])
+                            ) {
                                 $recentPosts =
                                     $modelObj->getMostRecentPosts(
                                         (string) $forumData['uid'],
@@ -373,7 +388,7 @@ class ForumList implements SingletonInterface
                                 foreach($recentPosts as $recentPost) {
                                     $out = $postHeader[$c_post % count($postHeader)];
                                     $c_post++;
-                                    $forum_cObj->start($recentPost);
+                                    $forum_cObj->start($recentPost, $modelObj->getTablename());
 
                                     // Clear:
                                     $markerArray = [];
@@ -434,13 +449,19 @@ class ForumList implements SingletonInterface
                                         );
 
                                     // Link to the post:
-                                    $forum_cObj->setCurrentVal($recentPost['pid']);
+                                    $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+                                    $local_cObj->start([]);
+                                    $local_cObj->setCurrentVal($recentPost['pid']);
                                     $temp_conf = $composite->getTypolinkConf();
                                     $temp_conf['additionalParams'] .= '&tt_board_uid=' . $recentPost['uid'];
                                     $temp_conf['no_cache'] = !$allowCaching;
 
                                     $separator = md5(microtime());
-                                    $wrappedSubpartContentArray['###LINK###'] = explode($separator, $forum_cObj->typoLink($separator, $temp_conf));
+                                    $wrappedSubpartContentArray['###LINK###'] =
+                                        explode(
+                                            $separator,
+                                            $local_cObj->typoLink($separator, $temp_conf)
+                                        );
 
                                     $overrulePIvars =
                                         array_merge(

@@ -39,13 +39,13 @@ namespace JambageCom\TtBoard\Domain;
  * @author	Franz Holzinger <franz@ttproducts.de>
  */
 
- use Symfony\Component\Routing\RequestContext;
-
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Expression\CompositeExpression;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -215,7 +215,7 @@ class TtBoard implements SingletonInterface
     * This function returns an array a pagerecords from the page-uid's in the pid_list supplied.
     * Excludes pages, that would normally not enter a regular menu. That means hidden, timed or deleted pages and pages with another doktype than 'standard' or 'advanced'
     */
-    public function getPagesInPage($pid_list, RequestContext $context)
+    public function getPagesInPage($pid_list, Context $context)
     {
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
         $result = [];
@@ -356,7 +356,7 @@ class TtBoard implements SingletonInterface
     */
     public function getLastPost($pidList)
     {
-        $result = false;
+        $result = [];
         $rows = null;
         $pageIds =  GeneralUtility::intExplode(',', (string) $pidList, true);
         $queryBuilder = $this->getQueryBuilder();

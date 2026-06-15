@@ -50,7 +50,6 @@ use JambageCom\TtBoard\Domain\Composite;
 
 class ListPluginController
 {
-
     protected ?ContentObjectRenderer $cObj = null;
 
     /**
@@ -58,12 +57,6 @@ class ListPluginController
      * @var string
      */
     public $prefixId = 'tt_board_list';
-
-    /**
-     * @var string
-     */
-    public $list_type = '4';
-
 
     /**
      * This is the incoming array by name $this->prefixId merged between POST and GET, POST taking precedence.
@@ -179,6 +172,7 @@ class ListPluginController
                     $newSetup
                 );
         }
+
         return $content;
     }
 
@@ -347,4 +341,3 @@ class ListPluginController
     }
 }
 
-## class_alias(\JambageCom\TtBoard\Controller\ListPluginController::class, 'tt_board_list');

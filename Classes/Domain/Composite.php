@@ -40,8 +40,6 @@ namespace JambageCom\TtBoard\Domain;
  * @author  Franz Holzinger <franz@ttproducts.de>
  */
 
-use Symfony\Component\Routing\RequestContext;
-
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -253,13 +251,15 @@ class Composite implements SingletonInterface
         return $this->request;
     }
 
-    public function setContext(RequestContext $context): void
+    public function setContext(Context $context): void
     {
         $this->context = $context;
     }
 
-    public function getContext(): RequestContext
+    public function getContext(): Context
     {
         return $this->context;
     }
 }
+
+

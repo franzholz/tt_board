@@ -103,7 +103,6 @@ class ForumThread implements SingletonInterface
             );
 
         if ($templateCode) {
-
             // Clear
             $subpartMarkerArray = [];
             $wrappedSubpartArray = [];
