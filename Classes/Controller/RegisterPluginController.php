@@ -55,7 +55,7 @@ class RegisterPluginController
      *
      * @var string
      */
-    public $prefixId;
+    protected $prefixId;
 
     /**
      * This is the incoming array by name $this->prefixId merged between POST and GET, POST taking precedence.
@@ -84,7 +84,6 @@ class RegisterPluginController
      */
     public $conf = [];
     public $extensionKey = 'tt_board';
-
 
     /**
      * This setter is called when the plugin is called from UserContentObject (USER)
