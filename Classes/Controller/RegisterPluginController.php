@@ -55,7 +55,7 @@ class RegisterPluginController
      *
      * @var string
      */
-    public $prefixId;
+    protected $prefixId;
 
     /**
      * This is the incoming array by name $this->prefixId merged between POST and GET, POST taking precedence.
@@ -84,7 +84,6 @@ class RegisterPluginController
      */
     public $conf = [];
     public $extensionKey = 'tt_board';
-
 
     /**
      * This setter is called when the plugin is called from UserContentObject (USER)
@@ -247,6 +246,7 @@ class RegisterPluginController
         return ($codeArray);
     }
 
+    #[AsAllowedCallable]
     public function help(
         string $content,
         array $conf,
@@ -257,6 +257,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function listCategories(
         string $content,
         array $conf,
@@ -267,6 +268,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function listForums(
         string $content,
         array $conf,
@@ -277,6 +279,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function forum(
         string $content,
         array $conf,
@@ -287,6 +290,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function postForm(
         string $content,
         array $conf,
@@ -297,6 +301,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function postFormReply(
         string $content,
         array $conf,
@@ -307,6 +312,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function thread(
         string $content,
         array $conf,
@@ -317,6 +323,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function threadTree(
         string $content,
         array $conf,
