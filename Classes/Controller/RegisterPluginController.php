@@ -246,6 +246,7 @@ class RegisterPluginController
         return ($codeArray);
     }
 
+    #[AsAllowedCallable]
     public function help(
         string $content,
         array $conf,
@@ -256,6 +257,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function listCategories(
         string $content,
         array $conf,
@@ -266,6 +268,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function listForums(
         string $content,
         array $conf,
@@ -276,6 +279,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function forum(
         string $content,
         array $conf,
@@ -286,6 +290,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function postForm(
         string $content,
         array $conf,
@@ -296,6 +301,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function postFormReply(
         string $content,
         array $conf,
@@ -306,6 +312,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function thread(
         string $content,
         array $conf,
@@ -316,6 +323,7 @@ class RegisterPluginController
         return $content;
     }
 
+    #[AsAllowedCallable]
     public function threadTree(
         string $content,
         array $conf,
