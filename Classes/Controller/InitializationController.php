@@ -77,6 +77,7 @@ class InitializationController implements SingletonInterface
             return false;
         }
 
+        $languageSubpath = '/Resources/Private/Language/';
         $tt_board_uid = 0;
         $config = [];
         $pageArguments = $request->getAttribute('routing');
@@ -141,9 +142,10 @@ class InitializationController implements SingletonInterface
         );
 
         $languageObj->loadLocalLang(
-            'EXT:' . $extensionKey . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf',
+            'EXT:' . $extensionKey . $languageSubpath . 'locallang.xlf',
             false
         );
+
         $composite->setLanguageObj($languageObj);
         $markerObj = GeneralUtility::makeInstance(Marker::class);
         $markerObj->init($conf);

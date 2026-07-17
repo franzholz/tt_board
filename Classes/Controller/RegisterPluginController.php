@@ -51,6 +51,7 @@ use JambageCom\TtBoard\Domain\Composite;
 class RegisterPluginController
 {
     protected ?ContentObjectRenderer $cObj = null;
+
     /**
      *
      * @var string

@@ -245,7 +245,6 @@ class Marker
 
     public function getColumnMarkers(&$markerArray, $languageObj): void
     {
-
         $locallang = $languageObj->getLocallang();
         $locallangKey = $languageObj->getLocalLangKey();
 
@@ -253,9 +252,10 @@ class Marker
             isset($locallang[$locallangKey]) &&
             is_array($locallang[$locallangKey])
         ) {
-            foreach ($locallang[$locallangKey] as $k => $text) {
-                if (strpos($k, 'board') === 0) {
-                    $markerArray['###' . strtoupper($k) . '###'] = htmlspecialchars($text);
+            foreach ($locallang[$locallangKey] as $lang => $langArray) {
+´                if (strpos((string) $lang, 'board') === 0) {
+                    $text = $langArray[0]['target'];
+                    $markerArray['###' . strtoupper($lang) . '###'] = htmlspecialchars($text);
                 }
             }
         }

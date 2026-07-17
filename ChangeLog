@@ -3,6 +3,10 @@ Replace $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] by
 https://docs.typo3.org/m/typo3/reference-coreapi/11.5/en-us/ExtensionArchitecture/FileStructure/ExtConfTemplate.html#accessing-saved-options
 Remove the file Resources/Private/Language/locallang_be.xlf
 
+
+2026-07-17 Franz Holzinger  <franz@ttproducts.de>
+    * fix language markers
+
 2026-05-15 Franz Holzinger  <franz@ttproducts.de>
     * support for TYPO3 14.3
 
