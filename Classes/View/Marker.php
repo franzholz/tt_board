@@ -253,7 +253,7 @@ class Marker
             is_array($locallang[$locallangKey])
         ) {
             foreach ($locallang[$locallangKey] as $lang => $langArray) {
-´                if (strpos((string) $lang, 'board') === 0) {
+                if (strpos((string) $lang, 'board') === 0) {
                     $text = $langArray[0]['target'];
                     $markerArray['###' . strtoupper($lang) . '###'] = htmlspecialchars($text);
                 }
