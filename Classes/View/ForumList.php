@@ -85,10 +85,6 @@ class ForumList implements SingletonInterface
                 $lConf['noForums'] = 0;
             }
 
-            // $GLOBALS['TSFE']->set_cache_timeout_default(
-            //     $lConf['cache_timeout'] ? intval($lConf['cache_timeout']) : 300
-            // );
-
             $templateCode =
                 $templateService->getSubpart(
                     $composite->getOrigTemplateCode(),

@@ -45,15 +45,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
 use JambageCom\Div2007\Base\BrowserBase;
+use JambageCom\Div2007\Base\TranslationBase;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\BrowserUtility;
+
 
 class Marker
 {
     protected $conf;
     protected $dontParseContent = 0;
-
 
     /**
     * Initialized the marker object
@@ -243,19 +244,21 @@ class Marker
         }
     }
 
+
     public function getColumnMarkers(&$markerArray, $languageObj): void
     {
         $locallang = $languageObj->getLocallang();
         $locallangKey = $languageObj->getLocalLangKey();
 
         if (
-            isset($locallang[$locallangKey]) &&
-            is_array($locallang[$locallangKey])
+            isset($locallang[TranslationBase::DEFAULT_LANGUAGE]) &&
+            is_array($locallang[TranslationBase::DEFAULT_LANGUAGE])
         ) {
-            foreach ($locallang[$locallangKey] as $lang => $langArray) {
-´                if (strpos((string) $lang, 'board') === 0) {
-                    $text = $langArray[0]['target'];
-                    $markerArray['###' . strtoupper($lang) . '###'] = htmlspecialchars($text);
+            foreach ($locallang[TranslationBase::DEFAULT_LANGUAGE] as $key => $langArray) {
+                if (strpos((string) $key, 'board') === 0) {
+
+                    $text = $languageObj->getLabel($key);
+                    $markerArray['###' . strtoupper($key) . '###'] = htmlspecialchars($text);
                 }
             }
         }

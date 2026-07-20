@@ -137,7 +137,7 @@ class InitializationController implements SingletonInterface
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageObj->init(
             $extensionKey,
-            $conf['_LOCAL_LANG.'] ?? '',
+            $conf['_LOCAL_LANG.'] ?? [],
             $request
         );
 
