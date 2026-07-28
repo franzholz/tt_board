@@ -11,7 +11,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Upgrades\AbstractListTypeToCTypeUpdate;
 
 
-#[UpgradeWizard('ttBoardPluginListTypeToCTypeUpdate')]
+#[UpgradeWizard('ttBoard_pluginListTypeToCTypeUpdate')]
 final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
 {
     public function __construct(private readonly ConnectionPool $connectionPool)
