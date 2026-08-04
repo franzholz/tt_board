@@ -13,3 +13,7 @@ services:
         identifier: 'ttboardCodeListener'
         event: TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent
 
+  JambageCom\TtBoard\Upgrades\PluginListTypeToCTypeUpdate:
+    tags:
+      - name: 'install.upgradewizard'
+        identifier: 'ttBoard_migrateListTypeToCTypeWizard'
