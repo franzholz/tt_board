@@ -51,7 +51,7 @@
   "extra": {
     "typo3/cms": {
       "extension-key": "tt_board",
-      "version": "1.18.12",
+      "version": "1.18.13",
       "Package": {
           "providesPackages": {}
       }
