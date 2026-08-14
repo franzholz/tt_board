@@ -107,7 +107,6 @@ class ForumList implements SingletonInterface
                     $markerArray,
                     $conf['icon.']
                 );
-
                 $templateCode =
                     $templateService->substituteMarkerArrayCached(
                         $templateCode,
@@ -130,7 +129,6 @@ class ForumList implements SingletonInterface
                         $alternativeLayouts,
                         'FORUM'
                     );
-
                 $postHeader =
                     $markerObj->getLayouts(
                         $templateCode,

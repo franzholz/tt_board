@@ -38,10 +38,10 @@ namespace JambageCom\TtBoard\Controller;
 use Psr\Http\Message\ServerRequestInterface;
 
 use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
+use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-
 
 use JambageCom\Div2007\Utility\ConfigUtility;
 
@@ -221,17 +221,14 @@ class RegisterPluginController
         $codeArray = [];
 
         if (isset($this->cObj->data['pi_flexform'])) {
-            $this->cObj->data['pi_flexform'] =
-                GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
-
-            $config['code'] = ConfigUtility::getSetupOrFFvalue(
+            $flexFormTools = GeneralUtility::makeInstance(FlexFormTools::class);
+            $flexFormSettings = $flexFormTools->convertFlexFormContentToArray($this->cObj->data['pi_flexform']);
+            $config['code'] = ConfigUtility::getCodeFromFFvalue(
                 $this->cObj,
+                $flexFormSettings,
                 $conf['code'] ?? '',
-                $conf['code.'] ?? '',
-                $conf['defaultCode'] ?? '',
-                $this->cObj->data['pi_flexform'],
-                'display_mode',
-                true
+                $conf['code.'] ?? [],
+                $conf['defaultCode'] ?? ''
             );
 
             $codeArray = GeneralUtility::trimExplode(

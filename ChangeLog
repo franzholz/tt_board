@@ -4,6 +4,9 @@ https://docs.typo3.org/m/typo3/reference-coreapi/11.5/en-us/ExtensionArchitectur
 Remove the file Resources/Private/Language/locallang_be.xlf
 
 
+2026-07-20 Franz Holzinger  <franz@ttproducts.de>
+    * fix not translated markers from default language
+
 2026-07-17 Franz Holzinger  <franz@ttproducts.de>
     * fix language markers
 
