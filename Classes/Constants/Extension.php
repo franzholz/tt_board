@@ -24,6 +24,5 @@ class Extension
     public const GETPOSTVAR    = 'tt_board';
     public const TABLE         = 'tt_board';
     public const TYPOSCRIPT    = 'tt_board';
-
 }
 

@@ -223,15 +223,12 @@ class RegisterPluginController
         if (isset($this->cObj->data['pi_flexform'])) {
             $flexFormTools = GeneralUtility::makeInstance(FlexFormTools::class);
             $flexFormSettings = $flexFormTools->convertFlexFormContentToArray($this->cObj->data['pi_flexform']);
-
-            $config['code'] = ConfigUtility::getSetupOrFFvalue(
+            $config['code'] = ConfigUtility::getCodeFromFFvalue(
                 $this->cObj,
+                $flexFormSettings,
                 $conf['code'] ?? '',
-                $conf['code.'] ?? '',
-                $conf['defaultCode'] ?? '',
-                $flexFormSettingss,
-                'display_mode',
-                true
+                $conf['code.'] ?? [],
+                $conf['defaultCode'] ?? ''
             );
 
             $codeArray = GeneralUtility::trimExplode(

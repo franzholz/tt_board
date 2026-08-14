@@ -144,7 +144,6 @@ class Marker
     ): void {
         $conf = $this->getConf();
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-
         $local_cObj->start(
             $row,
             $modelObj->getTablename()
@@ -249,16 +248,19 @@ class Marker
     {
         $locallang = $languageObj->getLocallang();
         $locallangKey = $languageObj->getLocalLangKey();
+        $languages = [TranslationBase::DEFAULT_LANGUAGE, TranslationBase::EN_LANGUAGE];
 
-        if (
-            isset($locallang[TranslationBase::DEFAULT_LANGUAGE]) &&
-            is_array($locallang[TranslationBase::DEFAULT_LANGUAGE])
-        ) {
-            foreach ($locallang[TranslationBase::DEFAULT_LANGUAGE] as $key => $langArray) {
-                if (strpos((string) $key, 'board') === 0) {
+        foreach ($languages as $language) {
+            if (
+                isset($locallang[$language]) &&
+                is_array($locallang[$language])
+            ) {
+                foreach ($locallang[$language] as $key => $langArray) {
+                    if (strpos((string) $key, 'board') === 0) {
 
-                    $text = $languageObj->getLabel($key);
-                    $markerArray['###' . strtoupper($key) . '###'] = htmlspecialchars($text);
+                        $text = $languageObj->getLabel($key);
+                        $markerArray['###' . strtoupper($key) . '###'] = htmlspecialchars($text);
+                    }
                 }
             }
         }
