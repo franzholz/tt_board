@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey): void {
+call_user_func(function (string $extensionKey): void {
     $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
     )->get($extensionKey);
