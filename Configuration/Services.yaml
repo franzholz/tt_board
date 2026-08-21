@@ -3,6 +3,9 @@ services:
     autowire: true
     autoconfigure: true
     public: false
+
+  # This automatically registers all classes in the Classes folder,
+  # including your UpgradeWizards via their PHP attributes.
   JambageCom\TtBoard\:
     resource: '../Classes/'
     exclude: ['../Classes/{Constants,Middleware,SessionHandler}/']
@@ -12,8 +15,3 @@ services:
       - name: event.listener
         identifier: 'ttboardCodeListener'
         event: TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent
-
-  JambageCom\TtBoard\Upgrades\PluginListTypeToCTypeUpdate:
-    tags:
-      - name: 'install.upgradewizard'
-        identifier: 'ttBoard_migrateListTypeToCTypeWizard'
