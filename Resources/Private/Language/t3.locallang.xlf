@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang.xlf" date="2016-11-16T09:40:24Z" product-name="tt_board" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="plugin" resname="plugin">
+        <source>Message Board Plugin</source>
+        <target>crwdns210606:0crwdne210606:0</target>
+      </trans-unit>
+      <trans-unit id="members_only" resname="members_only">
+        <source>Only logged in members are allowed to post on this forum.</source>
+        <target>crwdns210608:0crwdne210608:0</target>
+      </trans-unit>
+      <trans-unit id="subject" resname="subject">
+        <source>Subject:</source>
+        <target>crwdns210610:0crwdne210610:0</target>
+      </trans-unit>
+      <trans-unit id="message" resname="message">
+        <source>Message:</source>
+        <target>crwdns210612:0crwdne210612:0</target>
+      </trans-unit>
+      <trans-unit id="author" resname="author">
+        <source>Name:</source>
+        <target>crwdns210614:0crwdne210614:0</target>
+      </trans-unit>
+      <trans-unit id="city" resname="city">
+        <source>City:</source>
+        <target>crwdns210616:0crwdne210616:0</target>
+      </trans-unit>
+      <trans-unit id="email" resname="email">
+        <source>Email:</source>
+        <target>crwdns210618:0crwdne210618:0</target>
+      </trans-unit>
+      <trans-unit id="captcha" resname="captcha">
+        <source>Captcha:</source>
+        <target>crwdns210620:0crwdne210620:0</target>
+      </trans-unit>
+      <trans-unit id="notify_me" resname="notify_me">
+        <source>Notify me&lt;br&gt;by reply:</source>
+        <target>crwdns210622:0crwdne210622:0</target>
+      </trans-unit>
+      <trans-unit id="post_new" resname="post_new">
+        <source>New Post</source>
+        <target>crwdns210624:0crwdne210624:0</target>
+      </trans-unit>
+      <trans-unit id="post_reply" resname="post_reply">
+        <source>Post Reply</source>
+        <target>crwdns210626:0crwdne210626:0</target>
+      </trans-unit>
+      <trans-unit id="post_new_reply" resname="post_new_reply">
+        <source>Post New Reply</source>
+        <target>crwdns210628:0crwdne210628:0</target>
+      </trans-unit>
+      <trans-unit id="post.fillSubjectPrefix" resname="post.fillSubjectPrefix">
+        <source>Re: </source>
+        <target>crwdns210630:0crwdne210630:0</target>
+      </trans-unit>
+      <trans-unit id="post.thanks" resname="post.thanks">
+        <source>Many thanks for your contribution. Click again on the heading forum to read your contribution.</source>
+        <target>crwdns210632:0crwdne210632:0</target>
+      </trans-unit>
+      <trans-unit id="board_age" resname="board_age">
+        <source>Age</source>
+        <target>crwdns210634:0crwdne210634:0</target>
+      </trans-unit>
+      <trans-unit id="board_ago" resname="board_ago">
+        <source>Ago</source>
+        <target>crwdns210636:0crwdne210636:0</target>
+      </trans-unit>
+      <trans-unit id="board_author" resname="board_author">
+        <source>Author</source>
+        <target>crwdns210638:0crwdne210638:0</target>
+      </trans-unit>
+      <trans-unit id="board_city" resname="board_city">
+        <source>City</source>
+        <target>crwdns210640:0crwdne210640:0</target>
+      </trans-unit>
+      <trans-unit id="board_back_to_forum" resname="board_back_to_forum">
+        <source>Back to Forum</source>
+        <target>crwdns210642:0crwdne210642:0</target>
+      </trans-unit>
+      <trans-unit id="board_by" resname="board_by">
+        <source>By</source>
+        <target>crwdns210644:0crwdne210644:0</target>
+      </trans-unit>
+      <trans-unit id="board_content" resname="board_content">
+        <source>Content</source>
+        <target>crwdns210646:0crwdne210646:0</target>
+      </trans-unit>
+      <trans-unit id="board_date" resname="board_date">
+        <source>Date</source>
+        <target>crwdns210648:0crwdne210648:0</target>
+      </trans-unit>
+      <trans-unit id="board_forum" resname="board_forum">
+        <source>Forum</source>
+        <target>crwdns210650:0crwdne210650:0</target>
+      </trans-unit>
+      <trans-unit id="board_forum_list" resname="board_forum_list">
+        <source>Forum List</source>
+        <target>crwdns210652:0crwdne210652:0</target>
+      </trans-unit>
+      <trans-unit id="board_go_to_top" resname="board_go_to_top">
+        <source>Go to Top</source>
+        <target>crwdns210654:0crwdne210654:0</target>
+      </trans-unit>
+      <trans-unit id="board_last_post" resname="board_last_post">
+        <source>Last Post</source>
+        <target>crwdns210656:0crwdne210656:0</target>
+      </trans-unit>
+      <trans-unit id="board_next_message" resname="board_next_message">
+        <source>Next Message</source>
+        <target>crwdns210658:0crwdne210658:0</target>
+      </trans-unit>
+      <trans-unit id="board_next_topic" resname="board_next_topic">
+        <source>Next Topic</source>
+        <target>crwdns210660:0crwdne210660:0</target>
+      </trans-unit>
+      <trans-unit id="board_posts" resname="board_posts">
+        <source>Posts</source>
+        <target>crwdns210662:0crwdne210662:0</target>
+      </trans-unit>
+      <trans-unit id="board_previous_message" resname="board_previous_message">
+        <source>Previous Message</source>
+        <target>crwdns210664:0crwdne210664:0</target>
+      </trans-unit>
+      <trans-unit id="board_previous_topic" resname="board_previous_topic">
+        <source>Previous Topic</source>
+        <target>crwdns210666:0crwdne210666:0</target>
+      </trans-unit>
+      <trans-unit id="board_replies" resname="board_replies">
+        <source>Replies</source>
+        <target>crwdns210668:0crwdne210668:0</target>
+      </trans-unit>
+      <trans-unit id="board_search" resname="board_search">
+        <source>Searching</source>
+        <target>crwdns210670:0crwdne210670:0</target>
+      </trans-unit>
+      <trans-unit id="board_subject" resname="board_subject">
+        <source>Subject</source>
+        <target>crwdns210672:0crwdne210672:0</target>
+      </trans-unit>
+      <trans-unit id="board_threads" resname="board_threads">
+        <source>Threads</source>
+        <target>crwdns210674:0crwdne210674:0</target>
+      </trans-unit>
+      <trans-unit id="board_thread_starter" resname="board_thread_starter">
+        <source>Thread Starter</source>
+        <target>crwdns210676:0crwdne210676:0</target>
+      </trans-unit>
+      <trans-unit id="board_topics" resname="board_topics">
+        <source>Topics</source>
+        <target>crwdns210678:0crwdne210678:0</target>
+      </trans-unit>
+      <trans-unit id="board_new" resname="board_new">
+        <source>NEW</source>
+        <target>crwdns210680:0crwdne210680:0</target>
+      </trans-unit>
+      <trans-unit id="button_search" resname="button_search">
+        <source>Search in the Board</source>
+        <target>crwdns210682:0crwdne210682:0</target>
+      </trans-unit>
+      <trans-unit id="spam_detected" resname="spam_detected">
+        <source>The spam word '%s' has been detected!</source>
+        <target>crwdns210684:0%scrwdne210684:0</target>
+      </trans-unit>
+      <trans-unit id="wrong_captcha" resname="wrong_captcha">
+        <source>Wrong captcha word '%s' entered!</source>
+        <target>crwdns210686:0%scrwdne210686:0</target>
+      </trans-unit>
+      <trans-unit id="error_access_denied" resname="error_access_denied">
+        <source>Access denied!</source>
+        <target>crwdns210688:0crwdne210688:0</target>
+      </trans-unit>
+      <trans-unit id="error_email" resname="error_email">
+        <source>'%s' is not a valid email address!</source>
+        <target>crwdns210690:0%scrwdne210690:0</target>
+      </trans-unit>
+      <trans-unit id="error_no_email" resname="error_no_email">
+        <source>You did not enter an email address!</source>
+        <target>crwdns210692:0crwdne210692:0</target>
+      </trans-unit>
+      <trans-unit id="error_no_permission" resname="error_no_permission">
+        <source>You do not have the permission to post into this forum!</source>
+        <target>crwdns210694:0crwdne210694:0</target>
+      </trans-unit>
+      <trans-unit id="p_at" resname="p_at">
+        <source>at</source>
+        <target>crwdns210696:0crwdne210696:0</target>
+      </trans-unit>
+      <trans-unit id="p_salutation" resname="p_salutation">
+        <source>Hello</source>
+        <target>crwdns210698:0crwdne210698:0</target>
+      </trans-unit>
+      <trans-unit id="p_url_title" resname="p_url_title">
+        <source>This thread is located at</source>
+        <target>crwdns210700:0crwdne210700:0</target>
+      </trans-unit>
+      <trans-unit id="p_text_snippet" resname="p_text_snippet">
+        <source>Text Snippet</source>
+        <target>crwdns210702:0crwdne210702:0</target>
+      </trans-unit>
+      <trans-unit id="p_subject" resname="p_subject">
+        <source>Subject</source>
+        <target>crwdns210704:0crwdne210704:0</target>
+      </trans-unit>
+      <trans-unit id="p_content" resname="p_content">
+        <source>Content</source>
+        <target>crwdns210706:0crwdne210706:0</target>
+      </trans-unit>
+      <trans-unit id="newReply.author" resname="newReply.author">
+        <source>Author</source>
+        <target>crwdns210708:0crwdne210708:0</target>
+      </trans-unit>
+      <trans-unit id="newReply.city" resname="newReply.city">
+        <source>City</source>
+        <target>crwdns210710:0crwdne210710:0</target>
+      </trans-unit>
+      <trans-unit id="newReply.didWhat" resname="newReply.didWhat">
+        <source>has just replied to a thread at</source>
+        <target>crwdns210712:0crwdne210712:0</target>
+      </trans-unit>
+      <trans-unit id="newReply.followThisLink" resname="newReply.followThisLink">
+        <source>Follow this link</source>
+        <target>crwdns210714:0crwdne210714:0</target>
+      </trans-unit>
+      <trans-unit id="newReply.message" resname="newReply.message">
+        <source>Message</source>
+        <target>crwdns210716:0crwdne210716:0</target>
+      </trans-unit>
+      <trans-unit id="newReply.subjectPrefix" resname="newReply.subjectPrefix">
+        <source>Reply to post at</source>
+        <target>crwdns210718:0crwdne210718:0</target>
+      </trans-unit>
+      <trans-unit id="newThread.didWhat" resname="newThread.didWhat">
+        <source>has just created a new thread at</source>
+        <target>crwdns210720:0crwdne210720:0</target>
+      </trans-unit>
+      <trans-unit id="newThread.subjectPrefix" resname="newThread.subjectPrefix">
+        <source>New thread</source>
+        <target>crwdns210722:0crwdne210722:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
