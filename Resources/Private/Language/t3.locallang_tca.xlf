@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_board/Resources/Private/Language/locallang_tca.xlf" date="2025-07-21T18:07:00Z" product-name="tt_board" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="pi_list" resname="pi_list">
+        <source>Message Board (list)</source>
+        <target>crwdns374108:0crwdne374108:0</target>
+      </trans-unit>
+      <trans-unit id="pi_tree" resname="pi_tree">
+        <source>Discussion Forum (tree)</source>
+        <target>crwdns374110:0crwdne374110:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board" resname="tt_board">
+        <source>Board</source>
+        <target>crwdns210742:0crwdne210742:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.subject" resname="tt_board.subject">
+        <source>Subject:</source>
+        <target>crwdns210744:0crwdne210744:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.subject_addition" resname="tt_board.subject_addition">
+        <source>Slug Unique Addition to the Subject:</source>
+        <target>crwdns339330:0crwdne339330:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.message" resname="tt_board.message">
+        <source>Message:</source>
+        <target>crwdns210746:0crwdne210746:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.parent" resname="tt_board.parent">
+        <source>Parent:</source>
+        <target>crwdns210748:0crwdne210748:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.notify_me" resname="tt_board.notify_me">
+        <source>Notify by email:</source>
+        <target>crwdns210750:0crwdne210750:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.crdate" resname="tt_board.crdate">
+        <source>Date/Time:</source>
+        <target>crwdns210752:0crwdne210752:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.tstamp" resname="tt_board.tstamp">
+        <source>Timestamp:</source>
+        <target>crwdns210754:0crwdne210754:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.cr_ip" resname="tt_board.cr_ip">
+        <source>Sender IP address</source>
+        <target>crwdns210756:0crwdne210756:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.reference" resname="tt_board.reference">
+        <source>Reference to record in another extension</source>
+        <target>crwdns210758:0crwdne210758:0</target>
+      </trans-unit>
+      <trans-unit id="tt_board.slug" resname="tt_board.slug">
+        <source>URL Segment</source>
+        <target>crwdns339332:0crwdne339332:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode" resname="tt_content.pi_flexform.display_mode">
+        <source>Display mode</source>
+        <target>crwdns210760:0crwdne210760:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.1" resname="tt_content.pi_flexform.display_mode.1">
+        <source>General: Help</source>
+        <target>crwdns210762:0crwdne210762:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.2" resname="tt_content.pi_flexform.display_mode.2">
+        <source>Category, Forum: List</source>
+        <target>crwdns210764:0crwdne210764:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.3" resname="tt_content.pi_flexform.display_mode.3">
+        <source>Forum: List</source>
+        <target>crwdns210766:0crwdne210766:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.4" resname="tt_content.pi_flexform.display_mode.4">
+        <source>Forum: Single</source>
+        <target>crwdns210768:0crwdne210768:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.5" resname="tt_content.pi_flexform.display_mode.5">
+        <source>Entry Form: General</source>
+        <target>crwdns210770:0crwdne210770:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.6" resname="tt_content.pi_flexform.display_mode.6">
+        <source>Entry Form: Reply</source>
+        <target>crwdns210772:0crwdne210772:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.7" resname="tt_content.pi_flexform.display_mode.7">
+        <source>Entry Form: New Thread</source>
+        <target>crwdns210774:0crwdne210774:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.8" resname="tt_content.pi_flexform.display_mode.8">
+        <source>Forum: Tree</source>
+        <target>crwdns210776:0crwdne210776:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
